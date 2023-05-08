@@ -1,5 +1,5 @@
 ---
-name: 이슈 템플릿 (목업)
+name: 목업 이슈 템플릿 (FE)
 about: '목업 완성 용도의 이슈 '
 title: FE_목업
 labels: ''
