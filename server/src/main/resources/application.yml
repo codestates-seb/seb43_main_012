@@ -1,20 +1,27 @@
-server:
-  port: 8080
+#server:
+#  port: 8080
+
+apikey: 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
 
 jwt:
   secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
   expiration: 86400
 
 spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/dbforuser?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    username: root
+#    password: dlrla0413
+  h2:
+    console:
+      enabled: true
+      path: /h2
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dbforuser?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: dlrla0413
-
+    url: jdbc:h2:mem:test
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    open-in-view: false
+    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
