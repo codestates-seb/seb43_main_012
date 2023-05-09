@@ -2,6 +2,7 @@ package com.codestates.seb43_main_012.qna;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationRepository;
+import com.codestates.seb43_main_012.conversation.ConversationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +27,13 @@ public class QnAController {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
     private final QnAService qnaService;
+    private final ConversationService conversationService;
 
-    public QnAController(QnAService qnaService)
+    public QnAController(QnAService qnaService,
+                         ConversationService conversationService)
     {
         this.qnaService = qnaService;
+        this.conversationService = conversationService;
     }
 
     @PostMapping
@@ -70,7 +75,13 @@ public class QnAController {
 
         String answer = (String) c.get("content");
         QnA qna = new QnA(question,answer);
-        Conversation conversation = new Conversation(conversationId);
+        Conversation conversation = conversationService.updateConversation(conversationId);
+        if(conversation.getTitle() == null)
+        {
+            conversation.setTitle(question);
+            conversation.setSummary(answer);
+            conversationService.createConversation(conversation);
+        }
         qna.setConversation(conversation);
         qnaService.saveQnA(qna);
 
@@ -82,8 +93,8 @@ public class QnAController {
         System.out.println(messages);
         System.out.println();
 
-        //return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
+        return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
         // 답변하나만 보내줘도 되는가, 아니면 여태까지의 질문-답변을 모두 보내줘야 하는가
-        return new ResponseEntity<>(messages,HttpStatus.OK);
+        //return new ResponseEntity<>(messages,HttpStatus.OK);
     }
 }

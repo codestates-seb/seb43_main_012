@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class Conversation {
     private long id;
     private long memberId;
     private String title;
-
+    private String summary;
+    private LocalDateTime modifiedAt = LocalDateTime.now();
     public Conversation(long id)
     {
         this.id = id;

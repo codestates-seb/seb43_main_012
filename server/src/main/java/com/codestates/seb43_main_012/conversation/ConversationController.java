@@ -2,9 +2,7 @@ package com.codestates.seb43_main_012.conversation;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/conversation")
@@ -29,5 +27,12 @@ public class ConversationController {
         Conversation savedConversation = conversationService.createConversation(conversation);
 
         return new ResponseEntity<>(savedConversation,HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity getConversation(@RequestParam(value = "sort", required = false) String sort)
+    {
+        if(sort == null) sort = "desc";
+        return new ResponseEntity<>(conversationService.findConversations(sort),HttpStatus.OK);
     }
 }
