@@ -5,6 +5,11 @@ const GlobalStyle = createGlobalStyle`
 :root {
     --color-bg: #FFFFFF;
     --color-green: green;
+
+    --size-font-link: 20px;
+
+    --padding-right-topnavitems: 10px;
+    --padding-top-topnavitems: 90px;
 }
 
 * {
@@ -16,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
 body {
     display: flex;
     justify-content: center;
+    // margin-top: 30px;
 }
 
 a:link { text-decoration: none; }
