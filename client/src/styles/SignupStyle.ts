@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // 회원가입 페이지 container
 export const SignupWrapper = styled.div`
@@ -28,7 +28,7 @@ export const SignupBox = styled.div`
 `;
 
 //OAuth 버튼
-export const ButtonBox = styled.div`
+export const ButtonBox = styled.button`
   margin-bottom: 1.5%;
   width: 90%;
   height: 37px;
@@ -107,7 +107,6 @@ export const InputBox = styled.div`
       outline: none;
       border-bottom: 2px solid #77ad69;
     }
-  }
 `;
 
 //회원가입 동의 박스
@@ -120,4 +119,9 @@ export const AgreementBox = styled.div`
   input {
     margin-right: 1.5%;
   }
+`;
+
+export const Box = styled.div`
+  display: flex;
+  width: 100vw;
 `;

@@ -9,12 +9,12 @@ import {
   MainCharacter,
 } from "../../styles/CharacterStyle";
 
-type ModalLoginProps = {
+type ModalCharacterProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
 
-function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
+function ModalCharacter({ isOpen, setIsOpen }: ModalCharacterProps): ReactElement {
   const navigate = useNavigate();
   const [selectedCharacter, setSelectedCharacter] = useState("P");
 
@@ -110,4 +110,4 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
   );
 }
 
-export default ModalLogin;
+export default ModalCharacter;
