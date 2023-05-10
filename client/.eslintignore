@@ -1,0 +1,3 @@
+node/modules/
+dist/
+env.d.test
