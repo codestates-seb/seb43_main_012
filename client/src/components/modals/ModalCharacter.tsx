@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { LoginWrapper } from "../../styles/LoginStyle";
+import { CharacterWrapper } from "../../styles/CharacterStyle";
 
 type ModalLoginProps = {
   isOpen: boolean;
@@ -12,14 +12,14 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
   };
 
   return (
-    <LoginWrapper>
+    <CharacterWrapper>
       {isOpen ? (
         <div>
           <h1>로그인 모달</h1>
           <button onClick={closeModalHandler}>닫기</button>
         </div>
       ) : null}
-    </LoginWrapper>
+    </CharacterWrapper>
   );
 }
 
