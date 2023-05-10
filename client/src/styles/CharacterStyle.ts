@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // 모달 감싸기
 export const CharacterWrapper = styled.div`
@@ -36,7 +36,7 @@ export const ModalView = styled.div`
   max-width: 795px;
   height: 70%;
   color: black;
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   .modal-text {
     font-size: var(--font-title-small);
@@ -50,6 +50,7 @@ export const ModalView = styled.div`
   }
   .selectbutton {
     font-size: 20px;
+    font-weight: bold;
     color: black;
     background-color: #fafafa;
     border: none;
@@ -93,16 +94,16 @@ export const Character = styled.div`
   border: none;
   border-radius: 50px;
   margin: 2vh;
-  box-shadow: 1px 5px 6px rgba(0,0,0,0.2);
+  box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.2);
 
-  img{
+  img {
     max-width: 72px;
     max-height: 72px;
     width: 8vw;
     height: 8vw;
   }
 
-  :hover{
+  :hover {
     border: 2px solid #78ad69;
   }
 `;
@@ -124,7 +125,7 @@ export const MainCharacter = styled.div`
   border-radius: 100px;
   margin: 0 5rem 0vw 3rem;
 
-  img{
+  img {
     max-width: 130px;
     max-height: 130px;
     width: 14vw;
