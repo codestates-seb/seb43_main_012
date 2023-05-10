@@ -1,3 +1,3 @@
 //Login Modal
 
-export {} ;
+export {};
