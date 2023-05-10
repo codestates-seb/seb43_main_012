@@ -3,11 +3,24 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 
 :root {
-    --color-bg: #FFFFFF;
-    --color-green: green;
+    --color-default-bg: #FFFFFF;
+    --color-default-green: #77AD69;
+    --color-default-yellow: #C9AD6E;
+    --color-default-avatarbg: rgba(119, 173, 105, 0.6);
 
-    --size-font-link: 20px;
+    --size-minheight-topnav: 105px;
+    --size-minwidth-topnavicons: 250px;
+    --size-minwidth-logo: 197px;
+    --size-avatar: 59px;
 
+    --text-fontsize-link: 20px;
+    --text-fontsize-logo: 25px;
+    --text-fontweight-logo: 500;
+    --text-letterspacing-logo: 0.07em;
+
+    --padding-top-topnavbox: 14px;
+    --padding-left-topnavbox: 32px;
+    --padding-left-topnavitems: 10px;
     --padding-right-topnavitems: 10px;
     --padding-top-topnavitems: 90px;
 }
@@ -23,12 +36,13 @@ body {
     justify-content: center;
     // margin-top: 30px;
     font-family: 'Scandia', sans-serif;
+    padding-top: var(--size-minheight-topnav);
 }
 
-a:link { text-decoration: none; }
-a:visited { text-decoration: none; }
-a:hover { text-decoration: none; }
-a:active { text-decoration: none; }
+a:link { text-decoration: none; color: inherit;}
+a:visited { text-decoration: none; color: inherit;}
+a:hover { text-decoration: none; color: inherit;}
+a:active { text-decoration: none; color: inherit;}
 
 
 
