@@ -90,8 +90,8 @@ public class QnAController {
         System.out.println(messages);
         System.out.println();
 
-        //return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
+        return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
         // 답변하나만 보내줘도 되는가, 아니면 여태까지의 질문-답변을 모두 보내줘야 하는가
-        return new ResponseEntity<>(messages,HttpStatus.OK);
+        //return new ResponseEntity<>(qnaService.findQnAs(conversationId),HttpStatus.OK);
     }
 }

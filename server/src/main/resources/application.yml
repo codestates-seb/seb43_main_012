@@ -1,7 +1,7 @@
 #server:
 #  port: 8080
 
-apikey: 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
+apikey: ${API_KEY}
 
 jwt:
   secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
