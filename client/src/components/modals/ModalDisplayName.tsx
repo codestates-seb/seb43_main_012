@@ -25,7 +25,7 @@ function ModalDisplayName({ isOpen2, setIsOpen2 }: ModalDisplayNameProps): React
             <SignupInput labelName="Display name" inputType="text" />
 
             <DisplayNameButton className="displayNamebutton" type="button" onClick={closeModalHandler}>
-              <h2>Select</h2>
+              <h2>Save</h2>
             </DisplayNameButton>
           </ModalView>
         </ModalBackdrop>
