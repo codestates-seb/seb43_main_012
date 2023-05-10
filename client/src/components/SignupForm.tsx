@@ -1,9 +1,17 @@
-import { FormBox, PasswordText, SignButton } from "../styles/SignupStyle";
+import { useState } from 'react';
 import SignupInput from "../components/SignupInput";
 import Agreement from "./SignupAgreement";
+import ModalLogin from './modals/ModalLogin';
+import { FormBox, PasswordText, SignButton } from "../styles/SignupStyle";
 
 
 const SignupForm: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <FormBox>
       <form>
@@ -16,7 +24,8 @@ const SignupForm: React.FC = () => {
         </PasswordText>
         <SignupInput labelName="Confirm Password" inputType="password" />
         <Agreement labelName="회원 가입에 동의합니다." inputType="checkbox" />
-        <SignButton type="submit">Sign up</SignButton>
+        <SignButton type="button" onClick={handleClick}>Sign up</SignButton>
+        <ModalLogin isOpen = {isOpen} setIsOpen = {setIsOpen} />
       </form>
     </FormBox>
   );
