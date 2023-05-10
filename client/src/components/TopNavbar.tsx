@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as TN from '../styles/TopNavStyle';
-//상위 내비게이션 컴포넌트
 
-const TopNav = () => {
+const TopNavbar = () => {
   return (
     <TN.NavItemsBox>
       <TN.StyledSpan>
@@ -16,9 +15,10 @@ const TopNav = () => {
         <Link to="/signup">Signup</Link>
       </TN.StyledSpan>
       <TN.StyledSpan>
-        <Link to="/bookmarks">Bookmarks</Link>
+        <Link to="/bookmarks">Collections</Link>
       </TN.StyledSpan>
     </TN.NavItemsBox>
   );
 };
-export default TopNav;
+
+export default TopNavbar;
