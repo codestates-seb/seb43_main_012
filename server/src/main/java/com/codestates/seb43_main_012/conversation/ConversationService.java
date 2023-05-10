@@ -17,7 +17,7 @@ public class ConversationService {
         this.conversationRepository = conversationRepository;
     }
 
-    public Conversation createConversation(Conversation conversation)
+    public Conversation saveConversation(Conversation conversation)
     {
         return conversationRepository.save(conversation);
     }
@@ -38,11 +38,19 @@ public class ConversationService {
         return conversation;
     }
 
-    public List<Conversation> findConversations(String sort)
+    public List<Conversation> findConversations(String sort, String bookmarked)
     {
-        if(sort.equals("desc"))
+        if(bookmarked.equals("true"))
+            return conversationRepository.findAllByBookmarked(true);
+
+        else if(sort.equals("desc"))
             return conversationRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedAt"));
         else
             return conversationRepository.findAll(Sort.by(Sort.Direction.ASC, "modifiedAt"));
+    }
+
+    public List<Conversation> findBookmarkedConversations(String bookmarked)
+    {
+        return conversationRepository.findAllByBookmarked(true);
     }
 }

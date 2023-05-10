@@ -1,7 +1,6 @@
 package com.codestates.seb43_main_012.qna;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
-import com.codestates.seb43_main_012.conversation.ConversationRepository;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/question") // openAi api를 명시
 public class QnAController {
 
     @Value("${apikey}")
@@ -79,8 +76,8 @@ public class QnAController {
         if(conversation.getTitle() == null)
         {
             conversation.setTitle(question);
-            conversation.setSummary(answer);
-            conversationService.createConversation(conversation);
+            conversation.setAnswerSummary(answer);
+            conversationService.saveConversation(conversation);
         }
         qna.setConversation(conversation);
         qnaService.saveQnA(qna);
@@ -93,8 +90,8 @@ public class QnAController {
         System.out.println(messages);
         System.out.println();
 
-        return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
+        //return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
         // 답변하나만 보내줘도 되는가, 아니면 여태까지의 질문-답변을 모두 보내줘야 하는가
-        //return new ResponseEntity<>(messages,HttpStatus.OK);
+        return new ResponseEntity<>(messages,HttpStatus.OK);
     }
 }

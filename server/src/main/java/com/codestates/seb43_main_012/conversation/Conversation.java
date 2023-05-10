@@ -1,16 +1,12 @@
 package com.codestates.seb43_main_012.conversation;
 
-import com.codestates.seb43_main_012.qna.QnA;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -24,8 +20,9 @@ public class Conversation {
     private long id;
     private long memberId;
     private String title;
-    private String summary;
+    private String answerSummary;
     private LocalDateTime modifiedAt = LocalDateTime.now();
+    private Boolean bookmarked = false;
     public Conversation(long id)
     {
         this.id = id;
