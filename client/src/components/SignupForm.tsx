@@ -1,5 +1,6 @@
 import { FormBox, PasswordText, SignButton } from "../styles/SignupStyle";
 import SignupInput from "../components/SignupInput";
+import Agreement from "./SignupAgreement";
 
 
 const SignupForm: React.FC = () => {
@@ -13,7 +14,8 @@ const SignupForm: React.FC = () => {
           Passwords must contain at least eight characters, including at least 1
           letter and 1 number.
         </PasswordText>
-        <SignupInput labelName="agreement" inputType="checkbox" />
+        <SignupInput labelName="Confirm Password" inputType="password" />
+        <Agreement labelName="회원 가입에 동의합니다." inputType="checkbox" />
         <SignButton type="submit">Sign up</SignButton>
       </form>
     </FormBox>
