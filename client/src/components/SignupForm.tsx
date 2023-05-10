@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SignupInput from "../components/SignupInput";
 import Agreement from "./SignupAgreement";
-import ModalLogin from './modals/ModalLogin';
+import ModalLogin from './modals/ModalCharacter';
 import { FormBox, PasswordText, SignButton } from "../styles/SignupStyle";
 
 
