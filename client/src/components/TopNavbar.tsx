@@ -4,7 +4,7 @@ import * as TN from '../styles/TopNavStyle';
 
 const TopNavbar = () => {
   return (
-    <TN.NavItemsBox>
+    <div>
       <TN.StyledSpan>
         <Link to="/">Main</Link>
       </TN.StyledSpan>
@@ -17,7 +17,7 @@ const TopNavbar = () => {
       <TN.StyledSpan>
         <Link to="/bookmarks">Collections</Link>
       </TN.StyledSpan>
-    </TN.NavItemsBox>
+    </div>
   );
 };
 
