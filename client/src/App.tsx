@@ -24,12 +24,14 @@ import CollectionPins from "./components/CollectionPins";
 import DialogBoxUserIcon from "./components/dialogbox/DialogBoxUserIcon";
 
 function App() {
+  //open interim components
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showPinnedItems, setShowPinnedItems] = useState<boolean>(false);
+  //login state, modalOpen dialogOpen State
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState<boolean>(false);
-  const [isModalLoginOpen, setIsModalLoginOpen] = useState<boolean>(false);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
+  const [isModalLoginOpen, setIsModalLoginOpen] = useState<boolean>(false);
 
   return (
     <div className="App">
