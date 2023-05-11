@@ -25,7 +25,9 @@ type TopNavProps = {
   showPinnedItems: boolean;
   setShowPinnedItems: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  isUserDialogOpen: boolean;
+  setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setDialogPosition: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
 };
 
 const TopNav = ({
@@ -34,7 +36,9 @@ const TopNav = ({
   showPinnedItems,
   setShowPinnedItems,
   isLoggedIn,
-  setIsLoggedIn,
+  isUserDialogOpen,
+  setIsUserDialogOpen,
+  setDialogPosition,
 }: TopNavProps) => {
   const handleHistoryBtnClick = () => {
     setShowHistory(!showHistory);
@@ -51,8 +55,16 @@ const TopNav = ({
     if (showHistory) setShowHistory(false);
   };
 
-  const handleLoginBtnClick = () => {
-    //open dialog box
+  const handleUserBtnClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // if(!isLoggedIn) openLoginModal
+    if (isLoggedIn && !isUserDialogOpen) {
+      setIsUserDialogOpen(true);
+      console.log(`x: ${e.clientX}, y: ${e.clientY}`);
+      setDialogPosition({ x: e.clientX, y: e.clientY + 10 });
+    }
+    if (isLoggedIn && isUserDialogOpen) {
+      setIsUserDialogOpen(false);
+    }
   };
 
   return (
@@ -84,7 +96,7 @@ const TopNav = ({
         </TN.AvatarBox>
       </TN.NavIconsBox>
       <TN.MemberBox>
-        <AnonymousIcon className="svg" />
+        <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
         {/* <TN.StyledSpan>
           <Link to="/mypage">MyPage</Link>
         </TN.StyledSpan>

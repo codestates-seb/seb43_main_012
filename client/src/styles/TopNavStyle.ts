@@ -16,7 +16,7 @@ export const TopNavBox = styled.header`
   left: 0;
   width: 100%;
   height: var(--size-minheight-topnav);
-  z-index: 1000;
+  z-index: 999;
   min-height: var(--size-minheight-topnav);
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
@@ -30,7 +30,12 @@ export const LogoBox = styled.div`
   letter-spacing: var(--text-letterspacing-logo);
   text-transform: uppercase;
 `;
-
+export const NavIconsBox = styled.div`
+  min-width: var(--size-minwiddth-topnavicons);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 export const AvatarBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -53,6 +58,7 @@ export const AvatarBox = styled.div`
     filter: invert(25%) sepia(80%) saturate(1.3);
     // fill: blue;
     transition: width 0.2s ease-in-out;
+    cursor: pointer;
   }
 
   .center {
@@ -67,9 +73,29 @@ export const MemberBox = styled(AvatarBox)`
   min-width: var(--size-minwidth-logo);
 `;
 
-export const NavIconsBox = styled.div`
-  min-width: var(--size-minwiddth-topnavicons);
+export const DialogBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  border: 1px solid var(--color-border-dialogbox);
+  box-shadow: 1px 2px 2px 1px var(--color-dropshadow-dialogbox);
+  border-radius: 10px;
+  text-align: center;
+`;
+
+export const ModalBackdrop = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 0;
+  position: absolute;
+`;
+
+export const UserInfo = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  padding: 16px 10px 31px 10px;
 `;
