@@ -97,5 +97,54 @@ export const ModalBackdrop = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px 10px 31px 10px;
+  padding: 16px 10px;
 `;
+
+export const UserCreatedDate = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: var(--color-default-lightestgray);
+  color: var(--color-default-gray);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  margin-bottom: 25px;
+  padding: 10px 25px;
+`;
+
+export const DialogItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-default-gray);
+  padding-bottom: 20px;
+`;
+
+export const DialogSelectItem = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 35px;
+  padding: 20px 10px;
+  font-size: 18px;
+`;
+
+export const SignoutItem = styled(DialogSelectItem)`
+  padding: 0 10px;
+`;
+
+export const EmailItem = styled(DialogSelectItem)`
+  padding: 0 10px;
+  font-size: 13px;
+  letter-spacing: -0.03em;
+`;
+
+export const SignOutFooter = styled(DialogItems)`
+  display: flex;
+  border-top: 1px solid #f3efef;
+  padding: 15px 0;
+  font-size: 18px;
+`;
+
+// export const;

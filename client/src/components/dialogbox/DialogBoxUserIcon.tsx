@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { DialogBox, UserInfo } from '../../styles/TopNavStyle';
+import { Link } from 'react-router-dom';
+import {
+  DialogBox,
+  UserInfo,
+  UserCreatedDate,
+  DialogItems,
+  DialogSelectItem,
+  SignOutFooter,
+  SignoutItem,
+  EmailItem,
+} from '../../styles/TopNavStyle';
 import styled from 'styled-components';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
+  setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type StyleProps = {
@@ -13,18 +24,41 @@ type StyleProps = {
 
 const MovingDialogBox = styled(DialogBox)<StyleProps>`
   z-index: 1000;
-  left: ${p => p.posX - 200}px;
+  left: ${p => p.posX - 250}px;
   top: ${p => p.posY}px;
-  width: 200px;
-  height: 100px;
   background: white;
 `;
 
-const DialogBoxUserIcon = ({ dialogPosition }: BoxProps) => {
+const DialogBoxUserIcon = ({ dialogPosition, setIsUserDialogOpen }: BoxProps) => {
   console.log(`x: ${dialogPosition.x} `);
+
+  const handleDialogItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    //close modal
+    console.log('dialog item clicked!');
+    setIsUserDialogOpen(false);
+  };
+
   return (
     <MovingDialogBox posX={dialogPosition.x} posY={dialogPosition.y}>
-      <UserInfo>DialogBoxUserIcon</UserInfo>
+      <UserInfo>
+        <UserCreatedDate>✨ Member since Apr 2023</UserCreatedDate>
+        <DialogItems>
+          <DialogSelectItem onClick={handleDialogItemClick}>
+            <Link to="/mypage">Profile</Link>
+          </DialogSelectItem>
+          <DialogSelectItem onClick={handleDialogItemClick}>
+            <Link to="/bookmarks">Library</Link>
+          </DialogSelectItem>
+          <DialogSelectItem>Public Chats</DialogSelectItem>
+        </DialogItems>
+        <SignOutFooter>
+          <SignoutItem onClick={handleDialogItemClick}>
+            <Link to="/signup">Sign Up</Link>
+          </SignoutItem>
+          <SignoutItem>Sign Out</SignoutItem>
+          <EmailItem>sunga.jlh@gmail.com</EmailItem>
+        </SignOutFooter>
+      </UserInfo>
     </MovingDialogBox>
   );
 };
