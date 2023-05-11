@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,16 +22,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     private MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsername(username);
-
-        if (!optionalMemberEntity.isPresent()) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+    @Transactional
+    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+        MemberEntity member;
+        if(identifier.contains("@")) {
+            member = memberRepository.findByEmail(identifier)
+                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + identifier));
+        } else {
+            member = memberRepository.findByUsername(identifier)
+                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + identifier));
         }
 
-        MemberEntity memberEntity = optionalMemberEntity.get();
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-
-        return new User(memberEntity.getUsername(), memberEntity.getPassword(), authorities);
+        return member;
     }
 }
