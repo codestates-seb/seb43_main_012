@@ -1,16 +1,24 @@
-import { useState } from 'react';
-import ModalLogin from '../components/modals/ModalLogin';
+import { useState } from "react";
+import ModalLogin from "../components/modals/ModalLogin";
 
-const Login: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+type Props = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const Login = ({ isOpen, setIsOpen, setIsLoggedIn }: Props) => {
   const handleClick = () => {
-    setIsOpen(!isOpen);
+    if (!isOpen) setIsOpen(true);
   };
+
   return (
     <div>
       <button onClick={handleClick}>Login Page!</button>
-      <ModalLogin isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ModalLogin
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setIsLoggedIn={setIsLoggedIn}
+      />
     </div>
   );
 };
