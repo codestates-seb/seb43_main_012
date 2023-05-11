@@ -15,6 +15,7 @@ import MyPage from './pages/MyPage';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import ModalLogin from './components/modals/ModalLogin';
 // import { config } from '@fortawesome/fontawesome-svg-core';
 // import '@fortawesome/fontawesome-svg-core/styles.css';
 // config.autoAddCss = false;
@@ -22,8 +23,9 @@ import Main from './pages/Main';
 function App() {
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showPinnedItems, setShowPinnedItems] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState<boolean>(false);
+  const [isModalLoginOpen, setIsModalLoginOpen] = useState<boolean>(false);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
 
   return (
@@ -39,8 +41,12 @@ function App() {
             isLoggedIn={isLoggedIn}
             isUserDialogOpen={isUserDialogOpen}
             setIsUserDialogOpen={setIsUserDialogOpen}
+            setIsModalLoginOpen={setIsModalLoginOpen}
             setDialogPosition={setDialogPosition}
           />
+          {isModalLoginOpen && (
+            <ModalLogin isOpen={isModalLoginOpen} setIsOpen={setIsModalLoginOpen} setIsLoggedIn={setIsLoggedIn} />
+          )}
           {isUserDialogOpen && (
             <DialogBoxUserIcon dialogPosition={dialogPosition} setIsUserDialogOpen={setIsUserDialogOpen} />
           )}

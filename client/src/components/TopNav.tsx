@@ -28,6 +28,7 @@ type TopNavProps = {
   isUserDialogOpen: boolean;
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setDialogPosition: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+  setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TopNav = ({
@@ -38,6 +39,7 @@ const TopNav = ({
   isLoggedIn,
   isUserDialogOpen,
   setIsUserDialogOpen,
+  setIsModalLoginOpen,
   setDialogPosition,
 }: TopNavProps) => {
   const handleHistoryBtnClick = () => {
@@ -57,6 +59,7 @@ const TopNav = ({
 
   const handleUserBtnClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // if(!isLoggedIn) openLoginModal
+    if (!isLoggedIn) setIsModalLoginOpen(true);
     if (isLoggedIn && !isUserDialogOpen) {
       setIsUserDialogOpen(true);
       console.log(`x: ${e.clientX}, y: ${e.clientY}`);
