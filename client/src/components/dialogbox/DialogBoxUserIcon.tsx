@@ -10,6 +10,7 @@ import {
   SignoutItem,
   EmailItem,
 } from "../../styles/TopNavStyle";
+import { ModalBackdrop } from "../../styles/CharacterStyle";
 import styled from "styled-components";
 
 type BoxProps = {
@@ -28,6 +29,10 @@ const MovingDialogBox = styled(DialogBox)<StyleProps>`
   left: ${(p) => p.posX - 250}px;
   top: ${(p) => p.posY}px;
   background: white;
+`;
+
+const BoxBackdrop = styled(ModalBackdrop)`
+  background: transparent;
 `;
 
 const DialogBoxUserIcon = ({
@@ -50,25 +55,32 @@ const DialogBoxUserIcon = ({
     setIsUserDialogOpen(false);
   };
 
+  const handleModalBackdropClick = () => {
+    setIsUserDialogOpen(false);
+  };
+
   return (
-    <MovingDialogBox posX={dialogPosition.x} posY={dialogPosition.y}>
-      <UserInfo>
-        <UserCreatedDate>✨ Member since Apr 2023</UserCreatedDate>
-        <DialogItems>
-          <DialogSelectItem onClick={handleDialogItemClick}>
-            <Link to="/mypage">Profile</Link>
-          </DialogSelectItem>
-          <DialogSelectItem onClick={handleDialogItemClick}>
-            <Link to="/bookmarks">Library</Link>
-          </DialogSelectItem>
-          <DialogSelectItem>Public Chats</DialogSelectItem>
-        </DialogItems>
-        <SignOutFooter>
-          <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
-          <EmailItem>sunga.jlh@gmail.com</EmailItem>
-        </SignOutFooter>
-      </UserInfo>
-    </MovingDialogBox>
+    <>
+      <BoxBackdrop onClick={handleModalBackdropClick} />
+      <MovingDialogBox posX={dialogPosition.x} posY={dialogPosition.y}>
+        <UserInfo>
+          <UserCreatedDate>✨ Member since Apr 2023</UserCreatedDate>
+          <DialogItems>
+            <DialogSelectItem onClick={handleDialogItemClick}>
+              <Link to="/mypage">Profile</Link>
+            </DialogSelectItem>
+            <DialogSelectItem onClick={handleDialogItemClick}>
+              <Link to="/bookmarks">Library</Link>
+            </DialogSelectItem>
+            <DialogSelectItem>Public Chats</DialogSelectItem>
+          </DialogItems>
+          <SignOutFooter>
+            <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
+            <EmailItem>sunga.jlh@gmail.com</EmailItem>
+          </SignOutFooter>
+        </UserInfo>
+      </MovingDialogBox>
+    </>
   );
 };
 
