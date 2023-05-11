@@ -1,6 +1,7 @@
 package com.codestates.seb43_main_012.qna;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
+import com.codestates.seb43_main_012.conversation.ConversationMapper;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/question") // openAi api를 명시
+@RequestMapping("/openai/question")
 public class QnAController {
 
     @Value("${apikey}")
@@ -24,18 +25,26 @@ public class QnAController {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
     private final QnAService qnaService;
+    private final QnAMapper qnaMapper;
     private final ConversationService conversationService;
+    private final ConversationMapper conversationMapper;
 
     public QnAController(QnAService qnaService,
-                         ConversationService conversationService)
+                         QnAMapper qnaMapper,
+                         ConversationService conversationService,
+                         ConversationMapper conversationMapper)
     {
         this.qnaService = qnaService;
+        this.qnaMapper = qnaMapper;
         this.conversationService = conversationService;
+        this.conversationMapper = conversationMapper;
     }
 
     @PostMapping
-    public ResponseEntity postQuestion(@RequestBody QnADto dto)
+    public ResponseEntity postQuestion(@RequestBody QnADto.Post dto)
     {
+        int mode = 0;
+
         // set header
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -43,11 +52,17 @@ public class QnAController {
 
         // mapping
         long conversationId = dto.getConversationId();
+        if(conversationId == 0)
+        {
+            conversationId = conversationService.createConversation(1L).getConversationId();
+            mode = 1;
+        }
         String question = dto.getQuestion();
         int max_tokens = MAX_TOKENS;
 
         // 질문
         List<Map<String, String>> messages = qnaService.buildMessage(conversationId);
+        if(messages.size() == 0) mode = 1;
         Map<String, Object> requestBody = new HashMap<>();
         Map<String, String> message = new HashMap<>();
         message.put("role", "user");
@@ -80,7 +95,7 @@ public class QnAController {
             conversationService.saveConversation(conversation);
         }
         qna.setConversation(conversation);
-        qnaService.saveQnA(qna);
+        QnA savedQnA = qnaService.saveQnA(qna);
 
         Map<String, String> message2 = new HashMap<>();
         message2.put("role", "assistant");
@@ -90,8 +105,11 @@ public class QnAController {
         System.out.println(messages);
         System.out.println();
 
-        return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
+        //return new ResponseEntity<>(c.get("content"), HttpStatus.OK);
         // 답변하나만 보내줘도 되는가, 아니면 여태까지의 질문-답변을 모두 보내줘야 하는가
-        //return new ResponseEntity<>(qnaService.findQnAs(conversationId),HttpStatus.OK);
+        if(mode == 0)
+            return new ResponseEntity<>(qnaMapper.qnaToQnAResponseDto(savedQnA), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(conversationMapper.conversationToConversationResponseDto(qnaService.findQnAs(conversationId)),HttpStatus.OK);
     }
 }

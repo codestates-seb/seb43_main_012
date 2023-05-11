@@ -30,9 +30,19 @@ public class QnA {
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 
-    public void setConversation(Conversation conversation)
+    private BookmarkStatus bookmarkStatus = BookmarkStatus.N;
+
+    private DisplayStatus displayStatus = DisplayStatus.Y;
+
+    public enum BookmarkStatus
     {
-        this.conversation = conversation;
+        Y,
+        N;
+    }
+    public enum DisplayStatus
+    {
+        Y,
+        N;
     }
 
     public QnA(String question, String answer)
@@ -41,11 +51,9 @@ public class QnA {
         this.answer = answer;
     }
 
-    private QnAStatus status=QnAStatus.ON;
-
-    public enum QnAStatus
+    public void setConversation(Conversation conversation)
     {
-        ON,
-        OFF;
+        this.conversation = conversation;
     }
+
 }

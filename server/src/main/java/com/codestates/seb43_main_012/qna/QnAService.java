@@ -19,12 +19,20 @@ public class QnAService {
     {
         return qnaRepository.save(qna);
     }
+
+    public List<QnA> findQnAs(long conversationId)
+    {
+        //List<QnA> QnAs = qnaRepository.findAllByConversationId(conversationId);
+        List<QnA> QnAs = qnaRepository.findQnAsByConversationId(conversationId);
+        return QnAs;
+    }
+
     public List<Map<String, String>> buildMessage(long conversationId)
     {
         List<QnA> qnaList = findQnAs(conversationId);
 
         List<Map<String, String >> messages = new ArrayList<>();
-        qnaList.stream().forEach((qna)->
+        qnaList.stream().forEach(qna ->
                 {
                     Map<String, String> userMessage = new HashMap<>();
                     userMessage.put("role","user");
@@ -40,9 +48,4 @@ public class QnAService {
         return messages;
     }
 
-    public List<QnA> findQnAs(long conversationId)
-    {
-        List<QnA> QnAs = qnaRepository.findAllByConversationId(conversationId);
-        return QnAs;
-    }
 }
