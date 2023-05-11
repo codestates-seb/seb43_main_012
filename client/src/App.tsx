@@ -12,6 +12,9 @@ import Collections from './pages/Collections';
 import MyPage from './pages/MyPage';
 import Signup from './pages/Signup';
 import Main from './pages/Main';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
 
 function App() {
   const [showHistory, setShowHistory] = useState<boolean>(false);

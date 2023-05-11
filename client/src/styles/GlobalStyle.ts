@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     --size-minheight-topnav: 105px;
     --size-minwidth-topnavicons: 250px;
     --size-minwidth-logo: 197px;
-    --size-avatar: 59px;
+    --size-avatar: 78px;
 
     --text-fontsize-link: 20px;
     --text-fontsize-logo: 25px;
@@ -29,6 +29,9 @@ const GlobalStyle = createGlobalStyle`
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Scandia', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
