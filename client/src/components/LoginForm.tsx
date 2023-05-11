@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
 import {FormContainer, ErrorMessage} from "../styles/LoginStyle";
@@ -11,14 +12,15 @@ const LoginForm: React.FC = () => {
 		<FormContainer>
 			<form>
 				<SignupInput
-					labelName="ID"
+					labelName="ID (email)"
 					inputType="email"
 				/>
 				<SignupInput
 					labelName="Password"
 					inputType="password"
 				/>
-				<SignButton>Log in</SignButton>
+                <Link to="/"><SignButton>Log in</SignButton></Link>
+				
 			</form>
 		</FormContainer>
 	);
