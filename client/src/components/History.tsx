@@ -7,6 +7,7 @@ import {
   DeleteButton,
   HistoryBody,
   TimeLine,
+  TimeBox,
 } from '../styles/HistoryStyle';
 
 function History(): ReactElement {
@@ -19,7 +20,25 @@ function History(): ReactElement {
       </HistoryHeader>
       <HistoryBody>
         <TimeLine>TODAY</TimeLine>
+        <TimeBox>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+        </TimeBox>
         <TimeLine>PREVIOUS 7DAYS</TimeLine>
+        <TimeBox>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+          <div>content1</div>
+        </TimeBox>
       </HistoryBody>
     </HistoryBox>
   );
