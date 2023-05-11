@@ -5,6 +5,7 @@ export const MyPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
+  margin-top: 10vh;
   button {
     border: 1.5px solid #e7cc8f;
     background-color: #fff;
@@ -26,7 +27,7 @@ export const MyPageWrapper = styled.div`
   }
   .downbutton {
     display: flex;
-    width: 70%;
+    width: 100%;
     justify-content: center;
     flex-direction: row;
     align-items: center;
