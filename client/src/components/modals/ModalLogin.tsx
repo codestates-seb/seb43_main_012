@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import OAuthButton from '../OAuthButton';
-import { LoginWrapper, SignupLink, LoginView} from '../../styles/LoginStyle';
+import { LoginBox, LoginWrapper, SignupLink, LoginView} from '../../styles/LoginStyle';
 import LoginForm from '../LoginForm';
 import { ModalBackdrop } from '../../styles/CharacterStyle';
 
@@ -17,6 +17,7 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
 	};
 
   return (
+    <LoginBox>
     <LoginWrapper>
       {isOpen && (
         <ModalBackdrop onClick={closeModalHandler}>
@@ -32,6 +33,7 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
         </ModalBackdrop>
       )}
     </LoginWrapper>
+    </LoginBox>
   );
 }
 

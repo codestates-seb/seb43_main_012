@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
+export const LoginBox = styled.div`
+  display: flex;
+`;
+
 export const LoginWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 620.531px;
   height: 100%;
   width: 100vw;
-  background-color: var(--base-color);
 `;
 
 export const LoginView = styled.div`
@@ -32,10 +34,6 @@ export const SignupLink = styled.div`
   justify-content: space-evenly;
   width: 100%;
   padding: 16px;
-  font-size: var(--font-base);
-  a {
-    color: var(--main-color);
-  }
 `;
 export const FormContainer = styled.div`
   padding: 24px;
@@ -47,6 +45,4 @@ export const ErrorMessage = styled.p`
   margin-top: 1px;
   display: flex;
   align-items: center;
-  font-size: var(--font-small);
-  color: var(--error-message-color);
 `;

@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useForm } from 'react-hook-form';
-import {FormContainer, ErrorMessage} from "../styles/LoginStyle";
+import {FormContainer} from "../styles/LoginStyle";
 import SignupInput from "./SignupInput";
 import { SignButton } from "../styles/SignupStyle";
 
