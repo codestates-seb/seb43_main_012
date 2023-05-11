@@ -1,7 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+//import style
 import * as TN from '../styles/TopNavStyle';
-//상위 내비게이션 컴포넌트
+
+//import icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentMedical, faClockRotateLeft, faBookBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
+// import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+// <FontAwesomeIcon icon={duotone('message-plus')} />;
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import bookmarkIcon from '../assets/icons/iconCollectionsNew.svg';
+import historyIcon from '../assets/icons/iconHistory.svg';
+import chatIcon from '../assets/icons/iconNewChat.svg';
 
 type TopNavProps = {
   showHistory: boolean;
@@ -27,15 +38,24 @@ const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedIte
         <Link to="/">Chatcrawl</Link>
       </TN.LogoBox>
       <TN.NavIconsBox>
-        <span className="navitem" onClick={handleHistoryBtnClick}>
-          <Link to="/">History</Link>
-        </span>
-        <span className="navitem">
-          <Link to="/">New Chat</Link>
-        </span>
-        <span className="navitem" onClick={handleCollectionsBtnClick}>
-          <Link to="/bookmarks">Collections</Link>
-        </span>
+        <TN.AvatarBox className="navitem" onClick={handleHistoryBtnClick}>
+          <Link to="/">
+            <img src={historyIcon} style={{ width: 59, height: 59 }} />
+            {/* <FontAwesomeIcon icon={faClockRotateLeft as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
+        <TN.AvatarBox className="navitem">
+          <Link to="/">
+            <img src={chatIcon} style={{ width: 59, height: 59 }} />
+            {/* <FontAwesomeIcon icon={faCommentMedical as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
+        <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
+          <Link to="/bookmarks">
+            <img src={bookmarkIcon} style={{ width: 54, height: 54 }} />
+            {/* <FontAwesomeIcon icon={faBookBookmark as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
       </TN.NavIconsBox>
       <TN.MemberBox>
         <TN.StyledSpan>

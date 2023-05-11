@@ -18,9 +18,7 @@ export const TopNavBox = styled.header`
   height: var(--size-minheight-topnav);
   z-index: 1000;
   min-height: var(--size-minheight-topnav);
-  padding-top: var(--padding-top-topnavbox);
-  padding-left: var(--padding-left-topnavbox);
-  padding-right: var(--padding-left-topnavbox);
+  padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
 `;
 export const LogoBox = styled.div`
@@ -38,14 +36,21 @@ export const MemberBox = styled.div`
 `;
 
 export const AvatarBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: var(--size-avatar);
   height: var(--size-avatar);
+  overflow: false;
+  & .navitem {
+    padding: 0 var(--padding-left-topnavitems);
+  }
 `;
 
 export const NavIconsBox = styled.div`
   min-width: var(--size-minwiddth-topnavicons);
-
-  & .navitem {
-    padding: 0 var(--padding-left-topnavitems);
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
