@@ -120,6 +120,7 @@ const Collections = () => {
       </BookmarkTagContent>
     </main>
   );
+
 };
 
 export default Collections;
