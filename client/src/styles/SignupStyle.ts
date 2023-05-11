@@ -30,7 +30,8 @@ export const SignupBox = styled.div`
 //OAuth 버튼
 export const ButtonBox = styled.button`
   margin-bottom: 1.5%;
-  width: 90%;
+  min-width: 259px;
+  width: 20%;
   height: 37px;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
@@ -123,5 +124,11 @@ export const AgreementBox = styled.div`
 
 export const Box = styled.div`
   display: flex;
+  width: 100vw;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100vw;
 `;
