@@ -5,14 +5,17 @@ import { Link } from 'react-router-dom';
 import * as TN from '../styles/TopNavStyle';
 
 //import icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentMedical, faClockRotateLeft, faBookBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCommentMedical, faClockRotateLeft, faBookBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 // <FontAwesomeIcon icon={duotone('message-plus')} />;
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import bookmarkIcon from '../assets/icons/iconCollectionsNew.svg';
-import historyIcon from '../assets/icons/iconHistory.svg';
-import chatIcon from '../assets/icons/iconNewChat.svg';
+// import { IconProp } from '@fortawesome/fontawesome-svg-core';
+// @ts-ignore
+import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
+// @ts-ignore
+import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
+// @ts-ignore
+import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
 
 type TopNavProps = {
   showHistory: boolean;
@@ -32,6 +35,11 @@ const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedIte
     if (showHistory) setShowHistory(false);
   };
 
+  const handleNewChatBtnClick = () => {
+    if (showPinnedItems) setShowPinnedItems(false);
+    if (showHistory) setShowHistory(false);
+  };
+
   return (
     <TN.TopNavBox>
       <TN.LogoBox>
@@ -40,19 +48,22 @@ const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedIte
       <TN.NavIconsBox>
         <TN.AvatarBox className="navitem" onClick={handleHistoryBtnClick}>
           <Link to="/">
-            <img src={historyIcon} style={{ width: 59, height: 59 }} />
+            <HistoryIcon className="svg" />
+            {/* <img src={historyIcon} /> */}
             {/* <FontAwesomeIcon icon={faClockRotateLeft as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
-        <TN.AvatarBox className="navitem">
+        <TN.AvatarBox className="navitem" onClick={handleNewChatBtnClick}>
           <Link to="/">
-            <img src={chatIcon} style={{ width: 59, height: 59 }} />
+            <ChatIcon className="svg center" />
+            {/* <img className="center" src={chatIcon} /> */}
             {/* <FontAwesomeIcon icon={faCommentMedical as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
           <Link to="/bookmarks">
-            <img src={bookmarkIcon} style={{ width: 54, height: 54 }} />
+            <CollectionIcon className="svg" />
+            {/* <img src={bookmarkIcon} /> */}
             {/* <FontAwesomeIcon icon={faBookBookmark as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
