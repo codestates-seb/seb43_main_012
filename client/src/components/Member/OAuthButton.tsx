@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ButtonBox, ButtonWrapper } from '../styles/SignupStyle';
-import ModalDisplayName from './modals/ModalDisplayName';
+import { ButtonBox, ButtonWrapper } from '../../styles/SignupStyle';
+import ModalDisplayName from '../modals/ModalDisplayName';
 
 // 인터페이스로 각자의 타입을 지정
 interface OAuthButtonProps {

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { FormContainer } from '../styles/LoginStyle';
+import { FormContainer } from '../../styles/LoginStyle';
 import SignupInput from './SignupInput';
-import { SignButton } from '../styles/SignupStyle';
+import { SignButton } from '../../styles/SignupStyle';
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;

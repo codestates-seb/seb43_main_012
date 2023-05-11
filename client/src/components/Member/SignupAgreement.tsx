@@ -1,4 +1,4 @@
-import { AgreementBox } from "../styles/SignupStyle";
+import { AgreementBox } from "../../styles/SignupStyle";
 
 
 interface AgreementProps {
