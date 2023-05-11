@@ -1,38 +1,113 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-//상위 내비게이션 컴포넌트
 
-const NavItemsBox = styled.div`
-  padding-top: var(--padding-top-topnavitems);
-  padding-bottom: var(--padding-top-topnavitems);
-`;
-const StyledSpan = styled.span`
-  padding-right: var(--padding-right-topnavitems);
-  color: var(--color-green);
-  text-decoration: none;
-  font-size: var(--size-font-link);
-`;
+//import style
+import * as TN from '../styles/TopNavStyle';
 
-const TopNav = () => {
+//import icons
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCommentMedical, faClockRotateLeft, faBookBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
+// import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+// <FontAwesomeIcon icon={duotone('message-plus')} />;
+// import { IconProp } from '@fortawesome/fontawesome-svg-core';
+// @ts-ignore
+import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
+// @ts-ignore
+import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
+// @ts-ignore
+import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
+// @ts-ignore
+import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
+
+type TopNavProps = {
+  showHistory: boolean;
+  setShowHistory: React.Dispatch<React.SetStateAction<boolean>>;
+  showPinnedItems: boolean;
+  setShowPinnedItems: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  isUserDialogOpen: boolean;
+  setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setDialogPosition: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+  setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const TopNav = ({
+  showHistory,
+  setShowHistory,
+  showPinnedItems,
+  setShowPinnedItems,
+  isLoggedIn,
+  isUserDialogOpen,
+  setIsUserDialogOpen,
+  setIsModalLoginOpen,
+  setDialogPosition,
+}: TopNavProps) => {
+  const handleHistoryBtnClick = () => {
+    setShowHistory(!showHistory);
+    if (showPinnedItems) setShowPinnedItems(false);
+  };
+
+  const handleCollectionsBtnClick = () => {
+    setShowPinnedItems(!showPinnedItems);
+    if (showHistory) setShowHistory(false);
+  };
+
+  const handleNewChatBtnClick = () => {
+    if (showPinnedItems) setShowPinnedItems(false);
+    if (showHistory) setShowHistory(false);
+  };
+
+  const handleUserBtnClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // if(!isLoggedIn) openLoginModal
+    if (!isLoggedIn) setIsModalLoginOpen(true);
+    if (isLoggedIn && !isUserDialogOpen) {
+      setIsUserDialogOpen(true);
+      console.log(`x: ${e.clientX}, y: ${e.clientY}`);
+      setDialogPosition({ x: e.clientX, y: e.clientY + 10 });
+    }
+    if (isLoggedIn && isUserDialogOpen) {
+      setIsUserDialogOpen(false);
+    }
+  };
+
   return (
-    <NavItemsBox>
-      <StyledSpan>
-        <Link to="/">Main</Link>
-      </StyledSpan>
-      <StyledSpan>
-        <Link to="/mypage">MyPage</Link>
-      </StyledSpan>
-      <StyledSpan>
-        <Link to="/signup">Signup</Link>
-      </StyledSpan>
-      <StyledSpan>
-        <Link to="/login">Login</Link>
-      </StyledSpan>
-      <StyledSpan>
-        <Link to="/bookmarks">Bookmarks</Link>
-      </StyledSpan>
-    </NavItemsBox>
+    <TN.TopNavBox>
+      <TN.LogoBox>
+        <Link to="/">Chatcrawl</Link>
+      </TN.LogoBox>
+      <TN.NavIconsBox>
+        <TN.AvatarBox className="navitem" onClick={handleHistoryBtnClick}>
+          <Link to="/">
+            <HistoryIcon className="svg" />
+            {/* <img src={historyIcon} /> */}
+            {/* <FontAwesomeIcon icon={faClockRotateLeft as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
+        <TN.AvatarBox className="navitem" onClick={handleNewChatBtnClick}>
+          <Link to="/">
+            <ChatIcon className="svg center" />
+            {/* <img className="center" src={chatIcon} /> */}
+            {/* <FontAwesomeIcon icon={faCommentMedical as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
+        <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
+          <Link to="/bookmarks">
+            <CollectionIcon className="svg" />
+            {/* <img src={bookmarkIcon} /> */}
+            {/* <FontAwesomeIcon icon={faBookBookmark as IconProp} /> */}
+          </Link>
+        </TN.AvatarBox>
+      </TN.NavIconsBox>
+      <TN.MemberBox>
+        <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
+        {/* <TN.StyledSpan>
+          <Link to="/mypage">MyPage</Link>
+        </TN.StyledSpan>
+        <TN.StyledSpan>
+          <Link to="/signup">Signup</Link>
+        </TN.StyledSpan> */}
+      </TN.MemberBox>
+    </TN.TopNavBox>
   );
 };
 export default TopNav;
