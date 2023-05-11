@@ -31,10 +31,6 @@ export const LogoBox = styled.div`
   text-transform: uppercase;
 `;
 
-export const MemberBox = styled.div`
-  min-width: var(--size-minwidth-logo);
-`;
-
 export const AvatarBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -65,6 +61,10 @@ export const AvatarBox = styled.div`
   .center:hover {
     width: var(--size-avatar-center-hover);
   }
+`;
+
+export const MemberBox = styled(AvatarBox)`
+  min-width: var(--size-minwidth-logo);
 `;
 
 export const NavIconsBox = styled.div`

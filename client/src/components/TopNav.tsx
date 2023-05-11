@@ -16,15 +16,26 @@ import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
 import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
 // @ts-ignore
 import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
+// @ts-ignore
+import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
 
 type TopNavProps = {
   showHistory: boolean;
   setShowHistory: React.Dispatch<React.SetStateAction<boolean>>;
   showPinnedItems: boolean;
   setShowPinnedItems: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedItems }: TopNavProps) => {
+const TopNav = ({
+  showHistory,
+  setShowHistory,
+  showPinnedItems,
+  setShowPinnedItems,
+  isLoggedIn,
+  setIsLoggedIn,
+}: TopNavProps) => {
   const handleHistoryBtnClick = () => {
     setShowHistory(!showHistory);
     if (showPinnedItems) setShowPinnedItems(false);
@@ -38,6 +49,10 @@ const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedIte
   const handleNewChatBtnClick = () => {
     if (showPinnedItems) setShowPinnedItems(false);
     if (showHistory) setShowHistory(false);
+  };
+
+  const handleLoginBtnClick = () => {
+    //open dialog box
   };
 
   return (
@@ -69,12 +84,13 @@ const TopNav = ({ showHistory, setShowHistory, showPinnedItems, setShowPinnedIte
         </TN.AvatarBox>
       </TN.NavIconsBox>
       <TN.MemberBox>
-        <TN.StyledSpan>
+        <AnonymousIcon className="svg" />
+        {/* <TN.StyledSpan>
           <Link to="/mypage">MyPage</Link>
         </TN.StyledSpan>
         <TN.StyledSpan>
           <Link to="/signup">Signup</Link>
-        </TN.StyledSpan>
+        </TN.StyledSpan> */}
       </TN.MemberBox>
     </TN.TopNavBox>
   );
