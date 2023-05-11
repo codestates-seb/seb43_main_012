@@ -43,6 +43,10 @@ export const ModalView = styled.div`
     font-weight: 700;
     margin-bottom: 5%;
   }
+  h2{
+    color: #c9ad6e;
+    padding-bottom: 30px;
+  }
   .button-container {
     display: flex;
     justify-content: center;

@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import OAuthButton from '../OAuthButton';
-import { LoginContainer, LoginWrapper, SignupLink } from '../../styles/LoginStyle';
+import { LoginWrapper, SignupLink, LoginView} from '../../styles/LoginStyle';
 import LoginForm from '../LoginForm';
+import { ModalBackdrop } from '../../styles/CharacterStyle';
 
 type ModalLoginProps = {
   isOpen: boolean;
@@ -10,20 +11,27 @@ type ModalLoginProps = {
 };
 
 function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
+
+  const closeModalHandler = () => {
+		setIsOpen(false);
+	};
+
   return (
-    <LoginContainer>
+    <LoginWrapper>
       {isOpen && (
-        <LoginWrapper>
-          <OAuthButton buttonText="Log in with Google" brand="google" />
-          <OAuthButton buttonText="Log in with KakaoTalk" brand="kakaotalk" />
-          <LoginForm />
-          <SignupLink>
-            <span>아직 회원이 아니신가요?</span>
-            <Link to="/signup">Sign up</Link>
-          </SignupLink>
-        </LoginWrapper>
+        <ModalBackdrop onClick={closeModalHandler}>
+          <LoginView onClick={(e) => e.stopPropagation()}>
+            <OAuthButton buttonText="Log in with Google" brand="google" />
+            <OAuthButton buttonText="Log in with KakaoTalk" brand="kakaotalk" />
+            <LoginForm />
+            <SignupLink>
+              <span>아직 회원이 아니신가요?</span>
+              <Link to="/signup">Sign up</Link>
+            </SignupLink>
+          </LoginView>
+        </ModalBackdrop>
       )}
-    </LoginContainer>
+    </LoginWrapper>
   );
 }
 
