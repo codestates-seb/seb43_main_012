@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ButtonBox } from "../styles/SignupStyle";
+import { ButtonBox, ButtonWrapper } from '../styles/SignupStyle';
 import ModalDisplayName from './modals/ModalDisplayName';
 
 // 인터페이스로 각자의 타입을 지정
@@ -21,15 +21,15 @@ const OAuthButton: React.FC<OAuthButtonProps> = ({ buttonText, brand }) => {
   // };
 
   return (
-
-    <ButtonBox>
-      <img src={`/${brand}_logo_icon.png`} alt="" />
-      <button type="button" onClick= {handleClick}>{buttonText}</button>
-      <ModalDisplayName isOpen2 = {isOpen} setIsOpen2 = {setIsOpen} />
-    </ButtonBox>
-    
-    
-
+    <ButtonWrapper>
+      <ButtonBox>
+        <img src={`/${brand}_logo_icon.png`} alt="" />
+        <button type="button" onClick={handleClick}>
+          {buttonText}
+        </button>
+      </ButtonBox>
+      <ModalDisplayName isOpen2={isOpen} setIsOpen2={setIsOpen} />
+    </ButtonWrapper>
   );
 };
 
