@@ -40,7 +40,9 @@ function App() {
             setIsUserDialogOpen={setIsUserDialogOpen}
             setDialogPosition={setDialogPosition}
           />
-          {isUserDialogOpen && <DialogBoxUserIcon dialogPosition={dialogPosition} />}
+          {isUserDialogOpen && (
+            <DialogBoxUserIcon dialogPosition={dialogPosition} setIsUserDialogOpen={setIsUserDialogOpen} />
+          )}
           {showHistory && <History />}
           {showPinnedItems && <CollectionPins />}
           <Routes>

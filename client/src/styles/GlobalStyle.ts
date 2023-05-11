@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
     --color-default-green: #77AD69;
     --color-default-yellow: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
+    --color-default-lightestgray:  #FAFAFA;
+    --color-default-gray: #757575;
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
     --color-border-dialogbox: rgba(117, 117, 117, 0.5);
     --color-dropshadow-dialogbox: rgba(117, 117, 117, 0.1);
