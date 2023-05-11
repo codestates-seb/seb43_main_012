@@ -8,6 +8,8 @@ const GlobalStyle = createGlobalStyle`
     --color-default-yellow: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
+    --color-border-dialogbox: rgba(117, 117, 117, 0.5);
+    --color-dropshadow-dialogbox: rgba(117, 117, 117, 0.1);
 
     --size-minheight-topnav: 105px;
     --size-minwidth-topnavicons: 500px;
