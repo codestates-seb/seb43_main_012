@@ -148,3 +148,15 @@ export const SignOutFooter = styled(DialogItems)`
 `;
 
 // export const;
+
+// tags = ['react', 'AI', 'ML']
+
+// collectionItems = [{
+//   title: 'title1'
+//   content: 'content1'
+//   date: 'date'
+
+// },
+// {
+
+// }]
