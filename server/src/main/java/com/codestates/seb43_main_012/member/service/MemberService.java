@@ -51,13 +51,14 @@ public class MemberService {
 }
 
     public MemberDto login(MemberDto memberDto) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsername(memberDto.getUsername());
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsernameOrEmail(memberDto.getIdentifier(), memberDto.getIdentifier());
         if (optionalMemberEntity.isPresent() && passwordEncoder.matches(memberDto.getPassword(), optionalMemberEntity.get().getPassword())) {
             return memberDto;
         } else {
             throw new RuntimeException("Invalid username or password");
         }
     }
+
     public List<MemberDto> getAllMembers() {
         return memberRepository.findAll().stream()
                 .map(memberEntity -> MemberDto.builder()

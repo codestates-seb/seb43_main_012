@@ -13,8 +13,9 @@ import lombok.NoArgsConstructor;
 public class MemberDto {
     private Long id;
     private String username;
-    private String password;
     private String email;
+    private String identifier;
+    private String password;
 
     public static MemberDto from(MemberEntity memberEntity) {
 
