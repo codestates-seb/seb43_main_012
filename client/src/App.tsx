@@ -1,5 +1,4 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
 import { useState, SetStateAction, Dispatch } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
@@ -19,6 +18,7 @@ config.autoAddCss = false;
 function App() {
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showPinnedItems, setShowPinnedItems] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
     <div className="App">
@@ -30,6 +30,8 @@ function App() {
             setShowHistory={setShowHistory}
             showPinnedItems={showPinnedItems}
             setShowPinnedItems={setShowPinnedItems}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
           />
           {showHistory ? <History /> : null}
           {showPinnedItems ? <CollectionPins /> : null}
