@@ -1,8 +1,7 @@
 import { ReactElement, useState } from 'react';
-import { DisplayNameWrapper, DisplayNameButton } from '../../styles/DisplayNameStyle';
+import { DisplayNameWrapper, DisplayNameButton, MyTitle } from '../../styles/DisplayNameStyle';
 import { ModalBackdrop, ModalView } from '../../styles/CharacterStyle';
 import ModalCharacter from '../modals/ModalCharacter';
-import SignupInput from '../../components/SignupInput';
 
 type ModalDisplayNameProps = {
   isOpen2: boolean;
@@ -22,10 +21,10 @@ function ModalDisplayName({ isOpen2, setIsOpen2 }: ModalDisplayNameProps): React
       {isOpen2 ? (
         <ModalBackdrop onClick={closeModalHandler}>
           <ModalView onClick={e => e.stopPropagation()}>
-            <SignupInput labelName="Display name" inputType="text" />
-
+            <MyTitle>DisplayName</MyTitle>
+            <input type="text"></input>
             <DisplayNameButton className="displayNamebutton" type="button" onClick={closeModalHandler}>
-              <h2>Save</h2>
+              <h2 className='Selectbutton'>Save</h2>
             </DisplayNameButton>
           </ModalView>
         </ModalBackdrop>
