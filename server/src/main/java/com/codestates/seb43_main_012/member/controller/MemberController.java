@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,8 +29,14 @@ public class MemberController {
     @PostMapping("/login")
     public void login(@RequestBody MemberDto memberDto, HttpServletResponse response) throws IOException {
         MemberDto loggedInMember = memberService.login(memberDto);
-        String token = jwtUtil.generateToken(loggedInMember.getUsername());
-        response.setHeader("Authorization", "Bearer " + token);
+        //String token = jwtUtil.generateToken(loggedInMember.getUsername()); // 잠시 주석
+        String token = jwtUtil.generateToken(loggedInMember.getIdentifier());
+        Cookie cookie = new Cookie("jwt_token", token);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(cookie);
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
