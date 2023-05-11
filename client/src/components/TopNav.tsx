@@ -27,6 +27,9 @@ const TopNav = () => {
         <Link to="/signup">Signup</Link>
       </StyledSpan>
       <StyledSpan>
+        <Link to="/login">Login</Link>
+      </StyledSpan>
+      <StyledSpan>
         <Link to="/bookmarks">Bookmarks</Link>
       </StyledSpan>
     </NavItemsBox>

@@ -8,6 +8,7 @@ import TopNav from './components/TopNav';
 import Collections from './pages/Collections';
 import MyPage from './pages/MyPage';
 import Signup from './pages/Signup';
+import Login from './pages/Login';
 import Main from './pages/Main';
 
 import './App.css';
@@ -25,6 +26,7 @@ function App() {
             </Route>
             <Route path="/bookmarks" element={<Collections />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
           </Routes>
         </Router>
