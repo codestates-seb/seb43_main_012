@@ -33,6 +33,7 @@ function ModalCharacter({ isOpen, setIsOpen }: ModalCharacterProps): ReactElemen
       {isOpen && (
         <ModalBackdrop>
           <ModalView onClick={(e) => e.stopPropagation()}>
+            <h2>Select Your Character</h2>
             <CharacterBox>
               <MainCharacter>
                 {selectedCharacter === "P" ? (
