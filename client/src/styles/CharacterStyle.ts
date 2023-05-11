@@ -87,6 +87,8 @@ export const Character = styled.div`
   justify-content: center;
   max-width: 72px;
   max-height: 72px;
+  min-width: 36px;
+  min-height: 36px;
   width: 8vw;
   height: 8vw;
   text-align: center;
@@ -121,13 +123,15 @@ export const MainCharacter = styled.div`
   font-size: 5rem;
   max-width: 134px;
   max-height: 134px;
+  min-width: 67px;
+  min-height: 67px;
   width: 15vw;
   height: 15vw;
   color: #fff;
   background-color: #77ad69;
   border: none;
   border-radius: 100px;
-  margin: 0 5rem 0vw 3rem;
+  margin: 0 4rem 0vw 4rem;
 
   img {
     max-width: 130px;
