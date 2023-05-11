@@ -71,7 +71,7 @@ export const PasswordText = styled.p`
 export const SignButton = styled.button`
   width: 80%;
   height: 37px;
-  margin: 3% 0;
+  margin: 10% 0;
   background: #c9ad6e;
   box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.25);
   border-radius: 20px;
