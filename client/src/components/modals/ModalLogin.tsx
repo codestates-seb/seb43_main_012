@@ -1,9 +1,14 @@
-import { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
-import OAuthButton from '../OAuthButton';
-import { LoginBox, LoginWrapper, SignupLink, LoginView } from '../../styles/LoginStyle';
-import LoginForm from '../LoginForm';
-import { ModalBackdrop } from '../../styles/CharacterStyle';
+import { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import OAuthButton from "../OAuthButton";
+import {
+  LoginBox,
+  LoginWrapper,
+  SignupLink,
+  LoginView,
+} from "../../styles/LoginStyle";
+import LoginForm from "../LoginForm";
+import { ModalBackdrop } from "../../styles/CharacterStyle";
 
 type ModalLoginProps = {
   isOpen: boolean;
@@ -11,14 +16,20 @@ type ModalLoginProps = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ModalLogin({ isOpen, setIsOpen, setIsLoggedIn }: ModalLoginProps): ReactElement {
+function ModalLogin({
+  isOpen,
+  setIsOpen,
+  setIsLoggedIn,
+}: ModalLoginProps): ReactElement {
   const closeModalHandler = () => {
     setIsOpen(false);
   };
 
-  const handleLoginClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleLoginClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     e.stopPropagation();
-    console.log('login click!');
+    console.log("login click!");
     setIsLoggedIn(true);
   };
 
@@ -29,7 +40,10 @@ function ModalLogin({ isOpen, setIsOpen, setIsLoggedIn }: ModalLoginProps): Reac
           <ModalBackdrop onClick={closeModalHandler}>
             <LoginView onClick={handleLoginClick}>
               <OAuthButton buttonText="Log in with Google" brand="google" />
-              <OAuthButton buttonText="Log in with KakaoTalk" brand="kakaotalk" />
+              <OAuthButton
+                buttonText="Log in with KakaoTalk"
+                brand="kakaotalk"
+              />
               <LoginForm setIsLoggedIn={setIsLoggedIn} />
               <SignupLink>
                 <span>아직 회원이 아니신가요?</span>
