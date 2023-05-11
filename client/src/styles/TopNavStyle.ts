@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledSpan = styled.span`
   padding-right: var(--padding-right-topnavitems);
@@ -128,6 +128,7 @@ export const DialogSelectItem = styled.div`
   height: 35px;
   padding: 20px 10px;
   font-size: 18px;
+  cursor: pointer;
 `;
 
 export const SignoutItem = styled(DialogSelectItem)`

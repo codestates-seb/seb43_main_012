@@ -31,6 +31,7 @@ function ModalLogin({
     e.stopPropagation();
     console.log("login click!");
     setIsLoggedIn(true);
+    setIsOpen(false);
   };
 
   return (

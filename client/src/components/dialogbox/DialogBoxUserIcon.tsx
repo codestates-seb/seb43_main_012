@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   DialogBox,
   UserInfo,
@@ -9,12 +9,13 @@ import {
   SignOutFooter,
   SignoutItem,
   EmailItem,
-} from '../../styles/TopNavStyle';
-import styled from 'styled-components';
+} from "../../styles/TopNavStyle";
+import styled from "styled-components";
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type StyleProps = {
@@ -24,17 +25,28 @@ type StyleProps = {
 
 const MovingDialogBox = styled(DialogBox)<StyleProps>`
   z-index: 1000;
-  left: ${p => p.posX - 250}px;
-  top: ${p => p.posY}px;
+  left: ${(p) => p.posX - 250}px;
+  top: ${(p) => p.posY}px;
   background: white;
 `;
 
-const DialogBoxUserIcon = ({ dialogPosition, setIsUserDialogOpen }: BoxProps) => {
+const DialogBoxUserIcon = ({
+  dialogPosition,
+  setIsUserDialogOpen,
+  setIsLoggedIn,
+}: BoxProps) => {
   console.log(`x: ${dialogPosition.x} `);
 
-  const handleDialogItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleDialogItemClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     //close modal
-    console.log('dialog item clicked!');
+    console.log("dialog item clicked!");
+    setIsUserDialogOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
     setIsUserDialogOpen(false);
   };
 
@@ -52,10 +64,7 @@ const DialogBoxUserIcon = ({ dialogPosition, setIsUserDialogOpen }: BoxProps) =>
           <DialogSelectItem>Public Chats</DialogSelectItem>
         </DialogItems>
         <SignOutFooter>
-          <SignoutItem onClick={handleDialogItemClick}>
-            <Link to="/signup">Sign Up</Link>
-          </SignoutItem>
-          <SignoutItem>Sign Out</SignoutItem>
+          <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
           <EmailItem>sunga.jlh@gmail.com</EmailItem>
         </SignOutFooter>
       </UserInfo>

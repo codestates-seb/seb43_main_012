@@ -1,24 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 //import style
-import * as TN from '../styles/TopNavStyle';
+import * as TN from "../styles/TopNavStyle";
+import { Character } from "../styles/CharacterStyle";
 
 //import icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faCommentMedical, faClockRotateLeft, faBookBookmark, faBook } from '@fortawesome/free-solid-svg-icons';
-// import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-// <FontAwesomeIcon icon={duotone('message-plus')} />;
-// import { IconProp } from '@fortawesome/fontawesome-svg-core';
 // @ts-ignore
-import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
+import { ReactComponent as HistoryIcon } from "../assets/icons/iconHistory.svg";
 // @ts-ignore
-import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
+import { ReactComponent as ChatIcon } from "../assets/icons/iconNewChat.svg";
 // @ts-ignore
-import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
+import { ReactComponent as CollectionIcon } from "../assets/icons/iconCollectionsNew.svg";
 // @ts-ignore
-import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
+import { ReactComponent as AnonymousIcon } from "../assets/icons/iconNonMember.svg";
 
+const AvatarIcon = styled(Character)`
+  background-color: var(--color-default-green-opacity);
+  box-shadow: none;
+  max-width: var(--size-avatar-default);
+  max-height: var(--size-avatar-default);
+`;
 type TopNavProps = {
   showHistory: boolean;
   setShowHistory: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,7 +30,9 @@ type TopNavProps = {
   isLoggedIn: boolean;
   isUserDialogOpen: boolean;
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setDialogPosition: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+  setDialogPosition: React.Dispatch<
+    React.SetStateAction<{ x: number; y: number }>
+  >;
   setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -57,7 +62,9 @@ const TopNav = ({
     if (showHistory) setShowHistory(false);
   };
 
-  const handleUserBtnClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleUserBtnClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
     if (isLoggedIn && !isUserDialogOpen) {
@@ -99,13 +106,13 @@ const TopNav = ({
         </TN.AvatarBox>
       </TN.NavIconsBox>
       <TN.MemberBox>
-        <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
-        {/* <TN.StyledSpan>
-          <Link to="/mypage">MyPage</Link>
-        </TN.StyledSpan>
-        <TN.StyledSpan>
-          <Link to="/signup">Signup</Link>
-        </TN.StyledSpan> */}
+        {isLoggedIn ? (
+          <AvatarIcon onClick={handleUserBtnClick}>
+            <img src="/character1.png" alt="AvatarIcon A" />
+          </AvatarIcon>
+        ) : (
+          <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
+        )}
       </TN.MemberBox>
     </TN.TopNavBox>
   );
