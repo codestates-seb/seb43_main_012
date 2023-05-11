@@ -1,10 +1,11 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
 :root {
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
+    --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
