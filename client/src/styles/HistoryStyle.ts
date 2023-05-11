@@ -1,1 +1,54 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+
+// 히스토리 전체
+export const HistoryBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 95vw;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+`;
+
+// 검색창
+export const SearchBox = styled.input`
+  width: 40vw;
+  height: 30px;
+  color: #d9d9d9;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+`;
+
+// 히스토리페이지의 윗 부분
+export const HistoryHeader = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 55vw;
+    justify-content: space-around
+`
+
+// 필터링
+export const Filtering = styled.div`
+    padding: 5px;
+`;
+
+// 전체 히스토리 삭제 버튼
+export const DeleteButton = styled.button`
+    padding: 5px;
+`;
+
+//히스토리페이지의 아래부분(대화모음부분)
+export const HistoryBody = styled.div`
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    justify-content: space-around
+`;
+
+// 시간표시
+export const TimeLine = styled.div`
+    font-size: 15px;
+    font-weight: bold;
+    margin: 1%;
+`;
