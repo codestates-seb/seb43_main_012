@@ -6,12 +6,16 @@ const GlobalStyle = createGlobalStyle`
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
     --color-default-yellow: #C9AD6E;
+    --color-default-yellow-dark: #E8C169;
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
 
     --size-minheight-topnav: 105px;
-    --size-minwidth-topnavicons: 250px;
+    --size-minwidth-topnavicons: 500px;
     --size-minwidth-logo: 197px;
-    --size-avatar: 78px;
+    --size-avatar-center: 60px;
+    --size-avatar-default: 48px;
+    --size-avatar-hover: 54px;
+    --size-avatar-center-hover: 70px;
 
     --text-fontsize-link: 20px;
     --text-fontsize-logo: 25px;

@@ -20,10 +20,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
   },
  "include": [
-    "src"
+  "src"
   ],
-  "references": [{ "path" : "./tsconfig.node.json"}]
+  "references": [{ "path" : "./tsconfig.node.json"}],
 }

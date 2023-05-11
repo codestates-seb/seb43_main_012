@@ -40,11 +40,30 @@ export const AvatarBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: var(--size-avatar);
-  height: var(--size-avatar);
+  min-width: var(--size-avatar);
+  min-height: var(--size-avatar);
+  padding: 0 20px;
   overflow: false;
   & .navitem {
     padding: 0 var(--padding-left-topnavitems);
+  }
+  .svg {
+    width: var(--size-avatar-default);
+    transition: width 0.1s ease-in-out;
+  }
+
+  .svg:hover {
+    width: var(--size-avatar-hover);
+    filter: invert(25%) sepia(80%) saturate(1.3);
+    // fill: blue;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .center {
+    width: var(--size-avatar-center);
+  }
+  .center:hover {
+    width: var(--size-avatar-center-hover);
   }
 `;
 
