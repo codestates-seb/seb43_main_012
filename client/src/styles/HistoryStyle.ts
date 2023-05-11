@@ -65,3 +65,13 @@ export const TimeBox = styled.div`
     margin: 1.5%;
   }
 `;
+
+//히스토리페이지의 아래부분2(버튼 누른 후)
+export const HistoryBody2 = styled.div`
+  margin-top: -1%;
+  margin-bottom: 1%;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  justify-content: space-around;
+`;

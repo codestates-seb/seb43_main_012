@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   SearchBox,
   HistoryBox,
@@ -8,9 +8,17 @@ import {
   HistoryBody,
   TimeLine,
   TimeBox,
+  HistoryBody2,
 } from '../styles/HistoryStyle';
 
+
 function History(): ReactElement {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <HistoryBox>
       <HistoryHeader>
@@ -40,6 +48,22 @@ function History(): ReactElement {
           <div>content1</div>
         </TimeBox>
       </HistoryBody>
+      {isOpen &&(
+        <HistoryBody2>
+              <TimeLine>PREVIOUS 30DAYS</TimeLine>
+              <TimeBox>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+                <div>content1</div>
+              </TimeBox>
+            </HistoryBody2>
+      )}
+      {!isOpen && <button onClick={handleClick}>see more</button>}
     </HistoryBox>
   );
 }
