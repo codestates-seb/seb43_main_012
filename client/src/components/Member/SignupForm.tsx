@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import SignupInput from "../components/SignupInput";
+import SignupInput from "../Member/SignupInput";
 import Agreement from "./SignupAgreement";
-import ModalCharacter from './modals/ModalCharacter';
-import { FormBox, PasswordText, SignButton } from "../styles/SignupStyle";
+import ModalCharacter from '../modals/ModalCharacter';
+import { FormBox, PasswordText, SignButton } from "../../styles/SignupStyle";
 
 
 const SignupForm: React.FC = () => {

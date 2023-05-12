@@ -43,7 +43,7 @@ export const ModalView = styled.div`
     font-weight: 700;
     margin-bottom: 5%;
   }
-  h2{
+  h2 {
     color: #c9ad6e;
     padding-bottom: 30px;
   }
@@ -66,6 +66,29 @@ export const ModalView = styled.div`
     border-radius: 5px;
     :hover {
       color: #c9ad6e;
+    }
+  }
+  .Selectbutton {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    background-color: #fafafa;
+    border: none;
+    text-decoration-line: underline;
+    text-decoration-color: #c9ad6e;
+    width: 10%;
+    border-radius: 5px;
+    margin-top: 20%;
+    :hover {
+      color: #c9ad6e;
+    }
+  }
+  input {
+    width: 20%;
+    &:focus {
+      outline: none;
+      border: 2px solid #77ad69;
+      box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
     }
   }
 `;
