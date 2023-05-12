@@ -19,7 +19,6 @@ const Content = styled.a`
   /* width: 30vw; */
   background-color: #f0f0f0;
   padding: 5px;
-
   border: solid;
 `;
 
@@ -48,18 +47,15 @@ const BookmarkContainer = styled.div`
   width: 10.5rem;
   background-color: blue;
 `;
-
 const Bookmark = styled.a`
   background-color: #f0f0f0;
   padding: 5px;
 `;
-
 const BookmarkAdd = styled.button`
   flex-basis: 10rem;
   background-color: #f0f0f0;
   margin: 5px;
 `;
-
 const TagContainer = styled.div`
   display: flex;
   justify-content: flex-start;
