@@ -1,7 +1,7 @@
 import { SignupBox, SignupWrapper } from "../styles/SignupStyle";
 
-import OAuthButton from "../components/OAuthButton";
-import SignupForm from "../components/SignupForm";
+import OAuthButton from "../components/Member/OAuthButton";
+import SignupForm from "../components/Member/SignupForm";
 
 const Signup: React.FC = () => {
   return (

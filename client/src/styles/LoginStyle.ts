@@ -22,8 +22,7 @@ export const LoginView = styled.div`
   margin-top: 2%;
   margin-bottom: 5%;
   height: 60%;
-  width: 100vw;
-  max-width: 290px;
+  width: 290px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff5de;
 `;
