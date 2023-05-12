@@ -37,8 +37,10 @@ public class ConversationController {
         this.qnaService = qnaService;
     }
 
+    private long memberId = 1L;
+
     @PostMapping
-    public ResponseEntity generateConversation(long memberId) // memberId 대신 토큰
+    public ResponseEntity generateConversation() // memberId 대신 토큰
     {
         Conversation savedConversation = conversationService.createConversation(memberId);
 
