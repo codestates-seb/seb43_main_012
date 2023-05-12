@@ -1,15 +1,15 @@
-import path from 'path';
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import viteTsconfigPaths from 'vite-tsconfig-paths';
-import svgr from 'vite-plugin-svgr';
-import type { UserConfig as VitestUserConfigInterface } from 'vitest/config';
+import path from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import viteTsconfigPaths from "vite-tsconfig-paths";
+import svgr from "vite-plugin-svgr";
+import type { UserConfig as VitestUserConfigInterface } from "vitest/config";
 
 const vitestConfig: VitestUserConfigInterface = {
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: 'src/setupTests',
+    environment: "jsdom",
+    setupFiles: "src/setupTests",
     mockReset: true,
   },
 };
@@ -17,14 +17,14 @@ const vitestConfig: VitestUserConfigInterface = {
 export default defineConfig({
   resolve: {
     alias: {
-      '~': path.resolve(__dirname, './src'),
+      "~": path.resolve(__dirname, "./src"),
     },
   },
   define: {
-    'process.env': {},
+    "process.env": {},
   },
   build: {
-    outDir: 'build',
+    outDir: "build",
     // sourcemap: true,
   },
   test: vitestConfig.test,
