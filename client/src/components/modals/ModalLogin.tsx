@@ -1,14 +1,10 @@
-import { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import OAuthButton from "../OAuthButton";
-import {
-  LoginBox,
-  LoginWrapper,
-  SignupLink,
-  LoginView,
-} from "../../styles/LoginStyle";
-import LoginForm from "../LoginForm";
-import { ModalBackdrop } from "../../styles/CharacterStyle";
+import { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import OAuthButton from '../Member/OAuthButton';
+import { LoginBox, LoginWrapper, SignupLink, LoginView } from '../../styles/LoginStyle';
+import LoginForm from '../Member/LoginForm';
+import { ModalBackdrop } from '../../styles/CharacterStyle';
+
 
 type ModalLoginProps = {
   isOpen: boolean;
