@@ -1,9 +1,10 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import data from '../data/data.json';
+import styled from "styled-components";
+import { useState } from "react";
+import data from "../data/data.json";
 // @ts-ignore
-import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
+import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
+// @ts-ignore
+import { ReactComponent as ThumbtackSolid } from "../assets/icons/thumbtack-solid.svg";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -94,7 +95,10 @@ const BookmarkButton = () => {
 
   return (
     <SvgButton>
-      <BookmarkSolid onClick={handleClick} style={{ fill: clicked ? 'blue' : 'black' }} />
+      <BookmarkSolid
+        onClick={handleClick}
+        style={{ fill: clicked ? "blue" : "black" }}
+      />
     </SvgButton>
   );
 };
@@ -158,7 +162,7 @@ const Collections = () => {
                 <a href="#">{bookmark}</a>
 
                 <div>
-                  {tags.map(tag => (
+                  {tags.map((tag) => (
                     <Tag key={tag} href="#">
                       {tag}
                     </Tag>
