@@ -1,18 +1,44 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { useState } from 'react';
+import data from '../data/data.json';
+// @ts-ignore
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
 
-const FixedPinContainer = styled.div`
+const ContentContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  background-color: orange;
+  padding: 5px;
+`;
+
+const Content = styled.a`
+  flex-basis: 17rem;
+  /* width: 30vw; */
+  background-color: #f0f0f0;
+  padding: 5px;
+
+  border: solid;
+`;
+
+const FixedContentContainer = styled.div`
   display: flex;
   justify-content: space-around;
   background-color: red;
 `;
 
-const FixedPin = styled.a`
-  justify-content: center;
-  align-items: center;
+// const FixedPin = styled.a`
+//   justify-content: center;
+//   align-items: center;
+//   padding: 5px;
+//   margin: 5px;
+//   background-color: #f0f0f0;
+//   border: solid;
+// `;
+const FixedContent = styled(Content)`
   padding: 5px;
   margin: 5px;
-  background-color: #f0f0f0;
-  border: solid;
 `;
 
 const BookmarkContainer = styled.div`
@@ -46,37 +72,59 @@ const Tag = styled.a`
   padding: 5px;
 `;
 
-const ContentContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: stretch;
-  background-color: orange;
-  padding: 5px;
-`;
-
-const Content = styled.a`
-  flex-basis: 17rem;
-  /* width: 30vw; */
-  background-color: #f0f0f0;
-  padding: 5px;
-
-  border: solid;
-`;
-
 const BookmarkTagContent = styled.main`
   display: flex;
   justify-content: space-between;
 `;
 
+const SvgButton = styled.button`
+  width: 20px;
+  border: none;
+  background-color: transparent;
+
+  cursor: pointer;
+`;
+
+const BookmarkButton = () => {
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
+
+  return (
+    <SvgButton>
+      <BookmarkSolid onClick={handleClick} style={{ fill: clicked ? 'blue' : 'black' }} />
+    </SvgButton>
+  );
+};
+
+const PinButton = () => {
+  return (
+    <SvgButton>
+      <ThumbtackSolid />
+    </SvgButton>
+  );
+};
+
 const Collections = () => {
+  //data를 받아서 map으로 돌리기
+  const [content, setContent] = useState(data);
+
   return (
     <main>
-      <FixedPinContainer>
-        <FixedPin href="#">Fixed 1</FixedPin>
-        <FixedPin href="#">Fixed 2</FixedPin>
-        <FixedPin href="#">Fixed 3</FixedPin>
-        <FixedPin href="#">Fixed 4</FixedPin>
-      </FixedPinContainer>
+      <FixedContentContainer>
+        <FixedContent href="#">
+          <div>
+            <BookmarkButton />
+            <PinButton />
+          </div>
+          <div></div>
+        </FixedContent>
+        <FixedContent href="#">Fixed 2</FixedContent>
+        <FixedContent href="#">Fixed 3</FixedContent>
+        <FixedContent href="#">Fixed 4</FixedContent>
+      </FixedContentContainer>
 
       <BookmarkTagContent>
         <div>
@@ -103,24 +151,31 @@ const Collections = () => {
         </div>
         <div>
           <ContentContainer>
-            <Content href="#"> Content 1</Content>
-            <Content href="#"> Content 2</Content>
-            <Content href="#"> Content 3</Content>
-            <Content href="#"> Content 4</Content>
-            <Content href="#"> Content 5</Content>
-            <Content href="#"> Content 6</Content>
-            <Content href="#"> Content 7</Content>
-            <Content href="#"> Content 8</Content>
-            <Content href="#"> Content 9</Content>
-            <Content href="#"> Content 10</Content>
+            {data.chat.map(({ title, content, bookmark, tags, id }) => (
+              <Content key={id} href="#">
+                <h3>{title}</h3>
+                <p>{content}</p>
+                <a href="#">{bookmark}</a>
+
+                <div>
+                  {tags.map(tag => (
+                    <Tag key={tag} href="#">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              </Content>
+            ))}
           </ContentContainer>
         </div>
 
         <div></div>
       </BookmarkTagContent>
+      {/* <BookmarkButton>
+        <BookmarkSolid />
+      </BookmarkButton> */}
     </main>
   );
-
 };
 
 export default Collections;
