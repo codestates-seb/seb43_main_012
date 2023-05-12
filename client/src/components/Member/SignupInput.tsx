@@ -1,4 +1,4 @@
-import { InputBox } from '../styles/SignupStyle';
+import { InputBox } from '../../styles/SignupStyle';
 
 interface SignupInputProps {
   labelName: string;

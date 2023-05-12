@@ -22,7 +22,7 @@ export const SignupBox = styled.div`
   align-items: center;
   margin-top: 2%;
   margin-bottom: 5%;
-  max-width: 290px;
+  width: 290px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff5de;
 `;
@@ -30,7 +30,7 @@ export const SignupBox = styled.div`
 //OAuth 버튼
 export const ButtonBox = styled.button`
   margin-bottom: 1.5%;
-  width: 90%;
+  width: 259px;
   height: 37px;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
@@ -71,7 +71,7 @@ export const PasswordText = styled.p`
 export const SignButton = styled.button`
   width: 80%;
   height: 37px;
-  margin: 10% 0;
+  margin: 10% 0 10% 10%;
   background: #c9ad6e;
   box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.25);
   border-radius: 20px;
@@ -123,5 +123,11 @@ export const AgreementBox = styled.div`
 
 export const Box = styled.div`
   display: flex;
+  width: 100vw;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100vw;
 `;

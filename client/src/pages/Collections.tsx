@@ -3,6 +3,7 @@ import { useState } from 'react';
 import data from '../data/data.json';
 // @ts-ignore
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+// @ts-ignore
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
 
 const Main = styled.main`
@@ -68,18 +69,15 @@ const BookmarkContainer = styled.div`
   width: 10.5rem;
   /* background-color: blue; */
 `;
-
 const Bookmark = styled.a`
   /* background-color: #f0f0f0; */
   padding: 5px;
 `;
-
 const BookmarkAdd = styled.button`
   flex-basis: 10rem;
   /* background-color: #f0f0f0; */
   margin: 5px;
 `;
-
 const TagContainer = styled.div`
   display: flex;
   justify-content: flex-start;
