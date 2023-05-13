@@ -16,7 +16,7 @@ export const TopNavBox = styled.header`
   left: 0;
   width: 100%;
   height: var(--size-minheight-topnav);
-  z-index: 999;
+  z-index: 998;
   min-height: var(--size-minheight-topnav);
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);

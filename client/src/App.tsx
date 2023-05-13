@@ -19,8 +19,8 @@ import Main from "./pages/Main";
 import CounterExample from "./pages/CounterExample";
 //components
 import ModalLogin from "./components/modals/ModalLogin";
-import History from "./components/History";
-import CollectionPins from "./components/CollectionPins";
+import History from "./components/overlay/History";
+import CollectionPins from "./components/overlay/CollectionPins";
 import DialogBoxUserIcon from "./components/dialogbox/DialogBoxUserIcon";
 
 function App() {

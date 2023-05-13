@@ -33,6 +33,7 @@ const MovingDialogBox = styled(DialogBox)<StyleProps>`
 
 const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
+  z-index: 999;
 `;
 
 const DialogBoxUserIcon = ({
