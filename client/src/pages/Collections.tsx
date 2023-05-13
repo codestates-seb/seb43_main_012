@@ -1,31 +1,57 @@
-import styled from "styled-components";
-import { useState } from "react";
-import data from "../data/data.json";
+import styled from 'styled-components';
+import { useState } from 'react';
+import data from '../data/data.json';
 // @ts-ignore
-import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
 // @ts-ignore
-import { ReactComponent as ThumbtackSolid } from "../assets/icons/thumbtack-solid.svg";
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
+
+const Main = styled.main`
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* background-color: #f0f0f0; */
+  padding: 0 40px 0 40px;
+`;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: stretch;
-  background-color: orange;
+  /* background-color: orange; */
   padding: 5px;
 `;
 
 const Content = styled.a`
   flex-basis: 17rem;
   /* width: 30vw; */
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   padding: 5px;
   border: solid;
+  border-color: #c9ad6e;
+  border-radius: 10px;
+  p {
+    text-align: left;
+    word-break: break-all;
+  }
+  .bookmark {
+    color: #c9ad6e;
+  }
+  .tag {
+    color: #7bb06e;
+  }
+`;
+
+const FixedContent = styled(Content)`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  align-items: flex-start;
 `;
 
 const FixedContentContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  background-color: red;
+  background-color: #faf7f1;
 `;
 
 // const FixedPin = styled.a`
@@ -36,24 +62,20 @@ const FixedContentContainer = styled.div`
 //   background-color: #f0f0f0;
 //   border: solid;
 // `;
-const FixedContent = styled(Content)`
-  padding: 5px;
-  margin: 5px;
-`;
 
 const BookmarkContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 10.5rem;
-  background-color: blue;
+  /* background-color: blue; */
 `;
 const Bookmark = styled.a`
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   padding: 5px;
 `;
 const BookmarkAdd = styled.button`
   flex-basis: 10rem;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   margin: 5px;
 `;
 const TagContainer = styled.div`
@@ -61,11 +83,13 @@ const TagContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 10.5rem;
-  background-color: green;
+  /* background-color: green; */
   margin: 10px 0 0 0;
 `;
 const Tag = styled.a`
   background-color: #f0f0f0;
+  border-radius: 20px;
+  margin: 0 5px 5px 0;
   padding: 5px;
 `;
 
@@ -91,10 +115,7 @@ const BookmarkButton = () => {
 
   return (
     <SvgButton>
-      <BookmarkSolid
-        onClick={handleClick}
-        style={{ fill: clicked ? "blue" : "black" }}
-      />
+      <BookmarkSolid onClick={handleClick} style={{ fill: clicked ? 'blue' : 'black' }} />
     </SvgButton>
   );
 };
@@ -112,18 +133,31 @@ const Collections = () => {
   const [content, setContent] = useState(data);
 
   return (
-    <main>
-      <FixedContentContainer>
-        <FixedContent href="#">
-          <div>
+    <Main>
+      {/* <div>
             <BookmarkButton />
             <PinButton />
-          </div>
-          <div></div>
-        </FixedContent>
-        <FixedContent href="#">Fixed 2</FixedContent>
-        <FixedContent href="#">Fixed 3</FixedContent>
-        <FixedContent href="#">Fixed 4</FixedContent>
+          </div> */}
+      <FixedContentContainer>
+        {data.chat
+          .filter(item => item.fixed)
+          .map(({ title, content, bookmark, tags, id }) => (
+            <FixedContent key={id} href="#">
+              <h3>{title}</h3>
+              <p>{content}</p>
+              <span className="bookmark">{bookmark}</span>
+
+              <div className="tag">
+                {tags.map(
+                  tag => (
+                    // <Tag key={tag} href="#">
+                    <span>#{tag} </span>
+                  )
+                  // </Tag>
+                )}
+              </div>
+            </FixedContent>
+          ))}
       </FixedContentContainer>
 
       <BookmarkTagContent>
@@ -155,14 +189,16 @@ const Collections = () => {
               <Content key={id} href="#">
                 <h3>{title}</h3>
                 <p>{content}</p>
-                <a href="#">{bookmark}</a>
+                <span className="bookmark">{bookmark}</span>
 
-                <div>
-                  {tags.map((tag) => (
-                    <Tag key={tag} href="#">
-                      {tag}
-                    </Tag>
-                  ))}
+                <div className="tag">
+                  {tags.map(
+                    tag => (
+                      // <Tag key={tag} href="#">
+                      <span>#{tag} </span>
+                    )
+                    // </Tag>
+                  )}
                 </div>
               </Content>
             ))}
@@ -174,7 +210,7 @@ const Collections = () => {
       {/* <BookmarkButton>
         <BookmarkSolid />
       </BookmarkButton> */}
-    </main>
+    </Main>
   );
 };
 
