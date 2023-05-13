@@ -21,6 +21,18 @@ const AvatarIcon = styled(Character)`
   box-shadow: none;
   max-width: var(--size-avatar-default);
   max-height: var(--size-avatar-default);
+  // :focus {
+  //   padding: 2rem;
+  //   transition: padding 0.2s ease-in-out;
+  // }
+
+  // img:focus {
+  //   max-width: 106px;
+  //   max-height: 106px;
+  //   padding-bottom: 20px;
+  //   transition: max-width 0.4s ease-in-out, max-height 0.4s ease-in-out,
+  //     padding-bottom 0.3 ease-in-out;
+  // }
 `;
 type TopNavProps = {
   showHistory: boolean;

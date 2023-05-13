@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // 모달 감싸기
 export const CharacterWrapper = styled.div`
@@ -98,9 +98,13 @@ export const CharacterBox = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  min-width: 72px;
+  min-height: 72px;
   div {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -108,32 +112,46 @@ export const Character = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  align-items: center;
   max-width: 72px;
   max-height: 72px;
-  min-width: 36px;
-  min-height: 36px;
-  width: 8vw;
-  height: 8vw;
   text-align: center;
   padding: 2.5rem;
   font-weight: bold;
   font-size: 2rem;
   color: #fff;
-  background-color: #77ad69;
+  background-color: var(--color-default-green);
   border: none;
   border-radius: 50px;
   margin: 2vh;
   box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.2);
+  transition: padding 0.2s ease-in-out;
 
   img {
     max-width: 72px;
     max-height: 72px;
-    width: 8vw;
-    height: 8vw;
+    transition: max-width 0.3s ease-in-out, max-height 0.3s ease-in-out,
+      padding-bottom 0.3s ease-in-out;
+    // width: 8vw;
+    // height: 8vw;
+  }
+
+  img:hover,
+  img:focus {
+    max-width: 106px;
+    max-height: 106px;
+    padding-bottom: 20px;
+    transition: max-width 0.4s ease-in-out, max-height 0.4s ease-in-out,
+      padding-bottom 0.3 ease-in-out;
   }
 
   :hover {
-    border: 2px solid #78ad69;
+    // max-width: 10px;
+    // height: 10px;
+    padding: 2rem;
+    transition: padding 0.2s ease-in-out;
+    // border: 2px solid var(--color-default-green);
+    // transition: border 0.6s ease-in-out;
   }
 `;
 
