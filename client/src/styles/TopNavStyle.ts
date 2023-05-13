@@ -44,17 +44,18 @@ export const AvatarBox = styled.div`
   min-width: var(--size-avatar);
   min-height: var(--size-avatar);
   padding: 0 20px;
-  overflow: false;
   & .navitem {
     padding: 0 var(--padding-left-topnavitems);
   }
   .svg {
     width: var(--size-avatar-default);
+    height: var(--size-avatar-default);
     transition: width 0.1s ease-in-out;
   }
 
   .svg:hover {
     width: var(--size-avatar-hover);
+    height: var(--size-avatar-hover);
     filter: invert(25%) sepia(80%) saturate(1.3);
     // fill: blue;
     transition: width 0.2s ease-in-out;
@@ -68,9 +69,11 @@ export const AvatarBox = styled.div`
 
   .center {
     width: var(--size-avatar-center);
+    height: var(--size-avatar-center);
   }
   .center:hover {
     width: var(--size-avatar-center-hover);
+    height: var(--size-avatar-center-hover);
   }
 `;
 
@@ -152,17 +155,3 @@ export const SignOutFooter = styled(DialogItems)`
   padding: 15px 0;
   font-size: 18px;
 `;
-
-// export const;
-
-// tags = ['react', 'AI', 'ML']
-
-// collectionItems = [{
-//   title: 'title1'
-//   content: 'content1'
-//   date: 'date'
-
-// },
-// {
-
-// }]
