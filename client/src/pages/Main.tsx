@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import ChatInput from "../components/chatinterface/ChatInput";
 import bgImg from "../assets/temp/screenshot_mainpage.png";
+import styled from "styled-components";
 import { axiosDefault, axiosNgrok } from "../utils/axiosConfig";
 import {
   Post,
@@ -9,6 +11,12 @@ import {
   openAIAnswer,
   GetOpenAIResponse,
 } from "../data/dataTypes";
+
+const TempBackdrop = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
 
 async function getJSON() {
   const post = await axiosDefault
@@ -28,21 +36,21 @@ async function getJSON() {
 }
 
 const Main = () => {
-  const [conv, setConv] = useState<openAIAnswer>({
-    conversationId: 1,
-    title: "",
-    bookmarks: [],
-    tags: [],
-    qnaList: [
-      {
-        qnaId: 1,
-        question: "",
-        answer: "",
-        bookmarkStatus: false,
-        displayStatus: true,
-      },
-    ],
-  });
+  // const [conv, setConv] = useState<openAIAnswer>({
+  //   conversationId: 1,
+  //   title: "",
+  //   bookmarks: [],
+  //   tags: [],
+  //   qnaList: [
+  //     {
+  //       qnaId: 1,
+  //       question: "",
+  //       answer: "",
+  //       bookmarkStatus: false,
+  //       displayStatus: true,
+  //     },
+  //   ],
+  // });
   // const [post, setPost] = useState<Post>({
   //   id: 1,
   //   title: "",
@@ -62,8 +70,21 @@ const Main = () => {
   return (
     <>
       {/* <div>Main Chat Interface</div> */}
-      <div></div>
-      <img src={bgImg} style={{ width: 1000, height: 692 }} />
+      <ChatInput />
+      <TempBackdrop>
+        <img
+          src={bgImg}
+          style={{
+            width: 1000,
+            height: 692,
+            zIndex: -1,
+            opacity: 0.3,
+            // objectFit: "cover",
+            position: "absolute",
+            top: 90,
+          }}
+        />
+      </TempBackdrop>
     </>
   );
 };

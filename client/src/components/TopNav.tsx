@@ -75,7 +75,9 @@ const TopNav = ({
   };
 
   const handleUserBtnClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    e:
+      | React.MouseEvent<SVGSVGElement, MouseEvent>
+      | React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
@@ -98,22 +100,16 @@ const TopNav = ({
         <TN.AvatarBox className="navitem" onClick={handleHistoryBtnClick}>
           <Link to="/">
             <HistoryIcon className="svg" />
-            {/* <img src={historyIcon} /> */}
-            {/* <FontAwesomeIcon icon={faClockRotateLeft as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem" onClick={handleNewChatBtnClick}>
           <Link to="/">
             <ChatIcon className="svg center" />
-            {/* <img className="center" src={chatIcon} /> */}
-            {/* <FontAwesomeIcon icon={faCommentMedical as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
           <Link to="/bookmarks">
             <CollectionIcon className="svg" />
-            {/* <img src={bookmarkIcon} /> */}
-            {/* <FontAwesomeIcon icon={faBookBookmark as IconProp} /> */}
           </Link>
         </TN.AvatarBox>
       </TN.NavIconsBox>
