@@ -76,6 +76,7 @@ const DialogBoxUserIcon = ({
             <DialogSelectItem>Public Chats</DialogSelectItem>
           </DialogItems>
           <SignOutFooter>
+            <DialogSelectItem>Getting Started</DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             <EmailItem>sunga.jlh@gmail.com</EmailItem>
           </SignOutFooter>
