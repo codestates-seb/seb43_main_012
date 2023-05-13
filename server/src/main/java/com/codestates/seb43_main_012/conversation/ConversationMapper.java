@@ -1,6 +1,7 @@
 package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.collection.CollectionDto;
+import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.qna.QnA;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAMapper;
@@ -20,27 +21,32 @@ public class ConversationMapper {
         this.qnaMapper = qnaMapper;
     }
 
-    public ConversationDto.Response conversationToConversationResponseDto(List<QnA> qnaList)
+    public ConversationDto.Response responseForGetOneConversation(Conversation conversation)
     {
-        if(qnaList.isEmpty()) return new ConversationDto.Response();
+        //if(qnaList.isEmpty()) return new ConversationDto.Response();
 
-        Conversation conversation = qnaList.get(0).getConversation();
         Long conversationId = conversation.getConversationId();
         String title = conversation.getTitle();
         List<String> bookmarks = stringToList(conversation.getBookmarks());
         List<String> tag = stringToList(conversation.getTags());
 
         List<QnADto.Response> qnaResponseList = new ArrayList<>();
-        qnaList.stream().forEach(qna ->
+        conversation.getQnaList().stream().forEach(qna ->
                     qnaResponseList.add(qnaMapper.qnaToQnAResponseDto(qna))
         );
 
         ConversationDto.Response response = new ConversationDto.Response(
                 conversationId,
+                new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 title,
+                qnaResponseList,
                 bookmarks,
                 tag,
-                qnaResponseList
+                conversation.getSaved(),
+                conversation.getPinned(),
+                conversation.getPublished(),
+                conversation.getViewCount(),
+                conversation.getActivityLevel()
         );
 
 
@@ -68,15 +74,18 @@ public class ConversationMapper {
                     {
                         ConversationDto.ResponseForAll response =
                                 new ConversationDto.ResponseForAll(
-                                    conv.getConversationId(),
-                                    conv.getMemberId(),
-                                    conv.getTitle(),
-                                    conv.getAnswerSummary(),
-                                    conv.getModifiedAt(),
-                                    stringToList(conv.getBookmarks()),
-                                    stringToList(conv.getTags()),
-                                    conv.getSaved(),
-                                    conv.getPinned()
+                                        conv.getConversationId(),
+                                        new MemberDto.ResponseForConversation(conv.getMember().getId(),conv.getMember().getUsername()),
+                                        conv.getTitle(),
+                                        conv.getAnswerSummary(),
+                                        conv.getModifiedAt(),
+                                        stringToList(conv.getBookmarks()),
+                                        stringToList(conv.getTags()),
+                                        conv.getSaved(),
+                                        conv.getPinned(),
+                                        conv.getPublished(),
+                                        conv.getViewCount(),
+                                        conv.getActivityLevel()
                         );
                         responses.add(response);
                     }
@@ -85,10 +94,11 @@ public class ConversationMapper {
         return responses;
     }
 
+
     private List<String> stringToList(String str)
     {
         List<String> list = new ArrayList<>();
-        if(str.equals("[]")) return list;
+        if(str == null || str.equals("[]")) return list;
 
         Arrays.stream(str.substring(1,str.length()-1).split(","))
                 .forEach(subStr -> list.add(subStr.replace("\"","")));

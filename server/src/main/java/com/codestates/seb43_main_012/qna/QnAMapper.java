@@ -10,8 +10,7 @@ public class QnAMapper {
                 qna.getQnaId(),
                 qna.getQuestion(),
                 qna.getAnswer(),
-                qna.getBookmarkStatus() == QnA.BookmarkStatus.Y ? true : false,
-                qna.getDisplayStatus() == QnA.DisplayStatus.Y ? true : false
+                qna.getBookmarkStatus() == QnA.BookmarkStatus.Y ? true : false
         );
 
         return response;

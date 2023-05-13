@@ -3,6 +3,7 @@ package com.codestates.seb43_main_012.qna;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 public class QnADto {
@@ -11,6 +12,7 @@ public class QnADto {
     @Getter
     public static class Post
     {
+        @Setter
         private long conversationId;
         private String question;
     }
@@ -24,7 +26,5 @@ public class QnADto {
         private String question;
         private String answer;
         private Boolean bookmarkStatus;
-        private Boolean displayStatus;
-
     }
 }

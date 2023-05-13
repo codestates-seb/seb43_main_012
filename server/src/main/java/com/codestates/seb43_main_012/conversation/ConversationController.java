@@ -2,7 +2,6 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.Bookmark;
 import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
-import com.codestates.seb43_main_012.collection.Collection;
 import com.codestates.seb43_main_012.collection.CollectionDto;
 import com.codestates.seb43_main_012.qna.QnA;
 import com.codestates.seb43_main_012.qna.QnADto;
@@ -40,20 +39,25 @@ public class ConversationController {
     private long memberId = 1L;
 
     @PostMapping
-    public ResponseEntity generateConversation() // memberId 대신 토큰
+    public ResponseEntity generateConversation(@RequestBody QnADto.Post dto)
     {
-        Conversation savedConversation = conversationService.createConversation(memberId);
-
-        return new ResponseEntity<>(savedConversation,HttpStatus.CREATED);
+        Conversation conversation = conversationService.createConversation(memberId);
+        long conversationId = conversation.getConversationId();;
+        dto.setConversationId(conversationId);
+        qnaService.requestAnswer(dto);
+        //ConversationDto.Response response = mapper.conversationToConversationResponseDto(conversation);
+        Conversation savedConversation = conversationService.findConversation(conversationId);
+        return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 
     @GetMapping("/{conversation-id}")
     public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
     {
-        List<QnA> qnaList = qnaService.findQnAs(conversationId);
-
-        ConversationDto.Response response = mapper.conversationToConversationResponseDto(qnaList);
-        response.setConversationId(conversationId);
+        //List<QnA> qnaList = qnaService.findQnAs(conversationId);
+        Conversation conversation = conversationService.viewCountUp(conversationId);
+        //List<QnA> qnaList = qnaService.findQnAs(conversationId);
+        ConversationDto.Response response = mapper.responseForGetOneConversation(conversation);
+        //response.setConversationId(conversationId);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -63,8 +67,8 @@ public class ConversationController {
     {
         if(sort == null) sort = "desc";
         List<Conversation> conversations = conversationService.findConversations(sort);
-        List<ConversationDto.ResponseForAll> response = mapper.conversationsToConversationResponseDtos(conversations);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/{conversation-id}/collection")

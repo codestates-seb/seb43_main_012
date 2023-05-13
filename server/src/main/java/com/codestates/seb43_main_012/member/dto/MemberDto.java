@@ -1,10 +1,7 @@
 package com.codestates.seb43_main_012.member.dto;
 
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -24,5 +21,14 @@ public class MemberDto {
                 .password(memberEntity.getPassword())
                 .email(memberEntity.getEmail())
                 .build();
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public static class ResponseForConversation
+    {
+        private long memberId;
+        private String username;
     }
 }

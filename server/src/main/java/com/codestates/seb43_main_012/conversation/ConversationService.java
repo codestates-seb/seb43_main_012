@@ -1,6 +1,8 @@
 package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.collection.CollectionDto;
+import com.codestates.seb43_main_012.member.entity.MemberEntity;
+import com.codestates.seb43_main_012.member.repository.MemberRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,13 @@ import java.util.Optional;
 public class ConversationService {
 
     private final ConversationRepository conversationRepository;
+    private final MemberRepository memberRepository;
 
-    public ConversationService(ConversationRepository conversationRepository)
+    public ConversationService(ConversationRepository conversationRepository,
+                               MemberRepository memberRepository)
     {
         this.conversationRepository = conversationRepository;
+        this.memberRepository = memberRepository;
     }
 
     public Conversation saveConversation(Conversation conversation)
@@ -28,8 +33,8 @@ public class ConversationService {
     public Conversation createConversation(long memberId)
     {
         Conversation conversation = new Conversation();
-        conversation.setMemberId(memberId);
-
+        conversation.addMember(memberRepository.findById(memberId).orElse(null));
+        //conversation.setMember(new MemberEntity(1L,"a","a","a"));
         return conversationRepository.save(conversation);
     }
 
@@ -70,6 +75,12 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
+    public Conversation viewCountUp(long conversationId)
+    {
+        Conversation conversation = findConversation(conversationId);
+        conversation.setViewCount(conversation.getViewCount()+1);
+        return conversationRepository.save(conversation);
+    }
 
     private String listToString(List list)
     {
