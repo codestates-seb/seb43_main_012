@@ -61,6 +61,11 @@ export const AvatarBox = styled.div`
     cursor: pointer;
   }
 
+  // .svg:focus {
+  //   width: var(--size-avatar-hover);
+  //   filter: invert(25%) sepia(80%) saturate(1.3);
+  // }
+
   .center {
     width: var(--size-avatar-center);
   }
