@@ -16,7 +16,7 @@ export const TopNavBox = styled.header`
   left: 0;
   width: 100%;
   height: var(--size-minheight-topnav);
-  z-index: 999;
+  z-index: 998;
   min-height: var(--size-minheight-topnav);
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
@@ -60,6 +60,11 @@ export const AvatarBox = styled.div`
     transition: width 0.2s ease-in-out;
     cursor: pointer;
   }
+
+  // .svg:focus {
+  //   width: var(--size-avatar-hover);
+  //   filter: invert(25%) sepia(80%) saturate(1.3);
+  // }
 
   .center {
     width: var(--size-avatar-center);

@@ -33,6 +33,7 @@ const MovingDialogBox = styled(DialogBox)<StyleProps>`
 
 const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
+  z-index: 999;
 `;
 
 const DialogBoxUserIcon = ({
@@ -75,6 +76,7 @@ const DialogBoxUserIcon = ({
             <DialogSelectItem>Public Chats</DialogSelectItem>
           </DialogItems>
           <SignOutFooter>
+            <DialogSelectItem>Getting Started</DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             <EmailItem>sunga.jlh@gmail.com</EmailItem>
           </SignOutFooter>
