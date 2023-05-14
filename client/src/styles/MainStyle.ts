@@ -13,7 +13,7 @@ export const MainBackdrop = styled.div`
 
   width: 100vw;
   height: 220px;
-  background-color: rgba(255, 255, 0, 0.5);
+  background-color: rgba(255, 255, 255, 1);
   z-index: 990;
 `;
 export const MainBox = styled.main<MainProps>`
