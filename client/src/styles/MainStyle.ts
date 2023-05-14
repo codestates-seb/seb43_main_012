@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { InputQBox } from './InputStyle';
 
 export const MainBox = styled.main`
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: var(--size-minwidth-pc-main);
@@ -14,10 +15,11 @@ export const FixedTopBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 997;
+  width: 100%;
 `;
 export const TitleBox = styled.title`
   display: flex;
