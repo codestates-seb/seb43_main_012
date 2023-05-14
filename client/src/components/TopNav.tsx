@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 //import style
@@ -90,6 +90,23 @@ const TopNav = ({
       setIsUserDialogOpen(false);
     }
   };
+
+  //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      const element = document.getElementById(
+        "questionInput",
+      ) as HTMLInputElement | null;
+      if (element) {
+        console.log("element found!");
+        element.focus();
+      }
+      // navigate(0);
+    }
+  }, [location]);
 
   return (
     <TN.TopNavBox>

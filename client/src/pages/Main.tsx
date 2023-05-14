@@ -72,7 +72,6 @@ const Main = () => {
     <M.MainBox>
       {/* <div>Main Chat Interface</div> */}
       <ChatInput />
-      <button disabled>new button</button>
       <TempBackdrop>
         <img
           src={bgImg}
