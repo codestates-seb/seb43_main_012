@@ -8,6 +8,7 @@ type Props = {
     [key: string]: any;
   };
   inputExists: boolean;
+  handleInput: () => void;
   SVGStyledComponent?: StyledComponent<any, any, any, any>;
   SubmitSVGButton?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 };
@@ -17,12 +18,10 @@ function Input({
   inputName,
   inputProps,
   inputExists,
+  handleInput,
   SVGStyledComponent,
   SubmitSVGButton,
 }: Props): ReactElement {
-  // useEffect(() => {
-  //   console.log("inputExists: ", inputExists);
-  // }, [inputExists]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -37,7 +36,10 @@ function Input({
       {Boolean(inputName) && <label>{inputName}</label>}
       <input {...inputProps} ref={inputRef} />
       {SVGStyledComponent && SubmitSVGButton && (
-        <button {...(inputExists ? {} : { disabled: true })}>
+        <button
+          onClick={handleInput}
+          {...(inputExists ? {} : { disabled: true })}
+        >
           <SubmitSVGButton />
         </button>
       )}

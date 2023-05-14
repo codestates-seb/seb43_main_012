@@ -7,16 +7,26 @@ import { useState, useEffect } from "react";
 
 const ChatInput = () => {
   const [qValue, setQValue] = useState<string>("");
+
+  const handleInput = () => {
+    //send dispatch to openai
+    //empty qValue
+    // console.log("clicked submit button!");
+    setQValue("");
+  };
+
   const qBoxProps = useInput({
     inputType: "text",
     qValue,
     setQValue,
     placeholder: "What are you itching to know today?",
+    handleInput,
   });
   const questionInput = Input({
     StyledComponent: InputQBox,
     inputProps: qBoxProps,
     inputExists: Boolean(qValue),
+    handleInput,
     SVGStyledComponent: InputSubmitBtn,
     SubmitSVGButton: SubmitIcon,
   });
