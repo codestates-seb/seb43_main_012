@@ -44,7 +44,7 @@ function ModalLogin({
               <LoginForm setIsLoggedIn={setIsLoggedIn} />
               <SignupLink>
                 <span>아직 회원이 아니신가요?</span>
-                <Link to="/signup">Sign up</Link>
+                <Link to="/signup" onClick={closeModalHandler} >Sign up</Link>
               </SignupLink>
             </LoginView>
           </ModalBackdrop>
