@@ -34,7 +34,7 @@ function Input({
   return (
     <StyledComponent>
       {Boolean(inputName) && <label>{inputName}</label>}
-      <input {...inputProps} ref={inputRef} />
+      <input {...inputProps} ref={inputRef} id="questionInput" />
       {SVGStyledComponent && SubmitSVGButton && (
         <button
           onClick={handleInput}

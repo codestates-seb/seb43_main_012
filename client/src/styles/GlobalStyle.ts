@@ -37,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
     --size-avatar-default: 48px;
     --size-avatar-hover: 54px;
     --size-avatar-center-hover: 70px;
+    --size-minwidth-pc-main: 700px;
 
     --text-fontsize-link: 20px;
     --text-fontsize-logo: 25px;
