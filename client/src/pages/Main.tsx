@@ -124,7 +124,7 @@ const Main = ({ isOpen }: MainProps) => {
     //   const post = await getJSON(): Promise<Post>
     // })();
     console.log(conversation);
-    if (conversation.title) scrollToLastQ();
+    if (conversation.title) scrollToLastQ(); //do it when it's only asking more...
   }, [conversation]);
 
   return (
