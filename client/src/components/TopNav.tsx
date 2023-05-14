@@ -35,10 +35,6 @@ const AvatarIcon = styled(Character)`
   // }
 `;
 type TopNavProps = {
-  showHistory: boolean;
-  setShowHistory: React.Dispatch<React.SetStateAction<boolean>>;
-  showPinnedItems: boolean;
-  setShowPinnedItems: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   isUserDialogOpen: boolean;
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,31 +45,12 @@ type TopNavProps = {
 };
 
 const TopNav = ({
-  showHistory,
-  setShowHistory,
-  showPinnedItems,
-  setShowPinnedItems,
   isLoggedIn,
   isUserDialogOpen,
   setIsUserDialogOpen,
   setIsModalLoginOpen,
   setDialogPosition,
 }: TopNavProps) => {
-  const handleHistoryBtnClick = () => {
-    setShowHistory(!showHistory);
-    if (showPinnedItems) setShowPinnedItems(false);
-  };
-
-  const handleCollectionsBtnClick = () => {
-    setShowPinnedItems(!showPinnedItems);
-    if (showHistory) setShowHistory(false);
-  };
-
-  const handleNewChatBtnClick = () => {
-    if (showPinnedItems) setShowPinnedItems(false);
-    if (showHistory) setShowHistory(false);
-  };
-
   const handleUserBtnClick = (
     e:
       | React.MouseEvent<SVGSVGElement, MouseEvent>
@@ -114,17 +91,17 @@ const TopNav = ({
         <Link to="/">Chatcrawl</Link>
       </TN.LogoBox>
       <TN.NavIconsBox>
-        <TN.AvatarBox className="navitem" onClick={handleHistoryBtnClick}>
-          <Link to="/">
+        <TN.AvatarBox className="navitem">
+          <Link to="/history">
             <HistoryIcon className="svg" />
           </Link>
         </TN.AvatarBox>
-        <TN.AvatarBox className="navitem" onClick={handleNewChatBtnClick}>
+        <TN.AvatarBox className="navitem">
           <Link to="/">
             <ChatIcon className="svg center" />
           </Link>
         </TN.AvatarBox>
-        <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
+        <TN.AvatarBox className="navitem">
           <Link to="/collection">
             <CollectionIcon className="svg" />
           </Link>
