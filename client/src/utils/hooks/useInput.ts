@@ -1,17 +1,25 @@
-import React, { useState, ChangeEvent } from "react";
+import React, {
+  useState,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 
 type InitProps = {
   inputType: string;
   qValue: string;
-  setQValue: React.Dispatch<React.SetStateAction<string>>;
+  setQValue: Dispatch<SetStateAction<string>>;
   placeholder?: string;
+  handleInput: () => void;
 };
 
 export type InputProps = {
   type: string;
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export function useInput({
@@ -19,11 +27,17 @@ export function useInput({
   qValue,
   setQValue,
   placeholder,
+  handleInput,
 }: InitProps): InputProps {
-  // const [value, setValue] = useState(initVal);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQValue(e.target.value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      // console.log("enter key pressed!");
+      handleInput();
+    }
   };
 
   return {
@@ -31,6 +45,7 @@ export function useInput({
     value: qValue,
     onChange: handleChange,
     placeholder,
+    onKeyDown: handleKeyDown,
   };
 }
 

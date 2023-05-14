@@ -16,6 +16,9 @@ export const InputQBox = styled.div`
     padding: 10px;
     outline: none;
     font-size: var(--text-font-size-qinput);
+    ::placeholder {
+      color: var(--color-default-disabled);
+    }
   }
 
   button {
