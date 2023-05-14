@@ -8,7 +8,6 @@ type Props = {
 };
 const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const handleConfirmClick = () => {
-    //need to check it has more than one letter in it! If not, just defaults to the original title.
     setEditConfirm(true);
     setEditState(!editState);
   };

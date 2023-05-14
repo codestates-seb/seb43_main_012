@@ -92,23 +92,24 @@ const Main = ({ isOpen }: MainProps) => {
 
   return (
     <MainBox isOpen>
-      {/* <div>Main Chat Interface</div> */}
       <M.FixedTopBox>
         <ChatInput cValue={conversation} setCValue={setConversation} />
-        <M.TitleBox>
-          <EditableTitle
-            cValue={conversation}
-            setCValue={setConversation}
-            editState={editTitleState}
-            setEditState={setEditTitleState}
-            editConfirm={editConfirm}
-          />
-          <EditSaveUI
-            editState={editTitleState}
-            setEditState={setEditTitleState}
-            setEditConfirm={setEditConfirm}
-          />
-        </M.TitleBox>
+        {Boolean(conversation.title) && (
+          <M.TitleBox>
+            <EditableTitle
+              cValue={conversation}
+              setCValue={setConversation}
+              editState={editTitleState}
+              setEditState={setEditTitleState}
+              editConfirm={editConfirm}
+            />
+            <EditSaveUI
+              editState={editTitleState}
+              setEditState={setEditTitleState}
+              setEditConfirm={setEditConfirm}
+            />
+          </M.TitleBox>
+        )}
       </M.FixedTopBox>
 
       <TempBackdrop>
