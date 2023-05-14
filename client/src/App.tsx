@@ -24,9 +24,6 @@ import CollectionPins from "./components/overlay/CollectionPins";
 import DialogBoxUserIcon from "./components/dialogbox/DialogBoxUserIcon";
 
 function App() {
-  //open interim components
-  const [showHistory, setShowHistory] = useState<boolean>(false);
-  const [showPinnedItems, setShowPinnedItems] = useState<boolean>(false);
   //login state, modalOpen dialogOpen State
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState<boolean>(false);
@@ -39,10 +36,6 @@ function App() {
         <GlobalStyle />
         <Router>
           <TopNav
-            showHistory={showHistory}
-            setShowHistory={setShowHistory}
-            showPinnedItems={showPinnedItems}
-            setShowPinnedItems={setShowPinnedItems}
             isLoggedIn={isLoggedIn}
             isUserDialogOpen={isUserDialogOpen}
             setIsUserDialogOpen={setIsUserDialogOpen}
