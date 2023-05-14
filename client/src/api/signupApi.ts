@@ -8,6 +8,7 @@ interface SignupArgs {
   setErrors: any;
 }
 
+
 const handleSignup = async ({
   SIGNUP_URL,
   displayname,
@@ -21,6 +22,7 @@ const handleSignup = async ({
       userId,
       password,
     });
+    window.location.replace("/login");
   } catch (error) {
     setErrors(error);
   }

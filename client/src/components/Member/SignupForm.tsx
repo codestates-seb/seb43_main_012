@@ -69,7 +69,7 @@ const SignupForm: React.FC = () => {
           setValue={setDisplayname}
           setErrors={setErrors}
         />
-        {isDisplayname === true ? null : <p>디스플레이 네임을 입력해주세요.</p>}
+        {isDisplayname === true ? null : <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>}
         <SignupInput
           labelName="ID (email)"
           type="text"
@@ -77,7 +77,7 @@ const SignupForm: React.FC = () => {
           setValue={setUserId}
           setErrors={setErrors}
         />
-        {isUserId === true ? null : <p>아이디를 입력해주세요.</p>}
+        {isUserId === true ? null : <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>}
         <SignupInput
           labelName="Password"
           type="password"
@@ -85,7 +85,7 @@ const SignupForm: React.FC = () => {
           setValue={setPassword}
           setErrors={setErrors}
         />
-        {ispassword === true ? null : <p>비밀번호를 입력해주세요.</p>}
+        {ispassword === true ? null : <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>}
         <PasswordText>
           Passwords must contain at least eight characters, including at least 1
           letter and 1 number.
@@ -98,7 +98,7 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {isPasswordConfirm === true ? null : (
-          <p>비밀번호가 일치하지 않습니다.</p>
+          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {isUserId &&
           isDisplayname &&
