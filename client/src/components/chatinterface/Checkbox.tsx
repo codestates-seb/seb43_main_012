@@ -87,6 +87,10 @@ const Checkbox = ({
   isHovered,
   setIsHovered,
 }: CheckboxProps) => {
+  const [uniqueId] = useState<string>(
+    () => `checkbox_${Math.random().toString(36).substring(7)}`,
+  );
+
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     console.log('checked handler!');
     setIsChecked(event.target.checked);
@@ -109,10 +113,10 @@ const Checkbox = ({
         type="checkbox"
         checked={isChecked}
         onChange={handleCheckboxChange}
-        id="checkbox"
+        id={uniqueId}
       />
       <label
-        htmlFor="checkbox"
+        htmlFor={uniqueId}
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
       ></label>
