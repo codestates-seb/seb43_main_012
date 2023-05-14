@@ -1,14 +1,14 @@
-import { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import OAuthButton from "../member/OAuthButton";
+import { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import OAuthButton from '../member/OAuthButton';
 import {
   LoginBox,
   LoginWrapper,
   SignupLink,
   LoginView,
-} from "../../styles/LoginStyle";
-import LoginForm from "../member/LoginForm";
-import { ModalBackdrop } from "../../styles/CharacterStyle";
+} from '../../styles/LoginStyle';
+import LoginForm from '../member/LoginForm';
+import { ModalBackdrop } from '../../styles/CharacterStyle';
 
 type ModalLoginProps = {
   isOpen: boolean;
@@ -21,7 +21,10 @@ function ModalLogin({
   setIsOpen,
   setIsLoggedIn,
 }: ModalLoginProps): ReactElement {
-  const closeModalHandler = () => {
+  const closeModalHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
     setIsOpen(false);
   };
 
@@ -29,7 +32,7 @@ function ModalLogin({
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    console.log("login click!");
+    console.log('login click!');
     setIsLoggedIn(true);
     setIsOpen(false);
   };

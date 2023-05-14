@@ -83,21 +83,23 @@ const Main = () => {
   return (
     <M.MainBox>
       {/* <div>Main Chat Interface</div> */}
-      <ChatInput />
-      <M.TitleBox>
-        <EditableTitle
-          cValue={conversation}
-          setCValue={setConversation}
-          editState={editTitleState}
-          setEditState={setEditTitleState}
-          editConfirm={editConfirm}
-        />
-        <EditSaveUI
-          editState={editTitleState}
-          setEditState={setEditTitleState}
-          setEditConfirm={setEditConfirm}
-        />
-      </M.TitleBox>
+      <M.FixedTopBox>
+        <ChatInput />
+        <M.TitleBox>
+          <EditableTitle
+            cValue={conversation}
+            setCValue={setConversation}
+            editState={editTitleState}
+            setEditState={setEditTitleState}
+            editConfirm={editConfirm}
+          />
+          <EditSaveUI
+            editState={editTitleState}
+            setEditState={setEditTitleState}
+            setEditConfirm={setEditConfirm}
+          />
+        </M.TitleBox>
+      </M.FixedTopBox>
 
       <TempBackdrop>
         <img
