@@ -34,7 +34,9 @@ type MainProps = {
 //to fix current width, would have to measure the box width!
 const MainBox = styled(M.MainBox)<MainProps>`
   max-width: ${(props) =>
-    props.isOpen ? 'var(--size-minwidth-pc-main)' : 'none'};
+    props.isOpen
+      ? 'var(--size-minwidth-pc-main)'
+      : 'var(--size-minwidth-pc-main)'}; //change this when you adjust the max-width;
 `;
 
 async function getJSON() {
@@ -52,6 +54,11 @@ async function getJSON() {
       console.log(res.data);
     })
     .catch((err) => console.log(err));
+}
+
+function scrollToLastQ() {
+  const lastQnA = document.getElementById('qnaList')?.lastChild as HTMLElement;
+  lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
 const Main = ({ isOpen }: MainProps) => {
@@ -89,10 +96,11 @@ const Main = ({ isOpen }: MainProps) => {
     //   const post = await getJSON(): Promise<Post>
     // })();
     console.log(conversation);
+    if (conversation.title) scrollToLastQ();
   }, [conversation]);
 
   return (
-    <MainBox isOpen>
+    <MainBox isOpen={isOpen}>
       <M.MainBackdrop />
       <M.FixedTopBox>
         <ChatInput cValue={conversation} setCValue={setConversation} />
