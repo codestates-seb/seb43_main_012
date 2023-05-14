@@ -11,17 +11,17 @@ export type GetPostResponse = {
   data: Post;
 };
 
-export type QnA = {
-  conversationId: number;
-  memberId: 1;
-  title: string;
-  answerSummary: string;
-  modifiedAt: string;
-  bookmarks: string;
-  tags: string;
-  saved: boolean;
-  pinned: boolean;
-};
+// export type QnA = {
+//   conversationId: number;
+//   memberId: 1;
+//   title: string;
+//   answerSummary: string;
+//   modifiedAt: string;
+//   bookmarks: string;
+//   tags: string;
+//   saved: boolean;
+//   pinned: boolean;
+// };
 
 export type GetNewQnAResponse = {
   data: QnA;
@@ -45,4 +45,62 @@ export type openAIAnswer = {
 
 export type GetOpenAIResponse = {
   data: openAIAnswer;
+};
+
+export type QnA = {
+  qnaId: number;
+  question: string;
+  answer: string;
+  bookmarkStatus: boolean;
+};
+
+export type Bookmark = {
+  bookmarkId: number;
+  bookmarkName: string;
+};
+
+export type Tag = {
+  tagId: number;
+  tagName: string;
+};
+
+export type Conversation = {
+  conversationId: number;
+  title: string;
+  member: {
+    memberId: string;
+    avatarLink: string;
+  };
+  answerSummary: string;
+  createdAt: string;
+  modifiedAt: string;
+
+  qnaList: QnA[];
+  saved: boolean;
+  pinned: boolean;
+  published: boolean;
+  bookmarks: Bookmark[];
+  tags: Tag[];
+  viewCount: number;
+  activityLevel: number;
+};
+
+export const initialConvData = {
+  conversationId: 1,
+  title: "Exploring React Proxy's Misuses: A Detailed Scenario",
+  member: {
+    memberId: "mumblefish",
+    avatarLink: "http://..",
+  },
+  answerSummary: "AnswerSummary",
+  createdAt: "2023-05-13T14:48:00.000Z",
+  modifiedAt: "2023-05-13T14:48:00.000Z",
+  qnaList: [{} as QnA],
+  saved: false,
+  pinned: false,
+  published: false,
+  bookmarks: [{} as Bookmark],
+  tags: [{} as Tag],
+  viewCount: 0,
+  activityLevel: 0,
 };

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   DialogBox,
   UserInfo,
@@ -9,9 +9,9 @@ import {
   SignOutFooter,
   SignoutItem,
   EmailItem,
-} from "../../styles/TopNavStyle";
-import { ModalBackdrop } from "../../styles/CharacterStyle";
-import styled from "styled-components";
+} from '../../styles/TopNavStyle';
+import { ModalBackdrop } from '../../styles/CharacterStyle';
+import styled from 'styled-components';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
@@ -47,7 +47,7 @@ const DialogBoxUserIcon = ({
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     //close modal
-    console.log("dialog item clicked!");
+    console.log('dialog item clicked!');
     setIsUserDialogOpen(false);
   };
 
@@ -71,7 +71,7 @@ const DialogBoxUserIcon = ({
               <Link to="/mypage">Profile</Link>
             </DialogSelectItem>
             <DialogSelectItem onClick={handleDialogItemClick}>
-              <Link to="/bookmarks">Library</Link>
+              <Link to="/collection">Library</Link>
             </DialogSelectItem>
             <DialogSelectItem>Public Chats</DialogSelectItem>
           </DialogItems>

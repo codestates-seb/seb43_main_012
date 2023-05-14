@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
-import ChatInput from "../components/chatinterface/ChatInput";
-import bgImg from "../assets/temp/screenshot_mainpage.png";
-import styled from "styled-components";
-import * as M from "../styles/MainStyle";
-import { axiosDefault, axiosNgrok } from "../utils/axiosConfig";
+import React, { useState, useEffect } from 'react';
+//import components
+import ChatInput from '../components/chatinterface/ChatInput';
+import EditableTitle from '../components/chatinterface/EditableTitle';
+import EditSaveUI from '../components/chatinterface/EditSaveUI';
+import QnAList from '../components/chatinterface/QnAList';
+import bgImg from '../assets/temp/screenshot_mainpage.png';
+//import style
+import styled from 'styled-components';
+import * as M from '../styles/MainStyle';
+import { axiosDefault, axiosNgrok } from '../utils/axiosConfig';
 import {
   Post,
   GetPostResponse,
@@ -11,7 +16,9 @@ import {
   GetNewQnAResponse,
   openAIAnswer,
   GetOpenAIResponse,
-} from "../data/dataTypes";
+  Conversation,
+  initialConvData,
+} from '../data/dataTypes';
 
 const TempBackdrop = styled.div`
   display: flex;
@@ -22,10 +29,10 @@ const TempBackdrop = styled.div`
 async function getJSON() {
   const post = await axiosDefault
     .post<GetOpenAIResponse>(
-      "http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question",
+      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question',
       {
         conversationId: 20,
-        question: "What is your favorite food?",
+        question: 'What is your favorite food?',
       },
     )
     .then((res) => {
@@ -37,6 +44,10 @@ async function getJSON() {
 }
 
 const Main = () => {
+  //set initial State of conversation; -> store
+  const [conversation, setConversation] = useState(initialConvData);
+  const [editTitleState, setEditTitleState] = useState<boolean>(false);
+  const [editConfirm, setEditConfirm] = useState<boolean>(true);
   // const [conv, setConv] = useState<openAIAnswer>({
   //   conversationId: 1,
   //   title: "",
@@ -66,12 +77,28 @@ const Main = () => {
     // (async () => {
     //   const post = await getJSON(): Promise<Post>
     // })();
-  });
+    console.log(conversation);
+  }, []);
 
   return (
     <M.MainBox>
       {/* <div>Main Chat Interface</div> */}
       <ChatInput />
+      <M.TitleBox>
+        <EditableTitle
+          cValue={conversation}
+          setCValue={setConversation}
+          editState={editTitleState}
+          setEditState={setEditTitleState}
+          editConfirm={editConfirm}
+        />
+        <EditSaveUI
+          editState={editTitleState}
+          setEditState={setEditTitleState}
+          setEditConfirm={setEditConfirm}
+        />
+      </M.TitleBox>
+
       <TempBackdrop>
         <img
           src={bgImg}
@@ -79,9 +106,9 @@ const Main = () => {
             width: 1000,
             height: 692,
             zIndex: -1,
-            opacity: 0.3,
+            opacity: 0.1,
             // objectFit: "cover",
-            position: "absolute",
+            position: 'absolute',
             top: 90,
           }}
         />

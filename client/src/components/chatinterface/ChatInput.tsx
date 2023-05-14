@@ -17,10 +17,11 @@ const ChatInput = () => {
 
   const qBoxProps = useInput({
     inputType: "text",
-    qValue,
-    setQValue,
+    value: qValue,
+    setValue: setQValue,
     placeholder: "What are you itching to know today?",
     handleInput,
+    id: "questionInput",
   });
   const questionInput = Input({
     StyledComponent: InputQBox,

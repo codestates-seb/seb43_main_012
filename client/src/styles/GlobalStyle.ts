@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     --color-default-lightestgray:  #FAFAFA;
     --color-default-gray: #757575;
     --color-default-inactive: #D9D9D9;
+    --color-default-border: #C9C9C9;
     --color-default-disabled: #999;
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
     --color-border-dialogbox: rgba(117, 117, 117, 0.5);
@@ -41,10 +42,12 @@ const GlobalStyle = createGlobalStyle`
     --size-minwidth-pc-main: 700px;
 
     --text-fontsize-link: 20px;
+    --text-fontsize-title: 24px;
     --text-fontsize-logo: 25px;
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
     --text-fontsize-qinput: 18px;
+    --text-fontweight-medium: 500;
 
     --padding-top-topnavbox: 14px;
     --padding-left-topnavbox: 32px;

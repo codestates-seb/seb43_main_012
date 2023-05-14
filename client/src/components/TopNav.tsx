@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 //import style
-import * as TN from "../styles/TopNavStyle";
-import { Character } from "../styles/CharacterStyle";
+import * as TN from '../styles/TopNavStyle';
+import { Character } from '../styles/CharacterStyle';
 
 //import icons
 // @ts-ignore
-import { ReactComponent as HistoryIcon } from "../assets/icons/iconHistory.svg";
+import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
 // @ts-ignore
-import { ReactComponent as ChatIcon } from "../assets/icons/iconNewChat.svg";
+import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
 // @ts-ignore
-import { ReactComponent as CollectionIcon } from "../assets/icons/iconCollectionsNew.svg";
+import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
 // @ts-ignore
-import { ReactComponent as AnonymousIcon } from "../assets/icons/iconNonMember.svg";
+import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
 
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
@@ -56,6 +56,7 @@ const TopNav = ({
       | React.MouseEvent<SVGSVGElement, MouseEvent>
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
+    e.preventDefault();
     // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
     if (isLoggedIn && !isUserDialogOpen) {
@@ -73,12 +74,12 @@ const TopNav = ({
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === '/') {
       const element = document.getElementById(
-        "questionInput",
+        'questionInput',
       ) as HTMLInputElement | null;
       if (element) {
-        console.log("element found!");
+        console.log('element found!');
         element.focus();
       }
       // navigate(0);
@@ -93,17 +94,26 @@ const TopNav = ({
       <TN.NavIconsBox>
         <TN.AvatarBox className="navitem">
           <Link to="/history">
-            <HistoryIcon className="svg" />
+            <HistoryIcon
+              className="svg"
+              onClick={isLoggedIn ? undefined : handleUserBtnClick}
+            />
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem">
           <Link to="/">
-            <ChatIcon className="svg center" />
+            <ChatIcon
+              className="svg center"
+              onClick={isLoggedIn ? undefined : handleUserBtnClick}
+            />
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem">
           <Link to="/collection">
-            <CollectionIcon className="svg" />
+            <CollectionIcon
+              className="svg"
+              onClick={isLoggedIn ? undefined : handleUserBtnClick}
+            />
           </Link>
         </TN.AvatarBox>
       </TN.NavIconsBox>
