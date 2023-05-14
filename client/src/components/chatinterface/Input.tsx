@@ -1,5 +1,5 @@
-import { ReactElement, useEffect, useRef } from "react";
-import { StyledComponent } from "styled-components";
+import { ReactElement, useEffect, useRef } from 'react';
+import { StyledComponent } from 'styled-components';
 
 type Props = {
   StyledComponent: StyledComponent<any, any, any, any>;
@@ -7,7 +7,7 @@ type Props = {
   inputProps: {
     [key: string]: any;
   };
-  inputExists: boolean;
+  inputExists?: boolean;
   handleInput: () => void;
   SVGStyledComponent?: StyledComponent<any, any, any, any>;
   SubmitSVGButton?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -34,11 +34,12 @@ function Input({
   return (
     <StyledComponent>
       {Boolean(inputName) && <label>{inputName}</label>}
-      <input {...inputProps} ref={inputRef} id="questionInput" />
+      <input {...inputProps} ref={inputRef} />
       {SVGStyledComponent && SubmitSVGButton && (
         <button
           onClick={handleInput}
-          {...(inputExists ? {} : { disabled: true })}
+          {...(inputExists ? {} : { disabled: true })} // and if you're logged in, if not, open an error
+          //"you need to login first!"
         >
           <SubmitSVGButton />
         </button>

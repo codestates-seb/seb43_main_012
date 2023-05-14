@@ -8,10 +8,11 @@ import React, {
 
 type InitProps = {
   inputType: string;
-  qValue: string;
-  setQValue: Dispatch<SetStateAction<string>>;
-  placeholder?: string;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
   handleInput: () => void;
+  placeholder?: string;
+  id?: string;
 };
 
 export type InputProps = {
@@ -20,17 +21,19 @@ export type InputProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
+  id?: string;
 };
 
 export function useInput({
   inputType,
-  qValue,
-  setQValue,
-  placeholder,
+  value,
+  setValue,
   handleInput,
+  placeholder,
+  id,
 }: InitProps): InputProps {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQValue(e.target.value);
+    setValue(e.target.value);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -42,10 +45,11 @@ export function useInput({
 
   return {
     type: inputType,
-    value: qValue,
+    value,
     onChange: handleChange,
     placeholder,
     onKeyDown: handleKeyDown,
+    id,
   };
 }
 
