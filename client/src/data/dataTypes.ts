@@ -24,7 +24,7 @@ export type GetPostResponse = {
 // };
 
 export type GetNewQnAResponse = {
-  data: QnA;
+  data: QnAType;
 };
 
 export type openAIAnswer = {
@@ -47,19 +47,19 @@ export type GetOpenAIResponse = {
   data: openAIAnswer;
 };
 
-export type QnA = {
+export type QnAType = {
   qnaId: number;
   question: string;
   answer: string;
   bookmarkStatus: boolean;
 };
 
-export type Bookmark = {
+export type BookmarkType = {
   bookmarkId: number;
   bookmarkName: string;
 };
 
-export type Tag = {
+export type TagType = {
   tagId: number;
   tagName: string;
 };
@@ -75,12 +75,12 @@ export type Conversation = {
   createdAt: string;
   modifiedAt: string;
 
-  qnaList: QnA[];
+  qnaList: QnAType[];
   saved: boolean;
   pinned: boolean;
   published: boolean;
-  bookmarks: Bookmark[];
-  tags: Tag[];
+  bookmarks: BookmarkType[];
+  tags: TagType[];
   viewCount: number;
   activityLevel: number;
 };
@@ -95,12 +95,12 @@ export const initialConvData = {
   answerSummary: 'AnswerSummary',
   createdAt: '',
   modifiedAt: '',
-  qnaList: [{} as QnA],
+  qnaList: [] as QnAType[],
   saved: false,
   pinned: false,
   published: false,
-  bookmarks: [{} as Bookmark],
-  tags: [{} as Tag],
+  bookmarks: [] as BookmarkType[],
+  tags: [] as TagType[],
   viewCount: 0,
   activityLevel: 0,
 };

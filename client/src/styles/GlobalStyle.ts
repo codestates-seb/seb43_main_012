@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     --color-default-green: #77AD69;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #E7CC8F;
+    --color-default-yellow-50: rgba(231, 204, 143, 0.5);
     --color-default-yellow-title: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
@@ -31,6 +32,7 @@ const GlobalStyle = createGlobalStyle`
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
     --color-border-dialogbox: rgba(117, 117, 117, 0.5);
     --color-dropshadow-dialogbox: rgba(117, 117, 117, 0.1);
+    --color-checked-inactive: #CCCCCC;
 
     --size-minheight-topnav: 105px;
     --size-minwidth-topnavicons: 500px;
@@ -40,6 +42,7 @@ const GlobalStyle = createGlobalStyle`
     --size-avatar-hover: 54px;
     --size-avatar-center-hover: 70px;
     --size-minwidth-pc-main: 700px;
+    --size-maxwidth-pc-main: 1080px;
 
     --text-fontsize-link: 20px;
     --text-fontsize-title: 24px;
