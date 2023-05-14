@@ -9,10 +9,12 @@ import React, {
 import styled from 'styled-components';
 
 type CheckboxProps = {
+  id?: number;
   isChecked: boolean;
   setIsChecked: Dispatch<SetStateAction<boolean>>;
   isHovered: boolean;
   setIsHovered?: Dispatch<SetStateAction<boolean>>;
+  handleCheck: (...params: any[]) => void; //how to set any params
 };
 
 type StyleProps = {
@@ -82,29 +84,32 @@ const Round = styled.div<StyleProps>`
 `;
 
 const Checkbox = ({
+  id,
   isChecked,
   setIsChecked,
   isHovered,
   setIsHovered,
+  handleCheck,
 }: CheckboxProps) => {
   const [uniqueId] = useState<string>(
     () => `checkbox_${Math.random().toString(36).substring(7)}`,
   );
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('checked handler!');
+    // console.log('checked handler!');
+    handleCheck({ qnaId: id, isChecked: event.target.checked });
     setIsChecked(event.target.checked);
   };
 
   const handleHover = (event: MouseEvent<HTMLLabelElement>) => {
     if (setIsHovered) {
-      console.log('hovering: ', event.type === 'mouseenter');
+      // console.log('hovering: ', event.type === 'mouseenter');
       setIsHovered(event.type === 'mouseenter');
     }
   };
 
   useEffect(() => {
-    console.log('remounting checkbox!');
+    // console.log('remounting checkbox!');
   }, [isHovered]);
 
   return (

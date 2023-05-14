@@ -66,6 +66,34 @@ const Main = ({ isOpen }: MainProps) => {
   const [conversation, setConversation] = useState(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(true);
+
+  const handleCheckQnAToSave = ({
+    qnaId,
+    isChecked,
+  }: {
+    qnaId: number;
+    isChecked: boolean;
+  }) => {
+    //turn that qnaId's bookmarkStatus to false
+    const QnAToNotSave = conversation.qnaList.find(
+      (qna) => qna.qnaId === qnaId,
+    );
+
+    if (QnAToNotSave) {
+      const updatedQnA = { ...QnAToNotSave, bookmarkStatus: false };
+      const updatedQnAList = [
+        updatedQnA,
+        ...conversation.qnaList.filter((qna) => qna.qnaId !== qnaId),
+      ].sort((a, b) => a.qnaId - b.qnaId);
+
+      console.log('to save: ', updatedQnAList);
+
+      setConversation({
+        ...conversation,
+        qnaList: updatedQnAList,
+      });
+    }
+  };
   // const [conv, setConv] = useState<openAIAnswer>({
   //   conversationId: 1,
   //   title: "",
@@ -121,7 +149,10 @@ const Main = ({ isOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      <QnAList qnaItems={conversation.qnaList} />
+      <QnAList
+        qnaItems={conversation.qnaList}
+        handleCheck={handleCheckQnAToSave}
+      />
 
       {/* <TempBackdrop>
         <img
