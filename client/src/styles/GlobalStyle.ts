@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     --color-default-green: #77AD69;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #E7CC8F;
+    --color-default-yellow-title: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
     --color-default-gray: #757575;

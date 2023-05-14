@@ -63,13 +63,12 @@ function App() {
               setIsLoggedIn={setIsLoggedIn}
             />
           )}
-          {showHistory && <History />}
-          {showPinnedItems && <CollectionPins />}
+          {/* {showHistory && <History />}
+          {showPinnedItems && <CollectionPins />} */}
           <Routes>
-            <Route path="/" element={<Main />}>
-              Main
-            </Route>
-            <Route path="/bookmarks" element={<Collections />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/collection" element={<Collections />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/counter" element={<CounterExample />} />
             <Route
