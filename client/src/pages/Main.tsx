@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ChatInput from "../components/chatinterface/ChatInput";
 import bgImg from "../assets/temp/screenshot_mainpage.png";
 import styled from "styled-components";
+import * as M from "../styles/MainStyle";
 import { axiosDefault, axiosNgrok } from "../utils/axiosConfig";
 import {
   Post,
@@ -68,9 +69,10 @@ const Main = () => {
   });
 
   return (
-    <>
+    <M.MainBox>
       {/* <div>Main Chat Interface</div> */}
       <ChatInput />
+      <button disabled>new button</button>
       <TempBackdrop>
         <img
           src={bgImg}
@@ -85,7 +87,7 @@ const Main = () => {
           }}
         />
       </TempBackdrop>
-    </>
+    </M.MainBox>
   );
 };
 

@@ -1,27 +1,36 @@
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 type InitProps = {
-  initVal: string;
   inputType: string;
+  qValue: string;
+  setQValue: React.Dispatch<React.SetStateAction<string>>;
+  placeholder?: string;
 };
 
 export type InputProps = {
+  type: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  type: string;
+  placeholder?: string;
 };
 
-export function useInput({ initVal, inputType }: InitProps): InputProps {
-  const [value, setValue] = useState(initVal);
+export function useInput({
+  inputType,
+  qValue,
+  setQValue,
+  placeholder,
+}: InitProps): InputProps {
+  // const [value, setValue] = useState(initVal);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setQValue(e.target.value);
   };
 
   return {
-    value,
-    onChange: handleChange,
     type: inputType,
+    value: qValue,
+    onChange: handleChange,
+    placeholder,
   };
 }
 
