@@ -9,7 +9,7 @@ export function checkId(userId: string) {
   }
   
   export function checkPassword(password: string) {
-    let passwordReg = /^[a-zA-Zㄱ-힣0-9-_.]{8,16}$/;
+    let passwordReg = /^[a-zA-Zㄱ-힣0-9-_.]{8,20}$/;
     return passwordReg.test(password);
   }
   
