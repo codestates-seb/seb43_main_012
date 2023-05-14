@@ -28,16 +28,20 @@ const EditableTitle = ({
 
   useEffect(() => {
     if (value !== cValue.title) setValue(cValue.title);
-  }, [cValue]);
+  }, [cValue, editState]);
 
   useEffect(() => {
     if (editConfirm) {
-      setCValue((prev) => ({ ...prev, title: value }));
+      if (value) setCValue((prev) => ({ ...prev, title: value }));
+      else setValue(cValue.title);
+      //add dispatch function to update conversation title in data!
     }
   }, [editState]);
 
   const handleTitleChange = () => {
-    setCValue((prev) => ({ ...prev, title: value }));
+    if (value) setCValue((prev) => ({ ...prev, title: value }));
+    else setValue(cValue.title);
+    //add dispatch function to update conversation title in data!
     setEditState(false);
   };
 

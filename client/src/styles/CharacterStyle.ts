@@ -13,7 +13,7 @@ export const ModalBackdrop = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(256, 256, 256, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
