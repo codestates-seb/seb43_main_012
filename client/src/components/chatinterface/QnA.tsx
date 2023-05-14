@@ -12,8 +12,15 @@ import {
 
 type qnaProps = {
   qnaItem: QnAType;
+  handleCheck: ({
+    qnaId,
+    isChecked,
+  }: {
+    qnaId: number;
+    isChecked: boolean;
+  }) => void;
 };
-const QnA = ({ qnaItem }: qnaProps) => {
+const QnA = ({ qnaItem, handleCheck }: qnaProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   return (
@@ -21,10 +28,12 @@ const QnA = ({ qnaItem }: qnaProps) => {
       <QnAItem>
         <QnACheckbox>
           <Checkbox
+            id={qnaItem.qnaId}
             isChecked={isChecked}
             setIsChecked={setIsChecked}
             isHovered={isHovered}
             setIsHovered={setIsHovered}
+            handleCheck={handleCheck}
           />
         </QnACheckbox>
         <Center>
@@ -38,6 +47,7 @@ const QnA = ({ qnaItem }: qnaProps) => {
             setIsChecked={setIsChecked}
             isHovered={isHovered}
             setIsHovered={setIsHovered}
+            handleCheck={handleCheck}
           />
         </QnACheckbox>
         <Center>

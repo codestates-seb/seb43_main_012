@@ -5,13 +5,20 @@ import { QnAListBox } from '../../styles/MainStyle';
 
 type QnAListProps = {
   qnaItems: QnAType[];
+  handleCheck: ({
+    qnaId,
+    isChecked,
+  }: {
+    qnaId: number;
+    isChecked: boolean;
+  }) => void;
 };
 
-const QnAList = ({ qnaItems }: QnAListProps) => {
+const QnAList = ({ qnaItems, handleCheck }: QnAListProps) => {
   return (
     <QnAListBox id="qnaList">
       {qnaItems.map((qna) => (
-        <QnA key={qna.qnaId} qnaItem={qna} />
+        <QnA key={qna.qnaId} qnaItem={qna} handleCheck={handleCheck} />
       ))}
     </QnAListBox>
   );

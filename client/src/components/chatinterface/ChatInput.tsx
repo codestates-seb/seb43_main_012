@@ -30,14 +30,14 @@ const ChatInput = ({ cValue, setCValue }: ChatProps) => {
     if (!cValue.title)
       setCValue({
         ...cValue,
-        title: qValue,
+        title: qValue, //send another async request to update title to recommended title
         qnaList: [
           ...cValue.qnaList,
           {
             qnaId: 0,
             question: qValue,
             answer: 'some answer',
-            bookmarkStatus: false,
+            bookmarkStatus: true,
           },
         ],
       });
@@ -50,7 +50,7 @@ const ChatInput = ({ cValue, setCValue }: ChatProps) => {
             qnaId: cValue.qnaList.length,
             question: qValue,
             answer: tempAnswer,
-            bookmarkStatus: false,
+            bookmarkStatus: true,
           },
         ],
       });
