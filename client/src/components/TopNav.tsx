@@ -125,7 +125,7 @@ const TopNav = ({
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem" onClick={handleCollectionsBtnClick}>
-          <Link to="/bookmarks">
+          <Link to="/collection">
             <CollectionIcon className="svg" />
           </Link>
         </TN.AvatarBox>

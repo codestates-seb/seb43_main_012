@@ -24,7 +24,7 @@ export const TopNavBox = styled.header`
 export const LogoBox = styled.div`
   min-width: var(--size-minwidth-logo);
   min-height: 30px;
-  color: var(--color-default-yellow);
+  color: var(--color-default-yellow-title);
   font-size: var(--text-fontsize-logo);
   font-weight: var(--text-fontweight-logo);
   letter-spacing: var(--text-letterspacing-logo);
