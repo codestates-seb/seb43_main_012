@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const InputQBox = styled.div`
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-
+  max-width: var(--size-maxwidth-pc-main);
+  z-index: 995;
   input {
     width: 100%;
     min-height: 2.5rem;

@@ -12,7 +12,7 @@ import { axiosDefault, axiosNgrok } from '../utils/axiosConfig';
 import {
   Post,
   GetPostResponse,
-  QnA,
+  QnAType,
   GetNewQnAResponse,
   openAIAnswer,
   GetOpenAIResponse,
@@ -24,6 +24,7 @@ const TempBackdrop = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  z-index: 1;
 `;
 
 type MainProps = {
@@ -88,10 +89,11 @@ const Main = ({ isOpen }: MainProps) => {
     //   const post = await getJSON(): Promise<Post>
     // })();
     console.log(conversation);
-  }, []);
+  }, [conversation]);
 
   return (
     <MainBox isOpen>
+      <M.MainBackdrop />
       <M.FixedTopBox>
         <ChatInput cValue={conversation} setCValue={setConversation} />
         {Boolean(conversation.title) && (
@@ -111,21 +113,22 @@ const Main = ({ isOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
+      <QnAList qnaItems={conversation.qnaList} />
 
-      <TempBackdrop>
+      {/* <TempBackdrop>
         <img
           src={bgImg}
           style={{
             width: 1000,
             height: 692,
             zIndex: -1,
-            opacity: 0.1,
+            opacity: 0.2,
             // objectFit: "cover",
             position: 'absolute',
-            top: 90,
+            top: 0,
           }}
         />
-      </TempBackdrop>
+      </TempBackdrop> */}
     </MainBox>
   );
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledSpan = styled.span`
   padding-right: var(--padding-right-topnavitems);
@@ -20,6 +20,7 @@ export const TopNavBox = styled.header`
   min-height: var(--size-minheight-topnav);
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
+  background: white;
 `;
 export const LogoBox = styled.div`
   min-width: var(--size-minwidth-logo);

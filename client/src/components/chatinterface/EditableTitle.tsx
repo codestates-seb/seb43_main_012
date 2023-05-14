@@ -32,6 +32,7 @@ const EditableTitle = ({
 
   useEffect(() => {
     if (editConfirm) {
+      //update the conversation
       if (value) setCValue((prev) => ({ ...prev, title: value }));
       else setValue(cValue.title);
       //add dispatch function to update conversation title in data!
