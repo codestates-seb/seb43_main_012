@@ -26,6 +26,16 @@ const TempBackdrop = styled.div`
   justify-content: center;
 `;
 
+type MainProps = {
+  isOpen: boolean;
+};
+
+//to fix current width, would have to measure the box width!
+const MainBox = styled(M.MainBox)<MainProps>`
+  max-width: ${(props) =>
+    props.isOpen ? 'var(--size-minwidth-pc-main)' : 'none'};
+`;
+
 async function getJSON() {
   const post = await axiosDefault
     .post<GetOpenAIResponse>(
@@ -43,7 +53,7 @@ async function getJSON() {
     .catch((err) => console.log(err));
 }
 
-const Main = () => {
+const Main = ({ isOpen }: MainProps) => {
   //set initial State of conversation; -> store
   const [conversation, setConversation] = useState(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
@@ -81,10 +91,10 @@ const Main = () => {
   }, []);
 
   return (
-    <M.MainBox>
+    <MainBox isOpen>
       {/* <div>Main Chat Interface</div> */}
       <M.FixedTopBox>
-        <ChatInput />
+        <ChatInput cValue={conversation} setCValue={setConversation} />
         <M.TitleBox>
           <EditableTitle
             cValue={conversation}
@@ -115,7 +125,7 @@ const Main = () => {
           }}
         />
       </TempBackdrop>
-    </M.MainBox>
+    </MainBox>
   );
 };
 

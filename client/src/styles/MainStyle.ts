@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { InputQBox } from './InputStyle';
 
-export const MainBox = styled.main`
+type MainProps = {
+  fixWidth?: boolean;
+};
+export const MainBox = styled.main<MainProps>`
   position: relative;
   display: flex;
   flex-direction: column;
   min-width: var(--size-minwidth-pc-main);
   padding-top: 20px;
   width: 100%;
+  margin: 0 auto;
 `;
 
 export const FixedTopBox = styled.div`
@@ -16,7 +20,7 @@ export const FixedTopBox = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
+  top: 80px;
   left: 0;
   z-index: 997;
   width: 100%;

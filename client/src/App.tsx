@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 //style
-import GlobalStyle from "./styles/GlobalStyle";
-import { ThemeProvider } from "styled-components";
-import { LightTheme } from "./styles/theme/LightTheme";
+import GlobalStyle from './styles/GlobalStyle';
+import { ThemeProvider } from 'styled-components';
+import { LightTheme } from './styles/theme/LightTheme';
 //pages
-import TopNav from "./components/TopNav";
-import Collections from "./pages/Collections";
-import MyPage from "./pages/MyPage";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Main from "./pages/Main";
-import CounterExample from "./pages/CounterExample";
+import TopNav from './components/TopNav';
+import Collections from './pages/Collections';
+import MyPage from './pages/MyPage';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Main from './pages/Main';
+import CounterExample from './pages/CounterExample';
 //components
-import ModalLogin from "./components/modals/ModalLogin";
-import History from "./components/overlay/History";
-import CollectionPins from "./components/overlay/CollectionPins";
-import DialogBoxUserIcon from "./components/dialogbox/DialogBoxUserIcon";
+import ModalLogin from './components/modals/ModalLogin';
+import History from './components/overlay/History';
+import CollectionPins from './components/overlay/CollectionPins';
+import DialogBoxUserIcon from './components/dialogbox/DialogBoxUserIcon';
 
 function App() {
   //login state, modalOpen dialogOpen State
@@ -59,7 +59,7 @@ function App() {
           {/* {showHistory && <History />}
           {showPinnedItems && <CollectionPins />} */}
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main isOpen={isModalLoginOpen} />} />
             <Route path="/history" element={<History />} />
             <Route path="/collection" element={<Collections />} />
             <Route path="/signup" element={<Signup />} />

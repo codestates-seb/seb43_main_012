@@ -87,14 +87,14 @@ export type Conversation = {
 
 export const initialConvData = {
   conversationId: 1,
-  title: "Exploring React Proxy's Misuses: A Detailed Scenario",
+  title: '',
   member: {
-    memberId: "mumblefish",
-    avatarLink: "http://..",
+    memberId: 'mumblefish',
+    avatarLink: 'http://..',
   },
-  answerSummary: "AnswerSummary",
-  createdAt: "2023-05-13T14:48:00.000Z",
-  modifiedAt: "2023-05-13T14:48:00.000Z",
+  answerSummary: 'AnswerSummary',
+  createdAt: '2023-05-13T14:48:00.000Z',
+  modifiedAt: '2023-05-13T14:48:00.000Z',
   qnaList: [{} as QnA],
   saved: false,
   pinned: false,
