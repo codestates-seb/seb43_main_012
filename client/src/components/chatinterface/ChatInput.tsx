@@ -1,13 +1,29 @@
 import { useInput } from "../../utils/hooks/useInput";
 import Input from "./Input";
-import { InputQBox } from "../../styles/InputStyle";
+import { InputQBox, InputSubmitBtn } from "../../styles/InputStyle";
+// @ts-ignore
+import { ReactComponent as SubmitIcon } from "../../assets/icons/iconSubmit.svg";
+import { useState, useEffect } from "react";
 
 const ChatInput = () => {
-  const qBoxProps = useInput({ initVal: "", inputType: "text" });
+  const [qValue, setQValue] = useState<string>("");
+  const qBoxProps = useInput({
+    inputType: "text",
+    qValue,
+    setQValue,
+    placeholder: "What are you itching to know today?",
+  });
   const questionInput = Input({
     StyledComponent: InputQBox,
     inputProps: qBoxProps,
+    inputExists: Boolean(qValue),
+    SVGStyledComponent: InputSubmitBtn,
+    SubmitSVGButton: SubmitIcon,
   });
+
+  // useEffect(() => {
+  //   console.log("qvalue: ", Boolean(qValue));
+  // }, [qValue]);
 
   return questionInput;
 };
