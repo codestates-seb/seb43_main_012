@@ -131,3 +131,8 @@ export const ButtonWrapper = styled.div`
   justify-content: center;
   width: 100vw;
 `;
+
+export const ErrorMessage = styled.p`
+  font-size: 11px;
+  color: #913535;
+`

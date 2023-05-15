@@ -1,34 +1,41 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import data from '../data/data.json';
+import styled from "styled-components";
+import { useState } from "react";
+import data from "../data/data.json";
 // @ts-ignore
-import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
 // @ts-ignore
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
+import { ReactComponent as ThumbtackSolid } from "../assets/icons/thumbtack-solid.svg";
 
 const Main = styled.main`
   /* display: flex; */
   /* justify-content: space-between; */
   /* background-color: #f0f0f0; */
+  max-width: 1080px;
   padding: 0 40px 0 40px;
+`;
+
+const ContentWraper = styled.div`
+  width: 100%;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: stretch;
+  justify-content: flex-start;
+  /* text-align: center; */
   /* background-color: orange; */
   padding: 5px;
 `;
 
 const Content = styled.a`
-  flex-basis: 17rem;
-  /* width: 30vw; */
+  flex-basis: 30%;
+  /* width: 17rem; */
   /* background-color: #f0f0f0; */
   padding: 5px;
   border: solid;
   border-color: #c9ad6e;
   border-radius: 10px;
+  margin: 0 1% 1% 0;
   p {
     text-align: left;
     word-break: break-all;
@@ -69,7 +76,7 @@ const BookmarkContainer = styled.div`
   width: 10.5rem;
   /* background-color: blue; */
 `;
-const Bookmark = styled.a`
+const Bookmark = styled.button`
   /* background-color: #f0f0f0; */
   padding: 5px;
 `;
@@ -93,7 +100,7 @@ const Tag = styled.a`
   padding: 5px;
 `;
 
-const BookmarkTagContent = styled.main`
+const BookmarkTagContent = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -115,7 +122,10 @@ const BookmarkButton = () => {
 
   return (
     <SvgButton>
-      <BookmarkSolid onClick={handleClick} style={{ fill: clicked ? 'blue' : 'black' }} />
+      <BookmarkSolid
+        onClick={handleClick}
+        style={{ fill: clicked ? "blue" : "black" }}
+      />
     </SvgButton>
   );
 };
@@ -131,6 +141,7 @@ const PinButton = () => {
 const Collections = () => {
   //data를 받아서 map으로 돌리기
   const [content, setContent] = useState(data);
+  const [selectedBookmark, setSelectedBookmark] = useState("");
 
   return (
     <Main>
@@ -139,8 +150,8 @@ const Collections = () => {
             <PinButton />
           </div> */}
       <FixedContentContainer>
-        {data.chat
-          .filter(item => item.fixed)
+        {content.chat
+          .filter((item) => item.fixed)
           .map(({ title, content, bookmark, tags, id }) => (
             <FixedContent key={id} href="#">
               <h3>{title}</h3>
@@ -149,10 +160,10 @@ const Collections = () => {
 
               <div className="tag">
                 {tags.map(
-                  tag => (
+                  (tag) => (
                     // <Tag key={tag} href="#">
                     <span>#{tag} </span>
-                  )
+                  ),
                   // </Tag>
                 )}
               </div>
@@ -163,47 +174,41 @@ const Collections = () => {
       <BookmarkTagContent>
         <div>
           <BookmarkContainer>
-            <Bookmark href="#">All</Bookmark>
-            <Bookmark href="#">AI project </Bookmark>
-            <Bookmark href="#">Pre-project</Bookmark>
-            <Bookmark href="#">Coding test</Bookmark>
-            <Bookmark href="#">interview Prep</Bookmark>
+            {content.bookmark.map((bookmark) => (
+              <Bookmark onClick={() => setSelectedBookmark(bookmark)}>
+                {bookmark}
+              </Bookmark>
+            ))}
           </BookmarkContainer>
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
-            <Tag href="#">React</Tag>
-            <Tag href="#">AI </Tag>
-            <Tag href="#">ML</Tag>
-            <Tag href="#">NLP </Tag>
-            <Tag href="#">React hooks </Tag>
-            <Tag href="#">Writing </Tag>
-            <Tag href="#">Algorithms </Tag>
-            <Tag href="#">Figma </Tag>
-            <Tag href="#">OpenAI </Tag>
-            <Tag href="#">Data Science</Tag>
+            {content.tags.map((tag) => (
+              <Tag href="#">{tag}</Tag>
+            ))}
           </TagContainer>
         </div>
-        <div>
+        <ContentWraper>
           <ContentContainer>
-            {data.chat.map(({ title, content, bookmark, tags, id }) => (
-              <Content key={id} href="#">
-                <h3>{title}</h3>
-                <p>{content}</p>
-                <span className="bookmark">{bookmark}</span>
-
-                <div className="tag">
-                  {tags.map(
-                    tag => (
-                      // <Tag key={tag} href="#">
-                      <span>#{tag} </span>
-                    )
-                    // </Tag>
-                  )}
-                </div>
-              </Content>
-            ))}
+            {content.chat
+              .filter(
+                (item) =>
+                  selectedBookmark === "All" ||
+                  item.bookmark === selectedBookmark,
+              )
+              .map(({ title, content, bookmark, tags, id }) => (
+                <Content key={id} href="#">
+                  <h3>{title}</h3>
+                  <p>{content}</p>
+                  <span className="bookmark">{bookmark}</span>
+                  <div className="tag">
+                    {tags.map((tag) => (
+                      <span key={tag}>#{tag} </span>
+                    ))}
+                  </div>
+                </Content>
+              ))}
           </ContentContainer>
-        </div>
+        </ContentWraper>
 
         <div></div>
       </BookmarkTagContent>
