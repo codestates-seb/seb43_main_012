@@ -36,50 +36,51 @@ function App() {
     <div className="App">
       <ThemeProvider theme={LightTheme}>
         <GlobalStyle />
-        <Router>
-          <Suspense fallback={<Loading loadingGif={loadingGif} />} />
-          <TopNav
-            isLoggedIn={isLoggedIn}
-            isUserDialogOpen={isUserDialogOpen}
-            setIsUserDialogOpen={setIsUserDialogOpen}
-            setIsModalLoginOpen={setIsModalLoginOpen}
-            setDialogPosition={setDialogPosition}
-          />
-          {isModalLoginOpen && (
-            <ModalLogin
-              isOpen={isModalLoginOpen}
-              setIsOpen={setIsModalLoginOpen}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-          )}
-          {isUserDialogOpen && (
-            <DialogBoxUserIcon
-              dialogPosition={dialogPosition}
+        <Suspense fallback={<Loading />}>
+          <Router>
+            <TopNav
+              isLoggedIn={isLoggedIn}
+              isUserDialogOpen={isUserDialogOpen}
               setIsUserDialogOpen={setIsUserDialogOpen}
-              setIsLoggedIn={setIsLoggedIn}
+              setIsModalLoginOpen={setIsModalLoginOpen}
+              setDialogPosition={setDialogPosition}
             />
-          )}
-          {/* {showHistory && <History />}
+            {isModalLoginOpen && (
+              <ModalLogin
+                isOpen={isModalLoginOpen}
+                setIsOpen={setIsModalLoginOpen}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            )}
+            {isUserDialogOpen && (
+              <DialogBoxUserIcon
+                dialogPosition={dialogPosition}
+                setIsUserDialogOpen={setIsUserDialogOpen}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            )}
+            {/* {showHistory && <History />}
           {showPinnedItems && <CollectionPins />} */}
-          <Routes>
-            <Route path="/" element={<Main isOpen={isModalLoginOpen} />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/collection" element={<Collections />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/counter" element={<CounterExample />} />
-            <Route
-              path="/login"
-              element={
-                <Login
-                  isOpen={isModalLoginOpen}
-                  setIsOpen={setIsModalLoginOpen}
-                  setIsLoggedIn={setIsLoggedIn}
-                />
-              }
-            />
-            <Route path="/mypage" element={<MyPage />} />
-          </Routes>
-        </Router>
+            <Routes>
+              <Route path="/" element={<Main isOpen={isModalLoginOpen} />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/collection" element={<Collections />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/counter" element={<CounterExample />} />
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    isOpen={isModalLoginOpen}
+                    setIsOpen={setIsModalLoginOpen}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              />
+              <Route path="/mypage" element={<MyPage />} />
+            </Routes>
+          </Router>
+        </Suspense>
       </ThemeProvider>
     </div>
   );
