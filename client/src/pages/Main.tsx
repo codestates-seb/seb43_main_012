@@ -71,6 +71,7 @@ const Main = ({ isOpen }: MainProps) => {
   const [conversation, setConversation] = useState(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(true);
+  const [qNum, setQNum] = useState<number>(0);
 
   const handleCheckQnAToSave = ({
     qnaId,
@@ -129,14 +130,21 @@ const Main = ({ isOpen }: MainProps) => {
     //   const post = await getJSON(): Promise<Post>
     // })();
     console.log(conversation);
-    if (conversation.title) scrollToLastQ(); //do it when it's only asking more...
   }, [conversation]);
+
+  useEffect(() => {
+    if (conversation.title) scrollToLastQ(); //do it when it's only asking more...
+  }, [qNum]);
 
   return (
     <MainBox isOpen={isOpen}>
       <M.MainBackdrop />
       <M.FixedTopBox>
-        <ChatInput cValue={conversation} setCValue={setConversation} />
+        <ChatInput
+          cValue={conversation}
+          setCValue={setConversation}
+          setQNum={setQNum}
+        />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle

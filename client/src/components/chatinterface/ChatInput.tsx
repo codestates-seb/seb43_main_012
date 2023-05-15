@@ -9,8 +9,9 @@ import { Conversation } from '../../data/dataTypes';
 type ChatProps = {
   cValue: Conversation;
   setCValue: Dispatch<SetStateAction<Conversation>>;
+  setQNum: Dispatch<SetStateAction<number>>;
 };
-const ChatInput = ({ cValue, setCValue }: ChatProps) => {
+const ChatInput = ({ cValue, setCValue, setQNum }: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
 
   const tempAnswer = `The error message you're seeing typically occurs when you're trying to access the 'map' function on an undefined or null value. To fix this issue, you need to ensure that the array you're trying to map over is defined and not empty.
@@ -57,6 +58,7 @@ const ChatInput = ({ cValue, setCValue }: ChatProps) => {
     //update the QnA.
     //empty qValue
     setQValue('');
+    setQNum((prev) => prev + 1);
   };
 
   const qBoxProps = useInput({
