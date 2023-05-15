@@ -1,10 +1,14 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import OAuthButton from '../Member/OAuthButton';
-import { LoginBox, LoginWrapper, SignupLink, LoginView } from '../../styles/LoginStyle';
-import LoginForm from '../Member/LoginForm';
+import OAuthButton from '../member/OAuthButton';
+import {
+  LoginBox,
+  LoginWrapper,
+  SignupLink,
+  LoginView,
+} from '../../styles/LoginStyle';
+import LoginForm from '../member/LoginForm';
 import { ModalBackdrop } from '../../styles/CharacterStyle';
-
 
 type ModalLoginProps = {
   isOpen: boolean;
@@ -17,18 +21,28 @@ function ModalLogin({
   setIsOpen,
   setIsLoggedIn,
 }: ModalLoginProps): ReactElement {
-
-  const closeModalHandler = () => {
+  const closeModalHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
     setIsOpen(false);
   };
 
+  const handleLoginClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    console.log('login click!');
+    setIsLoggedIn(true);
+    setIsOpen(false);
+  };
 
   return (
     <LoginBox>
       <LoginWrapper>
         {isOpen && (
-          <ModalBackdrop>
-            <LoginView>
+          <ModalBackdrop onClick={closeModalHandler}>
+            <LoginView onClick={handleLoginClick}>
               <OAuthButton buttonText="Log in with Google" brand="google" />
               <OAuthButton
                 buttonText="Log in with KakaoTalk"

@@ -1,18 +1,38 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
 :root {
+
+    --b100: #000;
+    --b80: #333;
+    --b70: #555;
+    --b60: #777;
+    --b50: #999;
+    --b45: #aaa;
+    --b40: #bbb;
+    --b30: #e6e6e8;
+    --b20: #ececf1;
+    --b15: #f2f2f4;
+    --b10: #fafafc;
+    --b0: #fff;
+
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
-    --color-default-yellow: #C9AD6E;
+    --color-default-yellow: #E7CC8F;
+    --color-default-yellow-50: rgba(231, 204, 143, 0.5);
+    --color-default-yellow-title: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
     --color-default-gray: #757575;
+    --color-default-inactive: #D9D9D9;
+    --color-default-border: #C9C9C9;
+    --color-default-disabled: #999;
     --color-default-avatarbg: rgba(119, 173, 105, 0.6);
     --color-border-dialogbox: rgba(117, 117, 117, 0.5);
     --color-dropshadow-dialogbox: rgba(117, 117, 117, 0.1);
+    --color-checked-inactive: #CCCCCC;
 
     --size-minheight-topnav: 105px;
     --size-minwidth-topnavicons: 500px;
@@ -21,11 +41,16 @@ const GlobalStyle = createGlobalStyle`
     --size-avatar-default: 48px;
     --size-avatar-hover: 54px;
     --size-avatar-center-hover: 70px;
+    --size-minwidth-pc-main: 700px;
+    --size-maxwidth-pc-main: 1080px;
 
     --text-fontsize-link: 20px;
+    --text-fontsize-title: 24px;
     --text-fontsize-logo: 25px;
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
+    --text-fontsize-qinput: 18px;
+    --text-fontweight-medium: 500;
 
     --padding-top-topnavbox: 14px;
     --padding-left-topnavbox: 32px;
@@ -49,6 +74,7 @@ body {
     // margin-top: 30px;
     font-family: 'Scandia', sans-serif;
     padding-top: var(--size-minheight-topnav);
+    overflow: hidden;
 }
 
 a:link { text-decoration: none; color: inherit;}
