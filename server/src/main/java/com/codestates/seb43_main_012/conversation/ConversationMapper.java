@@ -23,8 +23,6 @@ public class ConversationMapper {
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation)
     {
-        //if(qnaList.isEmpty()) return new ConversationDto.Response();
-
         Long conversationId = conversation.getConversationId();
         String title = conversation.getTitle();
         List<String> bookmarks = stringToList(conversation.getBookmarks());
@@ -62,6 +60,26 @@ public class ConversationMapper {
                 conversation.getPinned(),
                 conversation.getTitle()
         );
+        return response;
+    }
+
+    public ConversationDto.ResponseForAll conversationToConversationResponseDto(Conversation conv)
+    {
+        ConversationDto.ResponseForAll response =
+                new ConversationDto.ResponseForAll(
+                        conv.getConversationId(),
+                        new MemberDto.ResponseForConversation(conv.getMember().getId(),conv.getMember().getUsername()),
+                        conv.getTitle(),
+                        conv.getAnswerSummary(),
+                        conv.getModifiedAt(),
+                        stringToList(conv.getBookmarks()),
+                        stringToList(conv.getTags()),
+                        conv.getSaved(),
+                        conv.getPinned(),
+                        conv.getPublished(),
+                        conv.getViewCount(),
+                        conv.getActivityLevel()
+                );
         return response;
     }
 

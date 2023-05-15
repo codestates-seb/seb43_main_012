@@ -49,8 +49,8 @@ public class Conversation {
     {
         this.conversationId = conversationId;
     }
-//    public void addQnA(QnA qna)
-//    {
-//        this.qnaList.add(qna);
-//    }
+    public void addQnA(QnA qna)
+    {
+        this.qnaList.add(qna);
+    }
 }

@@ -31,4 +31,6 @@ public class CollectionDto {
         private Boolean pinned;
         private String title;
     }
+
+
 }

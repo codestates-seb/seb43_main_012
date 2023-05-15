@@ -110,10 +110,11 @@ public class QnAService {
             conversation.setAnswerSummary(answer);
         }
         qna.setConversation(conversation);
-        //conversation.addQnA(qna);
+
         conversation.setModifiedAt(LocalDateTime.now());
         conversationService.saveConversation(conversation);
         QnA savedQnA = saveQnA(qna);
+        conversation.addQnA(savedQnA);
 
         Map<String, String> message2 = new HashMap<>();
         message2.put("role", "assistant");

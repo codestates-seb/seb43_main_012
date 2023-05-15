@@ -1,7 +1,6 @@
 package com.codestates.seb43_main_012.bookmark;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
-import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +25,8 @@ public class Bookmark {
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 
+    @Setter
+    private String bookmarkName;
     public void addConversation(Conversation conversation)
     {
         this.conversation = conversation;

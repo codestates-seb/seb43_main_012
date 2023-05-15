@@ -1,9 +1,9 @@
 package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.Bookmark;
+import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
 import com.codestates.seb43_main_012.collection.CollectionDto;
-import com.codestates.seb43_main_012.qna.QnA;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/conversation")
+@RequestMapping("/conversations")
 public class ConversationController {
 
     @Value("${apikey}")
@@ -47,6 +47,7 @@ public class ConversationController {
         qnaService.requestAnswer(dto);
         //ConversationDto.Response response = mapper.conversationToConversationResponseDto(conversation);
         Conversation savedConversation = conversationService.findConversation(conversationId);
+        savedConversation.getQnaList();
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 
@@ -71,28 +72,20 @@ public class ConversationController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
-    @PostMapping("/{conversation-id}/collection")
+    @PostMapping("/{conversation-id}/bookmarks")
     public ResponseEntity collectConversation(@PathVariable("conversation-id") long conversationId,
-                                              @RequestBody CollectionDto.Post collectionDto)
+                                              @RequestBody BookmarkDto.Post bookmarkDto)
     {
-        Conversation savedConversation = conversationService.createCollection(conversationId, collectionDto);
+        Conversation savedConversation = conversationService.createBookmark(conversationId, bookmarkDto);
 
         return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(savedConversation),HttpStatus.OK);
     }
 
-    @PostMapping("/{conversation-id}/bookmark")
-    public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
-                                               long memberId)
+    @GetMapping("/bookmarks/{bookmark-name}")
+    public ResponseEntity bookmarkConversation(@PathVariable("bookmark-name") String bookmarkName)
     {
-        if(conversationService.findConversation(conversationId).getBookmarks() != null) throw new RuntimeException("이미 북마크");
+        List<Bookmark> bookmarks = conversationService.findBookmarkedConversations(bookmarkName);
 
-        Bookmark bookmark = new Bookmark();
-        bookmark.setMemberId(memberId);
-        Conversation conversation = conversationService.findConversation(conversationId);
-        conversation.setBookmarks("Y");
-        bookmark.addConversation(conversationService.saveConversation(conversation));
-        Bookmark savedBookmark = bookmarkRepository.save(bookmark);
-
-        return new ResponseEntity<>(savedBookmark,HttpStatus.OK);
+        return new ResponseEntity<>(bookmarks,HttpStatus.OK);
     }
 }
