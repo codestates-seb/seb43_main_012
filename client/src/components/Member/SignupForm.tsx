@@ -1,32 +1,32 @@
-import { useState, useEffect } from "react";
-import SignupInput from "../Member/SignupInput";
-import Agreement from "./SignupAgreement";
-import ModalCharacter from "../modals/ModalCharacter";
+import { useState, useEffect } from 'react';
+import SignupInput from '../member/SignupInput';
+import Agreement from './SignupAgreement';
+import ModalCharacter from '../modals/ModalCharacter';
 import {
   ErrorMessage,
   FormBox,
   PasswordText,
   SignButton,
-} from "../../styles/SignupStyle";
+} from '../../styles/SignupStyle';
 import {
   checkId,
   checkPassword,
   checkUsername,
   confirmPassword,
-} from "../../utils/checkSignup";
-import useCheck from "../../hooks/useCheck";
-import handleSignup from "../../api/signupApi";
+} from '../../utils/checkSignup';
+import useCheck from '../../hooks/useCheck';
+import handleSignup from '../../api/signupApi';
 
 const SignupForm: React.FC = () => {
   const SIGNUP_URL = `http://localhost:3000/user`;
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [displayname, setDisplayname] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [error, setErrors] = useState("");
+  const [displayname, setDisplayname] = useState('');
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [error, setErrors] = useState('');
 
   const [isDisplayname, setIsDisplayname] = useState(false);
   const [isUserId, setIsUserId] = useState(false);
@@ -69,7 +69,9 @@ const SignupForm: React.FC = () => {
           setValue={setDisplayname}
           setErrors={setErrors}
         />
-        {isDisplayname === true ? null : <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>}
+        {isDisplayname === true ? null : (
+          <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>
+        )}
         <SignupInput
           labelName="ID (email)"
           type="text"
@@ -77,7 +79,9 @@ const SignupForm: React.FC = () => {
           setValue={setUserId}
           setErrors={setErrors}
         />
-        {isUserId === true ? null : <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>}
+        {isUserId === true ? null : (
+          <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>
+        )}
         <SignupInput
           labelName="Password"
           type="password"
@@ -85,7 +89,9 @@ const SignupForm: React.FC = () => {
           setValue={setPassword}
           setErrors={setErrors}
         />
-        {ispassword === true ? null : <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>}
+        {ispassword === true ? null : (
+          <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>
+        )}
         <PasswordText>
           Passwords must contain at least eight characters, including at least 1
           letter and 1 number.
@@ -102,16 +108,16 @@ const SignupForm: React.FC = () => {
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {isUserId &&
-          isDisplayname &&
-          ispassword &&
-          password2.length !== 0 &&
-          isPasswordConfirm ?(
-            <SignButton type="button" onClick={handleSubmit}>
-          Sign up
-        </SignButton>
-          ) :( <SignButton type="button">
-          Sign up
-        </SignButton>)}
+        isDisplayname &&
+        ispassword &&
+        password2.length !== 0 &&
+        isPasswordConfirm ? (
+          <SignButton type="button" onClick={handleSubmit}>
+            Sign up
+          </SignButton>
+        ) : (
+          <SignButton type="button">Sign up</SignButton>
+        )}
         <ModalCharacter isOpen={isOpen} setIsOpen={setIsOpen} />
       </form>
     </FormBox>
