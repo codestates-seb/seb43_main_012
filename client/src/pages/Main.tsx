@@ -5,9 +5,14 @@ import EditableTitle from '../components/chatinterface/EditableTitle';
 import EditSaveUI from '../components/chatinterface/EditSaveUI';
 import QnAList from '../components/chatinterface/QnAList';
 import bgImg from '../assets/temp/screenshot_mainpage.png';
+import Loading from '../components/chatinterface/Loading';
 //import style
 import styled from 'styled-components';
 import * as M from '../styles/MainStyle';
+//import file
+import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
+
+//import axios
 import { axiosDefault, axiosNgrok } from '../utils/axiosConfig';
 import {
   Post,
@@ -149,10 +154,16 @@ const Main = ({ isOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      <QnAList
-        qnaItems={conversation.qnaList}
-        handleCheck={handleCheckQnAToSave}
-      />
+      {conversation.title ? (
+        <QnAList
+          qnaItems={conversation.qnaList}
+          handleCheck={handleCheckQnAToSave}
+        />
+      ) : (
+        <M.LoadingBox>
+          <Loading loadingGif={loadingGif} />
+        </M.LoadingBox>
+      )}
 
       {/* <TempBackdrop>
         <img
