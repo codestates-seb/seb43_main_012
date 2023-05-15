@@ -1,16 +1,40 @@
-import { InputBox } from '../../styles/SignupStyle';
+import { InputBox } from "../../styles/SignupStyle";
 
 interface SignupInputProps {
   labelName: string;
-  inputType: string;
+  className?: string;
+  type?: string;
+  value: string;
+  error?: string | undefined;
+  setValue: (str: string) => void;
+  setErrors: (str: string) => void;
 }
 
 // OAuthButton 컴포넌트를 함수형 컴포넌트로 선언(리액트 컴포넌트)
-const SignupInput: React.FC<SignupInputProps> = ({ labelName, inputType }) => {
+const SignupInput: React.FC<SignupInputProps> = ({
+  labelName,
+  type = "text",
+  error,
+  value,
+  setValue,
+  setErrors,
+}) => {
+  const resetInputClick = () => {
+    setErrors("");
+    setValue("");
+  };
+
   return (
     <InputBox>
       <label>{labelName}</label>
-      <input type={inputType} />
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClick={resetInputClick}
+        className="input"
+      />
+      <small> {error} </small>
     </InputBox>
   );
 };
