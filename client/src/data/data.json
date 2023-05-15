@@ -1,124 +1,155 @@
 {
-    "chat": [
-      {
+  "chat": [
+    {
+      "id": 1,
+      "title": "JavaScript",
+      "content": "What's the difference between '==' and '===' in JavaScript?",
+      "user": {
         "id": 1,
-        "title": "JavaScript",
-        "content": "What's the difference between '==' and '===' in JavaScript?",
-        "user": {
-          "id": 1,
-          "name": "Bard"
-        },
-        "bookmark": "JavaScript",
-        "tags": ["javascript", "operators", "equality"],
-        "fixed": true
+        "name": "Bard"
       },
-      {
+      "bookmark": "JavaScript",
+      "tags": ["javascript", "operators", "equality"],
+      "fixed": true
+    },
+    {
+      "id": 2,
+      "title": "Python",
+      "content": "How do I iterate over a dictionary in Python?",
+      "user": {
         "id": 2,
-        "title": "Python",
-        "content": "How do I iterate over a dictionary in Python?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "Python",
-        "tags": ["python", "dictionaries", "loops"],
-        "fixed": true
+        "name": "Alice"
       },
-      {
-        "id": 3,
-        "title": "AI",
-        "content": "What are some common machine learning algorithms?",
-        "user": {
-          "id": 1,
-          "name": "Bard"
-        },
-        "bookmark": "AI",
-        "tags": ["ai", "machine learning", "algorithms"],
-        "fixed": true
+      "bookmark": "Python",
+      "tags": ["python", "dictionaries", "loops"],
+      "fixed": true
+    },
+    {
+      "id": 3,
+      "title": "AI",
+      "content": "What are some common machine learning algorithms?",
+      "user": {
+        "id": 1,
+        "name": "Bard"
       },
-      {
-        "id": 4,
-        "title": "React",
-        "content": "What's the best way to handle state in React?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "React",
-        "tags": ["react", "state management", "hooks"],
-        "fixed": false
+      "bookmark": "AI",
+      "tags": ["ai", "machine learning", "algorithms"],
+      "fixed": true
+    },
+    {
+      "id": 4,
+      "title": "React",
+      "content": "What's the best way to handle state in React?",
+      "user": {
+        "id": 2,
+        "name": "Alice"
       },
-      {
-        "id": 5,
-        "title": "JavaScript",
-        "content": "How do I create a closure in JavaScript?",
-        "user": {
-          "id": 1,
-          "name": "Bard"
-        },
-        "bookmark": "JavaScript",
-        "tags": ["javascript", "closures", "functions"],
-        "fixed": false
+      "bookmark": "React",
+      "tags": ["react", "state management", "hooks"],
+      "fixed": false
+    },
+    {
+      "id": 5,
+      "title": "JavaScript",
+      "content": "How do I create a closure in JavaScript?",
+      "user": {
+        "id": 1,
+        "name": "Bard"
       },
-      {
-        "id": 6,
-        "title": "Python",
-        "content": "What are some popular Python libraries for data analysis?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "Python",
-        "tags": ["python", "data analysis", "libraries"],
-        "fixed": false
+      "bookmark": "JavaScript",
+      "tags": ["javascript", "closures", "functions"],
+      "fixed": false
+    },
+    {
+      "id": 6,
+      "title": "Python",
+      "content": "What are some popular Python libraries for data analysis?",
+      "user": {
+        "id": 2,
+        "name": "Alice"
       },
-      {
-        "id": 7,
-        "title": "React",
-        "content": "What are some best practices for writing React components?",
-        "user": {
-          "id": 1,
-          "name": "Bard"
-        },
-        "bookmark": "React",
-        "tags": ["react", "component design", "best practices"],
-        "fixed": false
+      "bookmark": "Python",
+      "tags": ["python", "data analysis", "libraries"],
+      "fixed": false
+    },
+    {
+      "id": 7,
+      "title": "React",
+      "content": "What are some best practices for writing React components?",
+      "user": {
+        "id": 1,
+        "name": "Bard"
       },
-      {
-        "id": 8,
-        "title": "JavaScript",
-        "content": "What are some popular JavaScript frameworks and libraries?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "JavaScript",
-        "tags": ["javascript", "frameworks", "libraries"],
-        "fixed": false
+      "bookmark": "React",
+      "tags": ["react", "component design", "best practices"],
+      "fixed": false
+    },
+    {
+      "id": 8,
+      "title": "JavaScript",
+      "content": "What are some popular JavaScript frameworks and libraries?",
+      "user": {
+        "id": 2,
+        "name": "Alice"
       },
-      {
-        "id": 9,
-        "title": "AI",
-        "content": "What are some ethical considerations when developing AI?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "AI",
-        "tags": [],
-        "fixed": false
+      "bookmark": "JavaScript",
+      "tags": ["javascript", "frameworks", "libraries"],
+      "fixed": false
+    },
+    {
+      "id": 9,
+      "title": "AI",
+      "content": "What are some ethical considerations when developing AI?",
+      "user": {
+        "id": 2,
+        "name": "Alice"
       },
-      {
-        "id": 10,
-        "title": "JavaScript",
-        "content": "What are some popular JavaScript frameworks and libraries?",
-        "user": {
-          "id": 2,
-          "name": "Alice"
-        },
-        "bookmark": "JavaScript",
-        "tags": ["javascript", "frameworks", "libraries"],
-        "fixed": false
-      }
+      "bookmark": "AI",
+      "tags": [],
+      "fixed": false
+    },
+    {
+      "id": 10,
+      "title": "JavaScript",
+      "content": "What are some popular JavaScript frameworks and libraries?",
+      "user": {
+        "id": 2,
+        "name": "Alice"
+      },
+      "bookmark": "JavaScript",
+      "tags": ["javascript", "frameworks", "libraries"],
+      "fixed": false
+    }
+  ],
+  "bookmark": [
+    "All",
+    "JavaScript",
+    "Python",
+    "AI",
+    "React",
+    "JavaScript",
+    "Python",
+    "React",
+    "JavaScript"],
+  "tags": [
+    "javascript",
+    "operators",
+    "equality",
+    "python",
+    "dictionaries",
+    "loops",
+    "ai",
+    "machine learning",
+    "algorithms",
+    "react",
+    "state management",
+    "hooks",
+    "closures",
+    "functions",
+    "data analysis",
+    "libraries",
+    "component design",
+    "best practices",
+    "frameworks"
   ]
-  }
+}

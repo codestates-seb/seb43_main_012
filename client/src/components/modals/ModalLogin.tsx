@@ -37,12 +37,13 @@ function ModalLogin({
     setIsOpen(false);
   };
 
+
   return (
     <LoginBox>
       <LoginWrapper>
         {isOpen && (
-          <ModalBackdrop onClick={closeModalHandler}>
-            <LoginView onClick={handleLoginClick}>
+          <ModalBackdrop>
+            <LoginView>
               <OAuthButton buttonText="Log in with Google" brand="google" />
               <OAuthButton
                 buttonText="Log in with KakaoTalk"
