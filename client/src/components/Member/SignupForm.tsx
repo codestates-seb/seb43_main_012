@@ -22,18 +22,18 @@ const SignupForm: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [displayname, setDisplayname] = useState("");
+  const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setErrors] = useState("");
 
-  const [isDisplayname, setIsDisplayname] = useState(false);
+  const [isUsername, setIsUsername] = useState(false);
   const [isUserId, setIsUserId] = useState(false);
   const [ispassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setPassWordConfirm] = useState(false);
 
-  useCheck(checkUsername, displayname, setIsDisplayname);
+  useCheck(checkUsername, username, setIsUsername);
   useCheck(checkId, userId, setIsUserId);
   useCheck(checkPassword, password, setIsPassword);
 
@@ -48,7 +48,7 @@ const SignupForm: React.FC = () => {
   const handleSubmit = () => {
     handleSignup({
       SIGNUP_URL,
-      displayname,
+      username,
       userId,
       password,
       setErrors,
@@ -65,11 +65,11 @@ const SignupForm: React.FC = () => {
         <SignupInput
           labelName="Display name"
           type="text"
-          value={displayname}
-          setValue={setDisplayname}
+          value={username}
+          setValue={setUsername}
           setErrors={setErrors}
         />
-        {isDisplayname === true ? null : <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>}
+        {isUsername === true ? null : <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>}
         <SignupInput
           labelName="ID (email)"
           type="text"
@@ -102,7 +102,7 @@ const SignupForm: React.FC = () => {
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {isUserId &&
-          isDisplayname &&
+          isUsername &&
           ispassword &&
           password2.length !== 0 &&
           isPasswordConfirm ?(

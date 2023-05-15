@@ -13,7 +13,7 @@ export const handleLogin = async ({
   password,
   setErrors,
 }: LoginArgs) => {
-    const res = await requestAuth.post(`/login`, {
+    const res = await requestAuth.post(`/api/login`, {
       userId,
       password,
     });
