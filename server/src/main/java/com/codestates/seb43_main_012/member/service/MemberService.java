@@ -25,17 +25,6 @@ public class MemberService {
     private MemberRepository memberRepository;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-/*    public MemberDto signUp(MemberDto memberDto) {
-        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-
-        MemberEntity memberEntity = MemberEntity.builder()
-                .username(memberDto.getUsername())
-                .password(memberDto.getPassword())
-                .email(memberDto.getEmail())
-                .build();
-        memberRepository.save(memberEntity);
-        return memberDto;
-    }*/
     public MemberDto signup(MemberDto memberDto) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
@@ -50,10 +39,10 @@ public class MemberService {
     return MemberDto.from(savedMember);
 }
 
-    public MemberDto login(MemberDto memberDto) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsernameOrEmail(memberDto.getIdentifier(), memberDto.getIdentifier());
+    public MemberEntity login(MemberDto memberDto) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsernameOrEmail(memberDto.getUserId(), memberDto.getUserId());
         if (optionalMemberEntity.isPresent() && passwordEncoder.matches(memberDto.getPassword(), optionalMemberEntity.get().getPassword())) {
-            return memberDto;
+            return optionalMemberEntity.get();
         } else {
             throw new RuntimeException("Invalid username or password");
         }
@@ -71,5 +60,13 @@ public class MemberService {
     }
     public void deleteMember(Long id) {
         memberRepository.deleteById(id);
+    }
+    public String getMemberName(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        if (optionalMemberEntity.isPresent()) {
+            MemberEntity memberEntity = optionalMemberEntity.get();
+            return memberEntity.getUsername();  // 이름 필드가 있는 경우에 해당 필드를 반환하도록 수정
+        }
+        throw new RuntimeException("Member not found with id: " + id);
     }
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class MemberDto {
     private Long id;
     private String username;
     private String email;
-    private String identifier;
+    private String userId;
     private String password;
 
     public static MemberDto from(MemberEntity memberEntity) {

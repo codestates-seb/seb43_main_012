@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.member.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.Cookie;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -32,6 +36,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,HttpServletResponse response) throws AuthenticationException {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
+        System.out.println("Attempting authentication for username: " + username);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         return getAuthenticationManager().authenticate(authenticationToken);
     }
@@ -49,10 +54,35 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         String token = jwtUtil.generateToken(userDetails.getUsername());
         setJwtTokenToCookie(response, token);
-        logger.info("Authentication success for user: " + userDetails.getUsername()); // 로그 추가
-    }
 
+        CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
 
+        // Create a map to store the response data
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("message", "로그인에 성공했습니다.\n메인페이지로 이동됩니다.");
+        responseData.put("memberId", customUserDetails.getId());
+        responseData.put("createdAt", customUserDetails.getCreatedAt());
+        responseData.put("userName", customUserDetails.getUsername());
+        responseData.put("email", customUserDetails.getEmail());
+
+        // Create a new ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Convert the response data to JSON
+        String jsonResponse = mapper.writeValueAsString(responseData);
+
+        // Set the response content type and character encoding
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Write the JSON response
+        response.getWriter().write(jsonResponse);
+
+        System.out.println("Successful authentication for username: " + customUserDetails.getUsername());
+
+        // Call the next filter in the chain
+        chain.doFilter(request, response);
     }
+}
 
 
