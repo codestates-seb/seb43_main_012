@@ -90,6 +90,7 @@ const SignupForm: React.FC = () => {
           Passwords must contain at least eight characters, including at least 1
           letter and 1 number.
         </PasswordText>
+
         <SignupInput
           labelName="Confirm Password"
           type="password"

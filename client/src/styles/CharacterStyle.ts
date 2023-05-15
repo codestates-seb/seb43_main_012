@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // 모달 감싸기
 export const CharacterWrapper = styled.div`
@@ -13,12 +13,12 @@ export const ModalBackdrop = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(256, 256, 256, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  z-index: 99;
+  z-index: 999;
 `;
 
 //모달 내부
