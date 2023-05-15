@@ -172,3 +172,15 @@ export const Center = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+export const LoadingBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 150px;
+
+  img {
+    filter: sepia(40%);
+  }
+`;
