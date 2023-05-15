@@ -34,6 +34,7 @@ const TempBackdrop = styled.div`
 
 type MainProps = {
   isOpen: boolean;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 //to fix current width, would have to measure the box width!
@@ -66,7 +67,7 @@ function scrollToLastQ() {
   lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
-const Main = ({ isOpen }: MainProps) => {
+const Main = ({ isOpen, setIsOpen }: MainProps) => {
   //set initial State of conversation; -> store
   const [conversation, setConversation] = useState(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
