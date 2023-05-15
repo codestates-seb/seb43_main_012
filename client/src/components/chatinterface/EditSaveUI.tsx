@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { EditSaveUIBox } from '../../styles/MainStyle';
+import DialogBoxSaveBookmark from '../dialogbox/DialogBoxSaveBookmark';
 
 type Props = {
   editState: boolean;
@@ -7,6 +8,11 @@ type Props = {
   setEditConfirm: Dispatch<SetStateAction<boolean>>;
 };
 const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
+  const [isSaveBoxOpen, setIsSaveBoxOpen] = useState<boolean>(false);
+  const handleSaveClick = () => {
+    console.log('clicked save!');
+    setIsSaveBoxOpen(!isSaveBoxOpen);
+  };
   const handleConfirmClick = () => {
     setEditConfirm(true);
     setEditState(!editState);
@@ -44,7 +50,8 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
         <>
           <button onClick={handleEditClick}>edit</button>
           <button>tag</button>
-          <button>save</button>
+          <button onClick={handleSaveClick}>save</button>
+          {isSaveBoxOpen && <DialogBoxSaveBookmark />}
         </>
       )}
     </EditSaveUIBox>
