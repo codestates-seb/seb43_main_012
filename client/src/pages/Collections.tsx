@@ -1,6 +1,12 @@
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setSelectedBookmark,
+  setContent,
+} from "../features/collection/collectionSlice";
+import { RootState } from "../app/store";
 import styled from "styled-components";
-import { useState } from "react";
-import data from "../data/data.json";
+// import { useState } from "react";
+// import data from "../data/data.json";
 // @ts-ignore
 import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
 // @ts-ignore
@@ -28,7 +34,8 @@ const ContentContainer = styled.div`
 `;
 
 const Content = styled.a`
-  flex-basis: 30%;
+  /* flex-basis: 30%; */
+  flex-basis: 16rem;
   /* width: 17rem; */
   /* background-color: #f0f0f0; */
   padding: 5px;
@@ -114,7 +121,7 @@ const SvgButton = styled.button`
 `;
 
 const BookmarkButton = () => {
-  const [clicked, setClicked] = useState(false);
+  // const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -140,15 +147,16 @@ const PinButton = () => {
 
 const Collections = () => {
   //data를 받아서 map으로 돌리기
-  const [content, setContent] = useState(data);
-  const [selectedBookmark, setSelectedBookmark] = useState("");
+  const dispatch = useDispatch();
+  const { content, selectedBookmark } = useSelector(
+    (state: RootState) => state.collection,
+  );
 
+  const handleBookmarkClick = (bookmark: string) => {
+    dispatch(setSelectedBookmark(bookmark));
+  };
   return (
     <Main>
-      {/* <div>
-            <BookmarkButton />
-            <PinButton />
-          </div> */}
       <FixedContentContainer>
         {content.chat
           .filter((item) => item.fixed)
@@ -175,7 +183,10 @@ const Collections = () => {
         <div>
           <BookmarkContainer>
             {content.bookmark.map((bookmark) => (
-              <Bookmark onClick={() => setSelectedBookmark(bookmark)}>
+              <Bookmark
+                key={bookmark}
+                onClick={() => handleBookmarkClick(bookmark)}
+              >
                 {bookmark}
               </Bookmark>
             ))}
@@ -183,7 +194,9 @@ const Collections = () => {
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
             {content.tags.map((tag) => (
-              <Tag href="#">{tag}</Tag>
+              <Tag key={tag} href="#">
+                {tag}
+              </Tag>
             ))}
           </TagContainer>
         </div>
@@ -212,9 +225,6 @@ const Collections = () => {
 
         <div></div>
       </BookmarkTagContent>
-      {/* <BookmarkButton>
-        <BookmarkSolid />
-      </BookmarkButton> */}
     </Main>
   );
 };
