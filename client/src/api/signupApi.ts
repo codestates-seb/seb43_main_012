@@ -1,5 +1,6 @@
-import axios from "axios";
-import { request, requestAuth } from "./request";
+import axios from 'axios';
+import { request, requestAuth } from './request';
+
 
 interface SignupArgs {
   SIGNUP_URL: string;
@@ -9,7 +10,6 @@ interface SignupArgs {
   setErrors: any;
 }
 
-
 const handleSignup = async ({
   SIGNUP_URL,
   username,
@@ -18,12 +18,12 @@ const handleSignup = async ({
   setErrors,
 }: SignupArgs) => {
   try {
-    const res = await requestAuth.post((`/api/signup`), {
+    const res = await requestAuth.post(`/api/signup`, {
       username,
       userId,
       password,
     });
-    window.location.replace("/login");
+    window.location.replace('/login');
   } catch (error) {
     setErrors(error);
   }
