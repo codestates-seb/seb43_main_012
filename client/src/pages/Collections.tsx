@@ -1,8 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setSelectedBookmark,
-  setContent,
-} from "../features/collection/collectionSlice";
+import setSelectedBookmark from "../features/collection/collectionSlice";
 import { RootState } from "../app/store";
 import styled from "styled-components";
 // import { useState } from "react";
@@ -155,6 +152,7 @@ const Collections = () => {
   const handleBookmarkClick = (bookmark: string) => {
     dispatch(setSelectedBookmark(bookmark));
   };
+
   return (
     <Main>
       <FixedContentContainer>
