@@ -17,24 +17,18 @@ function ModalLogin({
   setIsOpen,
   setIsLoggedIn,
 }: ModalLoginProps): ReactElement {
+
   const closeModalHandler = () => {
     setIsOpen(false);
   };
 
-  const handleLoginClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
-    e.stopPropagation();
-    console.log("login click!");
-    setIsLoggedIn(true);
-  };
 
   return (
     <LoginBox>
       <LoginWrapper>
         {isOpen && (
-          <ModalBackdrop onClick={closeModalHandler}>
-            <LoginView onClick={handleLoginClick}>
+          <ModalBackdrop>
+            <LoginView>
               <OAuthButton buttonText="Log in with Google" brand="google" />
               <OAuthButton
                 buttonText="Log in with KakaoTalk"

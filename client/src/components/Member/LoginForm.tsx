@@ -10,22 +10,28 @@ type Props = {
 };
 
 const LoginForm = ({ setIsLoggedIn }: Props) => {
-  const handleLoginClick = () => {
-    console.log("login click!");
-    setIsLoggedIn(true);
-  };
 
   const [userId, setuserId] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
-    handleLogin({ userId, password, setErrors });
-  };
+    try{
+      const res = await handleLogin({ userId, password, setErrors });
+      if(res.status === 200){
+        setIsLoggedIn(true);
+        window.location.replace("/");
+      }
+    } catch (error) {
+      console.log(error);
+      setErrors(error as string);
+    }
+  }
+
 
   return (
-    <FormContainer onClick={handleLoginClick}>
+    <FormContainer>
       <form onSubmit={handleSubmit}>
         <SignupInput
           labelName="ID (email)"
@@ -44,7 +50,7 @@ const LoginForm = ({ setIsLoggedIn }: Props) => {
           <ErrorMessage>아이디 또는 비밀번호를 잘못 입력하셨습니다.</ErrorMessage>
         ) : null}
         {/* <Link to="/"> */}
-        <SignButton>Log in</SignButton>
+        <SignButton type="submit">Log in</SignButton>
         {/* </Link> */}
       </form>
     </FormContainer>
