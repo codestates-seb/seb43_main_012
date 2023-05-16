@@ -28,7 +28,21 @@ const ChatInput = ({ cValue, setCValue, setQNum }: ChatProps) => {
     //send dispatch to openai
     //update conversation data
     //for the very first time... when there is no data.
-    if (!cValue.title)
+    if (!cValue.title) {
+      //   setCValue((prev) => ({
+      //     ...(prev || {}),
+      //     title: qValue,
+      //     qnaList: [
+      //       ...(prev?.qnaList || []),
+      //       {
+      //         qnaId: 0,
+      //         question: qValue,
+      //         answer: 'some answer',
+      //         bookmarkStatus: true,
+      //       },
+      //     ],
+      //   }));
+      // }
       setCValue({
         ...cValue,
         title: qValue, //send another async request to update title to recommended title
@@ -42,7 +56,7 @@ const ChatInput = ({ cValue, setCValue, setQNum }: ChatProps) => {
           },
         ],
       });
-    else
+    } else
       setCValue({
         ...cValue,
         qnaList: [
