@@ -75,25 +75,23 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const [qNum, setQNum] = useState<number>(0);
 
   const handleCheckQnAToSave = ({
-    qnaId,
-    isChecked,
+    id,
+    newCheckValue,
   }: {
-    qnaId: number;
-    isChecked: boolean;
+    id: number;
+    newCheckValue: boolean;
   }) => {
-    //turn that qnaId's bookmarkStatus to false
-    const QnAToNotSave = conversation.qnaList.find(
-      (qna) => qna.qnaId === qnaId,
-    );
+    //turn that id's bookmarkStatus to false
+    const QnAToChange = conversation.qnaList.find((qna) => qna.qnaId === id);
 
-    if (QnAToNotSave) {
-      const updatedQnA = { ...QnAToNotSave, bookmarkStatus: false };
+    if (QnAToChange) {
+      const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
       const updatedQnAList = [
         updatedQnA,
-        ...conversation.qnaList.filter((qna) => qna.qnaId !== qnaId),
+        ...conversation.qnaList.filter((qna) => qna.qnaId !== id),
       ].sort((a, b) => a.qnaId - b.qnaId);
 
-      console.log('to save: ', updatedQnAList);
+      // console.log('to save: ', updatedQnAList);
 
       setConversation({
         ...conversation,

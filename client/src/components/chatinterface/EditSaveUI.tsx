@@ -55,7 +55,11 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
         <>
           <button onClick={handleEditClick}>edit</button>
           <button>tag</button>
-          <CPopover content={<DialogBoxSaveBookmark />} placement="bottom">
+          <CPopover
+            className="popover_saveUI"
+            content={<DialogBoxSaveBookmark />}
+            placement="bottom"
+          >
             <button onClick={handleSaveClick}>save</button>
           </CPopover>
 

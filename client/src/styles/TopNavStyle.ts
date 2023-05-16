@@ -153,17 +153,18 @@ export const UserCreatedDate = styled.div`
   padding: 10px 25px;
 `;
 
-export const DialogItems = styled.div`
+export const DialogItems = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--color-default-gray);
   padding-bottom: 20px;
   max-height: 130px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  text-decoration: none;
 `;
 
-export const DialogSelectItem = styled.div`
+export const DialogSelectItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -173,14 +174,14 @@ export const DialogSelectItem = styled.div`
   font-size: 18px;
   cursor: pointer;
   overflow: hidden;
-  overflow-x: auto;
+  // overflow-x: auto;
   padding-right: 2rem;
+  white-space: nowrap;
 
   //hide scrollbar for Chrome, Safari and Opera
   &::-webkit-scrollbar {
     display: none;
   }
-  white-space: nowrap;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 `;

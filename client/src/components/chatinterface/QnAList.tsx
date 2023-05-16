@@ -6,11 +6,11 @@ import { QnAListBox } from '../../styles/MainStyle';
 type QnAListProps = {
   qnaItems: QnAType[];
   handleCheck: ({
-    qnaId,
-    isChecked,
+    id,
+    newCheckValue,
   }: {
-    qnaId: number;
-    isChecked: boolean;
+    id: number;
+    newCheckValue: boolean;
   }) => void;
 };
 

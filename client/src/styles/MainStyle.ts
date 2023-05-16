@@ -125,14 +125,6 @@ export const QnAItemBox = styled.li`
   width: 100%;
 `;
 
-export const QnACheckbox = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 40px;
-  height: 100%;
-`;
-
 export const QnAItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -142,8 +134,16 @@ export const QnAItem = styled.div`
   min-height: 50px;
   width: 100%;
   padding: 10px 0;
+  padding-right: 20px;
 `;
 
+export const QnACheckbox = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 40px;
+  height: 100%;
+`;
 export const QnATitle = styled.title`
   display: flex;
   justify-content: center;
@@ -162,7 +162,7 @@ export const QnAAnswer = styled.div`
   align-items: center;
   font-size: 18px;
   font-weight: 400;
-  padding: 5px 10px;
+  padding: 5px 0;
 `;
 
 //change this Center value to center the Q and A without the checkbox
