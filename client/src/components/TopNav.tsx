@@ -6,7 +6,7 @@ import { CPopover, CButton } from '@coreui/react';
 
 //import style
 import styled from 'styled-components';
-import '@coreui/coreui/dist/css/coreui.min.css';
+// import '@coreui/coreui/dist/css/coreui.min.css';
 import '../styles/sass/custom_popover_topnav.scss';
 
 import * as TN from '../styles/TopNavStyle';

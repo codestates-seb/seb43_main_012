@@ -69,7 +69,7 @@ export const AvatarBox = styled.div`
       width: var(--size-avatar-hover);
       height: var(--size-avatar-hover);
       filter: invert(25%) sepia(80%) saturate(1.3);
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       // fill: blue;
       transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
         filter 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
