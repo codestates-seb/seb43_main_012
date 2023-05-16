@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.bookmark;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,5 +12,14 @@ public class BookmarkDto {
     public static class Post
     {
         private List<String> bookmarks;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class Response
+    {
+        private long categoryId;
+        private String categoryName;
     }
 }

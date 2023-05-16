@@ -6,6 +6,8 @@ import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryRepository;
 import com.codestates.seb43_main_012.member.repository.MemberRepository;
+import com.codestates.seb43_main_012.qna.QnADto;
+import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import com.codestates.seb43_main_012.tag.dto.TagResponseDto;
 import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
@@ -15,6 +17,7 @@ import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +36,7 @@ public class ConversationService {
     private final ConversationCategoryRepository conversationCategoryRepository;
     private final TagRepository tagRepository;
     private final ConversationTagRepository conversationTagRepository;
+    private final QnAService qnaService;
 //    public ConversationService(ConversationRepository conversationRepository,
 //                               MemberRepository memberRepository,
 //                               BookmarkRepository bookmarkRepository,
@@ -51,11 +55,16 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
-    public Conversation createConversation(long memberId)
+    @Transactional
+    public Conversation createConversation(long memberId, QnADto.Post dto)
     {
         Conversation conversation = new Conversation();
         conversation.addMember(memberRepository.findById(memberId).orElse(null));
-        //conversation.setMember(new MemberEntity(1L,"a","a","a"));
+        Conversation savedConversation = conversationRepository.save(conversation);
+        long conversationId = savedConversation.getConversationId();
+        dto.setConversationId(conversationId);
+        qnaService.requestAnswer(dto);
+
         return conversationRepository.save(conversation);
     }
 
@@ -101,7 +110,7 @@ public class ConversationService {
         bookmark.addConversation(conversation);
         bookmarkRepository.save(bookmark);
 
-        conversationCategoryRepository.deleteAllByConversationId(conversationId);
+        conversationCategoryRepository.deleteAllByConversationConversationId(conversationId);
 
         List<String> categories = dto.getBookmarks();
         categories.stream().forEach(category -> {
@@ -110,17 +119,17 @@ public class ConversationService {
             if(optional.isEmpty())
             {
                 Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
-                ConversationCategory conversationCategory = new ConversationCategory(conversationId,savedCategory.getId());
+                ConversationCategory conversationCategory = new ConversationCategory(conversation,savedCategory.getId(),category);
                 conversationCategoryRepository.save(conversationCategory);
             }
             else
             {
                 Category findCategory = optional.orElse(null);
-                ConversationCategory conversationCategory = new ConversationCategory(conversationId,findCategory.getId());
+                ConversationCategory conversationCategory = new ConversationCategory(conversation,findCategory.getId(),category);
                 conversationCategoryRepository.save(conversationCategory);
             }
         });
-        conversation.setBookmarks(listToString(categories));
+        //conversation.setBookmarks(listToString(categories));
 
         //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
         //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));

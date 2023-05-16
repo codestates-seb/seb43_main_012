@@ -30,24 +30,24 @@ public class TagMapper2 {
         return tag;
     }
 
-    TagResponseDto tagToTagResponseDto(Long conversationId, List<Tag> tags) {
-        TagResponseDto result = new TagResponseDto();
-        result.setConversationId(conversationId);
-
-        List<TagResponseDto.Tags> resultTags = new ArrayList<>();
-        {
-            for (Tag src : tags) {
-                TagResponseDto.Tags tag = new TagResponseDto.Tags();
-                tag.setId(src.getTagId());
-                tag.setTagName(src.getTagName());
-
-
-            }
-        }
-        result.setTags(resultTags);
-
-        return result;
-    }
+//    TagResponseDto tagToTagResponseDto(Long conversationId, List<Tag> tags) {
+//        TagResponseDto result = new TagResponseDto();
+//        result.setConversationId(conversationId);
+//
+//        List<TagResponseDto.Tags> resultTags = new ArrayList<>();
+//        {
+//            for (Tag src : tags) {
+//                TagResponseDto.Tags tag = new TagResponseDto.Tags();
+//                tag.setId(src.getTagId());
+//                tag.setTagName(src.getTagName());
+//
+//
+//            }
+//        }
+//        result.setTags(resultTags);
+//
+//        return result;
+//    }
     TagSimpleResponseDto tagToTagSimpleResponseDto(Tag tag) {
         TagSimpleResponseDto tagSimpleResponseDto = new TagSimpleResponseDto();
         // tagSimpleResponseDto.setConversationId(tag.);

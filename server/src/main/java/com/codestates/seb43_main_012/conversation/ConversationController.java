@@ -41,13 +41,10 @@ public class ConversationController {
     @PostMapping
     public ResponseEntity generateConversation(@RequestBody QnADto.Post dto)
     {
-        Conversation conversation = conversationService.createConversation(memberId);
-        long conversationId = conversation.getConversationId();;
-        dto.setConversationId(conversationId);
-        qnaService.requestAnswer(dto);
+        Conversation savedConversation = conversationService.createConversation(memberId, dto);
+
         //ConversationDto.Response response = mapper.conversationToConversationResponseDto(conversation);
-        Conversation savedConversation = conversationService.findConversation(conversationId);
-        savedConversation.getQnaList();
+        //savedConversation.getQnaList();
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 

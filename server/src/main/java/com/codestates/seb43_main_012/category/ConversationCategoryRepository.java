@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ConversationCategoryRepository extends JpaRepository<ConversationCategory,Long> {
-    void deleteAllByConversationId(long conversationId);
+    void deleteAllByConversationConversationId(long conversationId);
 }

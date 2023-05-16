@@ -1,5 +1,7 @@
 package com.codestates.seb43_main_012.conversation;
 
+import com.codestates.seb43_main_012.category.ConversationCategory;
+import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.collection.CollectionDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.qna.QnADto;
@@ -28,9 +30,9 @@ public class ConversationMapper {
     {
         Long conversationId = conversation.getConversationId();
         String title = conversation.getTitle();
-        List<String> bookmarks = stringToList(conversation.getBookmarks());
-        List<Tag> tags = new ArrayList<>();
+        List<ConversationCategory> bookmarks = conversation.getBookmarks();
 
+        List<Tag> tags = new ArrayList<>();
         conversation.getTags().stream().forEach(conversationTag-> tags.add(tagRepository.findById(conversationTag.getTagId()).orElse(null)));
 
         List<QnADto.Response> qnaResponseList = new ArrayList<>();
@@ -60,11 +62,29 @@ public class ConversationMapper {
     {
         CollectionDto.Response response = new CollectionDto.Response(
                 conversation.getConversationId(),
-                stringToList(conversation.getBookmarks()),
-                new ArrayList<>(),
+                categoriesToCategoryResponseDtos(conversation.getBookmarks()),
+                conversation.getTags(),
                 conversation.getPinned(),
                 conversation.getTitle()
         );
+        return response;
+    }
+
+    private List<ConversationCategoryDto> categoriesToCategoryResponseDtos(List<ConversationCategory> conversationCategories)
+    {
+        List<ConversationCategoryDto> responses = new ArrayList<>();
+        conversationCategories.stream().forEach(category -> responses.add(categoryToCategoryResponseDto(category)));
+
+        return responses;
+    }
+
+    private ConversationCategoryDto categoryToCategoryResponseDto(ConversationCategory conversationCategory)
+    {
+        ConversationCategoryDto response = new ConversationCategoryDto(
+                conversationCategory.getCategoryId(),
+                conversationCategory.getCategoryName()
+        );
+
         return response;
     }
 
@@ -80,7 +100,7 @@ public class ConversationMapper {
                         conv.getTitle(),
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
-                        stringToList(conv.getBookmarks()),
+                        conv.getBookmarks(),
                         tags,
                         conv.getSaved(),
                         conv.getPinned(),

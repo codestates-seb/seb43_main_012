@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.tag.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,19 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class TagResponseDto {
 
-    private long conversationId;
-    private List<Tags> tags;
+    private Long tagId;
+    private String tagName;
 
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Tags {
-        private Long id;
-        private String tagName;
-
-    }
 }
 

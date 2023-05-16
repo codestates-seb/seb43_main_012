@@ -22,24 +22,24 @@ public interface TagMapper {
 
     Tag tagPatchDtoToTag(TagDto.Patch tagPatchDto) ;
 
-   default TagResponseDto tagToTagResponseDto(Long conversationId, List<Tag> tags) {
-        TagResponseDto result = new TagResponseDto();
-        result.setConversationId(conversationId);
-
-        List<TagResponseDto.Tags> resultTags = new ArrayList<>();
-        {
-            for (Tag src : tags) {
-                TagResponseDto.Tags tag = new TagResponseDto.Tags();
-                tag.setId(src.getTagId());
-                tag.setTagName(src.getTagName());
-
-
-            }
-        }
-        result.setTags(resultTags);
-
-        return result;
-    }
+//   default TagResponseDto tagToTagResponseDto(Long conversationId, List<Tag> tags) {
+//        TagResponseDto result = new TagResponseDto();
+//        result.setConversationId(conversationId);
+//
+//        List<TagResponseDto.Tags> resultTags = new ArrayList<>();
+//        {
+//            for (Tag src : tags) {
+//                TagResponseDto.Tags tag = new TagResponseDto.Tags();
+//                tag.setId(src.getTagId());
+//                tag.setTagName(src.getTagName());
+//
+//
+//            }
+//        }
+//        result.setTags(resultTags);
+//
+//        return result;
+//    }
 
    default TagSimpleResponseDto tagToTagSimpleResponseDto(Tag tag) {
        TagSimpleResponseDto tagSimpleResponseDto = new TagSimpleResponseDto();

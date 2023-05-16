@@ -53,12 +53,12 @@ public class TagController {
     //             HttpStatus.OK);
     // }
 
-    @GetMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL_DETAIL)
-    public ResponseEntity getAllConversationTag(@PathVariable("conversationId") @Positive Long conversationId) {
-        List<Tag> tags = tagService.findAllTags();
-
-        return new ResponseEntity<>(mapper.tagToTagResponseDto(conversationId, tags), HttpStatus.OK);
-    }
+//    @GetMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL_DETAIL)
+//    public ResponseEntity getAllConversationTag(@PathVariable("conversationId") @Positive Long conversationId) {
+//        List<Tag> tags = tagService.findAllTags();
+//
+//        return new ResponseEntity<>(mapper.tagToTagResponseDto(conversationId, tags), HttpStatus.OK);
+//    }
 
     // 태그 상태 변화 수정코드
 

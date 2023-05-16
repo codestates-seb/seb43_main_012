@@ -1,6 +1,7 @@
 package com.codestates.seb43_main_012.qna;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
+import com.codestates.seb43_main_012.conversation.ConversationRepository;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,15 +20,15 @@ public class QnAService {
     private final int MAX_TOKENS = 500;
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private final QnARepository qnaRepository;
-    private final ConversationService conversationService;
+    private final ConversationRepository conversationRepository;
     //private final QnAMapper qnaMapper;
 
     public QnAService(QnARepository qnaRepository,
-                      ConversationService conversationService,
+                      ConversationRepository conversationRepository,
                       QnAMapper qnaMapper)
     {
         this.qnaRepository = qnaRepository;
-        this.conversationService = conversationService;
+        this.conversationRepository = conversationRepository;
         //this.qnaMapper = qnaMapper;
     }
 
@@ -103,7 +104,7 @@ public class QnAService {
         String answer = (String) c.get("content");
         QnA qna = new QnA(question,answer);
 
-        Conversation conversation = conversationService.findConversation(conversationId);
+        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow();
         if(conversation.getTitle() == null)
         {
             conversation.setTitle(question);
@@ -112,9 +113,9 @@ public class QnAService {
         qna.setConversation(conversation);
 
         conversation.setModifiedAt(LocalDateTime.now());
-        conversationService.saveConversation(conversation);
+        conversationRepository.save(conversation);
         QnA savedQnA = saveQnA(qna);
-        conversation.addQnA(savedQnA);
+        //conversation.addQnA(savedQnA);
 
         Map<String, String> message2 = new HashMap<>();
         message2.put("role", "assistant");

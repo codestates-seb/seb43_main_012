@@ -1,9 +1,12 @@
 package com.codestates.seb43_main_012.collection;
 
-import com.codestates.seb43_main_012.bookmark.BookmarkCategory;
+import com.codestates.seb43_main_012.bookmark.Bookmark;
+import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationMapper;
+import com.codestates.seb43_main_012.tag.dto.TagResponseDto;
+import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,15 +20,36 @@ public class CollectionMapper {
     {
         this.conversationMapper = conversationMapper;
     }
-    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories)
+    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories, List<Tag> tags)
     {
-        List<String> names = new ArrayList<>();
-        categories.stream().forEach(category -> names.add(category.getName()));
+        List<BookmarkDto.Response> bookmarks = new ArrayList<>();
+        categories.stream().forEach(category -> bookmarks.add(categoryToBookmarkResponseDto(category)));
+
+        List<TagResponseDto> tagResponses = new ArrayList<>();
+        tags.stream().forEach(tag -> tagResponses.add(tagToTagResponseDto(tag)));
 
         var response = new CollectionPageDto(
-                names,
-                new ArrayList<>(),
+                bookmarks,
+                tagResponses,
                 conversationMapper.conversationsToConversationResponseDtos(conversations)
+        );
+        return response;
+    }
+
+    private BookmarkDto.Response categoryToBookmarkResponseDto(Category category)
+    {
+        var response = new BookmarkDto.Response(
+                category.getId(),
+                category.getName()
+        );
+        return response;
+    }
+
+    private TagResponseDto tagToTagResponseDto(Tag tag)
+    {
+        var response = new TagResponseDto(
+                tag.getTagId(),
+                tag.getTagName()
         );
         return response;
     }

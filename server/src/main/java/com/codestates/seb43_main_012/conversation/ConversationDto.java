@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.conversation;
 
+import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
@@ -25,7 +26,7 @@ public class ConversationDto {
         private MemberDto.ResponseForConversation member;
         private String title;
         private List<QnADto.Response> qnaList;
-        private List<String> bookmarks;
+        private List<ConversationCategory> bookmarks;
         private List<Tag> tags;
         private Boolean saved;
         private Boolean pinned;
@@ -45,7 +46,7 @@ public class ConversationDto {
         private String title;
         private String answerSummary;
         private LocalDateTime modifiedAt;
-        private List<String> bookmarks;
+        private List<ConversationCategory> bookmarks;
         private List<Tag> tags;
         private Boolean saved;
         private Boolean pinned;

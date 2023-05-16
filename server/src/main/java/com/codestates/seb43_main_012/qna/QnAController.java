@@ -45,6 +45,9 @@ public class QnAController {
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QnADto.Post dto)
     {
+        long conversationId = dto.getConversationId();
+        if(conversationId == 0) throw new RuntimeException("conversationId cannot be empty");
+
         QnA savedQnA = qnaService.requestAnswer(dto);
 
         return new ResponseEntity<>(qnaMapper.qnaToQnAResponseDto(savedQnA), HttpStatus.OK);

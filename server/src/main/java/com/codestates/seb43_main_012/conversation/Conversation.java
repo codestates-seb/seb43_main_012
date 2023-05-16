@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.conversation;
 
+import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnA;
 import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
@@ -37,7 +38,9 @@ public class Conversation {
     private Boolean saved = false;
     private Boolean pinned = false;
     private Boolean published = false;
-    private String bookmarks = "[]";
+
+    @OneToMany(mappedBy = "conversation")
+    private List<ConversationCategory> bookmarks = new ArrayList<>();
     @OneToMany(mappedBy = "conversation")
     private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;
