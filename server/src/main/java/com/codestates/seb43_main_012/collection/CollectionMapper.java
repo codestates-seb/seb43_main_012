@@ -1,6 +1,7 @@
 package com.codestates.seb43_main_012.collection;
 
 import com.codestates.seb43_main_012.bookmark.BookmarkCategory;
+import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationMapper;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,10 @@ public class CollectionMapper {
     {
         this.conversationMapper = conversationMapper;
     }
-    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<BookmarkCategory> bookmarkCategories)
+    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories)
     {
         List<String> names = new ArrayList<>();
-        bookmarkCategories.stream().forEach(bookmarkCategory -> names.add(bookmarkCategory.getName()));
+        categories.stream().forEach(category -> names.add(category.getName()));
 
         var response = new CollectionPageDto(
                 names,

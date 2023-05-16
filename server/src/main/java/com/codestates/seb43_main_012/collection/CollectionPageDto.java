@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class CollectionPageDto {
-    private List<String> directories;
+    private List<String> bookmarks;
     private List<String> tags;
     private List<ConversationDto.ResponseForAll> conversations;
 }
