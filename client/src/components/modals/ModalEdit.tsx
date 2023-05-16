@@ -21,7 +21,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
           <EditView onClick={e => e.stopPropagation()}>
             <Character>{displayName[0]}</Character>
             <EditForm>
-              <MyEditData>ID (nickname)</MyEditData>
+              <MyEditData>DisplayName</MyEditData>
               <input type="text"></input>
               <MyEditData>password</MyEditData>
               <input type="text"></input>

@@ -74,6 +74,9 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const [editConfirm, setEditConfirm] = useState<boolean>(true);
   const [qNum, setQNum] = useState<number>(0);
 
+  console.log(sessionStorage.getItem('token'));
+  console.log(localStorage.getItem("memberId"));
+  
   const handleCheckQnAToSave = ({
     qnaId,
     isChecked,
