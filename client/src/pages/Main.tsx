@@ -45,14 +45,10 @@ const MainBox = styled(M.MainBox)<MainProps>`
       : 'var(--size-minwidth-pc-main)'}; //change this when you adjust the max-width;
 `;
 
-async function getJSON() {
-  const post = await axiosDefault
-    .post<GetOpenAIResponse>(
-      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question',
-      {
-        conversationId: 20,
-        question: 'What is your favorite food?',
-      },
+async function getAllConversations() {
+  axiosDefault
+    .get<any>(
+      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations',
     )
     .then((res) => {
       console.log(res);
@@ -62,14 +58,137 @@ async function getJSON() {
     .catch((err) => console.log(err));
 }
 
+async function askFirstQuestion(question: string) {
+  axiosDefault
+    .post<any>(
+      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations',
+      {
+        question,
+      },
+    )
+    .then((res) => {
+      // console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function askFirstQuestionOpenAI(question: string) {
+  axiosDefault
+    .post<any>(
+      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question',
+      {
+        question,
+      },
+    )
+    .then((res) => {
+      // console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function continueConversation(id: number, question: string) {
+  axiosDefault
+    .post<any>(
+      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question`,
+      {
+        conversationId: 11,
+        question,
+      },
+    )
+    .then((res) => {
+      // console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function getConversation(id: number): Promise<Conversation> {
+  try {
+    const res = await axiosDefault.get<any>(
+      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${id}`,
+    );
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+async function editTitle({ id, title }: { id: number; title: string }) {
+  axiosDefault
+    .patch<any>(
+      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${id}`,
+      {
+        // title: '405 error code',
+        pinned: true,
+      },
+    )
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function deleteConv() {
+  axiosDefault
+    .delete<any>(
+      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/5',
+    )
+    .then((res) => {
+      console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function saveCheckedQnA() {}
+
+async function deleteUncheckedQnA() {}
+
+async function saveBookmark({
+  cId,
+  bookmarks,
+}: {
+  cId: number;
+  bookmarks: string[];
+}) {
+  axiosDefault
+    .post(
+      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${cId}/bookmarks`,
+      {
+        bookmarks,
+      },
+    )
+    .then((res) => {
+      // console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+
+async function editBookmark({
+  cId,
+  bookmarks,
+}: {
+  cId: number;
+  bookmarks: string[];
+}) {
+  console.log('edit bookmark');
+}
+
 function scrollToLastQ() {
   const lastQnA = document.getElementById('qnaList')?.lastChild as HTMLElement;
-  lastQnA.scrollIntoView({ behavior: 'smooth' });
+  if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
   //set initial State of conversation; -> store
-  const [conversation, setConversation] = useState(initialConvData);
+  // const [jsoncheck, setJSONcheck] = useState()
+  const [conversation, setConversation] =
+    useState<Conversation>(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(true);
   const [qNum, setQNum] = useState<number>(0);
@@ -82,57 +201,47 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     newCheckValue: boolean;
   }) => {
     //turn that id's bookmarkStatus to false
-    const QnAToChange = conversation.qnaList.find((qna) => qna.qnaId === id);
+    const QnAToChange = conversation?.qnaList.find((qna) => qna.qnaId === id);
 
     if (QnAToChange) {
       const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
       const updatedQnAList = [
         updatedQnA,
-        ...conversation.qnaList.filter((qna) => qna.qnaId !== id),
+        ...(conversation?.qnaList || []).filter((qna) => qna.qnaId !== id),
       ].sort((a, b) => a.qnaId - b.qnaId);
 
       // console.log('to save: ', updatedQnAList);
-
-      setConversation({
-        ...conversation,
-        qnaList: updatedQnAList,
-      });
+      if (conversation)
+        setConversation((prev) => ({ ...prev!, qnaList: updatedQnAList }));
     }
   };
-  // const [conv, setConv] = useState<openAIAnswer>({
-  //   conversationId: 1,
-  //   title: "",
-  //   bookmarks: [],
-  //   tags: [],
-  //   qnaList: [
-  //     {
-  //       qnaId: 1,
-  //       question: "",
-  //       answer: "",
-  //       bookmarkStatus: false,
-  //       displayStatus: true,
-  //     },
-  //   ],
-  // });
-  // const [post, setPost] = useState<Post>({
-  //   id: 1,
-  //   title: "",
-  //   content: "",
-  //   createdAt: "",
-  //   updatedAt: "",
-  //   UserId: 1,
-  // });
 
   useEffect(() => {
-    // getJSON();
+    (async function () {
+      const conversation = await getConversation(11);
+      if (conversation) {
+        console.log('fetched data!');
+        setConversation(conversation);
+      }
+    })();
+
+    // saveBookmark({ cId: 11, bookmarks: ['network', 'http'] });
+
+    // getAllConversations();
+    // askFirstQuestion();
+    // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
+    // askFirstQuestionOpenAI();
+    // deleteConv();
+    // getConversation(11);
+    // continueConversation(10, 'how long has it took openai to launch you?');
     // (async () => {
     //   const post = await getJSON(): Promise<Post>
     // })();
-    console.log(conversation);
-  }, [conversation]);
+    // console.log(conversation);
+  }, []);
 
   useEffect(() => {
-    if (conversation.title) scrollToLastQ(); //do it when it's only asking more...
+    if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
   return (
@@ -144,7 +253,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           setCValue={setConversation}
           setQNum={setQNum}
         />
-        {Boolean(conversation.title) && (
+        {Boolean(conversation) && (
           <M.TitleBox>
             <EditableTitle
               cValue={conversation}
@@ -161,9 +270,9 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      {conversation.title ? (
+      {conversation ? (
         <QnAList
-          qnaItems={conversation.qnaList}
+          qnaItems={conversation?.qnaList}
           handleCheck={handleCheckQnAToSave}
         />
       ) : (

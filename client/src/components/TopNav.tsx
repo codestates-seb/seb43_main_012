@@ -14,13 +14,13 @@ import { Character } from '../styles/CharacterStyle';
 
 //import icons
 // @ts-ignore
-import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
+import { ReactComponent as HistoryIcon } from '../assets/icons/topnav/iconHistory.svg';
 // @ts-ignore
-import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
+import { ReactComponent as ChatIcon } from '../assets/icons/topnav/iconNewChat.svg';
 // @ts-ignore
-import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
+import { ReactComponent as CollectionIcon } from '../assets/icons/topnav/iconCollectionsNew.svg';
 // @ts-ignore
-import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
+import { ReactComponent as AnonymousIcon } from '../assets/icons/topnav/iconNonMember.svg';
 
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);

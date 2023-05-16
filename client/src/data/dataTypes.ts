@@ -87,13 +87,13 @@ export type Conversation = {
 };
 
 export const initialConvData = {
-  conversationId: 1,
+  conversationId: 0,
   title: '',
   member: {
-    memberId: 'mumblefish',
-    avatarLink: 'http://..',
+    memberId: '',
+    avatarLink: '',
   },
-  answerSummary: 'AnswerSummary',
+  answerSummary: '',
   createdAt: '',
   modifiedAt: '',
   qnaList: [] as QnAType[],

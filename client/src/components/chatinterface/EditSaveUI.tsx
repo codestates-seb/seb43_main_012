@@ -1,17 +1,56 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { EditSaveUIBox } from '../../styles/MainStyle';
 import DialogBoxSaveBookmark from '../dialogbox/DialogBoxSaveBookmark';
-import DialogBoxUserIcon from '../dialogbox/DialogBoxUserIcon';
-
-//style
+//import style
 import { CPopover } from '@coreui/react';
+import styled from 'styled-components';
 import '../../styles/sass/custom_popover_saveUI.scss';
 
+//import icons
+// @ts-ignore
+import { ReactComponent as EditIcon } from '../../assets/icons/main_qna/iconEdit2.svg';
+// @ts-ignore
+import { ReactComponent as AddBookmarkIcon } from '../../assets/icons/main_qna/iconAddBookmark.svg';
+// @ts-ignore
+import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
 type Props = {
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
   setEditConfirm: Dispatch<SetStateAction<boolean>>;
 };
+
+const IconItems = styled.ul`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const IconItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--b60);
+  margin: 0 5px;
+
+  svg {
+    width: var(--size-icon-default);
+    height: var(--size-icon-default);
+    fill?: currentColor;
+    stroke?: currentColor;
+    // stroke: currentColor;
+  }
+
+  svg:hover {
+    fill?: black;
+    stroke?: black;
+  }
+
+  &: hover {
+    cursor: pointer;
+    color: black;
+  }
+`;
+
 const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isSaveBoxOpen, setIsSaveBoxOpen] = useState<boolean>(false);
   const handleSaveClick = () => {
@@ -52,19 +91,25 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
           <button onClick={handleCancelClick}>cancel</button>
         </>
       ) : (
-        <>
-          <button onClick={handleEditClick}>edit</button>
-          <button>tag</button>
+        <IconItems>
+          <IconItem>
+            <EditIcon onClick={handleEditClick} />
+          </IconItem>
+          {/* <button onClick={handleEditClick}>edit</button> */}
+          <IconItem>
+            <AddTagIcon />
+          </IconItem>
+          {/* <button>tag</button> */}
           <CPopover
             className="popover_saveUI"
             content={<DialogBoxSaveBookmark />}
             placement="bottom"
           >
-            <button onClick={handleSaveClick}>save</button>
+            <IconItem>
+              <AddBookmarkIcon onClick={handleSaveClick} />
+            </IconItem>
           </CPopover>
-
-          {/* {isSaveBoxOpen && <DialogBoxSaveBookmark />} */}
-        </>
+        </IconItems>
       )}
     </EditSaveUIBox>
   );
