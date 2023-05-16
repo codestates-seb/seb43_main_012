@@ -6,74 +6,79 @@
 @import "../node_modules/@coreui/coreui/scss/root";
 @import "../../../node_modules/@coreui/coreui/scss/popover";
 
-.popover{
+.popover_saveUI{
     // z-index: 995;
     --#{$prefix}popover-bg: white !important;
     // --#{$prefix}popover-border-color: var(--color-default-navtooltip);
-    --#{$prefix}popover-arrow-border: white;
+    // --#{$prefix}popover-arrow-border: var(--#{$prefix}popover-border-color) !important;
+    --#{$prefix}popover-arrow-border:     rgba(0,0,0,0.2) !important;
 
-    --#{$prefix}popover-body-color: var(--color-default-gray);
-    --#{$prefix}popover-body-padding-x: 0;
-    --#{$prefix}popover-body-padding-y: 0;
+
+    --#{$prefix}popover-body-color: var(--color-default-gray) !important;
+    --#{$prefix}popover-body-padding-x: 0 !important;
+    --#{$prefix}popover-body-padding-y: 0 !important;
     // --#{$prefix}popover-header-padding-y: 3rem;
     // --#{$prefix}popover-box-shadow:  0px 1px 4px rgb(230, 230, 230);
-    --#{$prefix}popover-border-radius: 0.3rem;
-    --#{$prefix}popover-arrow-height: 0.5rem;
-    --#{$prefix}popover-header-bg: white;
-    --#{$prefix}popover-header-color: var(--color-default-gray);
+    // --#{$prefix}popover-border-radius: 0.3rem !important;
+    --#{$prefix}popover-arrow-height: 0.5rem !important;
+    --#{$prefix}popover-header-bg: white !important;
+    --#{$prefix}popover-header-color: var(--color-default-gray) !important;
 
     border: none !important;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
-    // box-shadow: 0px 1px 4px rgb(230, 230, 230);
+        box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2) !important;
 
-    border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color);
+    // box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2) !important;
+    // box-shadow: 0px 1px 4px rgb(230, 230, 230) !important;
 
-
-
-}
-
-.popover-header {
-
-    background-color: white;
-}
-
-.popover-arrow{
-    top: calc(-1 * (var(--cui-popover-arrow-height)));
-    // border: 0.5px solid black;
-}
-
-// .popover-arrow::after{
-//     top:
-// }
+    // border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color) !important;
 
 
-.bs-popover-top {
+    & .popover-header {
 
-    > .popover-arrow {
-        bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height)));
+        background-color: white !important;
     }
 
-    // &::before {
-    //     bottom: 0;
-    //     border-top-color: rgb(230, 230, 230);
-    //   }
+    & .popover-arrow{
+        top: calc(-1 * (var(--cui-popover-arrow-height))) !important;
+        // border: 0.5px solid black;
+    }
 
-    //   &::after {
-    //     bottom: var(--#{$prefix}popover-border-width);
-    //     border-top-color: rgb(230, 230, 230);
-    //   }
+    // .popover-arrow::after{
+    //     top:
+    // }
+
+
+    & .bs-popover-top {
+
+        > .popover-arrow {
+            bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height))) !important;
+        }
+
+        // &::before {
+        //     bottom: 0;
+        //     border-top-color: rgb(230, 230, 230);
+        //   }
+
+        //   &::after {
+        //     bottom: var(--#{$prefix}popover-border-width);
+        //     border-top-color: rgb(230, 230, 230);
+        //   }
+    }
+
+    & .bs-popover-bottom > .popover-arrow{
+        top: calc(-1 * (var(--cui-popover-arrow-height))) !important;
+
+        &::before {
+            top: 0 !important;
+            border-bottom-color: rgb(230, 230, 230) !important;
+          }
+
+          &::after {
+            top: var(--#{$prefix}popover-border-width) !important;
+            border-bottom-color: white !important;
+          }
+    }
+
 }
 
-.bs-popover-bottom > .popover-arrow{
-    top: calc(-1 * (var(--cui-popover-arrow-height)));
 
-    &::before {
-        top: 0;
-        border-bottom-color: rgb(230, 230, 230);
-      }
-
-      &::after {
-        top: var(--#{$prefix}popover-border-width);
-        border-bottom-color: white;
-      }
-}

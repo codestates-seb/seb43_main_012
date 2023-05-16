@@ -8,28 +8,28 @@
 
 .popover_topnav{
     --#{$prefix}popover-bg: var(--color-default-navtooltip) !important;
-    --#{$prefix}popover-border-color: var(--color-default-navtooltip);
-    --#{$prefix}popover-arrow-border: var(--color-default-navtooltip);
+    --#{$prefix}popover-border-color: var(--color-default-navtooltip) !important;
+    --#{$prefix}popover-arrow-border: var(--color-default-navtooltip) !important;
 
-    --#{$prefix}popover-body-color: white;
-    --#{$prefix}popover-body-padding-x: 0.5rem;
-    --#{$prefix}popover-body-padding-y: 0.3rem;
+    --#{$prefix}popover-body-color: white !important;
+    --#{$prefix}popover-body-padding-x: 0.5rem !important;
+    --#{$prefix}popover-body-padding-y: 0.3rem !important;
     // --#{$prefix}popover-header-padding-y: 3rem;
-    --#{$prefix}popover-border-radius: 0.3rem;
-    --#{$prefix}popover-arrow-height: 0.5rem;
+    --#{$prefix}popover-border-radius: 0.3rem !important;
+    --#{$prefix}popover-arrow-height: 0.5rem!important;
     border: none !important;
 
 
     border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color);
 
     & .popover-arrow{
-        top: calc(-1 * (var(--cui-popover-arrow-height)));
+        top: calc(-1 * (var(--cui-popover-arrow-height))) !important;
     }
 
     & .bs-popover-top {
 
         > .popover-arrow {
-            bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height)));
+            bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height))) !important;
         }
 
         // &::before {
@@ -44,7 +44,7 @@
     }
 
     & .bs-popover-bottom > .popover-arrow{
-        top: calc(-1 * (var(--cui-popover-arrow-height)));
+        top: calc(-1 * (var(--cui-popover-arrow-height))) !important;
 
         // &::before {
         //     top: 0;
