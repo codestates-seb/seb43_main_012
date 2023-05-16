@@ -20,25 +20,24 @@ import java.util.List;
 @Validated
 public class TagController {
 
-    private static final String TAG_DEFAULT_URL = "/api/conversation";
-    private static final String TAG_DEFAULT_URL_DETAIL = "/tag";
+    private static final String TAG_DEFAULT_URL = "/conversations";
+    private static final String TAG_DEFAULT_URL_DETAIL = "/tags";
 
     private final TagService tagService;
     private final TagMapper mapper;
 
     // 태그 생성
 
-    @PostMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL_DETAIL)
-    public ResponseEntity postTag (@PathVariable("conversationId") @Positive Long conversationId,
-                                   @Valid @RequestBody TagDto.Post tagDtoPost) {
-        tagDtoPost.setConversationId(conversationId);
-        Tag tag = mapper.tagPostDtoToTag(tagDtoPost);
-        Tag createdTag = tagService.createTag(tag);
-
-        return new ResponseEntity<>(
-                mapper.tagToTagSimpleResponseDto(createdTag),
-                HttpStatus.CREATED);
-    }
+//    @PostMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL_DETAIL)
+//    public ResponseEntity postTag (@PathVariable("conversationId") @Positive Long conversationId,
+//                                   @Valid @RequestBody TagDto.Post tagDtoPost) {
+//        Tag tag = mapper.tagPostDtoToTag(tagDtoPost);
+//        Tag createdTag = tagService.createTag(tag);
+//
+//        return new ResponseEntity<>(
+//                mapper.tagToTagSimpleResponseDto(createdTag),
+//                HttpStatus.CREATED);
+//    }
 
     // @PatchMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL_DETAIL + "/{tagId}")
     // public ResponseEntity patchTag(@PathVariable("conversationId") @Positive Long conversationId,

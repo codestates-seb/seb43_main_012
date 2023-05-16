@@ -3,6 +3,7 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
+import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class ConversationDto {
         private String title;
         private List<QnADto.Response> qnaList;
         private List<String> bookmarks;
-        private List<String> tags;
+        private List<Tag> tags;
         private Boolean saved;
         private Boolean pinned;
         private Boolean published;
@@ -45,7 +46,7 @@ public class ConversationDto {
         private String answerSummary;
         private LocalDateTime modifiedAt;
         private List<String> bookmarks;
-        private List<String> tags;
+        private List<Tag> tags;
         private Boolean saved;
         private Boolean pinned;
         private Boolean published;

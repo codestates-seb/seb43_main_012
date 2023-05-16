@@ -2,6 +2,7 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnA;
+import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,13 +32,14 @@ public class Conversation {
     private String answerSummary;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime modifiedAt = LocalDateTime.now();
-    @OneToMany(mappedBy = "conversation", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "conversation")
     private List<QnA> qnaList = new ArrayList<>();
     private Boolean saved = false;
     private Boolean pinned = false;
     private Boolean published = false;
     private String bookmarks = "[]";
-    private String tags = "[]";
+    @OneToMany(mappedBy = "conversation")
+    private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;
     private int activityLevel;
 
@@ -52,5 +54,9 @@ public class Conversation {
     public void addQnA(QnA qna)
     {
         this.qnaList.add(qna);
+    }
+    public void addTag(ConversationTag tag)
+    {
+        this.tags.add(tag);
     }
 }

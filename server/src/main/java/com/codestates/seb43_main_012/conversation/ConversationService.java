@@ -6,6 +6,13 @@ import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryRepository;
 import com.codestates.seb43_main_012.member.repository.MemberRepository;
+import com.codestates.seb43_main_012.tag.dto.TagDto;
+import com.codestates.seb43_main_012.tag.dto.TagResponseDto;
+import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
+import com.codestates.seb43_main_012.tag.entitiy.Tag;
+import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
+import com.codestates.seb43_main_012.tag.repository.TagRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ConversationService {
 
     private final Long MEMBER_ID = 1L;
@@ -23,18 +31,20 @@ public class ConversationService {
     private final BookmarkRepository bookmarkRepository;
     private final CategoryRepository categoryRepository;
     private final ConversationCategoryRepository conversationCategoryRepository;
-    public ConversationService(ConversationRepository conversationRepository,
-                               MemberRepository memberRepository,
-                               BookmarkRepository bookmarkRepository,
-                               CategoryRepository categoryRepository,
-                               ConversationCategoryRepository conversationCategoryRepository)
-    {
-        this.conversationRepository = conversationRepository;
-        this.memberRepository = memberRepository;
-        this.bookmarkRepository = bookmarkRepository;
-        this.categoryRepository = categoryRepository;
-        this.conversationCategoryRepository = conversationCategoryRepository;
-    }
+    private final TagRepository tagRepository;
+    private final ConversationTagRepository conversationTagRepository;
+//    public ConversationService(ConversationRepository conversationRepository,
+//                               MemberRepository memberRepository,
+//                               BookmarkRepository bookmarkRepository,
+//                               CategoryRepository categoryRepository,
+//                               ConversationCategoryRepository conversationCategoryRepository)
+//    {
+//        this.conversationRepository = conversationRepository;
+//        this.memberRepository = memberRepository;
+//        this.bookmarkRepository = bookmarkRepository;
+//        this.categoryRepository = categoryRepository;
+//        this.conversationCategoryRepository = conversationCategoryRepository;
+//    }
 
     public Conversation saveConversation(Conversation conversation)
     {
@@ -116,6 +126,33 @@ public class ConversationService {
         //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
         //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
 
+        return conversationRepository.save(conversation);
+    }
+
+    public Conversation createTag(long conversationId, TagDto.Post tagDto)
+    {
+        Conversation conversation = findConversation(conversationId);
+        conversation.setSaved(true);
+
+        //conversationTagRepository.deleteAllByConversationId(conversationId);
+
+        List<String> tags = tagDto.getTags();
+        tags.stream().forEach(tag-> {
+            Optional<Tag> optional = tagRepository.findByTagName(tag);
+            if(optional.isEmpty())
+            {
+                Tag savedTag = tagRepository.save(new Tag(tag));
+                ConversationTag conversationTag = new ConversationTag(conversation,savedTag.getTagId(),tag);
+                conversationTagRepository.save(conversationTag);
+            }
+            else
+            {
+                Tag findTag= optional.orElse(null);
+                ConversationTag conversationTag = new ConversationTag(conversation,findTag.getTagId(),tag);
+                conversationTagRepository.save(conversationTag);
+            }
+        });
+        //conversation.addTag();
         return conversationRepository.save(conversation);
     }
 

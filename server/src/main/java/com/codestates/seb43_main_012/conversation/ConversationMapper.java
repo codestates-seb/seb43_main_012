@@ -2,9 +2,11 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.collection.CollectionDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
-import com.codestates.seb43_main_012.qna.QnA;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAMapper;
+import com.codestates.seb43_main_012.tag.entitiy.Tag;
+import com.codestates.seb43_main_012.tag.repository.TagRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,21 +14,24 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
-
-    public ConversationMapper(QnAMapper qnaMapper)
-    {
-        this.qnaMapper = qnaMapper;
-    }
+    private final TagRepository tagRepository;
+//    public ConversationMapper(QnAMapper qnaMapper)
+//    {
+//        this.qnaMapper = qnaMapper;
+//    }
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation)
     {
         Long conversationId = conversation.getConversationId();
         String title = conversation.getTitle();
         List<String> bookmarks = stringToList(conversation.getBookmarks());
-        List<String> tag = stringToList(conversation.getTags());
+        List<Tag> tags = new ArrayList<>();
+
+        conversation.getTags().stream().forEach(conversationTag-> tags.add(tagRepository.findById(conversationTag.getTagId()).orElse(null)));
 
         List<QnADto.Response> qnaResponseList = new ArrayList<>();
         conversation.getQnaList().stream().forEach(qna ->
@@ -39,7 +44,7 @@ public class ConversationMapper {
                 title,
                 qnaResponseList,
                 bookmarks,
-                tag,
+                tags,
                 conversation.getSaved(),
                 conversation.getPinned(),
                 conversation.getPublished(),
@@ -56,7 +61,7 @@ public class ConversationMapper {
         CollectionDto.Response response = new CollectionDto.Response(
                 conversation.getConversationId(),
                 stringToList(conversation.getBookmarks()),
-                stringToList(conversation.getTags()),
+                new ArrayList<>(),
                 conversation.getPinned(),
                 conversation.getTitle()
         );
@@ -65,6 +70,9 @@ public class ConversationMapper {
 
     public ConversationDto.ResponseForAll conversationToConversationResponseDto(Conversation conv)
     {
+        List<Tag> tags = new ArrayList<>();
+        conv.getTags().stream().forEach(conversationTag -> tags.add(tagRepository.findById(conversationTag.getTagId()).orElse(null)));
+
         ConversationDto.ResponseForAll response =
                 new ConversationDto.ResponseForAll(
                         conv.getConversationId(),
@@ -73,7 +81,7 @@ public class ConversationMapper {
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
                         stringToList(conv.getBookmarks()),
-                        stringToList(conv.getTags()),
+                        tags,
                         conv.getSaved(),
                         conv.getPinned(),
                         conv.getPublished(),
@@ -90,21 +98,7 @@ public class ConversationMapper {
         conversations.stream()
                 .forEach(conv ->
                     {
-                        ConversationDto.ResponseForAll response =
-                                new ConversationDto.ResponseForAll(
-                                        conv.getConversationId(),
-                                        new MemberDto.ResponseForConversation(conv.getMember().getId(),conv.getMember().getUsername()),
-                                        conv.getTitle(),
-                                        conv.getAnswerSummary(),
-                                        conv.getModifiedAt(),
-                                        stringToList(conv.getBookmarks()),
-                                        stringToList(conv.getTags()),
-                                        conv.getSaved(),
-                                        conv.getPinned(),
-                                        conv.getPublished(),
-                                        conv.getViewCount(),
-                                        conv.getActivityLevel()
-                        );
+                        ConversationDto.ResponseForAll response = conversationToConversationResponseDto(conv);
                         responses.add(response);
                     }
         );

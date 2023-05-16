@@ -19,7 +19,7 @@ public class TagMapper2 {
         Tag tag = new Tag();
         //dto 로 받아온 태그네임을 id 랑 연결시켜준다
         // id 는 자동으로 증가 하기때문에 네임만 지정시켜주면됨
-        tag.setTagName(tagPostDto.getTagName());
+        //tag.setTagName(tagPostDto.getTagName());
         return tag;
     }
 

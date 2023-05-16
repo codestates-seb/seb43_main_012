@@ -3,9 +3,9 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.bookmark.Bookmark;
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
-import com.codestates.seb43_main_012.collection.CollectionDto;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
+import com.codestates.seb43_main_012.tag.dto.TagDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -73,12 +73,21 @@ public class ConversationController {
     }
 
     @PostMapping("/{conversation-id}/bookmarks")
-    public ResponseEntity collectConversation(@PathVariable("conversation-id") long conversationId,
+    public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody BookmarkDto.Post bookmarkDto)
     {
         Conversation savedConversation = conversationService.createBookmark(conversationId, bookmarkDto);
 
         return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(savedConversation),HttpStatus.OK);
+    }
+
+    @PostMapping("/{conversation-id}/tags")
+    public ResponseEntity tagConversation(@PathVariable("conversation-id") long conversationId,
+                                              @RequestBody TagDto.Post tagDto)
+    {
+        Conversation savedConversation = conversationService.createTag(conversationId, tagDto);
+
+        return new ResponseEntity<>(savedConversation,HttpStatus.OK);
     }
 
     @GetMapping("/bookmarks/{bookmark-name}")

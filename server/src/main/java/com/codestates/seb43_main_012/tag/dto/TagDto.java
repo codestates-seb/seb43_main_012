@@ -5,15 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 public class TagDto {
 
     @Getter
     @Setter
     @NoArgsConstructor
     public static class Post {
-        private Long conversationId;
         @NotNull
-        private String tagName;
+        private List<String> tags;
     }
 
     @Getter
