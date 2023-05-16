@@ -112,10 +112,16 @@ export const DialogBox = styled.div`
   left: 0;
   width: auto;
   height: auto;
-  border: 1px solid var(--color-border-dialogbox);
-  box-shadow: 1px 2px 2px 1px var(--color-dropshadow-dialogbox);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid var(--color-border-dialogbox);
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  // box-shadow: 1px 2px 2px 1px var(--color-dropshadow-dialogbox);
   border-radius: 10px;
   text-align: center;
+  z-index: 1080;
 `;
 
 export const ModalBackdrop = styled.div`
@@ -137,11 +143,13 @@ export const UserCreatedDate = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   background: var(--color-default-lightestgray);
   color: var(--color-default-gray);
   font-weight: 400;
   letter-spacing: -0.03em;
-  margin-bottom: 25px;
+  font-size: 15px;
+  margin-bottom: 10px;
   padding: 10px 25px;
 `;
 
@@ -151,6 +159,8 @@ export const DialogItems = styled.div`
   align-items: center;
   color: var(--color-default-gray);
   padding-bottom: 20px;
+  max-height: 130px;
+  overflow-y: auto;
 `;
 
 export const DialogSelectItem = styled.div`
@@ -162,21 +172,36 @@ export const DialogSelectItem = styled.div`
   padding: 20px 10px;
   font-size: 18px;
   cursor: pointer;
+  overflow: hidden;
+  overflow-x: auto;
+  padding-right: 2rem;
+
+  //hide scrollbar for Chrome, Safari and Opera
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  white-space: nowrap;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 `;
 
 export const SignoutItem = styled(DialogSelectItem)`
   padding: 0 10px;
+  // height: 25px;
 `;
 
 export const EmailItem = styled(DialogSelectItem)`
-  padding: 0 10px;
+  padding: 0 10px 0 10px;
   font-size: 13px;
   letter-spacing: -0.03em;
+  height: 15px;
+  color: var(--color-default-disabled);
 `;
 
 export const SignOutFooter = styled(DialogItems)`
   display: flex;
   border-top: 1px solid #f3efef;
-  padding: 15px 0;
+  padding: 15px 0 5px 0;
   font-size: 18px;
+  height: auto;
 `;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 //import components
-import { CPopover, CButton } from '@coreui/react';
+import { CPopover } from '@coreui/react';
 
 //import style
 import styled from 'styled-components';
@@ -109,7 +109,12 @@ const TopNav = ({
       <TN.NavIconsBox>
         <TN.AvatarBox className="navitem">
           <Link to="/history">
-            <CPopover content="history" placement="bottom" trigger="hover">
+            <CPopover
+              className="popover_topnav"
+              content="history"
+              placement="bottom"
+              trigger="hover"
+            >
               <div>
                 <HistoryIcon
                   className="svg"
@@ -121,7 +126,12 @@ const TopNav = ({
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem">
           <Link to="/">
-            <CPopover content="new chat" placement="bottom" trigger="hover">
+            <CPopover
+              className="popover_topnav"
+              content="new chat"
+              placement="bottom"
+              trigger="hover"
+            >
               <div>
                 <ChatIcon
                   className="svg center"
@@ -134,7 +144,12 @@ const TopNav = ({
 
         <TN.AvatarBox className="navitem">
           <Link to="/collection">
-            <CPopover content="collections" placement="bottom" trigger="hover">
+            <CPopover
+              className="popover_topnav"
+              content="collections"
+              placement="bottom"
+              trigger="hover"
+            >
               <div>
                 <CollectionIcon
                   className="svg"

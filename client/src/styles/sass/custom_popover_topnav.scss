@@ -6,7 +6,7 @@
 @import "../node_modules/@coreui/coreui/scss/root";
 @import "../../../node_modules/@coreui/coreui/scss/popover";
 
-.popover{
+.popover_topnav{
     --#{$prefix}popover-bg: var(--color-default-navtooltip) !important;
     --#{$prefix}popover-border-color: var(--color-default-navtooltip);
     --#{$prefix}popover-arrow-border: var(--color-default-navtooltip);
@@ -22,46 +22,47 @@
 
     border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color);
 
+    & .popover-arrow{
+        top: calc(-1 * (var(--cui-popover-arrow-height)));
+    }
 
+    & .bs-popover-top {
+
+        > .popover-arrow {
+            bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height)));
+        }
+
+        // &::before {
+        //     bottom: 0;
+        //     border-top-color: transparent;
+        //   }
+
+        //   &::after {
+        //     bottom: var(--#{$prefix}popover-border-width);
+        //     border-top-color: transparent;
+        //   }
+    }
+
+    & .bs-popover-bottom > .popover-arrow{
+        top: calc(-1 * (var(--cui-popover-arrow-height)));
+
+        // &::before {
+        //     top: 0;
+        //     border-bottom-color: transparent;
+        //   }
+
+        //   &::after {
+        //     top: var(--#{$prefix}popover-border-width);
+        //     border-bottom-color: transparent;
+        //   }
+    }
 
 }
 
-.popover-arrow{
-    top: calc(-1 * (var(--cui-popover-arrow-height)));
-}
+
 
 // .popover-arrow::after{
 //     top:
 // }
 
 
-.bs-popover-top {
-
-    > .popover-arrow {
-        bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height)));
-    }
-
-    // &::before {
-    //     bottom: 0;
-    //     border-top-color: transparent;
-    //   }
-
-    //   &::after {
-    //     bottom: var(--#{$prefix}popover-border-width);
-    //     border-top-color: transparent;
-    //   }
-}
-
-.bs-popover-bottom > .popover-arrow{
-    top: calc(-1 * (var(--cui-popover-arrow-height)));
-
-    // &::before {
-    //     top: 0;
-    //     border-bottom-color: transparent;
-    //   }
-
-    //   &::after {
-    //     top: var(--#{$prefix}popover-border-width);
-    //     border-bottom-color: transparent;
-    //   }
-}
