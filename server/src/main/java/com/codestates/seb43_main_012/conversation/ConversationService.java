@@ -1,6 +1,10 @@
 package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.*;
+import com.codestates.seb43_main_012.category.Category;
+import com.codestates.seb43_main_012.category.CategoryRepository;
+import com.codestates.seb43_main_012.category.ConversationCategory;
+import com.codestates.seb43_main_012.category.ConversationCategoryRepository;
 import com.codestates.seb43_main_012.member.repository.MemberRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,19 +16,24 @@ import java.util.Optional;
 @Service
 public class ConversationService {
 
+    private final Long MEMBER_ID = 1L;
+
     private final ConversationRepository conversationRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
-    private final BookmarkCategoryRepository bookmarkCategoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final ConversationCategoryRepository conversationCategoryRepository;
     public ConversationService(ConversationRepository conversationRepository,
                                MemberRepository memberRepository,
                                BookmarkRepository bookmarkRepository,
-                               BookmarkCategoryRepository bookmarkCategoryRepository)
+                               CategoryRepository categoryRepository,
+                               ConversationCategoryRepository conversationCategoryRepository)
     {
         this.conversationRepository = conversationRepository;
         this.memberRepository = memberRepository;
         this.bookmarkRepository = bookmarkRepository;
-        this.bookmarkCategoryRepository = bookmarkCategoryRepository;
+        this.categoryRepository = categoryRepository;
+        this.conversationCategoryRepository = conversationCategoryRepository;
     }
 
     public Conversation saveConversation(Conversation conversation)
@@ -66,29 +75,43 @@ public class ConversationService {
 
     public List<Bookmark> findBookmarkedConversations(String bookmarkName)
     {
-        return bookmarkRepository.findAllByBookmarkName(1L,bookmarkName);
+        return bookmarkRepository.findAllByBookmarkName(MEMBER_ID,bookmarkName);
     }
 
-    public Conversation createBookmark(long conversationId, BookmarkDto.Post collection)
+    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
     {
+        // 북마크 생성
+        // 카테고리 생성
+
         Conversation conversation = findConversation(conversationId);
         conversation.setSaved(true);
 
-        List<String> bookmarks = collection.getBookmarks();
-        bookmarks.stream().forEach(bookmark -> {
-            //중복 조회
-            if(bookmarkCategoryRepository.findByName(bookmark).isEmpty())
-                bookmarkCategoryRepository.save(new BookmarkCategory(1L,bookmark));
-        });
+        Bookmark bookmark = new Bookmark();
+        bookmark.setMemberId(MEMBER_ID);
+        bookmark.addConversation(conversation);
+        bookmarkRepository.save(bookmark);
 
-        Optional.ofNullable(collection.getBookmarks()).ifPresent(b -> {
-            conversation.setBookmarks(listToString(b));
-            Bookmark bookmark = new Bookmark();
-            bookmark.setBookmarkName(listToString(b));
-            bookmark.setMemberId(1L);
-            bookmark.addConversation(conversation);
-            bookmarkRepository.save(bookmark);
+        conversationCategoryRepository.deleteAllByConversationId(conversationId);
+
+        List<String> categories = dto.getBookmarks();
+        categories.stream().forEach(category -> {
+            //중복 조회
+            Optional<Category> optional = categoryRepository.findByName(category);
+            if(optional.isEmpty())
+            {
+                Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
+                ConversationCategory conversationCategory = new ConversationCategory(conversationId,savedCategory.getId());
+                conversationCategoryRepository.save(conversationCategory);
+            }
+            else
+            {
+                Category findCategory = optional.orElse(null);
+                ConversationCategory conversationCategory = new ConversationCategory(conversationId,findCategory.getId());
+                conversationCategoryRepository.save(conversationCategory);
+            }
         });
+        conversation.setBookmarks(listToString(categories));
+
         //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
         //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
         //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
