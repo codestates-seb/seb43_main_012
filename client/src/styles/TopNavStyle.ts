@@ -30,6 +30,9 @@ export const LogoBox = styled.div`
   font-weight: var(--text-fontweight-logo);
   letter-spacing: var(--text-letterspacing-logo);
   text-transform: uppercase;
+  a:hover {
+    color: var(--color-default-yellow-title);
+  }
 `;
 export const NavIconsBox = styled.div`
   min-width: var(--size-minwiddth-topnavicons);
@@ -42,39 +45,60 @@ export const AvatarBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  position: relative;
   min-width: var(--size-avatar);
   min-height: var(--size-avatar);
   padding: 0 20px;
   & .navitem {
     padding: 0 var(--padding-left-topnavitems);
   }
+
+  transition: width 0.2s ease-in-out height 0.2 ease-in-out margin-bottom 0.2
+    ease-in-out;
+
   .svg {
     width: var(--size-avatar-default);
     height: var(--size-avatar-default);
-    transition: width 0.1s ease-in-out;
+    transition: width 0.2s ease-in-out height 0.2 ease-in-out margin-bottom 0.2
+      ease-in-out;
   }
 
-  .svg:hover {
-    width: var(--size-avatar-hover);
-    height: var(--size-avatar-hover);
-    filter: invert(25%) sepia(80%) saturate(1.3);
-    // fill: blue;
-    transition: width 0.2s ease-in-out;
+  &:hover {
     cursor: pointer;
+    .svg {
+      width: var(--size-avatar-hover);
+      height: var(--size-avatar-hover);
+      filter: invert(25%) sepia(80%) saturate(1.3);
+      margin-bottom: 10px;
+      // fill: blue;
+      transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+        filter 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    }
+
+    .center {
+       {
+        width: var(--size-avatar-center-hover);
+        height: var(--size-avatar-center-hover);
+        margin-bottom: 10px;
+        transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+          margin-bottom 0.2s ease-in-out;
+      }
+    }
   }
 
-  // .svg:focus {
-  //   width: var(--size-avatar-hover);
-  //   filter: invert(25%) sepia(80%) saturate(1.3);
-  // }
+  &:focus {
+    .svg {
+      width: var(--size-avatar-hover);
+      filter: invert(25%) sepia(80%) saturate(1.3);
+      transition: width 0.2s ease-in-out, filter 0.2s ease-in-out;
+    }
+  }
 
   .center {
     width: var(--size-avatar-center);
     height: var(--size-avatar-center);
-  }
-  .center:hover {
-    width: var(--size-avatar-center-hover);
-    height: var(--size-avatar-center-hover);
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+      margin-bottom 0.2s ease-in-out;
   }
 `;
 
