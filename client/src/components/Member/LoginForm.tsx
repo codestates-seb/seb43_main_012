@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormContainer } from "../../styles/LoginStyle";
-import SignupInput from "./SignupInput";
+import SignupInput from "../member/SignupInput";
 import { ErrorMessage, SignButton } from "../../styles/SignupStyle";
 import { handleLogin } from "../../api/loginApi";
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal: () => void;
 };
 
-const LoginForm = ({ setIsLoggedIn }: Props) => {
+const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
 
   const [userId, setuserId] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
@@ -21,7 +24,11 @@ const LoginForm = ({ setIsLoggedIn }: Props) => {
       const res = await handleLogin({ userId, password, setErrors });
       if(res.status === 200){
         setIsLoggedIn(true);
-        window.location.replace("/");
+        console.log(res.headers);
+        console.log(res.headers["Authorization"]);
+        console.log(JSON.stringify(res.data));
+        closeModal();
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -49,9 +56,7 @@ const LoginForm = ({ setIsLoggedIn }: Props) => {
         {errors.length !== 0 ? (
           <ErrorMessage>아이디 또는 비밀번호를 잘못 입력하셨습니다.</ErrorMessage>
         ) : null}
-        {/* <Link to="/"> */}
         <SignButton type="submit">Log in</SignButton>
-        {/* </Link> */}
       </form>
     </FormContainer>
   );
