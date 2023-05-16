@@ -1,6 +1,11 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { EditSaveUIBox } from '../../styles/MainStyle';
 import DialogBoxSaveBookmark from '../dialogbox/DialogBoxSaveBookmark';
+import DialogBoxUserIcon from '../dialogbox/DialogBoxUserIcon';
+
+//style
+import { CPopover } from '@coreui/react';
+import '../../styles/sass/custom_popover_saveUI.scss';
 
 type Props = {
   editState: boolean;
@@ -50,8 +55,11 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
         <>
           <button onClick={handleEditClick}>edit</button>
           <button>tag</button>
-          <button onClick={handleSaveClick}>save</button>
-          {isSaveBoxOpen && <DialogBoxSaveBookmark />}
+          <CPopover content={<DialogBoxSaveBookmark />} placement="bottom">
+            <button onClick={handleSaveClick}>save</button>
+          </CPopover>
+
+          {/* {isSaveBoxOpen && <DialogBoxSaveBookmark />} */}
         </>
       )}
     </EditSaveUIBox>

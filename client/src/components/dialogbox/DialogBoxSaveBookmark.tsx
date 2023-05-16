@@ -13,21 +13,25 @@ const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
   z-index: 999;
 `;
-
-const BookmarkWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
+const BookmarkItems = styled(DialogItems)`
+  padding: 15px 10px;
+  max-height: 200px;
+  font-size: 16px;
 `;
 
-const BookmarkBox = styled(DialogBox)`
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  margin-top: 200px;
-  width: 200px;
+const InsetGradient = styled.div`
+  width: 2rem;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 37%
+  );
+  // background-image: linear-gradient(to left, white);
 `;
 
 type Props = {
@@ -39,24 +43,25 @@ const DialogBoxSaveBookmark = ({ setIsOpen }: Props) => {
     if (setIsOpen) setIsOpen(false);
   };
 
+  const tempBookmarks = [
+    'VeryVeryveryveryveryveryverylong bookmark',
+    'Bookmark2',
+    'Bookmark3',
+    'Bookmark4',
+    'Bookmark5',
+  ];
+
   return (
-    <BookmarkWrapper>
-      {/* <BoxBackdrop onClick={handleModalBackdropClick} /> */}
-      <BookmarkBox>
-        <DialogItems>
-          <DialogSelectItem>Bookmark1</DialogSelectItem>
-        </DialogItems>
-        <DialogItems>
-          <DialogSelectItem>Bookmark2</DialogSelectItem>
-        </DialogItems>
-        <DialogItems>
-          <DialogSelectItem>Bookmark3</DialogSelectItem>
-        </DialogItems>
-        <DialogItems>
-          <DialogSelectItem>Bookmark4</DialogSelectItem>
-        </DialogItems>
-      </BookmarkBox>
-    </BookmarkWrapper>
+    <>
+      <BookmarkItems>
+        {tempBookmarks.map((bookmark, index) => (
+          <DialogSelectItem key={index}>
+            {bookmark}
+            <InsetGradient></InsetGradient>
+          </DialogSelectItem>
+        ))}
+      </BookmarkItems>
+    </>
   );
 };
 
