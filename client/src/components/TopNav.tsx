@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+
+//import components
+import { CPopover, CButton } from '@coreui/react';
 
 //import style
+import styled from 'styled-components';
+import '@coreui/coreui/dist/css/coreui.min.css';
+import '../styles/sass/custom_popover_topnav.scss';
+
 import * as TN from '../styles/TopNavStyle';
 import { Character } from '../styles/CharacterStyle';
 
@@ -34,6 +40,15 @@ const AvatarIcon = styled(Character)`
   //     padding-bottom 0.3 ease-in-out;
   // }
 `;
+
+const navTooltip = {
+  position: 'absolute',
+  inset: '0px auto auto 0px',
+  transform: 'translate3d(315.5px, 84.5px, 0px)',
+  background: 'purple',
+  color: 'white',
+};
+
 type TopNavProps = {
   isLoggedIn: boolean;
   isUserDialogOpen: boolean;
@@ -94,26 +109,39 @@ const TopNav = ({
       <TN.NavIconsBox>
         <TN.AvatarBox className="navitem">
           <Link to="/history">
-            <HistoryIcon
-              className="svg"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover content="history" placement="bottom" trigger="hover">
+              <div>
+                <HistoryIcon
+                  className="svg"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem">
           <Link to="/">
-            <ChatIcon
-              className="svg center"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover content="new chat" placement="bottom" trigger="hover">
+              <div>
+                <ChatIcon
+                  className="svg center"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
+
         <TN.AvatarBox className="navitem">
           <Link to="/collection">
-            <CollectionIcon
-              className="svg"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover content="collections" placement="bottom" trigger="hover">
+              <div>
+                <CollectionIcon
+                  className="svg"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
       </TN.NavIconsBox>
