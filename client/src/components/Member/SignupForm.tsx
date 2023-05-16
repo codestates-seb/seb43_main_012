@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import SignupInput from "../Member/SignupInput";
-import Agreement from "./SignupAgreement";
+import { useNavigate } from "react-router-dom";
+import SignupInput from "../member/SignupInput";
 import ModalCharacter from "../modals/ModalCharacter";
 import {
   ErrorMessage,
@@ -18,7 +18,8 @@ import useCheck from "../../hooks/useCheck";
 import handleSignup from "../../api/signupApi";
 
 const SignupForm: React.FC = () => {
-  const SIGNUP_URL = `http://localhost:3000/user`;
+
+  const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,13 +47,19 @@ const SignupForm: React.FC = () => {
   }, [password2]);
 
   const handleSubmit = () => {
-    handleSignup({
-      SIGNUP_URL,
+    try{
+      handleSignup({
       username,
       userId,
       password,
       setErrors,
     });
+    handleClick();
+  }
+    catch{
+      console.log(error);
+      alert("잠시 후에 다시 시도해주세요.");
+    }
   };
 
   const handleClick = () => {
