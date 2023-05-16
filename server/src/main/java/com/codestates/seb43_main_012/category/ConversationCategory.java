@@ -21,13 +21,13 @@ public class ConversationCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
-    private long categoryId;
-    private String categoryName;
+    private long bookmarkId;
+    private String bookmarkName;
 
-    public ConversationCategory(Conversation conversation, long categoryId, String categoryName)
+    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
     {
         this.conversation = conversation;
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
+        this.bookmarkId = bookmarkId;
+        this.bookmarkName = bookmarkName;
     }
 }

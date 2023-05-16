@@ -81,8 +81,8 @@ public class ConversationMapper {
     private ConversationCategoryDto categoryToCategoryResponseDto(ConversationCategory conversationCategory)
     {
         ConversationCategoryDto response = new ConversationCategoryDto(
-                conversationCategory.getCategoryId(),
-                conversationCategory.getCategoryName()
+                conversationCategory.getBookmarkId(),
+                conversationCategory.getBookmarkName()
         );
 
         return response;
