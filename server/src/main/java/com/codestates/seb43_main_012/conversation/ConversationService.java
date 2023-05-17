@@ -80,7 +80,7 @@ public class ConversationService {
     public Conversation findConversation(long conversationId)
     {
         Optional<Conversation> optional = conversationRepository.findById(conversationId);
-        Conversation conversation = optional.orElseThrow(()->new RuntimeException());
+        Conversation conversation = optional.orElseThrow(()->new RuntimeException("wrong id"));
         return conversation;
     }
 
