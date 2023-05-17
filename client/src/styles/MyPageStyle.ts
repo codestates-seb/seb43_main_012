@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+// 마이페이지 전체
 export const MyPageWrapper = styled.div`
   display: flex;
   flex-direction: column;

@@ -28,7 +28,7 @@ export const SignupBox = styled.div`
   background-color: #fff5de;
 `;
 
-//OAuth 버튼
+//OAuth 
 export const ButtonBox = styled.button`
   margin-bottom: 1.5%;
   width: 259px;
