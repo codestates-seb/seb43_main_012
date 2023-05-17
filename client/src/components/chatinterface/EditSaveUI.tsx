@@ -69,6 +69,7 @@ const EditSaveUI = ({
     setIsSaveBoxOpen(!isSaveBoxOpen);
   };
   const handleConfirmClick = () => {
+    console.log('confirm click!');
     setEditConfirm(true);
     setEditState(!editState);
   };

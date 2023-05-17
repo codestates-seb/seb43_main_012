@@ -10,6 +10,9 @@ import { useInput } from '../../utils/hooks/useInput';
 import Input from './Input';
 import { InputTitleBox } from '../../styles/MainStyle';
 
+//import api
+import { editTitle } from '../../api/ChatInterfaceApi';
+
 type Props = {
   cValue: Conversation;
   setCValue: Dispatch<SetStateAction<Conversation>>;
@@ -31,18 +34,45 @@ const EditableTitle = ({
   }, [cValue, editState]);
 
   useEffect(() => {
-    if (editConfirm) {
+    console.log('edit state changed');
+
+    if (editConfirm && value) {
       //update the conversation
-      if (value) setCValue((prev) => ({ ...prev, title: value }));
-      else setValue(cValue.title);
+      if (value !== cValue.title) {
+        (async function () {
+          const res = await editTitle({
+            id: cValue.conversationId,
+            title: value,
+          });
+          if (res) {
+            console.log('edit title success!');
+            setCValue((prev) => ({ ...prev, title: value }));
+          }
+        })();
+        // editTitle({ id: cValue.conversationId, title: value });
+      } else setValue(cValue.title);
       //add dispatch function to update conversation title in data!
     }
   }, [editState]);
 
   const handleTitleChange = () => {
-    if (value) setCValue((prev) => ({ ...prev, title: value }));
-    else setValue(cValue.title);
-    //add dispatch function to update conversation title in data!
+    console.log('did this even happen');
+
+    //only send if the input value has something
+    if (value) {
+      //add dispatch function to update conversation title in data!
+
+      (async function () {
+        const res = await editTitle({
+          id: cValue.conversationId,
+          title: value,
+        });
+        if (res) {
+          console.log('edit title success!');
+          setCValue((prev) => ({ ...prev, title: value }));
+        }
+      })();
+    } else setValue(cValue.title);
     setEditState(false);
   };
 
