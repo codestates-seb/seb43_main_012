@@ -26,3 +26,24 @@ export const handleUpdate = async (URL: String, avatarLink: String): Promise<Use
     }
     return response.data.message;
 }
+
+
+export const handleNameUpdate = async (URL: String, username: String): Promise<UserInfoItemTypes> =>{
+    const response = await requestAuth.patch(`/api/${URL}`,{
+        username: username,
+    });
+    if(response.status !== 200){
+        throw new Error(response.data.message)
+    }
+    return response.data.message;
+}
+
+export const handlePasswordUpdate = async (URL: String, password: String): Promise<UserInfoItemTypes> =>{
+    const response = await requestAuth.patch(`/api/${URL}`,{
+        password: password,
+    });
+    if(response.status !== 200){
+        throw new Error(response.data.message)
+    }
+    return response.data.message;
+}
