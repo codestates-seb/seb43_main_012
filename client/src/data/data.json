@@ -1,155 +1,442 @@
 {
-  "chat": [
+  "bookmarks": [
     {
-      "id": 1,
-      "title": "JavaScript",
-      "content": "What's the difference between '==' and '===' in JavaScript?",
-      "user": {
-        "id": 1,
-        "name": "Bard"
-      },
-      "bookmark": "JavaScript",
-      "tags": ["javascript", "operators", "equality"],
-      "fixed": true
+      "categoryId": 1,
+      "categoryName": "JavaScript"
     },
     {
-      "id": 2,
-      "title": "Python",
-      "content": "How do I iterate over a dictionary in Python?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "Python",
-      "tags": ["python", "dictionaries", "loops"],
-      "fixed": true
+      "categoryId": 2,
+      "categoryName": "Python"
     },
     {
-      "id": 3,
-      "title": "AI",
-      "content": "What are some common machine learning algorithms?",
-      "user": {
-        "id": 1,
-        "name": "Bard"
-      },
-      "bookmark": "AI",
-      "tags": ["ai", "machine learning", "algorithms"],
-      "fixed": true
+      "categoryId": 3,
+      "categoryName": "AI"
     },
     {
-      "id": 4,
-      "title": "React",
-      "content": "What's the best way to handle state in React?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "React",
-      "tags": ["react", "state management", "hooks"],
-      "fixed": false
-    },
-    {
-      "id": 5,
-      "title": "JavaScript",
-      "content": "How do I create a closure in JavaScript?",
-      "user": {
-        "id": 1,
-        "name": "Bard"
-      },
-      "bookmark": "JavaScript",
-      "tags": ["javascript", "closures", "functions"],
-      "fixed": false
-    },
-    {
-      "id": 6,
-      "title": "Python",
-      "content": "What are some popular Python libraries for data analysis?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "Python",
-      "tags": ["python", "data analysis", "libraries"],
-      "fixed": false
-    },
-    {
-      "id": 7,
-      "title": "React",
-      "content": "What are some best practices for writing React components?",
-      "user": {
-        "id": 1,
-        "name": "Bard"
-      },
-      "bookmark": "React",
-      "tags": ["react", "component design", "best practices"],
-      "fixed": false
-    },
-    {
-      "id": 8,
-      "title": "JavaScript",
-      "content": "What are some popular JavaScript frameworks and libraries?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "JavaScript",
-      "tags": ["javascript", "frameworks", "libraries"],
-      "fixed": false
-    },
-    {
-      "id": 9,
-      "title": "AI",
-      "content": "What are some ethical considerations when developing AI?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "AI",
-      "tags": [],
-      "fixed": false
-    },
-    {
-      "id": 10,
-      "title": "JavaScript",
-      "content": "What are some popular JavaScript frameworks and libraries?",
-      "user": {
-        "id": 2,
-        "name": "Alice"
-      },
-      "bookmark": "JavaScript",
-      "tags": ["javascript", "frameworks", "libraries"],
-      "fixed": false
+      "categoryId": 4,
+      "categoryName": "React"
     }
   ],
-  "bookmark": [
-    "All",
-    "JavaScript",
-    "Python",
-    "AI",
-    "React",
-    "JavaScript",
-    "Python",
-    "React",
-    "JavaScript"],
   "tags": [
-    "javascript",
-    "operators",
-    "equality",
-    "python",
-    "dictionaries",
-    "loops",
-    "ai",
-    "machine learning",
-    "algorithms",
-    "react",
-    "state management",
-    "hooks",
-    "closures",
-    "functions",
-    "data analysis",
-    "libraries",
-    "component design",
-    "best practices",
-    "frameworks"
+    {
+      "tagId": 1,
+      "tagName": "javascript"
+    },
+    {
+      "tagId": 2,
+      "tagName": "operators"
+    },
+    {
+      "tagId": 3,
+      "tagName": "equality"
+    },
+    {
+      "tagId": 4,
+      "tagName": "python"
+    },
+    {
+      "tagId": 5,
+      "tagName": "dictionaries"
+    },
+    {
+      "tagId": 6,
+      "tagName": "loops"
+    },
+    {
+      "tagId": 7,
+      "tagName": "ai"
+    },
+    {
+      "tagId": 8,
+      "tagName": "machine learning"
+    },
+    {
+      "tagId": 9,
+      "tagName": "algorithms"
+    },
+    {
+      "tagId": 10,
+      "tagName": "react"
+    },
+    {
+      "tagId": 11,
+      "tagName": "state management"
+    },
+    {
+      "tagId": 12,
+      "tagName": "hooks"
+    },
+    {
+      "tagId": 13,
+      "tagName": "closures"
+    },
+    {
+      "tagId": 14,
+      "tagName": "functions"
+    },
+    {
+      "tagId": 15,
+      "tagName": "data analysis"
+    },
+    {
+      "tagId": 16,
+      "tagName": "libraries"
+    },
+    {
+      "tagId": 17,
+      "tagName": "component design"
+    },
+    {
+      "tagId": 18,
+      "tagName": "best practices"
+    },
+    {
+      "tagId": 19,
+      "tagName": "frameworks"
+    }
+  ],
+  "conversations": [
+    {
+      "conversationId": 1,
+      "member": {
+        "memberId": 1,
+        "username": "Bard"
+      },
+      "title": "What's the difference between '==' and '===' in JavaScript?",
+      "answerSummary": "Here is the difference between '==' and '===' in JavaScript.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 3,
+          "bookmarkName": "JavaScript"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 1,
+          "tagName": "javascript"
+        },
+        {
+          "tagId": 3,
+          "tagName": "equality"
+        },
+        {
+          "tagId": 19,
+          "tagName": "frameworks"
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 2,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "How do I iterate over a dictionary in Python?",
+      "answerSummary": "Here is how to iterate over a dictionary in Python.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 4,
+          "bookmarkName": "Python"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 4,
+          "tagName": "python"
+        },
+        {
+          "tagId": 5,
+          "tagName": "dictionaries"
+        },
+        {
+          "tagId": 6,
+          "tagName": "loops"
+        }
+      ],
+      "saved": true,
+      "pinned": true,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 3,
+      "member": {
+        "memberId": 1,
+        "username": "Bard"
+      },
+      "title": "What are some common machine learning algorithms?",
+      "answerSummary": "Here are some common machine learning algorithms.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 5,
+          "bookmarkName": "AI"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 7,
+          "tagName": "ai"
+        },
+        {
+          "tagId": 8,
+          "tagName": "machine learning"
+        },
+        {
+          "tagId": 9,
+          "tagName": "algorithms"
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 4,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "What's the best way to handle state in React?",
+      "answerSummary": "Here are some best practices for handling state in React.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 6,
+          "bookmarkName": "React"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 10,
+          "tagName": "react"
+        },
+        {
+          "tagId": 11,
+          "tagName": "state management"
+        },
+        {
+          "tagId": 12,
+          "tagName": "hooks"
+        }
+      ],
+      "saved": true,
+      "pinned": true,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 5,
+      "member": {
+        "memberId": 1,
+        "username": "Bard"
+      },
+      "title": "How do I create a closure in JavaScript?",
+      "answerSummary": "Here is how to create a closure in JavaScript.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 3,
+          "bookmarkName": "JavaScript"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 1,
+          "tagName": "javascript"
+        },
+        {
+          "tagId": 13,
+          "tagName": "closures"
+        },
+        {
+          "tagId": 19,
+          "tagName": "frameworks"
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 6,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "What are some popular Python libraries for data analysis?",
+      "answerSummary": "Here are some popular Python libraries for data analysis.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 7,
+          "bookmarkName": "Python"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 4,
+          "tagName": "python"
+        },
+        {
+          "tagId": 15,
+          "tagName": "data analysis"
+        },
+        {
+          "tagId": 16,
+          "tagName": "libraries"
+        }
+      ],
+      "saved": true,
+      "pinned": true,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 7,
+      "member": {
+        "memberId": 1,
+        "username": "Bard"
+      },
+      "title": "What are some best practices for writing React components?",
+      "answerSummary": "Here are some best practices for writing React components.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 6,
+          "bookmarkName": "React"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 10,
+          "tagName": "react"
+        },
+        {
+          "tagId": 17,
+          "tagName": "component design"
+        },
+        {
+          "tagId": 18,
+          "tagName": "best practices"
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 8,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "What are some popular JavaScript frameworks and libraries?",
+      "answerSummary": "Here are some popular JavaScript frameworks and libraries.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 3,
+          "bookmarkName": "JavaScript"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 1,
+          "tagName": "javascript"
+        },
+        {
+          "tagId": 19,
+          "tagName": "frameworks"
+        },
+        {
+          "tagId": 16,
+          "tagName": "libraries"
+        }
+      ],
+      "saved": false,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 9,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "What are some ethical considerations when developing AI?",
+      "answerSummary": "Here are some ethical considerations when developing AI.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 5,
+          "bookmarkName": "AI"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 7,
+          "tagName": "ai"
+        }
+      ],
+      "saved": false,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 10,
+      "member": {
+        "memberId": 2,
+        "username": "Alice"
+      },
+      "title": "What are some popular JavaScript frameworks and libraries?",
+      "answerSummary": "Here are some popular JavaScript frameworks and libraries.",
+      "modifiedAt": "2023-05-17T04:21:55.316036",
+      "bookmarks": [
+        {
+          "bookmarkId": 3,
+          "bookmarkName": "JavaScript"
+        }
+      ],
+      "tags": [
+        {
+          "tagId": 1,
+          "tagName": "javascript"
+        },
+        {
+          "tagId": 19,
+          "tagName": "frameworks"
+        },
+        {
+          "tagId": 16,
+          "tagName": "libraries"
+        }
+      ],
+      "saved": false,
+      "pinned": false,
+      "published": false,
+      "viewCount": 9,
+      "activityLevel": 0
+    }
   ]
 }
