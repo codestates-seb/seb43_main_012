@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalLogin from "../components/modals/ModalLogin";
 
 type Props = {
@@ -6,14 +6,19 @@ type Props = {
   setIsOpen: (isOpen: boolean) => void;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 const Login = ({ isOpen, setIsOpen, setIsLoggedIn }: Props) => {
-  const handleClick = () => {
-    if (!isOpen) setIsOpen(true);
-  };
+  const [isInitialMount, setIsInitialMount] = useState(true);
+
+  useEffect(() => {
+    if (isInitialMount) {
+      setIsOpen(true);
+      setIsInitialMount(false);
+    }
+  }, [isInitialMount, setIsOpen]);
 
   return (
     <div>
-      <button onClick={handleClick}>Login Page!</button>
       <ModalLogin
         isOpen={isOpen}
         setIsOpen={setIsOpen}
