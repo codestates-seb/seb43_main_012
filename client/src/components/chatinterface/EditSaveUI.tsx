@@ -16,6 +16,10 @@ import { ReactComponent as EditIcon } from '../../assets/icons/main_qna/iconEdit
 import { ReactComponent as AddBookmarkIcon } from '../../assets/icons/main_qna/iconAddBookmark.svg';
 // @ts-ignore
 import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
+// @ts-ignore
+import { ReactComponent as ConfirmIcon } from '../../assets/icons/main_qna/iconCheck.svg';
+// @ts-ignore
+import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
 type Props = {
   cId: number;
   bookmarks: BookmarkType[];
@@ -99,19 +103,21 @@ const EditSaveUI = ({
     <EditSaveUIBox>
       {editState ? (
         <>
-          <button onClick={handleConfirmClick}>confirm</button>
-          <button onClick={handleCancelClick}>cancel</button>
+          <IconItem>
+            <ConfirmIcon onClick={handleConfirmClick} />
+          </IconItem>
+          <IconItem>
+            <CancelIcon onClick={handleConfirmClick} />
+          </IconItem>
         </>
       ) : (
         <IconItems>
           <IconItem>
             <EditIcon onClick={handleEditClick} />
           </IconItem>
-          {/* <button onClick={handleEditClick}>edit</button> */}
           <IconItem>
             <AddTagIcon />
           </IconItem>
-          {/* <button>tag</button> */}
           <CPopover
             className="popover_saveUI"
             content={<DialogBoxSaveBookmark bookmarks={bookmarks} cId={cId} />}
