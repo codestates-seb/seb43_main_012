@@ -30,6 +30,7 @@ public class Conversation {
     @JoinColumn(name = "MEMBER_ID")
     private MemberEntity member;
     private String title;
+    @Column(length=10000)
     private String answerSummary;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime modifiedAt = LocalDateTime.now();

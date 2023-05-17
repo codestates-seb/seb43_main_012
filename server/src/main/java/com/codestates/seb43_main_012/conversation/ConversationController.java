@@ -97,4 +97,9 @@ public class ConversationController {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    // 특정대화 북마크 등록
+    // 특정대화 북마크 수정
+    // 특정대화 태그 등록
+    // 특정대화 태그 삭제
 }

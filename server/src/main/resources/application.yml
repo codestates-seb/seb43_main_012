@@ -8,23 +8,24 @@ jwt:
   expiration: 86400
 
 spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/dbforuser?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: root
-#    password: dlrla0413
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.ce54ty66p4fy.ap-northeast-2.rds.amazonaws.com:13306/chatcrawl?useSSL=false&createDatabaseIfNotExist=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: 12345678
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
   jpa:
-    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     #open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
