@@ -11,8 +11,8 @@ import {
   DefaultBookmarks,
   BookmarkTempType,
 } from '../../data/dataTypes';
-import { axiosDefault } from '../../utils/axiosConfig';
-
+//import api
+import { editBookmark } from '../../api/ChatInterfaceApi';
 const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
   z-index: 999;
@@ -27,26 +27,6 @@ type BookmarkCheckType = BookmarkType & {
   checked: boolean;
 };
 
-async function editBookmark({
-  cId,
-  bookmarks,
-}: {
-  cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .patch(
-      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${cId}/bookmarks`,
-      {
-        bookmarks,
-      },
-    )
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
 const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
   useEffect(() => {
     console.log('fetched bookmarks!');

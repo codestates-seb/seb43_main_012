@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from 'react';
+//import style
+import styled from 'styled-components';
+import * as M from '../styles/MainStyle';
 //import components
 import ChatInput from '../components/chatinterface/ChatInput';
 import EditableTitle from '../components/chatinterface/EditableTitle';
 import EditSaveUI from '../components/chatinterface/EditSaveUI';
 import QnAList from '../components/chatinterface/QnAList';
-import bgImg from '../assets/temp/screenshot_mainpage.png';
 import Loading from '../components/chatinterface/Loading';
-//import style
-import styled from 'styled-components';
-import * as M from '../styles/MainStyle';
-//import file
+//import files
 import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 
-//import axios
-import { axiosDefault, axiosNgrok } from '../utils/axiosConfig';
-import {
-  Post,
-  GetPostResponse,
-  QnAType,
-  GetNewQnAResponse,
-  openAIAnswer,
-  GetOpenAIResponse,
-  Conversation,
-  initialConvData,
-} from '../data/dataTypes';
+//import data
+import { Conversation, initialConvData } from '../data/dataTypes';
 
-const TempBackdrop = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  z-index: 1;
-`;
+//import api
+import { getConversation } from '../api/ChatInterfaceApi';
+
+// const TempBackdrop = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   z-index: 1;
+// `;
 
 type MainProps = {
   isOpen: boolean;
@@ -45,140 +37,6 @@ const MainBox = styled(M.MainBox)<MainProps>`
       : 'var(--size-minwidth-pc-main)'}; //change this when you adjust the max-width;
 `;
 
-async function getAllConversations() {
-  axiosDefault
-    .get<any>(
-      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations',
-    )
-    .then((res) => {
-      console.log(res);
-      // res.data;
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function askFirstQuestion(question: string) {
-  axiosDefault
-    .post<any>(
-      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations',
-      {
-        question,
-      },
-    )
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function askFirstQuestionOpenAI(question: string) {
-  axiosDefault
-    .post<any>(
-      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question',
-      {
-        question,
-      },
-    )
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function continueConversation(id: number, question: string) {
-  axiosDefault
-    .post<any>(
-      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/openai/question`,
-      {
-        conversationId: 11,
-        question,
-      },
-    )
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function getConversation(id: number): Promise<Conversation> {
-  try {
-    const res = await axiosDefault.get<any>(
-      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${id}`,
-    );
-    console.log(res.data);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
-}
-
-async function editTitle({ id, title }: { id: number; title: string }) {
-  axiosDefault
-    .patch<any>(
-      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${id}`,
-      {
-        // title: '405 error code',
-        pinned: true,
-      },
-    )
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function deleteConv() {
-  axiosDefault
-    .delete<any>(
-      'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/5',
-    )
-    .then((res) => {
-      console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function saveCheckedQnA() {}
-
-async function deleteUncheckedQnA() {}
-
-async function saveBookmark({
-  cId,
-  bookmarks,
-}: {
-  cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .post(
-      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${cId}/bookmarks`,
-      {
-        bookmarks,
-      },
-    )
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
-async function editBookmark({
-  cId,
-  bookmarks,
-}: {
-  cId: number;
-  bookmarks: string[];
-}) {
-  console.log('edit bookmark');
-}
-
 function scrollToLastQ() {
   const lastQnA = document.getElementById('qnaList')?.lastChild as HTMLElement;
   if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
@@ -186,13 +44,16 @@ function scrollToLastQ() {
 
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
   //set initial State of conversation; -> store
-  // const [jsoncheck, setJSONcheck] = useState()
   const [conversation, setConversation] =
     useState<Conversation>(initialConvData);
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
-  const [editConfirm, setEditConfirm] = useState<boolean>(true);
+  const [editConfirm, setEditConfirm] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
 
+  const updateQNum = () => {
+    console.log('updating question number!');
+    setQNum((prev) => prev + 1);
+  };
   const handleCheckQnAToSave = ({
     id,
     newCheckValue,
@@ -218,15 +79,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     (async function () {
-      const conversation = await getConversation(11);
+      const conversation = await getConversation(40);
       if (conversation) {
         console.log('fetched data!');
         setConversation(conversation);
       }
     })();
-
     // saveBookmark({ cId: 11, bookmarks: ['network', 'http'] });
-
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
@@ -241,6 +100,17 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   }, []);
 
   useEffect(() => {
+    scrollToLastQ();
+  }, [conversation]);
+
+  useEffect(() => {
+    (async function () {
+      const conversation = await getConversation(40);
+      if (conversation) {
+        console.log('fetched conversation data!');
+        setConversation(conversation);
+      }
+    })();
     if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
@@ -251,9 +121,9 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         <ChatInput
           cValue={conversation}
           setCValue={setConversation}
-          setQNum={setQNum}
+          updateQNum={updateQNum}
         />
-        {Boolean(conversation) && (
+        {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
               cValue={conversation}
@@ -282,21 +152,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           <Loading loadingGif={loadingGif} />
         </M.LoadingBox>
       )}
-
-      {/* <TempBackdrop>
-        <img
-          src={bgImg}
-          style={{
-            width: 1000,
-            height: 692,
-            zIndex: -1,
-            opacity: 0.2,
-            // objectFit: "cover",
-            position: 'absolute',
-            top: 0,
-          }}
-        />
-      </TempBackdrop> */}
     </MainBox>
   );
 };

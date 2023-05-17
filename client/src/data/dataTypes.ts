@@ -92,7 +92,7 @@ export type Conversation = {
 };
 
 export const initialConvData = {
-  conversationId: 0,
+  conversationId: -1,
   title: '',
   member: {
     memberId: 'mumblefish',
