@@ -48,6 +48,18 @@ const Content = styled.a`
     text-align: left;
     word-break: break-all;
   }
+
+  .header {
+    display: flex;
+  }
+  .title {
+    /* word-break: break-all; */
+  }
+  .buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
   .bookmark {
     color: #c9ad6e;
   }
@@ -116,6 +128,7 @@ const BookmarkTagContent = styled.div`
 const SvgButton = styled.button`
   width: 20px;
   border: none;
+  margin: 20% 5% 0 5%;
   background-color: transparent;
 
   cursor: pointer;
@@ -164,7 +177,12 @@ const Collections = () => {
           .filter((item) => item.pinned)
           .map((conversation) => (
             <FixedContent href="#" key={conversation.conversationId}>
-              <h3>{conversation.title}</h3>
+              <div className="header">
+                <h3 className="title">{conversation.title}</h3>
+                <span className="buttons">
+                  <PinButton /> <BookmarkButton />
+                </span>
+              </div>
               <p>{conversation.answerSummary}</p>
               <span className="bookmark">
                 {conversation.bookmarks[0].bookmarkName}
@@ -216,8 +234,12 @@ const Collections = () => {
               )
               .map((conversation) => (
                 <Content key={conversation.conversationId} href="#">
-                  <h3>{conversation.title}</h3>
-                  <p>{conversation.answerSummary}</p>
+                  <div className="header">
+                    <h3 className="title">{conversation.title}</h3>
+                    <span className="buttons">
+                      <PinButton /> <BookmarkButton />
+                    </span>
+                  </div>
                   <span className="bookmark">
                     {" "}
                     {conversation.bookmarks[0].bookmarkName}
