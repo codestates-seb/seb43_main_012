@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ModalEdit from '../components/modals/ModalEdit';
 import { MyPageWrapper, MyData } from '../styles/MyPageStyle';
 import { MainCharacter } from '../styles/CharacterStyle';
 import { handleUserInfo, UserInfoItemTypes } from '../api/MemberApi';
+import { userDelete, logoutApi } from '../api/LogoutApi';
 
 function MyPage() {
+
   const [isOpen, setIsOpen] = useState(false);
   const [avatarLink, setAvatarLink] = useState<string>('');
   const [username, setUsername] = useState<string>('');
@@ -20,6 +22,7 @@ function MyPage() {
         setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
         setUsername(userData.username); // username 값 설정
         setUserId(userData.userId); // userId 값 설정
+        console.log(userData);
       } catch (error) {
         console.error(error);
       }
@@ -38,18 +41,37 @@ function MyPage() {
     setIsOpen(!isOpen);
   };
 
-  const buttonClick = () => {
-    alert('회원 정보를 삭제합니다.');
-    navigate('/');
+  const handleDelete = async() => {
+      try{
+        await userDelete(`user/${Id}`)
+        navigate(`/`);
+        alert('회원 탈퇴 되었습니다. 다시 만나요!');
+      }
+      catch(error){
+        console.error(error);
+        alert('잠시 후 다시 시도해 주세요.')
+      }
+  };
+
+    const handleLogout = async() => {
+      try{
+        await logoutApi(`logout/${Id}`)
+        navigate(`/`);
+        alert('로그아웃 되었습니다.');
+      }
+      catch(error){
+        console.error(error);
+        alert('잠시 후 다시 시도해 주세요.')
+      }
   };
 
   return (
     <MyPageWrapper>
       <MainCharacter>
-        {setAvatarLink === setUsername ? (
+        {avatarLink === username ? (
           displayName[0]
         ) : (
-          <img src={profileimg} alt="" />
+          <img src={avatarLink} alt="" />
         )}
       </MainCharacter>
       <div className="modalbutton">
@@ -59,10 +81,8 @@ function MyPage() {
       <MyData>{email}</MyData>
       <MyData>{`DisplayName: ${displayName}`}</MyData>
       <div className="downbutton">
-        <Link to="/">
-          <button>로그아웃</button>
-        </Link>
-        <button onClick={buttonClick}>회원탈퇴</button>
+          <button onClick={handleLogout}>로그아웃</button>
+        <button onClick={handleDelete}>회원탈퇴</button>
       </div>
     </MyPageWrapper>
   );
