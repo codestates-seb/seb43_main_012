@@ -34,8 +34,9 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
     if (bookmarks) {
       const newBookmarks = bookmarks.map((b) => {
         return {
-          bookmarkId: b.categoryId,
-          bookmarkName: b.categoryName,
+          ...b,
+          // bookmarkId: b.categoryId,
+          // bookmarkName: b.categoryName,
           checked: true,
         };
       });
