@@ -73,6 +73,12 @@ background-color: #fff;
 button{
     height: 30px;
     width: 10rem;
+    margin: 50px;
+}
+div{
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0px;
 }
 `;
 

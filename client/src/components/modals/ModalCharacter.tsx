@@ -53,7 +53,9 @@ function ModalCharacter({
   // 정보 패치 후 모달 닫기
   const closeModalHandler = async () => {
     try {
-      await handleUpdate(`user/${Id}`, selectedCharacter);
+      const newAvatarLink = selectedCharacter;
+      await handleUpdate(`user/${Id}`, newAvatarLink);
+      console.log(newAvatarLink);
       setIsOpen(false);
     } catch (error) {
       console.error(error);
