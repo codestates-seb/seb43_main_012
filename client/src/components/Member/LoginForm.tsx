@@ -24,9 +24,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
       const res = await handleLogin({ userId, password, setErrors });
       if(res.status === 200){
         setIsLoggedIn(true);
-        console.log(res.headers);
-        console.log(res.headers["Authorization"]);
-        console.log(JSON.stringify(res.data));
+        console.log(res.data.authorization);
         closeModal();
         navigate("/");
       }
