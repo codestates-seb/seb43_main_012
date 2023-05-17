@@ -57,6 +57,7 @@ const Option = styled(Bookmark)`
 const AddBookmark = styled(SignoutItem)`
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 15px;
   font-weight: var(--text-fontweight-medium);
   text-align: center;
@@ -70,30 +71,34 @@ const AddBookmark = styled(SignoutItem)`
 const BookmarkList = ({ list, handleCheck }: ListProp) => {
   return (
     <>
-      <BookmarkItems>
-        {list.map((bookmark: BookmarkType) => (
-          <BookmarkItem
-            key={bookmark.bookmarkId}
-            bookmark={bookmark}
-            handleCheck={handleCheck}
-          />
-        ))}
-      </BookmarkItems>
+      {Boolean(list.length) && (
+        <BookmarkItems>
+          {list.map((bookmark: BookmarkType) => (
+            <BookmarkItem
+              key={bookmark.bookmarkId}
+              bookmark={bookmark}
+              handleCheck={handleCheck}
+            />
+          ))}
+        </BookmarkItems>
+      )}
       <Footer>
-        <Options>
-          <Option>
-            <BookmarkCheckbox>
-              <GenericCheckbox size="small" />
-            </BookmarkCheckbox>
-            <div>Pin</div>
-          </Option>
-          <Option>
-            <BookmarkCheckbox>
-              <GenericCheckbox size="small" />
-            </BookmarkCheckbox>
-            <div>Publish</div>
-          </Option>
-        </Options>
+        {Boolean(list.length) && (
+          <Options>
+            <Option>
+              <BookmarkCheckbox>
+                <GenericCheckbox size="small" />
+              </BookmarkCheckbox>
+              <div>Pin</div>
+            </Option>
+            <Option>
+              <BookmarkCheckbox>
+                <GenericCheckbox size="small" />
+              </BookmarkCheckbox>
+              <div>Publish</div>
+            </Option>
+          </Options>
+        )}
         <AddBookmark>Create New List</AddBookmark>
       </Footer>
     </>
