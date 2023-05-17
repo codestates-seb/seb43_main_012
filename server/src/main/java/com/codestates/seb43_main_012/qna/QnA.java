@@ -29,13 +29,7 @@ public class QnA {
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 
-    private BookmarkStatus bookmarkStatus = BookmarkStatus.N;
-
-    public enum BookmarkStatus
-    {
-        Y,
-        N;
-    }
+    private boolean bookmarkStatus = false;
 
     public QnA(String question, String answer)
     {

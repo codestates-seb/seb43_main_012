@@ -45,6 +45,8 @@ public class Conversation {
     private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;
     private int activityLevel;
+    @JsonIgnore
+    private boolean deleteStatus = false;
 
     public void addMember(MemberEntity member)
     {

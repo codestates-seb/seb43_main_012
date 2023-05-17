@@ -43,19 +43,14 @@ public class ConversationController {
     {
         Conversation savedConversation = conversationService.createConversation(memberId, dto);
 
-        //ConversationDto.Response response = mapper.conversationToConversationResponseDto(conversation);
-        //savedConversation.getQnaList();
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 
     @GetMapping("/{conversation-id}")
     public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
     {
-        //List<QnA> qnaList = qnaService.findQnAs(conversationId);
         Conversation conversation = conversationService.viewCountUp(conversationId);
-        //List<QnA> qnaList = qnaService.findQnAs(conversationId);
         ConversationDto.Response response = mapper.responseForGetOneConversation(conversation);
-        //response.setConversationId(conversationId);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -93,5 +88,13 @@ public class ConversationController {
         List<Bookmark> bookmarks = conversationService.findBookmarkedConversations(bookmarkName);
 
         return new ResponseEntity<>(bookmarks,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{conversation-id}")
+    public ResponseEntity deleteConversation(@PathVariable("conversation-id") long conversationId)
+    {
+        conversationService.removeConversation(conversationId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

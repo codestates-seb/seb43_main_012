@@ -87,9 +87,9 @@ public class ConversationService {
     public List<Conversation> findConversations(String sort)
     {
        if(sort.equals("desc"))
-            return conversationRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatus(false,Sort.by(Sort.Direction.DESC, "modifiedAt"));
         else
-            return conversationRepository.findAll(Sort.by(Sort.Direction.ASC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatus(false, Sort.by(Sort.Direction.ASC, "modifiedAt"));
     }
 
     public List<Bookmark> findBookmarkedConversations(String bookmarkName)
@@ -129,7 +129,6 @@ public class ConversationService {
                 conversationCategoryRepository.save(conversationCategory);
             }
         });
-        //conversation.setBookmarks(listToString(categories));
 
         //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
         //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
@@ -174,7 +173,14 @@ public class ConversationService {
 
     public List<Conversation> getSavedConversation(boolean isSaved)
     {
-        return conversationRepository.findAllBySaved(isSaved);
+        return conversationRepository.findAllBySavedAndDeleteStatus(isSaved, false);
+    }
+
+    public void removeConversation(long conversationId)
+    {
+        Conversation findConversation = findConversation(conversationId);
+        findConversation.setDeleteStatus(true);
+        conversationRepository.save(findConversation);
     }
 
     private String listToString(List list)

@@ -115,7 +115,7 @@ public class QnAService {
         conversation.setModifiedAt(LocalDateTime.now());
         conversationRepository.save(conversation);
         QnA savedQnA = saveQnA(qna);
-        //conversation.addQnA(savedQnA);
+        conversation.addQnA(savedQnA);
 
         Map<String, String> message2 = new HashMap<>();
         message2.put("role", "assistant");
