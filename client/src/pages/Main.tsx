@@ -15,7 +15,7 @@ import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 import { Conversation, initialConvData } from '../data/dataTypes';
 
 //import api
-import { getConversation } from '../api/ChatInterfaceApi';
+import { getConversation, saveBookmark } from '../api/ChatInterfaceApi';
 
 // const TempBackdrop = styled.div`
 //   display: flex;
@@ -78,14 +78,14 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   };
 
   useEffect(() => {
-    (async function () {
-      const conversation = await getConversation(40);
-      if (conversation) {
-        console.log('fetched data!');
-        setConversation(conversation);
-      }
-    })();
-    // saveBookmark({ cId: 11, bookmarks: ['network', 'http'] });
+    // (async function () {
+    //   const conversation = await getConversation(2);
+    //   if (conversation) {
+    //     console.log('fetched data!');
+    //     setConversation(conversation);
+    //   }
+    // })();
+    // saveBookmark({ cId: 2, bookmarks: ['과자', 'http'] });
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
@@ -105,12 +105,21 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     (async function () {
-      const conversation = await getConversation(40);
-      if (conversation) {
+      const newConversation = await getConversation(
+        conversation?.conversationId,
+      );
+      if (newConversation) {
         console.log('fetched conversation data!');
-        setConversation(conversation);
+        setConversation(newConversation);
       }
     })();
+    // (async function () {
+    //   const conversation = await getConversation(2);
+    //   if (conversation) {
+    //     console.log('fetched conversation data!');
+    //     setConversation(conversation);
+    //   }
+    // })();
     if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
