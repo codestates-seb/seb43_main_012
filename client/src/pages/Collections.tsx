@@ -1,6 +1,13 @@
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setContent,
+  setSelectedBookmark,
+  setSelectedTag,
+} from "../features/collection/collectionSlice";
+import { RootState } from "../app/store";
 import styled from "styled-components";
-import { useState } from "react";
-import data from "../data/data.json";
+// import { useState } from "react";
+// import data from "../data/data.json";
 // @ts-ignore
 import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
 // @ts-ignore
@@ -28,7 +35,8 @@ const ContentContainer = styled.div`
 `;
 
 const Content = styled.a`
-  flex-basis: 30%;
+  /* flex-basis: 30%; */
+  flex-basis: 16rem;
   /* width: 17rem; */
   /* background-color: #f0f0f0; */
   padding: 5px;
@@ -39,6 +47,18 @@ const Content = styled.a`
   p {
     text-align: left;
     word-break: break-all;
+  }
+
+  .header {
+    display: flex;
+  }
+  .title {
+    /* word-break: break-all; */
+  }
+  .buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   .bookmark {
     color: #c9ad6e;
@@ -108,24 +128,18 @@ const BookmarkTagContent = styled.div`
 const SvgButton = styled.button`
   width: 20px;
   border: none;
+  margin: 20% 5% 0 5%;
   background-color: transparent;
 
   cursor: pointer;
 `;
 
 const BookmarkButton = () => {
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
+  // const [clicked, setClicked] = useState(false);
 
   return (
     <SvgButton>
-      <BookmarkSolid
-        onClick={handleClick}
-        style={{ fill: clicked ? "blue" : "black" }}
-      />
+      <BookmarkSolid />
     </SvgButton>
   );
 };
@@ -139,33 +153,45 @@ const PinButton = () => {
 };
 
 const Collections = () => {
-  //data를 받아서 map으로 돌리기
-  const [content, setContent] = useState(data);
-  const [selectedBookmark, setSelectedBookmark] = useState("");
+  const dispatch = useDispatch();
+  const { content, selectedBookmark, selectedTag } = useSelector(
+    (state: RootState) => state.collection,
+  );
+
+  const handleBookmarkClick = (bookmark: string) => {
+    dispatch(setSelectedBookmark(bookmark));
+  };
+
+  const handleTagClick = (tag: string) => {
+    dispatch(setSelectedTag(tag));
+  };
+
+  const handleContentUpdate = (newContent: any) => {
+    dispatch(setContent(newContent));
+  };
 
   return (
     <Main>
-      {/* <div>
-            <BookmarkButton />
-            <PinButton />
-          </div> */}
       <FixedContentContainer>
-        {content.chat
-          .filter((item) => item.fixed)
-          .map(({ title, content, bookmark, tags, id }) => (
-            <FixedContent key={id} href="#">
-              <h3>{title}</h3>
-              <p>{content}</p>
-              <span className="bookmark">{bookmark}</span>
+        {content.conversations
+          .filter((item) => item.pinned)
+          .map((conversation) => (
+            <FixedContent href="#" key={conversation.conversationId}>
+              <div className="header">
+                <h3 className="title">{conversation.title}</h3>
+                <span className="buttons">
+                  <PinButton /> <BookmarkButton />
+                </span>
+              </div>
+              <p>{conversation.answerSummary}</p>
+              <span className="bookmark">
+                {conversation.bookmarks[0].bookmarkName}
+              </span>
 
               <div className="tag">
-                {tags.map(
-                  (tag) => (
-                    // <Tag key={tag} href="#">
-                    <span>#{tag} </span>
-                  ),
-                  // </Tag>
-                )}
+                {conversation.tags.map((tag) => (
+                  <span key={tag.tagId}>#{tag.tagName} </span>
+                ))}
               </div>
             </FixedContent>
           ))}
@@ -174,35 +200,53 @@ const Collections = () => {
       <BookmarkTagContent>
         <div>
           <BookmarkContainer>
-            {content.bookmark.map((bookmark) => (
-              <Bookmark onClick={() => setSelectedBookmark(bookmark)}>
-                {bookmark}
+            <Bookmark key={"All"} onClick={() => handleBookmarkClick("All")}>
+              All
+            </Bookmark>
+            {content.bookmarks.map((bookmark) => (
+              <Bookmark
+                key={bookmark.categoryName}
+                onClick={() => handleBookmarkClick(bookmark.categoryName)}
+              >
+                {bookmark.categoryName}
               </Bookmark>
             ))}
           </BookmarkContainer>
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
             {content.tags.map((tag) => (
-              <Tag href="#">{tag}</Tag>
+              <Tag
+                key={tag.tagName}
+                onClick={() => handleTagClick(tag.tagName)}
+              >
+                {tag.tagName}
+              </Tag>
             ))}
           </TagContainer>
         </div>
         <ContentWraper>
           <ContentContainer>
-            {content.chat
+            {content.conversations
               .filter(
-                (item) =>
+                (conversation) =>
                   selectedBookmark === "All" ||
-                  item.bookmark === selectedBookmark,
+                  conversation.bookmarks[0].bookmarkName === selectedBookmark,
               )
-              .map(({ title, content, bookmark, tags, id }) => (
-                <Content key={id} href="#">
-                  <h3>{title}</h3>
-                  <p>{content}</p>
-                  <span className="bookmark">{bookmark}</span>
+              .map((conversation) => (
+                <Content key={conversation.conversationId} href="#">
+                  <div className="header">
+                    <h3 className="title">{conversation.title}</h3>
+                    <span className="buttons">
+                      <PinButton /> <BookmarkButton />
+                    </span>
+                  </div>
+                  <span className="bookmark">
+                    {" "}
+                    {conversation.bookmarks[0].bookmarkName}
+                  </span>
                   <div className="tag">
-                    {tags.map((tag) => (
-                      <span key={tag}>#{tag} </span>
+                    {conversation.tags.map((tag) => (
+                      <span key={tag.tagId}>#{tag.tagName} </span>
                     ))}
                   </div>
                 </Content>
@@ -212,9 +256,6 @@ const Collections = () => {
 
         <div></div>
       </BookmarkTagContent>
-      {/* <BookmarkButton>
-        <BookmarkSolid />
-      </BookmarkButton> */}
     </Main>
   );
 };
