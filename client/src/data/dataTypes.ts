@@ -57,6 +57,12 @@ export type QnAType = {
 export type BookmarkType = {
   bookmarkId: number;
   bookmarkName: string;
+  checked?: boolean;
+};
+
+export type BookmarkTempType = {
+  categoryId: number;
+  categoryName: string;
 };
 
 export type TagType = {
@@ -86,21 +92,68 @@ export type Conversation = {
 };
 
 export const initialConvData = {
-  conversationId: 1,
+  conversationId: -1,
   title: '',
   member: {
     memberId: 'mumblefish',
-    avatarLink: 'http://..',
+    avatarLink: '',
   },
-  answerSummary: 'AnswerSummary',
+  answerSummary: '',
   createdAt: '',
   modifiedAt: '',
   qnaList: [] as QnAType[],
   saved: false,
   pinned: false,
   published: false,
-  bookmarks: [] as BookmarkType[],
+  bookmarks: [
+    {
+      bookmarkId: 1,
+      bookmarkName: 'Default',
+    },
+  ] as BookmarkType[],
   tags: [] as TagType[],
   viewCount: 0,
   activityLevel: 0,
 };
+
+export const tempBookmarks = [
+  {
+    bookmarkId: 1,
+    bookmarkName: 'VeryVeryveryveryveryveryverylong bookmark',
+  },
+  {
+    bookmarkId: 111,
+    bookmarkName: 'Bookmark2',
+  },
+  {
+    bookmarkId: 222,
+    bookmarkName: 'Bookmark3',
+  },
+  {
+    bookmarkId: 333,
+    bookmarkName: 'Bookmark4',
+  },
+  {
+    bookmarkId: 444,
+    bookmarkName: 'Bookmark5',
+  },
+  {
+    bookmarkId: 555,
+    bookmarkName: 'Bookmark6',
+  },
+  {
+    bookmarkId: 666,
+    bookmarkName: 'Bookmark7',
+  },
+  {
+    bookmarkId: 777,
+    bookmarkName: 'Bookmark8',
+  },
+];
+
+export const DefaultBookmarks = [
+  {
+    bookmarkId: 1,
+    bookmarkName: 'Default',
+  },
+];

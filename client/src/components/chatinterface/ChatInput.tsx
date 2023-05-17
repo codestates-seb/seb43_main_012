@@ -1,17 +1,26 @@
+//import hooks
 import { useInput } from '../../utils/hooks/useInput';
+//import components
 import Input from './Input';
+//import style
 import { InputQBox, InputSubmitBtn } from '../../styles/InputStyle';
 // @ts-ignore
 import { ReactComponent as SubmitIcon } from '../../assets/icons/iconSubmit.svg';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Conversation } from '../../data/dataTypes';
 
+//import api
+import {
+  askFirstQuestion,
+  continueConversation,
+} from '../../api/ChatInterfaceApi';
+
 type ChatProps = {
   cValue: Conversation;
   setCValue: Dispatch<SetStateAction<Conversation>>;
-  setQNum: Dispatch<SetStateAction<number>>;
+  updateQNum: () => void;
 };
-const ChatInput = ({ cValue, setCValue, setQNum }: ChatProps) => {
+const ChatInput = ({ cValue, setCValue, updateQNum }: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
 
   const tempAnswer = `The error message you're seeing typically occurs when you're trying to access the 'map' function on an undefined or null value. To fix this issue, you need to ensure that the array you're trying to map over is defined and not empty.
@@ -26,39 +35,66 @@ const ChatInput = ({ cValue, setCValue, setQNum }: ChatProps) => {
 
   const handleInput = () => {
     //send dispatch to openai
+
+    if (cValue.conversationId !== -1) {
+      console.log('not -1');
+      (async function () {
+        try {
+          const msg = await continueConversation(cValue.conversationId, qValue);
+          console.log('continued conversation: ', msg);
+          setQValue('');
+          updateQNum();
+        } catch (error) {
+          console.error('Error in continueConversation:', error);
+        }
+      })();
+    } else {
+      (async function () {
+        try {
+          const res = await askFirstQuestion(qValue);
+          console.log('asked first Question: ', res);
+          setQValue('');
+          // updateQNum();
+          setCValue(res);
+        } catch (error) {
+          console.error('Error in ask first question:', error);
+        }
+      })();
+    }
+
     //update conversation data
+
     //for the very first time... when there is no data.
-    if (!cValue.title)
-      setCValue({
-        ...cValue,
-        title: qValue, //send another async request to update title to recommended title
-        qnaList: [
-          ...cValue.qnaList,
-          {
-            qnaId: 0,
-            question: qValue,
-            answer: 'some answer',
-            bookmarkStatus: true,
-          },
-        ],
-      });
-    else
-      setCValue({
-        ...cValue,
-        qnaList: [
-          ...cValue.qnaList,
-          {
-            qnaId: cValue.qnaList.length,
-            question: qValue,
-            answer: tempAnswer,
-            bookmarkStatus: true,
-          },
-        ],
-      });
+    // if (!cValue.title) {
+    //   setCValue({
+    //     ...cValue,
+    //     title: qValue, //send another async request to update title to recommended title
+    //     qnaList: [
+    //       ...cValue.qnaList,
+    //       {
+    //         qnaId: 0,
+    //         question: qValue,
+    //         answer: 'some answer',
+    //         bookmarkStatus: true,
+    //       },
+    //     ],
+    //   });
+    // } else {
+    //   setCValue({
+    //     ...cValue,
+    //     qnaList: [
+    //       ...cValue.qnaList,
+    //       {
+    //         qnaId: cValue.qnaList.length,
+    //         question: qValue,
+    //         answer: tempAnswer,
+    //         bookmarkStatus: true,
+    //       },
+    //     ],
+    //   });
+    // }
     //update the QnA.
     //empty qValue
-    setQValue('');
-    setQNum((prev) => prev + 1);
   };
 
   const qBoxProps = useInput({
