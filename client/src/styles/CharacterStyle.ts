@@ -93,6 +93,7 @@ export const ModalView = styled.div`
   }
 `;
 
+// 캐릭터 고르는 박스
 export const CharacterBox = styled.div`
   display: flex;
   flex-direction: row;
