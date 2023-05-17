@@ -79,7 +79,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     // (async function () {
-    //   const conversation = await getConversation(2);
+    //   const conversation = await getConversation(1);
     //   if (conversation) {
     //     console.log('fetched data!');
     //     setConversation(conversation);
@@ -101,20 +101,22 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     scrollToLastQ();
-  }, [conversation]);
+  }, [conversation.title]);
 
   useEffect(() => {
-    (async function () {
-      const newConversation = await getConversation(
-        conversation?.conversationId,
-      );
-      if (newConversation) {
-        console.log('fetched conversation data!');
-        setConversation(newConversation);
-      }
-    })();
+    if (conversation.title) {
+      (async function () {
+        const newConversation = await getConversation(
+          conversation?.conversationId,
+        );
+        if (newConversation) {
+          console.log('fetched conversation data!');
+          setConversation(newConversation);
+        }
+      })();
+    }
     // (async function () {
-    //   const conversation = await getConversation(2);
+    //   const conversation = await getConversation(1);
     //   if (conversation) {
     //     console.log('fetched conversation data!');
     //     setConversation(conversation);
