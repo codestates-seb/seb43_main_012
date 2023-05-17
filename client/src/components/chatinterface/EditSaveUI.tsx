@@ -6,6 +6,9 @@ import { CPopover } from '@coreui/react';
 import styled from 'styled-components';
 import '../../styles/sass/custom_popover_saveUI.scss';
 
+//import data types
+import { BookmarkType } from '../../data/dataTypes';
+
 //import icons
 // @ts-ignore
 import { ReactComponent as EditIcon } from '../../assets/icons/main_qna/iconEdit2.svg';
@@ -14,6 +17,8 @@ import { ReactComponent as AddBookmarkIcon } from '../../assets/icons/main_qna/i
 // @ts-ignore
 import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
 type Props = {
+  cId: number;
+  bookmarks: BookmarkType[];
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
   setEditConfirm: Dispatch<SetStateAction<boolean>>;
@@ -51,7 +56,13 @@ const IconItem = styled.li`
   }
 `;
 
-const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
+const EditSaveUI = ({
+  cId,
+  bookmarks,
+  editState,
+  setEditState,
+  setEditConfirm,
+}: Props) => {
   const [isSaveBoxOpen, setIsSaveBoxOpen] = useState<boolean>(false);
   const handleSaveClick = () => {
     console.log('clicked save!');
@@ -102,7 +113,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
           {/* <button>tag</button> */}
           <CPopover
             className="popover_saveUI"
-            content={<DialogBoxSaveBookmark />}
+            content={<DialogBoxSaveBookmark bookmarks={bookmarks} cId={cId} />}
             placement="bottom"
           >
             <IconItem>
