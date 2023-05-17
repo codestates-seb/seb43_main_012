@@ -17,9 +17,10 @@ export const handleLogin = async ({
     password,
   });
   if (res.status !== 200) throw new Error(res.data.message);
-  sessionStorage.setItem('token', res.headers['Authorization']);
-  sessionStorage.setItem('refresh', res.headers['refresh']);
-  sessionStorage.setItem('user', JSON.stringify(res.data));
+
+  sessionStorage.setItem('token',res.data.authorization);
+  sessionStorage.setItem('refresh', JSON.stringify(res.data.refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
+  localStorage.setItem('isLoggedIn', 'true');
   return res;
 };
