@@ -5,6 +5,7 @@ interface SignupArgs {
   username: string;
   userId: string;
   password: string;
+  avatarLink: string;
   setErrors: any;
 }
 
@@ -13,6 +14,7 @@ const handleSignup = async ({
   username,
   userId,
   password,
+  avatarLink,
   setErrors,
 }: SignupArgs) => {
   try {
@@ -21,7 +23,10 @@ const handleSignup = async ({
       username,
       userId,
       password,
+      avatarLink,
+
     });
+    console.log(res.data);
     return res;
   } catch (error) {
     console.log(error);
