@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 //import components
 import { CPopover } from '@coreui/react';
+import { UserInfoItemTypes, handleUserInfo } from '../api/MemberApi';
 
 //import style
 import styled from 'styled-components';
@@ -60,7 +61,6 @@ type TopNavProps = {
 };
 
 const TopNav = ({
-  isLoggedIn,
   isUserDialogOpen,
   setIsUserDialogOpen,
   setIsModalLoginOpen,
@@ -71,6 +71,7 @@ const TopNav = ({
       | React.MouseEvent<SVGSVGElement, MouseEvent>
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
+    
     e.preventDefault();
     // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
@@ -87,7 +88,7 @@ const TopNav = ({
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   const navigate = useNavigate();
   const location = useLocation();
-
+  const isLoggedIn = localStorage.getItem("isLoggedIn")
   useEffect(() => {
     if (location.pathname === '/') {
       const element = document.getElementById(
@@ -100,6 +101,22 @@ const TopNav = ({
       // navigate(0);
     }
   }, [location]);
+
+  //캐릭터 정보 겟~! 
+  const [Character, setCharacter] = useState<string>("");
+  const Id = localStorage.getItem('memberId');
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
+        setCharacter(userData.avatarLink);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [Id]);
 
   return (
     <TN.TopNavBox>
@@ -163,7 +180,7 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            <img src="/character1.png" alt="AvatarIcon A" />
+            <img src={Character} alt="AvatarIcon A" />
           </AvatarIcon>
         ) : (
           <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
