@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignupInput from "../member/SignupInput";
-import ModalCharacter from "../modals/ModalCharacter";
 import {
   ErrorMessage,
   FormBox,
@@ -16,6 +15,7 @@ import {
 } from "../../utils/checkSignup";
 import useCheck from "../../hooks/useCheck";
 import handleSignup from "../../api/signupApi";
+import { getRandomCharacter } from "./RandomCharcter";
 
 const SignupForm: React.FC = () => {
 
@@ -47,14 +47,18 @@ const SignupForm: React.FC = () => {
   }, [password2]);
 
   const handleSubmit = () => {
+    const avatarLink = getRandomCharacter();
+
     try{
       handleSignup({
       username,
       userId,
       password,
+      avatarLink,
       setErrors,
     });
     handleClick();
+    navigate("/login");
   }
     catch{
       console.log(error);
@@ -119,7 +123,6 @@ const SignupForm: React.FC = () => {
           ) :( <SignButton type="button">
           Sign up
         </SignButton>)}
-        <ModalCharacter isOpen={isOpen} setIsOpen={setIsOpen} />
       </form>
     </FormBox>
   );

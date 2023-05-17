@@ -28,8 +28,9 @@ function ModalCharacter({
   const navigate = useNavigate();
   const Id = localStorage.getItem('memberId');
 
-  const [selectedCharacter, setSelectedCharacter] = useState<string>('');
+  const [selectedCharacter, setSelectedCharacter] = useState<string>("");
   const [avatarLink, setAvatarLink] = useState<string>(''); // avatarLink 변수 정의
+  const [username, setUsername] = useState<string>('');
 
   // 유저 정보 get 그중 avatarLink 가져오기, Id가 변동될 때마다 진행
   useEffect(() => {
@@ -38,6 +39,7 @@ function ModalCharacter({
         const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
         const fetchedAvatarLink = userData.avatarLink;
         setSelectedCharacter(fetchedAvatarLink);
+        setUsername(userData.username);
         setAvatarLink(fetchedAvatarLink); // avatarLink에 값 설정
       } catch (error) {
         console.error(error);
@@ -53,7 +55,6 @@ function ModalCharacter({
     try {
       await handleUpdate(`user/${Id}`, selectedCharacter);
       setIsOpen(false);
-      navigate(`/login`);
     } catch (error) {
       console.error(error);
     }
@@ -73,7 +74,7 @@ function ModalCharacter({
             <h2>Select Your Character</h2>
             <CharacterBox>
               <MainCharacter>
-                {selectedCharacter === avatarLink ? (
+                {avatarLink === username ? (
                   avatarLink[0]
                 ) : (
                   <img src={selectedCharacter} alt="" />
@@ -124,10 +125,12 @@ function ModalCharacter({
                     <img src="/character5.png" alt="Character E" />
                   </Character>
                   <Character
-                    onClick={() => selectCharacterHandler('P')}
-                    className={selectedCharacter === 'P' ? 'selected' : ''}
+                    onClick={() => selectCharacterHandler(username)}
+                    className={
+                      selectedCharacter === avatarLink ? 'selected' : ''
+                    }
                   >
-                    P
+                    {username[0]}
                   </Character>
                 </div>
               </section>
