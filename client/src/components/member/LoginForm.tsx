@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FormContainer } from '../../styles/LoginStyle';
-import SignupInput from './SignupInput';
-import { ErrorMessage, SignButton } from '../../styles/SignupStyle';
-import { handleLogin } from '../../api/loginApi';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FormContainer } from "../../styles/LoginStyle";
+import SignupInput from "../member/SignupInput";
+import { ErrorMessage, SignButton } from "../../styles/SignupStyle";
+import { handleLogin } from "../../api/loginApi";
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal: () => void;
 };
 
-const LoginForm = ({ setIsLoggedIn }: Props) => {
-  const [userId, setuserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState('');
+const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const [userId, setuserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
     try {
       const res = await handleLogin({ userId, password, setErrors });
       if (res.status === 200) {
         setIsLoggedIn(true);
-        window.location.replace('/');
+        console.log(res.data.authorization);
+        closeModal();
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -49,9 +55,7 @@ const LoginForm = ({ setIsLoggedIn }: Props) => {
             아이디 또는 비밀번호를 잘못 입력하셨습니다.
           </ErrorMessage>
         ) : null}
-        {/* <Link to="/"> */}
         <SignButton type="submit">Log in</SignButton>
-        {/* </Link> */}
       </form>
     </FormContainer>
   );

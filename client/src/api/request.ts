@@ -1,14 +1,16 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export const request = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: `https://71fc-118-33-155-37.ngrok-free.app/`,
 });
 
 export const requestAuth = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: `https://71fc-118-33-155-37.ngrok-free.app/`,
   headers: {
     'Content-type': 'application/json',
+    'ngrok-skip-browser-warning': '69420',
     'Access-Control-Allow-Origin': 'http://localhost:3000',
+    Authorization: sessionStorage.getItem('token'),
   },
   timeout: 30000,
 });
@@ -48,7 +50,7 @@ requestAuth.interceptors.response.use(
             const data = await request.get(`/api/login`, {
               headers: {
                 RefreshToken: refresh,
-                userId: userIdaddr['email'],
+                userId: userIdaddr['userId'],
               },
             });
             if (data && originalConfig) {
@@ -66,4 +68,3 @@ requestAuth.interceptors.response.use(
     return Promise.reject(err);
   },
 );
-

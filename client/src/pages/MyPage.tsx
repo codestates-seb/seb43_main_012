@@ -1,41 +1,91 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ModalEdit from '../components/modals/ModalEdit';
 import { MyPageWrapper, MyData } from '../styles/MyPageStyle';
 import { MainCharacter } from '../styles/CharacterStyle';
+import { handleUserInfo, UserInfoItemTypes } from '../api/MemberApi';
+import { userDelete, logoutApi } from '../api/LogoutApi';
 
-const MyPage: React.FC = () => {
+function MyPage() {
+
   const [isOpen, setIsOpen] = useState(false);
+  const [avatarLink, setAvatarLink] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
 
-  const email = `newname@naver.com`;
-  const displayName = `New Name`;
+  const Id = localStorage.getItem('memberId');
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
+        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+        setUsername(userData.username); // username 값 설정
+        setUserId(userData.userId); // userId 값 설정
+        console.log(userData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [Id]);
+
+  const email = userId;
+  const displayName = username;
+  const profileimg = avatarLink;
+
   const navigate = useNavigate();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const buttonClick = () => {
-		alert('회원 정보를 삭제합니다.');
-    navigate('/');
-	};
+  const handleDelete = async() => {
+      try{
+        await userDelete(`user/${Id}`)
+        navigate(`/`);
+        alert('회원 탈퇴 되었습니다. 다시 만나요!');
+      }
+      catch(error){
+        console.error(error);
+        alert('잠시 후 다시 시도해 주세요.')
+      }
+  };
+
+    const handleLogout = async() => {
+      try{
+        await logoutApi(`logout/${Id}`)
+        navigate(`/`);
+        alert('로그아웃 되었습니다.');
+      }
+      catch(error){
+        console.error(error);
+        alert('잠시 후 다시 시도해 주세요.')
+      }
+  };
 
   return (
     <MyPageWrapper>
-      <MainCharacter>{displayName[0]}</MainCharacter>
-      <div className='modalbutton'>
+      <MainCharacter>
+        {avatarLink === username ? (
+          displayName[0]
+        ) : (
+          <img src={avatarLink} alt="" />
+        )}
+      </MainCharacter>
+      <div className="modalbutton">
         <button onClick={handleClick}>프로필 편집</button>
         <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
       <MyData>{email}</MyData>
       <MyData>{`DisplayName: ${displayName}`}</MyData>
-      <div className='downbutton'>
-      <Link to="/"><button>로그아웃</button></Link>
-      <button onClick={buttonClick}>회원탈퇴</button>
+      <div className="downbutton">
+          <button onClick={handleLogout}>로그아웃</button>
+        <button onClick={handleDelete}>회원탈퇴</button>
       </div>
     </MyPageWrapper>
-    
   );
-};
+}
 
 export default MyPage;

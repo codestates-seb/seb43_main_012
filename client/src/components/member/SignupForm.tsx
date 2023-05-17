@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import SignupInput from '../member/SignupInput';
-import Agreement from './SignupAgreement';
-import ModalCharacter from '../modals/ModalCharacter';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import SignupInput from "../member/SignupInput";
 import {
   ErrorMessage,
   FormBox,
@@ -13,17 +12,19 @@ import {
   checkPassword,
   checkUsername,
   confirmPassword,
-} from '../../utils/checkSignup';
-import useCheck from '../../hooks/useCheck';
-import handleSignup from '../../api/signupApi';
+} from "../../utils/checkSignup";
+import useCheck from "../../hooks/useCheck";
+import handleSignup from "../../api/signupApi";
+import { getRandomCharacter } from "./RandomCharcter";
 
 const SignupForm: React.FC = () => {
-  const SIGNUP_URL = `http://localhost:3000/user`;
+
+  const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
 
 
-  const [displayname, setDisplayname] = useState('');
+  const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -47,13 +48,23 @@ const SignupForm: React.FC = () => {
   }, [password2]);
 
   const handleSubmit = () => {
-    handleSignup({
-      SIGNUP_URL,
+    const avatarLink = getRandomCharacter();
+
+    try{
+      handleSignup({
       username,
       userId,
       password,
+      avatarLink,
       setErrors,
     });
+    handleClick();
+    navigate("/login");
+  }
+    catch{
+      console.log(error);
+      alert("잠시 후에 다시 시도해주세요.");
+    }
   };
 
   const handleClick = () => {
@@ -70,7 +81,7 @@ const SignupForm: React.FC = () => {
           setValue={setUsername}
           setErrors={setErrors}
         />
-        {isDisplayname === true ? null : (
+        {isUsername === true ? null : (
           <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>
         )}
         <SignupInput
@@ -109,18 +120,16 @@ const SignupForm: React.FC = () => {
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {isUserId &&
-        isDisplayname &&
-        ispassword &&
-        password2.length !== 0 &&
-        isPasswordConfirm ? (
-          <SignButton type="button" onClick={handleSubmit}>
-            Sign up
-          </SignButton>
-        ) : (
-          <SignButton type="button">Sign up</SignButton>
-        )}
-
-        <ModalCharacter isOpen={isOpen} setIsOpen={setIsOpen} />
+          isUsername &&
+          ispassword &&
+          password2.length !== 0 &&
+          isPasswordConfirm ?(
+            <SignButton type="button" onClick={handleSubmit}>
+          Sign up
+        </SignButton>
+          ) :( <SignButton type="button">
+          Sign up
+        </SignButton>)}
       </form>
     </FormBox>
   );

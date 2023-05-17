@@ -8,6 +8,7 @@ export const SignupWrapper = styled.div`
   align-items: center;
   height: 100%;
   width: 100vw;
+  overflow-y: scroll;
   background-color: #fff;
   h3 {
     color: #c9ad6e;
@@ -27,8 +28,8 @@ export const SignupBox = styled.div`
   background-color: #fff5de;
 `;
 
-//OAuth 버튼
-export const ButtonBox = styled.button`
+//OAuth 
+export const ButtonBox = styled.div`
   margin-bottom: 1.5%;
   width: 259px;
   height: 37px;

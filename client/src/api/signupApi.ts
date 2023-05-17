@@ -3,29 +3,33 @@ import { request, requestAuth } from './request';
 
 
 interface SignupArgs {
-  SIGNUP_URL: string;
   username: string;
   userId: string;
   password: string;
+  avatarLink: string;
   setErrors: any;
 }
 
 const handleSignup = async ({
-  SIGNUP_URL,
   username,
   userId,
   password,
+  avatarLink,
   setErrors,
 }: SignupArgs) => {
   try {
+  
     const res = await requestAuth.post(`/api/signup`, {
       username,
       userId,
       password,
+      avatarLink,
+
     });
-    window.location.replace('/login');
+    console.log(res.data);
+    return res;
   } catch (error) {
-    setErrors(error);
+    console.log(error);
   }
 };
 
