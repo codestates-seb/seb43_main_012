@@ -9,13 +9,9 @@ import React, {
 import styled from 'styled-components';
 
 type CheckboxProps = {
-  id: number;
+  id?: number;
   size?: string;
-  isChecked: boolean;
-  setIsChecked: Dispatch<SetStateAction<boolean>>;
-  isHovered: boolean;
-  setIsHovered?: Dispatch<SetStateAction<boolean>>;
-  handleCheck: (...params: any[]) => void; //how to set any params
+  handleCheck?: (...params: any[]) => void; //how to set any params
 };
 
 type StyleProps = {
@@ -140,16 +136,10 @@ const Round = styled.div<StyleProps>`
   }
 `;
 
-const Checkbox = ({
-  id,
-  size,
-  isChecked,
-  setIsChecked,
-  isHovered,
-  setIsHovered,
-  handleCheck,
-}: CheckboxProps) => {
+const GenericCheckbox = ({ id, size, handleCheck }: CheckboxProps) => {
   // const stringId = `checkbox_${id}`;
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [uniqueId] = useState<string>(
     () => `checkbox_${Math.random().toString(36).substring(7)}`,
   );
@@ -159,7 +149,8 @@ const Checkbox = ({
     event.stopPropagation();
     console.log('id: ', id);
     console.log('clicked checkbox: ', event.target.id);
-    handleCheck({ id: id, newCheckValue: event.target.checked });
+    if (handleCheck)
+      handleCheck({ id: id, newCheckValue: event.target.checked });
     setIsChecked(event.target.checked);
   };
 
@@ -191,4 +182,4 @@ const Checkbox = ({
   );
 };
 
-export default Checkbox;
+export default GenericCheckbox;

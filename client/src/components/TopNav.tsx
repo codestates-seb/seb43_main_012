@@ -1,20 +1,26 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+
+//import components
+import { CPopover } from '@coreui/react';
 
 //import style
+import styled from 'styled-components';
+// import '@coreui/coreui/dist/css/coreui.min.css';
+import '../styles/sass/custom_popover_topnav.scss';
+
 import * as TN from '../styles/TopNavStyle';
 import { Character } from '../styles/CharacterStyle';
 
 //import icons
 // @ts-ignore
-import { ReactComponent as HistoryIcon } from '../assets/icons/iconHistory.svg';
+import { ReactComponent as HistoryIcon } from '../assets/icons/topnav/iconHistory.svg';
 // @ts-ignore
-import { ReactComponent as ChatIcon } from '../assets/icons/iconNewChat.svg';
+import { ReactComponent as ChatIcon } from '../assets/icons/topnav/iconNewChat.svg';
 // @ts-ignore
-import { ReactComponent as CollectionIcon } from '../assets/icons/iconCollectionsNew.svg';
+import { ReactComponent as CollectionIcon } from '../assets/icons/topnav/iconCollectionsNew.svg';
 // @ts-ignore
-import { ReactComponent as AnonymousIcon } from '../assets/icons/iconNonMember.svg';
+import { ReactComponent as AnonymousIcon } from '../assets/icons/topnav/iconNonMember.svg';
 
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
@@ -34,6 +40,15 @@ const AvatarIcon = styled(Character)`
   //     padding-bottom 0.3 ease-in-out;
   // }
 `;
+
+const navTooltip = {
+  position: 'absolute',
+  inset: '0px auto auto 0px',
+  transform: 'translate3d(315.5px, 84.5px, 0px)',
+  background: 'purple',
+  color: 'white',
+};
+
 type TopNavProps = {
   isLoggedIn: boolean;
   isUserDialogOpen: boolean;
@@ -94,26 +109,54 @@ const TopNav = ({
       <TN.NavIconsBox>
         <TN.AvatarBox className="navitem">
           <Link to="/history">
-            <HistoryIcon
-              className="svg"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover
+              className="popover_topnav"
+              content="history"
+              placement="bottom"
+              trigger="hover"
+            >
+              <div>
+                <HistoryIcon
+                  className="svg"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
         <TN.AvatarBox className="navitem">
           <Link to="/">
-            <ChatIcon
-              className="svg center"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover
+              className="popover_topnav"
+              content="new chat"
+              placement="bottom"
+              trigger="hover"
+            >
+              <div>
+                <ChatIcon
+                  className="svg center"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
+
         <TN.AvatarBox className="navitem">
           <Link to="/collection">
-            <CollectionIcon
-              className="svg"
-              onClick={isLoggedIn ? undefined : handleUserBtnClick}
-            />
+            <CPopover
+              className="popover_topnav"
+              content="collections"
+              placement="bottom"
+              trigger="hover"
+            >
+              <div>
+                <CollectionIcon
+                  className="svg"
+                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                />
+              </div>
+            </CPopover>
           </Link>
         </TN.AvatarBox>
       </TN.NavIconsBox>

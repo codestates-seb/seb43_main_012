@@ -30,6 +30,9 @@ export const LogoBox = styled.div`
   font-weight: var(--text-fontweight-logo);
   letter-spacing: var(--text-letterspacing-logo);
   text-transform: uppercase;
+  a:hover {
+    color: var(--color-default-yellow-title);
+  }
 `;
 export const NavIconsBox = styled.div`
   min-width: var(--size-minwiddth-topnavicons);
@@ -42,39 +45,60 @@ export const AvatarBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  position: relative;
   min-width: var(--size-avatar);
   min-height: var(--size-avatar);
   padding: 0 20px;
   & .navitem {
     padding: 0 var(--padding-left-topnavitems);
   }
+
+  transition: width 0.2s ease-in-out height 0.2 ease-in-out margin-bottom 0.2
+    ease-in-out;
+
   .svg {
     width: var(--size-avatar-default);
     height: var(--size-avatar-default);
-    transition: width 0.1s ease-in-out;
+    transition: width 0.2s ease-in-out height 0.2 ease-in-out margin-bottom 0.2
+      ease-in-out;
   }
 
-  .svg:hover {
-    width: var(--size-avatar-hover);
-    height: var(--size-avatar-hover);
-    filter: invert(25%) sepia(80%) saturate(1.3);
-    // fill: blue;
-    transition: width 0.2s ease-in-out;
+  &:hover {
     cursor: pointer;
+    .svg {
+      width: var(--size-avatar-hover);
+      height: var(--size-avatar-hover);
+      filter: invert(25%) sepia(80%) saturate(1.3);
+      margin-bottom: 5px;
+      // fill: blue;
+      transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+        filter 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    }
+
+    .center {
+       {
+        width: var(--size-avatar-center-hover);
+        height: var(--size-avatar-center-hover);
+        margin-bottom: 10px;
+        transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+          margin-bottom 0.2s ease-in-out;
+      }
+    }
   }
 
-  // .svg:focus {
-  //   width: var(--size-avatar-hover);
-  //   filter: invert(25%) sepia(80%) saturate(1.3);
-  // }
+  &:focus {
+    .svg {
+      width: var(--size-avatar-hover);
+      filter: invert(25%) sepia(80%) saturate(1.3);
+      transition: width 0.2s ease-in-out, filter 0.2s ease-in-out;
+    }
+  }
 
   .center {
     width: var(--size-avatar-center);
     height: var(--size-avatar-center);
-  }
-  .center:hover {
-    width: var(--size-avatar-center-hover);
-    height: var(--size-avatar-center-hover);
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+      margin-bottom 0.2s ease-in-out;
   }
 `;
 
@@ -88,10 +112,16 @@ export const DialogBox = styled.div`
   left: 0;
   width: auto;
   height: auto;
-  border: 1px solid var(--color-border-dialogbox);
-  box-shadow: 1px 2px 2px 1px var(--color-dropshadow-dialogbox);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid var(--color-border-dialogbox);
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  // box-shadow: 1px 2px 2px 1px var(--color-dropshadow-dialogbox);
   border-radius: 10px;
   text-align: center;
+  z-index: 1080;
 `;
 
 export const ModalBackdrop = styled.div`
@@ -113,23 +143,28 @@ export const UserCreatedDate = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   background: var(--color-default-lightestgray);
   color: var(--color-default-gray);
   font-weight: 400;
   letter-spacing: -0.03em;
-  margin-bottom: 25px;
+  font-size: 15px;
+  margin-bottom: 10px;
   padding: 10px 25px;
 `;
 
-export const DialogItems = styled.div`
+export const DialogItems = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--color-default-gray);
   padding-bottom: 20px;
+  max-height: 130px;
+  overflow-y: scroll;
+  text-decoration: none;
 `;
 
-export const DialogSelectItem = styled.div`
+export const DialogSelectItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -138,21 +173,36 @@ export const DialogSelectItem = styled.div`
   padding: 20px 10px;
   font-size: 18px;
   cursor: pointer;
+  overflow: hidden;
+  // overflow-x: auto;
+  padding-right: 2rem;
+  white-space: nowrap;
+
+  //hide scrollbar for Chrome, Safari and Opera
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 `;
 
 export const SignoutItem = styled(DialogSelectItem)`
   padding: 0 10px;
+  // height: 25px;
 `;
 
 export const EmailItem = styled(DialogSelectItem)`
-  padding: 0 10px;
+  padding: 0 10px 0 10px;
   font-size: 13px;
   letter-spacing: -0.03em;
+  height: 15px;
+  color: var(--color-default-disabled);
 `;
 
 export const SignOutFooter = styled(DialogItems)`
   display: flex;
   border-top: 1px solid #f3efef;
-  padding: 15px 0;
+  padding: 15px 0 5px 0;
   font-size: 18px;
+  height: auto;
 `;

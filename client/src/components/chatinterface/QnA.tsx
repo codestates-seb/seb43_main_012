@@ -13,11 +13,11 @@ import {
 type qnaProps = {
   qnaItem: QnAType;
   handleCheck: ({
-    qnaId,
-    isChecked,
+    id,
+    newCheckValue,
   }: {
-    qnaId: number;
-    isChecked: boolean;
+    id: number;
+    newCheckValue: boolean;
   }) => void;
 };
 const QnA = ({ qnaItem, handleCheck }: qnaProps) => {
@@ -43,6 +43,7 @@ const QnA = ({ qnaItem, handleCheck }: qnaProps) => {
       <QnAItem>
         <QnACheckbox>
           <Checkbox
+            id={qnaItem.qnaId}
             isChecked={isChecked}
             setIsChecked={setIsChecked}
             isHovered={isHovered}
