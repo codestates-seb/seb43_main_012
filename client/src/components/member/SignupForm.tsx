@@ -6,7 +6,7 @@ import {
   FormBox,
   PasswordText,
   SignButton,
-} from "../../styles/SignupStyle";
+} from '../../styles/SignupStyle';
 import {
   checkId,
   checkPassword,
@@ -23,11 +23,12 @@ const SignupForm: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [error, setErrors] = useState("");
+
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [error, setErrors] = useState('');
 
   const [isUsername, setIsUsername] = useState(false);
   const [isUserId, setIsUserId] = useState(false);
@@ -80,7 +81,9 @@ const SignupForm: React.FC = () => {
           setValue={setUsername}
           setErrors={setErrors}
         />
-        {isUsername === true ? null : <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>}
+        {isUsername === true ? null : (
+          <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>
+        )}
         <SignupInput
           labelName="ID (email)"
           type="text"
@@ -88,7 +91,9 @@ const SignupForm: React.FC = () => {
           setValue={setUserId}
           setErrors={setErrors}
         />
-        {isUserId === true ? null : <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>}
+        {isUserId === true ? null : (
+          <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>
+        )}
         <SignupInput
           labelName="Password"
           type="password"
@@ -96,7 +101,9 @@ const SignupForm: React.FC = () => {
           setValue={setPassword}
           setErrors={setErrors}
         />
-        {ispassword === true ? null : <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>}
+        {ispassword === true ? null : (
+          <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>
+        )}
         <PasswordText>
           Passwords must contain at least eight characters, including at least 1
           letter and 1 number.

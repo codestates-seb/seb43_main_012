@@ -15,8 +15,8 @@ import styled from 'styled-components';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
-  setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsUserDialogOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type StyleProps = {
@@ -25,7 +25,7 @@ type StyleProps = {
 };
 
 const MovingDialogBox = styled(DialogBox)<StyleProps>`
-  z-index: 1000;
+  z-index: 1100;
   left: ${(p) => p.posX - 250}px;
   top: ${(p) => p.posY}px;
   background: white;
@@ -48,16 +48,16 @@ const DialogBoxUserIcon = ({
   ) => {
     //close modal
     console.log('dialog item clicked!');
-    setIsUserDialogOpen(false);
+    if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsUserDialogOpen(false);
+    if (setIsLoggedIn) setIsLoggedIn(false);
+    if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
   const handleModalBackdropClick = () => {
-    setIsUserDialogOpen(false);
+    if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
   return (
@@ -76,7 +76,7 @@ const DialogBoxUserIcon = ({
             <DialogSelectItem>Public Chats</DialogSelectItem>
           </DialogItems>
           <SignOutFooter>
-            <DialogSelectItem>Getting Started</DialogSelectItem>
+            <DialogSelectItem>Start Guide</DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             <EmailItem>sunga.jlh@gmail.com</EmailItem>
           </SignOutFooter>

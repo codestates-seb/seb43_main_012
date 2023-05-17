@@ -20,9 +20,9 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
-    try{
+    try {
       const res = await handleLogin({ userId, password, setErrors });
-      if(res.status === 200){
+      if (res.status === 200) {
         setIsLoggedIn(true);
         console.log(res.data.authorization);
         closeModal();
@@ -32,8 +32,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
       console.log(error);
       setErrors(error as string);
     }
-  }
-
+  };
 
   return (
     <FormContainer>
@@ -52,7 +51,9 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
           setErrors={setErrors}
         />
         {errors.length !== 0 ? (
-          <ErrorMessage>아이디 또는 비밀번호를 잘못 입력하셨습니다.</ErrorMessage>
+          <ErrorMessage>
+            아이디 또는 비밀번호를 잘못 입력하셨습니다.
+          </ErrorMessage>
         ) : null}
         <SignButton type="submit">Log in</SignButton>
       </form>

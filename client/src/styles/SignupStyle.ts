@@ -29,7 +29,7 @@ export const SignupBox = styled.div`
 `;
 
 //OAuth 
-export const ButtonBox = styled.button`
+export const ButtonBox = styled.div`
   margin-bottom: 1.5%;
   width: 259px;
   height: 37px;

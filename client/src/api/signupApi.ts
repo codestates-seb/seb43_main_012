@@ -1,5 +1,6 @@
-import axios from "axios";
-import { request, requestAuth } from "./request";
+import axios from 'axios';
+import { request, requestAuth } from './request';
+
 
 interface SignupArgs {
   username: string;
@@ -8,7 +9,6 @@ interface SignupArgs {
   avatarLink: string;
   setErrors: any;
 }
-
 
 const handleSignup = async ({
   username,
@@ -19,7 +19,7 @@ const handleSignup = async ({
 }: SignupArgs) => {
   try {
   
-    const res = await requestAuth.post((`/api/signup`), {
+    const res = await requestAuth.post(`/api/signup`, {
       username,
       userId,
       password,
