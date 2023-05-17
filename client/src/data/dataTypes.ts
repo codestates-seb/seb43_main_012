@@ -60,6 +60,11 @@ export type BookmarkType = {
   checked?: boolean;
 };
 
+export type BookmarkTempType = {
+  categoryId: number;
+  categoryName: string;
+};
+
 export type TagType = {
   tagId: number;
   tagName: string;
@@ -90,7 +95,7 @@ export const initialConvData = {
   conversationId: 0,
   title: '',
   member: {
-    memberId: '',
+    memberId: 'mumblefish',
     avatarLink: '',
   },
   answerSummary: '',
@@ -100,7 +105,12 @@ export const initialConvData = {
   saved: false,
   pinned: false,
   published: false,
-  bookmarks: [] as BookmarkType[],
+  bookmarks: [
+    {
+      bookmarkId: 1,
+      bookmarkName: 'Default',
+    },
+  ] as BookmarkType[],
   tags: [] as TagType[],
   viewCount: 0,
   activityLevel: 0,

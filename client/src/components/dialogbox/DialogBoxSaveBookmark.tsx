@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //import style
 import styled from 'styled-components';
 import { ModalBackdrop } from '../../styles/CharacterStyle';
@@ -9,13 +9,17 @@ import {
   BookmarkType,
   tempBookmarks,
   DefaultBookmarks,
+  BookmarkTempType,
 } from '../../data/dataTypes';
+import { axiosDefault } from '../../utils/axiosConfig';
 
 const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
   z-index: 999;
 `;
 type Props = {
+  cId: number;
+  bookmarks: BookmarkType[];
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -23,10 +27,46 @@ type BookmarkCheckType = BookmarkType & {
   checked: boolean;
 };
 
-const DialogBoxSaveBookmark = ({ setIsOpen }: Props) => {
+async function editBookmark({
+  cId,
+  bookmarks,
+}: {
+  cId: number;
+  bookmarks: string[];
+}) {
+  axiosDefault
+    .patch(
+      `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${cId}/bookmarks`,
+      {
+        bookmarks,
+      },
+    )
+    .then((res) => {
+      // console.log(res);
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
+}
+const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
+  useEffect(() => {
+    console.log('fetched bookmarks!');
+    //temp solution
+    if (bookmarks) {
+      const newBookmarks = bookmarks.map((b) => {
+        return {
+          bookmarkId: b.categoryId,
+          bookmarkName: b.categoryName,
+          checked: true,
+        };
+      });
+
+      setBookmarkList(newBookmarks);
+    }
+  }, [bookmarks]);
+
   //access stored data for current conversation, that was fetched from the server
   //add property checked
-  const newTemp = tempBookmarks.map((b) => {
+  const newTemp = DefaultBookmarks.map((b) => {
     return { ...b, checked: false };
   });
 
@@ -46,12 +86,30 @@ const DialogBoxSaveBookmark = ({ setIsOpen }: Props) => {
     newCheckValue: boolean;
   }) => {
     const index = bookmarkList.findIndex((item) => item.bookmarkId === id);
-    if (index !== -1) {
-      setBookmarkList((prevList) => {
-        const newList = [...prevList];
-        newList[index] = { ...newList[index], checked: newCheckValue };
-        return newList;
+    const bookmarkToUpdate = bookmarkList.find(
+      (item) => item.bookmarkId === id,
+    );
+
+    if (index !== -1 && bookmarkToUpdate) {
+      const updatedBookmarks = bookmarkList.map((b) => {
+        if (b.bookmarkId === index) b.checked = newCheckValue;
+        return b;
       });
+      const updatedBookmarkNames = updatedBookmarks
+        .filter((b) => b.checked)
+        .map((b) => b.bookmarkName);
+      //update conversation on server
+      editBookmark({
+        cId,
+        bookmarks: updatedBookmarkNames,
+      });
+
+      //update conversation within app
+      // setBookmarkList((prevList) => {
+      //   const newList = [...prevList];
+      //   newList[index] = { ...newList[index], checked: newCheckValue };
+      //   return newList;
+      // });
     }
   };
 

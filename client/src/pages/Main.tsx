@@ -263,6 +263,8 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
               editConfirm={editConfirm}
             />
             <EditSaveUI
+              cId={conversation.conversationId}
+              bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
               setEditConfirm={setEditConfirm}
