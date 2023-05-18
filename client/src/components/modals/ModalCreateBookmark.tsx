@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import '../../styles/sass/custom_modal_createbookmark.scss';
 import { InputTitleBox } from '../../styles/MainStyle';
+import { InputCount } from '../../styles/InputStyle';
 // import '../../styles/sass/custom_buttons.scss';
 
 //import components
@@ -62,19 +63,6 @@ const InputBookmarkBox = styled(InputTitleBox)`
     font-size: var(--text-fontsize-qinput);
     font-weight: var(--text-fontweight-regular);
     text-align: center;
-  }
-`;
-
-const InputCount = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 5px;
-  width: 80%;
-  font-size: var(--text-fontsize-info);
-  color: var(--color-offblack) !important;
-
-  span {
-    color: var(--color-default-gray) !important;
   }
 `;
 
@@ -151,7 +139,7 @@ const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
       <CModalBody>
         {InputBookmarkName}
         <InputCount>
-          {value.length} / <span>30</span>
+          {value.length}/<span>30</span>
         </InputCount>
         {/* {showError && <ErrorMsg>내용을 입력하여 주십시오</ErrorMsg>} */}
       </CModalBody>
