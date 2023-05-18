@@ -87,17 +87,18 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       const conversation = await getConversation(14);
       if (conversation) {
         console.log('started new session!');
+        console.log('response: ', conversation);
         setConversation(conversation);
       }
     })();
-    // (async function () {
-    //   const conversations = await getAllConversations();
-    //   if (conversations) {
-    //     console.log('fetched data!');
-    //     console.log(conversations);
-    //     // setConversation(conversation);
-    //   }
-    // })();
+    (async function () {
+      const conversations = await getAllConversations();
+      if (conversations) {
+        console.log('fetched data!');
+        console.log(conversations);
+        // setConversation(conversation);
+      }
+    })();
     saveBookmark({ cId: 14, bookmarks: ['커피', '맛집'] });
     // getAllConversations();
     // askFirstQuestion();
