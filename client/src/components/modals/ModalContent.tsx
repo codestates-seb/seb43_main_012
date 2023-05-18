@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Conversation } from '../../data/dataTypes';
+import axios from 'axios';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -48,6 +49,10 @@ const Description = styled.p`
   margin-bottom: 1rem;
 `;
 
+const QnaListWrapper = styled.div`
+  margin-top: 2rem;
+`;
+
 type ModalContentProps = {
   conversation: Conversation;
   onClose: () => void;
@@ -58,6 +63,18 @@ const ModalContent: React.FC<ModalContentProps> = ({
   onClose,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation>(conversation);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
+      )
+      .then((response) => {
+        setSelectedConversation(response.data);
+      });
+  }, [conversation.conversationId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -86,8 +103,14 @@ const ModalContent: React.FC<ModalContentProps> = ({
               &times;
             </ModalCloseButton>
             <ContentWrapper>
-              <Title>{conversation.title}</Title>
-              <Description>{conversation.answerSummary}</Description>
+              <QnaListWrapper>
+                {selectedConversation.qnaList.map((qna) => (
+                  <div key={qna.qnaId}>
+                    <h4>{qna.question}</h4>
+                    <p>{qna.answer}</p>
+                  </div>
+                ))}
+              </QnaListWrapper>
             </ContentWrapper>
           </ModalWrapper>
         </ModalOverlay>
