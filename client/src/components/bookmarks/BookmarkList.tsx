@@ -1,17 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BookmarkType } from '../../data/dataTypes';
-import { BookmarkCheckbox, Bookmark, BookmarkItem } from './BookmarkItem';
+import React, { useState } from 'react';
 
+//import style
+import styled from 'styled-components';
+import { BookmarkCheckbox, Bookmark, BookmarkItem } from './BookmarkItem';
 import {
   DialogItems,
   SignOutFooter,
   SignoutItem,
 } from '../../styles/TopNavStyle';
-
+//import components
 import GenericCheckbox from '../generic/GenericCheckbox';
+//import data
+import { BookmarkType } from '../../data/dataTypes';
 
 type ListProp = {
+  // isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
   list: BookmarkType[];
   handleCheck: ({
     id,
@@ -57,7 +61,8 @@ const Option = styled(Bookmark)`
 const AddBookmark = styled(SignoutItem)`
   display: flex;
   justify-content: center;
-  font-size: 15px;
+  align-items: center;
+  font-size: 16px !important;
   font-weight: var(--text-fontweight-medium);
   text-align: center;
   color: var(--color-default-green);
@@ -67,34 +72,42 @@ const AddBookmark = styled(SignoutItem)`
   }
 `;
 
-const BookmarkList = ({ list, handleCheck }: ListProp) => {
+const BookmarkList = ({ list, handleCheck, setIsModalOpen }: ListProp) => {
+  const handleModalOpen = () => {
+    console.log('create bookmark modal open!');
+    setIsModalOpen(true);
+  };
   return (
     <>
-      <BookmarkItems>
-        {list.map((bookmark: BookmarkType) => (
-          <BookmarkItem
-            key={bookmark.bookmarkId}
-            bookmark={bookmark}
-            handleCheck={handleCheck}
-          />
-        ))}
-      </BookmarkItems>
+      {Boolean(list.length) && (
+        <BookmarkItems>
+          {list.map((bookmark: BookmarkType) => (
+            <BookmarkItem
+              key={bookmark.bookmarkId}
+              bookmark={bookmark}
+              handleCheck={handleCheck}
+            />
+          ))}
+        </BookmarkItems>
+      )}
       <Footer>
-        <Options>
-          <Option>
-            <BookmarkCheckbox>
-              <GenericCheckbox size="small" />
-            </BookmarkCheckbox>
-            <div>Pin</div>
-          </Option>
-          <Option>
-            <BookmarkCheckbox>
-              <GenericCheckbox size="small" />
-            </BookmarkCheckbox>
-            <div>Publish</div>
-          </Option>
-        </Options>
-        <AddBookmark>Create New List</AddBookmark>
+        {Boolean(list.length) && (
+          <Options>
+            <Option>
+              <BookmarkCheckbox>
+                <GenericCheckbox size="small" />
+              </BookmarkCheckbox>
+              <div>Pin</div>
+            </Option>
+            <Option>
+              <BookmarkCheckbox>
+                <GenericCheckbox size="small" />
+              </BookmarkCheckbox>
+              <div>Publish</div>
+            </Option>
+          </Options>
+        )}
+        <AddBookmark onClick={handleModalOpen}>Create New List</AddBookmark>
       </Footer>
     </>
   );
