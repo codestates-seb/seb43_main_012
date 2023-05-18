@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import data from "../../data/data.json";
+import { createSlice } from '@reduxjs/toolkit';
+import data from '../../data/data.json';
 
 const collectionSlice = createSlice({
-  name: "collection",
+  name: 'collection',
   initialState: {
     content: data,
-    selectedBookmark: "All",
-    selectedTag: "",
+    selectedBookmark: 'All',
+    selectedTag: '',
   },
   reducers: {
     setSelectedBookmark: (state, action) => {
