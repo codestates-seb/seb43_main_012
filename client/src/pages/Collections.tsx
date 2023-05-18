@@ -180,9 +180,14 @@ const Collections = () => {
   };
 
   const handleContentClick = (conversation: Conversation) => {
-    setSelectedConversation(conversation);
+    axios
+      .get(
+        `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
+      )
+      .then((response) => {
+        setSelectedConversation(response.data);
+      });
   };
-
   const handleCloseModal = () => {
     setSelectedConversation(null);
   };
@@ -232,10 +237,10 @@ const Collections = () => {
             </Bookmark>
             {content.bookmarks.map((bookmark) => (
               <Bookmark
-                key={bookmark.categoryName}
-                onClick={() => handleBookmarkClick(bookmark.categoryName)}
+                key={bookmark.bookmarkName}
+                onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
               >
-                {bookmark.categoryName}
+                {bookmark.bookmarkName}
               </Bookmark>
             ))}
           </BookmarkContainer>
@@ -272,10 +277,14 @@ const Collections = () => {
                     </span>
                   </div>
                   <p>{conversation.answerSummary}</p>
-                  <span className="bookmark">
-                    {' '}
-                    {conversation.bookmarks[0].bookmarkName}
-                  </span>
+                  <div className="bookmark">
+                    {conversation.bookmarks.map((bookmark) => (
+                      <span key={bookmark.bookmarkId}>
+                        {bookmark.bookmarkName}
+                        {' || '}
+                      </span>
+                    ))}
+                  </div>
                   <div className="tag">
                     {conversation.tags.map((tag: TagType) => (
                       <span key={tag.tagId}>#{tag.tagName} </span>
