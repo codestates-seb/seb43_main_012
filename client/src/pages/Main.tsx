@@ -98,7 +98,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     //     // setConversation(conversation);
     //   }
     // })();
-    // saveBookmark({ cId: 2, bookmarks: ['과자', 'http'] });
+    saveBookmark({ cId: 14, bookmarks: ['커피', '맛집'] });
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
