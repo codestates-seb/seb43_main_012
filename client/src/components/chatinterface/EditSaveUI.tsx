@@ -205,6 +205,7 @@ const EditSaveUI = ({
         </IconItems>
       )}
       <ModalCreateBookmark
+        cId={cId}
         visible={isModalOpen}
         setVisible={handleModalOpenClick}
       />

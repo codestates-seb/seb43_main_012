@@ -127,6 +127,7 @@ export async function saveBookmark({
         bookmarkName: bName,
       },
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

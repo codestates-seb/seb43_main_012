@@ -16,6 +16,9 @@ import { InputTitleBox } from '../../styles/MainStyle';
 import { useInput } from '../../utils/hooks/useInput';
 import Input from '../chatinterface/Input';
 
+//import api
+import { saveBookmark } from '../../api/ChatInterfaceApi';
+
 type ButtonProps = {
   inputExists: boolean;
 };
@@ -81,11 +84,12 @@ const ErrorMsg = styled.div`
 `;
 
 type Props = {
+  cId: number;
   visible: boolean;
   setVisible: (isOpen: boolean) => void;
 };
 
-const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
+const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
   const [value, setValue] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -102,9 +106,15 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
 
   const handleCreateClick = () => {
     if (value) {
-      console.log('created bookmark!');
-      setVisible(false);
-      setValue('');
+      console.log('clicked!');
+      (async function () {
+        const res = await saveBookmark({ cId, bName: value });
+        if (res) {
+          console.log('created bookmark!');
+          setVisible(false);
+          setValue('');
+        }
+      });
     } else {
       setShowError(true);
     }
