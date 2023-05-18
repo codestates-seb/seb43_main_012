@@ -61,8 +61,8 @@ const Option = styled(Bookmark)`
 const AddBookmark = styled(SignoutItem)`
   display: flex;
   justify-content: center;
-  align-items: center;git
-  font-size: 15px;
+  align-items: center;
+  font-size: 16px !important;
   font-weight: var(--text-fontweight-medium);
   text-align: center;
   color: var(--color-default-green);

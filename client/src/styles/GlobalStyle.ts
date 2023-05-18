@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
     --b10: #fafafc;
     --b0: #fff;
 
+    --color-error: #913535;
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
@@ -52,6 +53,7 @@ const GlobalStyle = createGlobalStyle`
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
     --text-fontsize-qinput: 18px;
+    --text-fontweight-regular: 400;
     --text-fontweight-medium: 500;
 
     --padding-top-topnavbox: 14px;
