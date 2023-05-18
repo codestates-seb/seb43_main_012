@@ -24,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ConversationService {
 
     private final Long MEMBER_ID = 1L;
@@ -96,6 +97,7 @@ public class ConversationService {
         return bookmarkRepository.findAllByBookmarkName(MEMBER_ID,bookmarkName);
     }
 
+    @Transactional
     public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
     {
         Conversation findConversation = findConversation(conversationId);
@@ -144,6 +146,7 @@ public class ConversationService {
         return conversationRepository.save(findConversation);
     }
 
+    @Transactional
     public Conversation createTag(long conversationId, TagDto.Post tagDto)
     {
         Conversation findConversation = findConversation(conversationId);
