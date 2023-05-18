@@ -83,23 +83,23 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   };
 
   useEffect(() => {
-    (async function () {
-      const conversation = await getConversation(14);
-      if (conversation) {
-        console.log('started new session!');
-        console.log('response: ', conversation);
-        setConversation(conversation);
-      }
-    })();
-    (async function () {
-      const conversations = await getAllConversations();
-      if (conversations) {
-        console.log('fetched data!');
-        console.log(conversations);
-        // setConversation(conversation);
-      }
-    })();
-    saveBookmark({ cId: 14, bName: '기본폴더' });
+    // (async function () {
+    //   const conversation = await getConversation(3);
+    //   if (conversation) {
+    //     console.log('started new session!');
+    //     console.log('response: ', conversation);
+    //     setConversation(conversation);
+    //   }
+    // })();
+    // (async function () {
+    //   const conversations = await getAllConversations();
+    //   if (conversations) {
+    //     console.log('fetched data!');
+    //     console.log(conversations);
+    //     // setConversation(conversation);
+    //   }
+    // })();
+    // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });

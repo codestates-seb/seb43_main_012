@@ -56,6 +56,10 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
   //   if (setIsOpen) setIsOpen(false);
   // };
 
+  useEffect(() => {
+    console.log('change in bookmarkList');
+  }, [bookmarkList]);
+
   //handle bookmark check/uncheck
   const handleBookmarkCheck = ({
     id,
@@ -71,13 +75,17 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
       if (newBookmarkName) {
         (async function () {
           const res = await saveBookmark({ cId, bName: newBookmarkName });
-          if (res)
+          if (res) {
+            console.log('response well received');
             setBookmarkList(
               bookmarkList.map((b) => {
-                b.checked = true;
+                if (b.bookmarkId === id) {
+                  b.checked = true;
+                }
                 return b;
               }),
             );
+          }
         })();
       }
     } else {
@@ -86,7 +94,9 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
         if (res)
           setBookmarkList(
             bookmarkList.map((b) => {
-              b.checked = false;
+              if (b.bookmarkId === id) {
+                b.checked = false;
+              }
               return b;
             }),
           );
@@ -116,7 +126,7 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
   return (
     <BookmarkList
       setIsModalOpen={setIsModalOpen}
-      list={bookmarkList}
+      list={bookmarkList.filter((b) => b.checked === true)}
       handleCheck={handleBookmarkCheck}
     />
   );

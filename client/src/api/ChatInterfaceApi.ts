@@ -7,7 +7,7 @@ export async function getAllConversations() {
   try {
     const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
     //   console.log(response);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -73,7 +73,7 @@ export async function continueConversation(id: number, question: string) {
 export async function getConversation(id: number): Promise<Conversation> {
   try {
     const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -98,10 +98,10 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
     throw error;
   }
 }
-
+//conversationId
 export async function deleteConveration() {
   axiosDefault
-    .delete<any>(`${BASE_URL}/conversations/5`)
+    .delete<any>(`${BASE_URL}/conversations/`)
     .then((res) => {
       console.log(res);
       console.log(res.data);
@@ -121,13 +121,14 @@ export async function saveBookmark({
   bName: string;
 }): Promise<string> {
   try {
+    console.log('sending bookmark create request');
     const response = await axiosDefault.post(
       `${BASE_URL}/conversations/${cId}/bookmarks`,
       {
         bookmarkName: bName,
       },
     );
-    console.log(response.data);
+    console.log('success in creating bookmark!', response.data);
     return response.data;
   } catch (error) {
     console.log(error);
