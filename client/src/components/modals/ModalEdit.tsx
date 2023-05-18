@@ -1,5 +1,6 @@
 import { ReactElement, useState, useEffect } from 'react';
 import { MyEditData, EditView, EditForm } from '../../styles/MyPageStyle';
+import { useNavigate } from 'react-router-dom';
 import {
   Character,
   CharacterWrapper,
@@ -8,6 +9,9 @@ import {
 import ModalCharacter from '../modals/ModalCharacter';
 import { handleNameUpdate, handlePasswordUpdate } from '../../api/MemberApi';
 import { UserInfoItemTypes, handleUserInfo } from '../../api/MemberApi';
+import useCheck from '../../hooks/useCheck';
+import { checkPassword } from '../../utils/checkSignup';
+import { ErrorMessage } from '../../styles/SignupStyle';
 
 type ModalEditProps = {
   isOpen: boolean;
@@ -15,12 +19,16 @@ type ModalEditProps = {
 };
 
 function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
-  const displayName = 'New Name';
+  const navigate = useNavigate();
 
   const [displayNameInput, setDisplayNameInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [avatarLink, setAvatarLink] = useState<string>('');
   const [username, setUsername] = useState<string>('');
+
+  const [ispassword, setIsPassword] = useState(false);
+
+  useCheck(checkPassword, passwordInput, setIsPassword);
 
   const [isOpen2, setIsOpen2] = useState(false);
 
@@ -32,6 +40,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
 
   const closeModalHandler = () => {
     setIsOpen(false);
+    navigate('/mypage');
   };
 
   useEffect(() => {
@@ -46,7 +55,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
     };
 
     fetchUserInfo();
-  }, [Id]);
+  }, [isOpen2]);
 
   const handleSave = async () => {
     const updatedDisplayName = displayNameInput;
@@ -74,7 +83,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
     }
     closeModalHandler();
   };
- 
+
   return (
     <CharacterWrapper>
       {isOpen && (
@@ -99,14 +108,21 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
               ></input>
               <MyEditData>password</MyEditData>
               <input
-                type="text"
+                type="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
               ></input>
             </EditForm>
-            <div>
-              <button onClick={handleSave}>save</button>
-            </div>
+            {ispassword ? (
+              <div>
+                <button onClick={handleSave}>save</button>
+              </div>
+            ) : (
+              <div>
+                <ErrorMessage>비밀번호는 영어, 숫자, 특수문자를 포함한 8자리 이상의 문자여야합니다.</ErrorMessage>
+                <button>save</button>
+              </div>
+            )}
           </EditView>
         </ModalBackdrop>
       )}
