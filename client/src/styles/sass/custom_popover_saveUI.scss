@@ -25,7 +25,7 @@
     --#{$prefix}popover-header-color: var(--color-default-gray) !important;
 
     border: none !important;
-        box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2) !important;
 
     // box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2) !important;
     // box-shadow: 0px 1px 4px rgb(230, 230, 230) !important;
@@ -52,6 +52,15 @@
 
         > .popover-arrow {
             bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height))) !important;
+            &::before {
+                top: 0 !important;
+                border-bottom-color: rgb(230, 230, 230) !important;
+              }
+
+              &::after {
+                top: var(--#{$prefix}popover-border-width) !important;
+                border-bottom-color: white !important;
+              }
         }
 
         // &::before {

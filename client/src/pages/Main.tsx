@@ -106,9 +106,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     // deleteConv();
     // getConversation(11);
     // continueConversation(10, 'how long has it took openai to launch you?');
-    // (async () => {
-    //   const post = await getJSON(): Promise<Post>
-    // })();
     // console.log(conversation);
   }, []);
 
@@ -163,6 +160,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
             />
             <EditSaveUI
               cId={conversation.conversationId}
+              saved={conversation.saved}
               bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
