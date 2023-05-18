@@ -15,17 +15,6 @@ export async function getAllConversations() {
   }
 }
 
-// export async function getAllConversations() {
-//   axiosDefault
-//     .get<any>(`${BASE_URL}/conversations`)
-//     .then((res) => {
-//       console.log(res);
-//       // res.data;
-//       console.log(res.data);
-//     })
-//     .catch((err) => console.log(err));
-// }
-
 export async function askFirstQuestion(question: string) {
   try {
     const response = await axiosDefault.post<any>(`${BASE_URL}/conversations`, {
@@ -110,7 +99,7 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
   }
 }
 
-export async function deleteConv() {
+export async function deleteConveration() {
   axiosDefault
     .delete<any>(`${BASE_URL}/conversations/5`)
     .then((res) => {
@@ -120,46 +109,68 @@ export async function deleteConv() {
     .catch((err) => console.log(err));
 }
 
-export async function saveCheckedQnA() {}
+export async function saveQnA() {}
 
-export async function deleteUncheckedQnA() {}
+export async function unsaveQnA() {}
 
 export async function saveBookmark({
   cId,
-  bookmarks,
+  bName,
 }: {
   cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .post(`${BASE_URL}/conversations/${cId}/bookmarks`, {
-      bookmarks,
-    })
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
+  bName: string;
+}): Promise<string> {
+  try {
+    const response = await axiosDefault.post(
+      `${BASE_URL}/conversations/${cId}/bookmarks`,
+      {
+        bookmarkName: bName,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
-export async function editBookmark({
+// export async function saveBookmark({
+//   cId,
+//   bookmarks,
+// }: {
+//   cId: number;
+//   bookmarks: string[];
+// }) {
+//   axiosDefault
+//     .post(`${BASE_URL}/conversations/${cId}/bookmarks`, {
+//       bookmarks,
+//     })
+//     .then((res) => {
+//       // console.log(res);
+//       console.log(res.data);
+//     })
+//     .catch((err) => console.log(err));
+// }
+
+export async function deleteBookmark({
   cId,
-  bookmarks,
+  bId,
 }: {
   cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .patch(`${BASE_URL}/conversations/${cId}/bookmarks`, {
-      bookmarks,
-    })
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
+  bId: number;
+}): Promise<string> {
+  try {
+    const response = await axiosDefault.delete(
+      `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
+    );
+    console.log(response.data);
+    return response.data;
+    // Handle any further operations with the response if needed
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
-
 // 참조
 // import fetch from 'node-fetch';
 

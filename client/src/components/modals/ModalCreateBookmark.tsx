@@ -40,10 +40,10 @@ const PrimaryBtn = styled.button<ButtonProps>`
 `;
 
 const SecondaryBtn = styled(PrimaryBtn)`
-  background-color: var(--b45);
+  background-color: var(--b40);
 
   &: hover {
-    background-color: var(--b50);
+    background-color: var(--b45);
   }
 `;
 
@@ -51,14 +51,27 @@ const InputBookmarkBox = styled(InputTitleBox)`
   justify-content: center;
   border: none;
   text-align: center;
+  width: 80%;
 
   input {
     border: none;
     border-bottom: 1px solid var(--color-default-border);
     font-size: var(--text-fontsize-qinput);
     font-weight: var(--text-fontweight-regular);
-    width: 80%;
     text-align: center;
+  }
+`;
+
+const InputCount = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 5px;
+  width: 80%;
+  font-size: var(--text-fontsize-info);
+  color: var(--color-offblack) !important;
+
+  span {
+    color: var(--color-default-gray) !important;
   }
 `;
 
@@ -105,6 +118,7 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
     setValue,
     handleInput: handleCreateClick,
     id: 'bookmarkInput',
+    maxlength: 30,
   });
 
   const InputBookmarkName = Input({
@@ -125,12 +139,20 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
         <CModalTitle>Create Collection</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        {InputBookmarkName}{' '}
-        {showError && <ErrorMsg>내용을 입력하여 주십시오</ErrorMsg>}
+        {InputBookmarkName}
+        <InputCount>
+          {value.length} / <span>30</span>
+        </InputCount>
+        {/* {showError && <ErrorMsg>내용을 입력하여 주십시오</ErrorMsg>} */}
       </CModalBody>
 
       <CModalFooter>
-        <SecondaryBtn onClick={() => setVisible(false)}>Cancel</SecondaryBtn>
+        <SecondaryBtn
+          onClick={() => setVisible(false)}
+          inputExists={Boolean(value)}
+        >
+          Cancel
+        </SecondaryBtn>
         <PrimaryBtn
           onClick={handleCreateClick}
           {...(Boolean(value) ? {} : { disabled: true })}
