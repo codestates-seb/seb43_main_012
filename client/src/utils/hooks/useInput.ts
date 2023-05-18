@@ -4,7 +4,7 @@ import React, {
   SetStateAction,
   ChangeEvent,
   KeyboardEvent,
-} from "react";
+} from 'react';
 
 type InitProps = {
   inputType: string;
@@ -13,6 +13,7 @@ type InitProps = {
   handleInput: () => void;
   placeholder?: string;
   id?: string;
+  maxlength?: number;
 };
 
 export type InputProps = {
@@ -22,6 +23,7 @@ export type InputProps = {
   placeholder?: string;
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
   id?: string;
+  maxlength?: number;
 };
 
 export function useInput({
@@ -31,13 +33,14 @@ export function useInput({
   handleInput,
   placeholder,
   id,
+  maxlength,
 }: InitProps): InputProps {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       // console.log("enter key pressed!");
       handleInput();
     }
@@ -50,6 +53,7 @@ export function useInput({
     placeholder,
     onKeyDown: handleKeyDown,
     id,
+    maxlength,
   };
 }
 
