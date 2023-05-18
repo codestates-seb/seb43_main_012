@@ -47,6 +47,12 @@
     //     top:
     // }
 
+    & .popover-body {
+      ul {
+        border-top: none !important;
+      }
+    }
+
 
     & .bs-popover-top {
 

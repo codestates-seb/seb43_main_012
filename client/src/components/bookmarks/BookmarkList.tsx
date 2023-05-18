@@ -1,17 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BookmarkType } from '../../data/dataTypes';
-import { BookmarkCheckbox, Bookmark, BookmarkItem } from './BookmarkItem';
+import React, { useState } from 'react';
 
+//import style
+import styled from 'styled-components';
+import { BookmarkCheckbox, Bookmark, BookmarkItem } from './BookmarkItem';
 import {
   DialogItems,
   SignOutFooter,
   SignoutItem,
 } from '../../styles/TopNavStyle';
-
+//import components
 import GenericCheckbox from '../generic/GenericCheckbox';
+//import data
+import { BookmarkType } from '../../data/dataTypes';
 
 type ListProp = {
+  // isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
   list: BookmarkType[];
   handleCheck: ({
     id,
@@ -68,7 +72,11 @@ const AddBookmark = styled(SignoutItem)`
   }
 `;
 
-const BookmarkList = ({ list, handleCheck }: ListProp) => {
+const BookmarkList = ({ list, handleCheck, setIsModalOpen }: ListProp) => {
+  const handleModalOpen = () => {
+    console.log('create bookmark modal open!');
+    setIsModalOpen(true);
+  };
   return (
     <>
       {Boolean(list.length) && (
@@ -99,7 +107,7 @@ const BookmarkList = ({ list, handleCheck }: ListProp) => {
             </Option>
           </Options>
         )}
-        <AddBookmark>Create New List</AddBookmark>
+        <AddBookmark onClick={handleModalOpen}>Create New List</AddBookmark>
       </Footer>
     </>
   );

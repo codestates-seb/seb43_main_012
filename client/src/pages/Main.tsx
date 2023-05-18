@@ -83,13 +83,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   };
 
   useEffect(() => {
-    // (async function () {
-    //   const conversation = await getConversation(9);
-    //   if (conversation) {
-    //     console.log('started new session!');
-    //     setConversation(conversation);
-    //   }
-    // })();
+    (async function () {
+      const conversation = await getConversation(14);
+      if (conversation) {
+        console.log('started new session!');
+        setConversation(conversation);
+      }
+    })();
     // (async function () {
     //   const conversations = await getAllConversations();
     //   if (conversations) {
