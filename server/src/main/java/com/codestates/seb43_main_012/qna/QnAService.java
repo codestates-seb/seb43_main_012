@@ -112,7 +112,7 @@ public class QnAService {
         }
         qna.setConversation(conversation);
 
-        conversation.setModifiedAt(LocalDateTime.now());
+        conversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(conversation);
         QnA savedQnA = saveQnA(qna);
         conversation.addQnA(savedQnA);

@@ -48,7 +48,7 @@ public class ConversationDto {
         private MemberDto.ResponseForConversation member;
         private String title;
         private String answerSummary;
-        private LocalDateTime modifiedAt;
+        private String modifiedAt;
         private List<ConversationCategory> bookmarks;
         private List<Tag> tags;
         private Boolean saved;

@@ -31,16 +31,7 @@ public class ConversationController {
     private final QnAService qnaService;
     private final CategoryRepository categoryRepository;
 
-//    public ConversationController(ConversationService conversationService,
-//                                  ConversationMapper mapper,
-//                                  BookmarkRepository bookmarkRepository,
-//                                  QnAService qnaService)
-//    {
-//        this.conversationService = conversationService;
-//        this.mapper = mapper;
-//        this.bookmarkRepository = bookmarkRepository;
-//        this.qnaService = qnaService;
-//    }
+
 
     private final long MEMBER_ID = 1L;
 
@@ -99,7 +90,7 @@ public class ConversationController {
     public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
                                                      @RequestBody BookmarkDto.Post bookmarkDto)
     {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkId());
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkName());
         Conversation conversation = conversationService.setSaveStatus(savedConversation);
 
         return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);

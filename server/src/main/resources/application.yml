@@ -1,5 +1,5 @@
-server:
-  port: 8080
+#server:
+#  port: 8080
 
 apikey: ${API_KEY}
 
@@ -22,3 +22,26 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
+#apikey: ${API_KEY}
+#
+#jwt:
+#  secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
+#  expiration: 86400
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://database-1.ce54ty66p4fy.ap-northeast-2.rds.amazonaws.com:13306/chatcrawl?useSSL=false>
+#    username: admin
+#    password: 12345678
+#  jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: validate
+#    properties:
+#      hibernate:
+#        format_sql: true

@@ -11,7 +11,7 @@ public class BookmarkDto {
     @Getter
     public static class Post
     {
-        private long bookmarkId;
+        private String bookmarkName;
     }
 
     @NoArgsConstructor

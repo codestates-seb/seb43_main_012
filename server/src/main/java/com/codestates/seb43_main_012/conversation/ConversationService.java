@@ -9,7 +9,6 @@ import com.codestates.seb43_main_012.member.repository.MemberRepository;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
-import com.codestates.seb43_main_012.tag.dto.TagResponseDto;
 import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
 import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
@@ -73,7 +72,7 @@ public class ConversationService {
         Optional<Conversation> optional = conversationRepository.findById(conversationId);
         Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
 
-        findConversation.setModifiedAt(LocalDateTime.now());
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         return conversationRepository.save(findConversation);
     }
 
@@ -108,7 +107,9 @@ public class ConversationService {
         bookmark.addConversation(findConversation);
         bookmarkRepository.save(bookmark);
 
-        Category category = categoryRepository.findById(dto.getBookmarkId()).orElseThrow();
+        Category category = categoryRepository.findByName(dto.getBookmarkName()).orElse(new Category(MEMBER_ID, dto.getBookmarkName()));
+        categoryRepository.save(category);
+
         ConversationCategory conversationCategory = new ConversationCategory(
                 findConversation,
                 category.getId(),
@@ -119,11 +120,11 @@ public class ConversationService {
         return conversationRepository.save(findConversation);
     }
 
-    public Conversation cancelBookmark(long conversationId, long bookmarkId)
+    public Conversation cancelBookmark(long conversationId, String bookmarkName)
     {
         Conversation conversation = findConversation(conversationId);
 
-        conversationCategoryRepository.deleteByBookmarkId(bookmarkId);
+        conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkName(conversationId, bookmarkName);
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
         if(conversationCategories.isEmpty()) conversation.setBookmarked(false);
 
