@@ -10,7 +10,7 @@ import '../../styles/sass/custom_popover_saveUI_hover.scss';
 import ModalCreateBookmark from '../modals/ModalCreateBookmark';
 
 //import data types
-import { BookmarkType } from '../../data/dataTypes';
+import { BookmarkType } from '../../data/d';
 
 //import icons
 // @ts-ignore

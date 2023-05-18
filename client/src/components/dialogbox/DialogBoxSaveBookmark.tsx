@@ -5,12 +5,7 @@ import { ModalBackdrop } from '../../styles/CharacterStyle';
 //import components
 import BookmarkList from '../bookmarks/BookmarkList';
 //import data
-import {
-  BookmarkType,
-  tempBookmarks,
-  DefaultBookmarks,
-  BookmarkTempType,
-} from '../../data/dataTypes';
+import { BookmarkType, DefaultBookmarks } from '../../data/d';
 //import api
 import { saveBookmark, deleteBookmark } from '../../api/ChatInterfaceApi';
 const BoxBackdrop = styled(ModalBackdrop)`

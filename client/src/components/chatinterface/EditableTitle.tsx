@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 //import data types
-import { Conversation } from '../../data/dataTypes';
+import { Conversation } from '../../data/d';
 
 //import components
 import { useInput } from '../../utils/hooks/useInput';

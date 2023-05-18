@@ -6,7 +6,7 @@ import { QnACheckbox, QnAItem } from '../../styles/MainStyle';
 //import components
 import Checkbox from '../chatinterface/Checkbox';
 //import types
-import { BookmarkType } from '../../data/dataTypes';
+import { BookmarkType } from '../../data/d';
 
 export const Bookmark = styled(DialogSelectItem)`
   position: relative;

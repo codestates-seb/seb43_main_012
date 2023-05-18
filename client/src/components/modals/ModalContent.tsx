@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Conversation } from '../../data/dataTypes';
+import { Conversation } from '../../data/d';
 import axios from 'axios';
 
 const ModalOverlay = styled.div`
