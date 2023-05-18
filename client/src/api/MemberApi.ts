@@ -17,9 +17,9 @@ export const handleUserInfo = async (URL: String): Promise<UserInfoItemTypes> =>
   }; 
 
 
-export const handleUpdate = async (URL: String, avatarLink: String): Promise<UserInfoItemTypes> =>{
+export const handleUpdate = async (URL: String, newAvatarLink: String): Promise<UserInfoItemTypes> =>{
     const response = await requestAuth.patch(`/api/${URL}`,{
-        avatarLink: avatarLink,
+        avatarLink: newAvatarLink,
     });
     if(response.status !== 200){
         throw new Error(response.data.message)

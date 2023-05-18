@@ -25,7 +25,7 @@ export const ModalBackdrop = styled.div`
 export const ModalView = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   position: absolute;
   top: 50%;
@@ -35,6 +35,7 @@ export const ModalView = styled.div`
   width: 90%;
   max-width: 795px;
   height: 70%;
+  margin-bottom: 5%;
   color: black;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -50,7 +51,7 @@ export const ModalView = styled.div`
   .button-container {
     display: flex;
     justify-content: center;
-    width: 100%;
+    height: 40px;
   }
   .selectbutton {
     font-size: 20px;
@@ -60,8 +61,6 @@ export const ModalView = styled.div`
     border: none;
     text-decoration-line: underline;
     text-decoration-color: #c9ad6e;
-    padding-top: 10vh;
-    width: 10%;
     height: 40px;
     border-radius: 5px;
     :hover {
@@ -76,9 +75,9 @@ export const ModalView = styled.div`
     border: none;
     text-decoration-line: underline;
     text-decoration-color: #c9ad6e;
-    width: 10%;
     border-radius: 5px;
-    margin-top: 20%;
+    margin-top: 30px;
+    padding-bottom: 10px;
     :hover {
       color: #c9ad6e;
     }

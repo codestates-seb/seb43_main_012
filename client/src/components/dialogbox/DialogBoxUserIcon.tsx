@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   DialogBox,
   UserInfo,
@@ -12,6 +12,7 @@ import {
 } from '../../styles/TopNavStyle';
 import { ModalBackdrop } from '../../styles/CharacterStyle';
 import styled from 'styled-components';
+import { logoutApi } from '../../api/LogoutApi';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
@@ -51,10 +52,22 @@ const DialogBoxUserIcon = ({
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
-  const handleLogout = () => {
-    if (setIsLoggedIn) setIsLoggedIn(false);
-    if (setIsUserDialogOpen) setIsUserDialogOpen(false);
-  };
+  // const handleLogout = () => {
+  //   if (setIsLoggedIn) setIsLoggedIn(false);
+  //   if (setIsUserDialogOpen) setIsUserDialogOpen(false);
+  // };
+  const navigate = useNavigate();
+  const handleLogout = async() => {
+    try{
+      await logoutApi(`logout`)
+      navigate(`/`);
+      alert('로그아웃 되었습니다.');
+    }
+    catch(error){
+      console.error(error);
+      alert('잠시 후 다시 시도해 주세요.')
+    }
+};
 
   const handleModalBackdropClick = () => {
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);

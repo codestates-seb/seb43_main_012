@@ -29,7 +29,7 @@ function MyPage() {
     };
 
     fetchUserInfo();
-  }, [Id]);
+  }, [isOpen]);
 
   const email = userId;
   const displayName = username;
@@ -53,9 +53,9 @@ function MyPage() {
       }
   };
 
-    const handleLogout = async() => {
+   const handleLogout = async() => {
       try{
-        await logoutApi(`logout/${Id}`)
+        await logoutApi(`logout`)
         navigate(`/`);
         alert('로그아웃 되었습니다.');
       }
@@ -76,7 +76,7 @@ function MyPage() {
       </MainCharacter>
       <div className="modalbutton">
         <button onClick={handleClick}>프로필 편집</button>
-        <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen} />
+        <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}/>
       </div>
       <MyData>{email}</MyData>
       <MyData>{`DisplayName: ${displayName}`}</MyData>
