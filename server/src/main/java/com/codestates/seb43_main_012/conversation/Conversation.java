@@ -32,7 +32,7 @@ public class Conversation {
     private String title;
     @Column(length=10000)
     private String answerSummary;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String createdAt = String.valueOf(LocalDateTime.now());
     private LocalDateTime modifiedAt = LocalDateTime.now();
     @OneToMany(mappedBy = "conversation")
     private List<QnA> qnaList = new ArrayList<>();
