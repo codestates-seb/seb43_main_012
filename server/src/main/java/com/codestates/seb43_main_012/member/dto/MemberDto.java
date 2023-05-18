@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,9 +16,22 @@ import java.util.Date;
 public class MemberDto {
     private Long id;
     private String username;
-    private String email;
     private String userId;
     private String password;
+    private LocalDateTime createdAt;
+    private String avatarLink;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    public void setAvatarLink(String avatarLink) {
+        this.avatarLink = avatarLink;
+    }
+
 
     public static MemberDto from(MemberEntity memberEntity) {
 
@@ -25,7 +39,9 @@ public class MemberDto {
                 .id(memberEntity.getId())
                 .username(memberEntity.getUsername())
                 .password(memberEntity.getPassword())
-                .email(memberEntity.getEmail())
+                .userId(memberEntity.getUserId())
+                .createdAt(memberEntity.getCreatedAt())
+                .avatarLink(memberEntity.getAvatarLink())
                 .build();
     }
 }

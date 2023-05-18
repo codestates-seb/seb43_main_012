@@ -23,15 +23,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        MemberEntity member;
-        if(userId.contains("@")) {
-            member = memberRepository.findByEmail(userId)
-                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + userId));
-        } else {
-            member = memberRepository.findByUsername(userId)
-                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userId));
-        }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MemberEntity member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
         return member;
     }

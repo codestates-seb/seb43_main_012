@@ -12,7 +12,7 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;
     private String password;
-    private String email;
+    private String userId;
     private Date createdAt;
 
     // getters and setters
@@ -43,12 +43,12 @@ public class CustomUserDetails implements UserDetails {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Date getCreatedAt() {

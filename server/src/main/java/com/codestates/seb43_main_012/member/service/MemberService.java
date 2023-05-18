@@ -1,9 +1,12 @@
 package com.codestates.seb43_main_012.member.service;
 
+import com.codestates.seb43_main_012.error.NotFoundException;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.lang.reflect.Member;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +36,9 @@ public class MemberService {
     MemberEntity memberEntity = MemberEntity.builder()
             .username(memberDto.getUsername())
             .password(encodedPassword)
-            .email(memberDto.getEmail())
+            .userId(memberDto.getUserId())
+            .createdAt(LocalDateTime.now())
+            .avatarLink(memberDto.getAvatarLink())
             .build();
 
     MemberEntity savedMember = memberRepository.save(memberEntity);
@@ -40,12 +46,14 @@ public class MemberService {
 }
 
     public MemberEntity login(MemberDto memberDto) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUsernameOrEmail(memberDto.getUserId(), memberDto.getUserId());
-        if (optionalMemberEntity.isPresent() && passwordEncoder.matches(memberDto.getPassword(), optionalMemberEntity.get().getPassword())) {
-            return optionalMemberEntity.get();
-        } else {
-            throw new RuntimeException("Invalid username or password");
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUserId(memberDto.getUserId());
+        if (optionalMemberEntity.isPresent()) {
+            MemberEntity memberEntity = optionalMemberEntity.get();
+            if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
+                return memberEntity;
+            }
         }
+        throw new BadCredentialsException("로그인 정보가 유효하지 않습니다.");
     }
 
     public List<MemberDto> getAllMembers() {
@@ -54,7 +62,8 @@ public class MemberService {
                         .id(memberEntity.getId())
                         .username(memberEntity.getUsername())
                         .password(memberEntity.getPassword())
-                        .email(memberEntity.getEmail())
+                        .userId(memberEntity.getUserId())
+                        .createdAt(memberEntity.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -69,4 +78,22 @@ public class MemberService {
         }
         throw new RuntimeException("Member not found with id: " + id);
     }
+    public MemberDto getMemberById(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Member not found with id: " + id));
+        return MemberDto.from(memberEntity);
+    }
+
+    public void updateMember(MemberDto memberDto) {
+        MemberEntity memberEntity = MemberEntity.builder()
+                .id(memberDto.getId())
+                .username(memberDto.getUsername())
+                .password(memberDto.getPassword())
+                .userId(memberDto.getUserId())
+                .createdAt(memberDto.getCreatedAt())
+                .avatarLink(memberDto.getAvatarLink())
+                .build();
+        memberRepository.save(memberEntity);
+    }
+
 }

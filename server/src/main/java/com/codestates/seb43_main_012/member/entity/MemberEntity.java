@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,7 +27,19 @@ public class MemberEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false, unique = true)
-    private String email;
+    private String userId;
+    @Column
+    private LocalDateTime createdAt;
+    @Column
+    private String avatarLink;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
