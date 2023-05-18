@@ -95,6 +95,25 @@ public class ConversationController {
         return new ResponseEntity<>(savedConversation,HttpStatus.OK);
     }
 
+    @DeleteMapping("/{conversation-id}/bookmarks")
+    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
+                                                     @RequestBody BookmarkDto.Post bookmarkDto)
+    {
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkId());
+        Conversation conversation = conversationService.setSaveStatus(savedConversation);
+
+        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{conversation-id}/tags")
+    public ResponseEntity deleteConversationTag(@PathVariable("conversation-id") long conversationId,
+                                                @PathVariable("tag-id") long tagId)
+    {
+        Conversation savedConversation = conversationService.deleteTag(conversationId, tagId);
+
+        return new ResponseEntity<>(savedConversation,HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/bookmarks/{bookmark-name}")
     public ResponseEntity bookmarkConversation(@PathVariable("bookmark-name") String bookmarkName)
     {
@@ -111,8 +130,4 @@ public class ConversationController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // 특정대화 북마크 등록
-    // 특정대화 북마크 수정
-    // 특정대화 태그 등록
-    // 특정대화 태그 삭제
 }

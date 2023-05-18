@@ -48,6 +48,10 @@ public class Conversation {
     private int activityLevel;
     @JsonIgnore
     private boolean deleteStatus = false;
+    @JsonIgnore
+    private boolean bookmarked = false;
+    @JsonIgnore
+    private boolean tagged = false;
 
     public void addMember(MemberEntity member)
     {
