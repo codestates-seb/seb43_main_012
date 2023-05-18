@@ -80,7 +80,7 @@ public class ConversationService {
     public Conversation findConversation(long conversationId)
     {
         Optional<Conversation> optional = conversationRepository.findById(conversationId);
-        Conversation conversation = optional.orElseThrow(()->new RuntimeException());
+        Conversation conversation = optional.orElseThrow(()->new RuntimeException("wrong id"));
         return conversation;
     }
 
@@ -99,40 +99,33 @@ public class ConversationService {
 
     public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
     {
-        // 북마크 생성
-        // 카테고리 생성
-
-        Conversation conversation = findConversation(conversationId);
-        conversation.setSaved(true);
+        Conversation findConversation = findConversation(conversationId);
+        findConversation.setSaved(true);
+        findConversation.setBookmarked(true);
 
         Bookmark bookmark = new Bookmark();
         bookmark.setMemberId(MEMBER_ID);
-        bookmark.addConversation(conversation);
+        bookmark.addConversation(findConversation);
         bookmarkRepository.save(bookmark);
 
-        conversationCategoryRepository.deleteAllByConversationConversationId(conversationId);
+        Category category = categoryRepository.findById(dto.getBookmarkId()).orElseThrow();
+        ConversationCategory conversationCategory = new ConversationCategory(
+                findConversation,
+                category.getId(),
+                category.getName()
+        );
+        conversationCategoryRepository.save(conversationCategory);
 
-        List<String> categories = dto.getBookmarks();
-        categories.stream().forEach(category -> {
-            //중복 조회
-            Optional<Category> optional = categoryRepository.findByName(category);
-            if(optional.isEmpty())
-            {
-                Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
-                ConversationCategory conversationCategory = new ConversationCategory(conversation,savedCategory.getId(),category);
-                conversationCategoryRepository.save(conversationCategory);
-            }
-            else
-            {
-                Category findCategory = optional.orElse(null);
-                ConversationCategory conversationCategory = new ConversationCategory(conversation,findCategory.getId(),category);
-                conversationCategoryRepository.save(conversationCategory);
-            }
-        });
+        return conversationRepository.save(findConversation);
+    }
 
-        //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
-        //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
-        //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
+    public Conversation cancelBookmark(long conversationId, long bookmarkId)
+    {
+        Conversation conversation = findConversation(conversationId);
+
+        conversationCategoryRepository.deleteByBookmarkId(bookmarkId);
+        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
+        if(conversationCategories.isEmpty()) conversation.setBookmarked(false);
 
         return conversationRepository.save(conversation);
     }
@@ -141,6 +134,7 @@ public class ConversationService {
     {
         Conversation conversation = findConversation(conversationId);
         conversation.setSaved(true);
+        conversation.setTagged(true);
 
         //conversationTagRepository.deleteAllByConversationId(conversationId);
 
@@ -164,6 +158,13 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
+    public Conversation deleteTag(long conversationId, long tagId)
+    {
+        Conversation conversation = new Conversation();
+
+        return conversation;
+    }
+
     public Conversation viewCountUp(long conversationId)
     {
         Conversation conversation = findConversation(conversationId);
@@ -183,20 +184,78 @@ public class ConversationService {
         conversationRepository.save(findConversation);
     }
 
-    private String listToString(List list)
+    public Conversation setSaveStatus(Conversation conversation)
     {
-        if(list.isEmpty()) return null;
+        if(conversation.isTagged() || conversation.isBookmarked()) return conversation;
 
-        String str = "[\"";
-
-        str += list.get(0);
-        for(int i = 1; i<list.size();i++)
-        {
-            str += "\",\"";
-            str += list.get(i);
-        }
-        str += "\"]";
-
-        return str;
+        conversation.setSaved(false);
+        return conversationRepository.save(conversation);
     }
+
+//    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
+//    {
+//        // 북마크 생성
+//        // 카테고리 생성
+//
+//        Conversation conversation = findConversation(conversationId);
+//        conversation.setSaved(true);
+//
+//        Bookmark bookmark = new Bookmark();
+//        bookmark.setMemberId(MEMBER_ID);
+//        bookmark.addConversation(conversation);
+//        bookmarkRepository.save(bookmark);
+//
+//        conversationCategoryRepository.deleteAllByConversationConversationId(conversationId);
+//
+//        List<String> categories = dto.getBookmarks();
+//        categories.stream().forEach(category -> {
+//            //중복 조회
+//            Optional<Category> optional = categoryRepository.findByName(category);
+//            if(optional.isEmpty())
+//            {
+//                Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
+//                ConversationCategory conversationCategory = new ConversationCategory(conversation,savedCategory.getId(),category);
+//                conversationCategoryRepository.save(conversationCategory);
+//            }
+//            else
+//            {
+//                Category findCategory = optional.orElse(null);
+//                ConversationCategory conversationCategory = new ConversationCategory(conversation,findCategory.getId(),category);
+//                conversationCategoryRepository.save(conversationCategory);
+//            }
+//        });
+//
+//        //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
+//        //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
+//        //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
+//
+//        return conversationRepository.save(conversation);
+//    }
+//
+//    public Conversation createTag(long conversationId, TagDto.Post tagDto)
+//    {
+//        Conversation conversation = findConversation(conversationId);
+//        conversation.setSaved(true);
+//
+//        //conversationTagRepository.deleteAllByConversationId(conversationId);
+//
+//        List<String> tags = tagDto.getTags();
+//        tags.stream().forEach(tag-> {
+//            Optional<Tag> optional = tagRepository.findByTagName(tag);
+//            if(optional.isEmpty())
+//            {
+//                Tag savedTag = tagRepository.save(new Tag(tag));
+//                ConversationTag conversationTag = new ConversationTag(conversation,savedTag.getTagId(),tag);
+//                conversationTagRepository.save(conversationTag);
+//            }
+//            else
+//            {
+//                Tag findTag= optional.orElse(null);
+//                ConversationTag conversationTag = new ConversationTag(conversation,findTag.getTagId(),tag);
+//                conversationTagRepository.save(conversationTag);
+//            }
+//        });
+//        //conversation.addTag();
+//        return conversationRepository.save(conversation);
+//    }
 }

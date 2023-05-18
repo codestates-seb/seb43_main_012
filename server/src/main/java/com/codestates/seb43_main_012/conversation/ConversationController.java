@@ -3,18 +3,23 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.bookmark.Bookmark;
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
+import com.codestates.seb43_main_012.category.Category;
+import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/conversations")
+@RequiredArgsConstructor
 public class ConversationController {
 
     @Value("${apikey}")
@@ -24,24 +29,25 @@ public class ConversationController {
     private final ConversationMapper mapper;
     private final BookmarkRepository bookmarkRepository;
     private final QnAService qnaService;
+    private final CategoryRepository categoryRepository;
 
-    public ConversationController(ConversationService conversationService,
-                                  ConversationMapper mapper,
-                                  BookmarkRepository bookmarkRepository,
-                                  QnAService qnaService)
-    {
-        this.conversationService = conversationService;
-        this.mapper = mapper;
-        this.bookmarkRepository = bookmarkRepository;
-        this.qnaService = qnaService;
-    }
+//    public ConversationController(ConversationService conversationService,
+//                                  ConversationMapper mapper,
+//                                  BookmarkRepository bookmarkRepository,
+//                                  QnAService qnaService)
+//    {
+//        this.conversationService = conversationService;
+//        this.mapper = mapper;
+//        this.bookmarkRepository = bookmarkRepository;
+//        this.qnaService = qnaService;
+//    }
 
-    private long memberId = 1L;
+    private final long MEMBER_ID = 1L;
 
     @PostMapping
     public ResponseEntity generateConversation(@RequestBody QnADto.Post dto)
     {
-        Conversation savedConversation = conversationService.createConversation(memberId, dto);
+        Conversation savedConversation = conversationService.createConversation(MEMBER_ID, dto);
 
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
@@ -50,7 +56,14 @@ public class ConversationController {
     public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
     {
         Conversation conversation = conversationService.viewCountUp(conversationId);
-        ConversationDto.Response response = mapper.responseForGetOneConversation(conversation);
+
+        // 이 부분 서비스 클래스로 분리해야함
+        List<Long> conversationCategoryIDs = new ArrayList<>();
+        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getBookmarkId()));
+
+        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(MEMBER_ID, conversationCategoryIDs);
+
+        ConversationDto.Response response = mapper.responseForGetOneConversation(conversation, categories);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -82,6 +95,25 @@ public class ConversationController {
         return new ResponseEntity<>(savedConversation,HttpStatus.OK);
     }
 
+    @DeleteMapping("/{conversation-id}/bookmarks")
+    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
+                                                     @RequestBody BookmarkDto.Post bookmarkDto)
+    {
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkId());
+        Conversation conversation = conversationService.setSaveStatus(savedConversation);
+
+        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{conversation-id}/tags")
+    public ResponseEntity deleteConversationTag(@PathVariable("conversation-id") long conversationId,
+                                                @PathVariable("tag-id") long tagId)
+    {
+        Conversation savedConversation = conversationService.deleteTag(conversationId, tagId);
+
+        return new ResponseEntity<>(savedConversation,HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/bookmarks/{bookmark-name}")
     public ResponseEntity bookmarkConversation(@PathVariable("bookmark-name") String bookmarkName)
     {
@@ -98,8 +130,4 @@ public class ConversationController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // 특정대화 북마크 등록
-    // 특정대화 북마크 수정
-    // 특정대화 태그 등록
-    // 특정대화 태그 삭제
 }
