@@ -52,6 +52,8 @@ public class ConversationController {
         List<Long> conversationCategoryIDs = new ArrayList<>();
         conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getBookmarkId()));
 
+        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
+
         List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(MEMBER_ID, conversationCategoryIDs);
 
         ConversationDto.Response response = mapper.responseForGetOneConversation(conversation, categories);
@@ -86,11 +88,11 @@ public class ConversationController {
         return new ResponseEntity<>(savedConversation,HttpStatus.OK);
     }
 
-    @DeleteMapping("/{conversation-id}/bookmarks")
+    @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
     public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
-                                                     @RequestBody BookmarkDto.Post bookmarkDto)
+                                                     @PathVariable("bookmark-id") long bookmarkId)
     {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkName());
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId);
         Conversation conversation = conversationService.setSaveStatus(savedConversation);
 
         return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);

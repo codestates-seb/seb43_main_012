@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ConversationCategoryRepository extends JpaRepository<ConversationCategory,Long> {
     void deleteAllByConversationConversationId(long conversationId);
-    void deleteByConversationConversationIdAndBookmarkName(long conversationId, String bookmarkName);
+    void deleteByConversationConversationIdAndBookmarkId(long conversationId, long bookmarkId);
     List<ConversationCategory> findAllByConversationConversationId(long conversationId);
 }

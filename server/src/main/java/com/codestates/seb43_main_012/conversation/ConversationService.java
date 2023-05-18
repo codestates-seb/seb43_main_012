@@ -102,11 +102,13 @@ public class ConversationService {
         findConversation.setSaved(true);
         findConversation.setBookmarked(true);
 
-        Bookmark bookmark = new Bookmark();
-        bookmark.setMemberId(MEMBER_ID);
-        bookmark.addConversation(findConversation);
-        bookmarkRepository.save(bookmark);
-
+        if(bookmarkRepository.findByMemberIdAndConversationConversationId(MEMBER_ID,conversationId).isEmpty())
+        {
+            Bookmark bookmark = new Bookmark();
+            bookmark.setMemberId(MEMBER_ID);
+            bookmark.addConversation(findConversation);
+            bookmarkRepository.save(bookmark);
+        }
         Category category = categoryRepository.findByName(dto.getBookmarkName()).orElse(new Category(MEMBER_ID, dto.getBookmarkName()));
         categoryRepository.save(category);
 
@@ -120,13 +122,19 @@ public class ConversationService {
         return conversationRepository.save(findConversation);
     }
 
-    public Conversation cancelBookmark(long conversationId, String bookmarkName)
+    @Transactional
+    public Conversation cancelBookmark(long conversationId, long bookmarkId)
     {
         Conversation conversation = findConversation(conversationId);
 
-        conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkName(conversationId, bookmarkName);
+        conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkId(conversationId, bookmarkId);
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
-        if(conversationCategories.isEmpty()) conversation.setBookmarked(false);
+        if(conversationCategories.isEmpty())
+        {
+            bookmarkRepository.deleteByMemberIdAndConversationConversationId(MEMBER_ID,conversationId);
+            conversation.setBookmarked(false);
+        }
+
 
         return conversationRepository.save(conversation);
     }
