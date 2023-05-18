@@ -112,12 +112,17 @@ public class ConversationService {
         Category category = categoryRepository.findByName(dto.getBookmarkName()).orElse(new Category(MEMBER_ID, dto.getBookmarkName()));
         categoryRepository.save(category);
 
-        ConversationCategory conversationCategory = new ConversationCategory(
-                findConversation,
-                category.getId(),
-                category.getName()
-        );
-        conversationCategoryRepository.save(conversationCategory);
+        Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationConversationIdAndBookmarkName(conversationId, dto.getBookmarkName());
+
+        if(optional.isEmpty())
+        {
+            ConversationCategory conversationCategory = new ConversationCategory(
+                    findConversation,
+                    category.getId(),
+                    category.getName()
+            );
+            conversationCategoryRepository.save(conversationCategory);
+        }
 
         return conversationRepository.save(findConversation);
     }
@@ -125,53 +130,57 @@ public class ConversationService {
     @Transactional
     public Conversation cancelBookmark(long conversationId, long bookmarkId)
     {
-        Conversation conversation = findConversation(conversationId);
+        Conversation findConversation = findConversation(conversationId);
 
         conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkId(conversationId, bookmarkId);
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
         if(conversationCategories.isEmpty())
         {
             bookmarkRepository.deleteByMemberIdAndConversationConversationId(MEMBER_ID,conversationId);
-            conversation.setBookmarked(false);
+            findConversation.setBookmarked(false);
         }
 
 
-        return conversationRepository.save(conversation);
+        return conversationRepository.save(findConversation);
     }
 
     public Conversation createTag(long conversationId, TagDto.Post tagDto)
     {
-        Conversation conversation = findConversation(conversationId);
-        conversation.setSaved(true);
-        conversation.setTagged(true);
+        Conversation findConversation = findConversation(conversationId);
+        findConversation.setSaved(true);
+        findConversation.setTagged(true);
 
-        //conversationTagRepository.deleteAllByConversationId(conversationId);
+        Tag tag = tagRepository.findByTagName(tagDto.getTagName()).orElse(new Tag(tagDto.getTagName()));
+        tagRepository.save(tag);
 
-        List<String> tags = tagDto.getTags();
-        tags.stream().forEach(tag-> {
-            Optional<Tag> optional = tagRepository.findByTagName(tag);
-            if(optional.isEmpty())
-            {
-                Tag savedTag = tagRepository.save(new Tag(tag));
-                ConversationTag conversationTag = new ConversationTag(conversation,savedTag.getTagId(),tag);
-                conversationTagRepository.save(conversationTag);
-            }
-            else
-            {
-                Tag findTag= optional.orElse(null);
-                ConversationTag conversationTag = new ConversationTag(conversation,findTag.getTagId(),tag);
-                conversationTagRepository.save(conversationTag);
-            }
-        });
-        //conversation.addTag();
-        return conversationRepository.save(conversation);
+        Optional<ConversationTag> optional = conversationTagRepository.findByConversationConversationIdAndTagName(conversationId, tagDto.getTagName());
+
+        if(optional.isEmpty())
+        {
+            ConversationTag conversationTag = new ConversationTag(
+                    findConversation,
+                    tag.getTagId(),
+                    tag.getTagName()
+            );
+            conversationTagRepository.save(conversationTag);
+        }
+
+        return conversationRepository.save(findConversation);
     }
 
-    public Conversation deleteTag(long conversationId, long tagId)
+    @Transactional
+    public Conversation deleteTag(long conversationId, long tagId) // 현재 사용하지 않는 태그를 삭제하는 로직이 필요함? -> 공개 기능까지가면 필요없을듯
     {
-        Conversation conversation = new Conversation();
+        Conversation findConversation = findConversation(conversationId);
 
-        return conversation;
+        conversationTagRepository.deleteByConversationConversationIdAndTagId(conversationId, tagId);
+
+        // 태그id에 해당하는 row가 convTag table에 없다면 tag삭제
+
+        List<ConversationTag> conversationTags = conversationTagRepository.findAllByConversationConversationId(conversationId);
+        if(conversationTags.isEmpty()) findConversation.setTagged(false);
+
+        return conversationRepository.save(findConversation);
     }
 
     public Conversation viewCountUp(long conversationId)
@@ -193,12 +202,12 @@ public class ConversationService {
         conversationRepository.save(findConversation);
     }
 
-    public Conversation setSaveStatus(Conversation conversation)
+    public void setSaveStatus(Conversation conversation)
     {
-        if(conversation.isTagged() || conversation.isBookmarked()) return conversation;
+        if(conversation.isTagged() || conversation.isBookmarked()) return;
 
         conversation.setSaved(false);
-        return conversationRepository.save(conversation);
+        conversationRepository.save(conversation);
     }
 
 //    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)

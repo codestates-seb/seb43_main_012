@@ -12,9 +12,7 @@ import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -144,15 +142,11 @@ public class ConversationMapper {
         return responses;
     }
 
-
-    private List<String> stringToList(String str)
+    public Map<String, String> simpleMessageResponse(String message)
     {
-        List<String> list = new ArrayList<>();
-        if(str == null || str.equals("[]")) return list;
+        Map<String,String> response = new HashMap<>();
+        response.put("message",message);
 
-        Arrays.stream(str.substring(1,str.length()-1).split(","))
-                .forEach(subStr -> list.add(subStr.replace("\"","")));
-
-        return list;
+        return response;
     }
 }

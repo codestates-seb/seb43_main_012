@@ -14,7 +14,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -76,7 +78,17 @@ public class ConversationController {
     {
         Conversation savedConversation = conversationService.createBookmark(conversationId, bookmarkDto);
 
-        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(savedConversation),HttpStatus.OK);
+        return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 추가 성공"), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
+    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
+                                                     @PathVariable("bookmark-id") long bookmarkId)
+    {
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId);
+        conversationService.setSaveStatus(savedConversation);
+
+        return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 삭제 성공"), HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{conversation-id}/tags")
@@ -85,26 +97,17 @@ public class ConversationController {
     {
         Conversation savedConversation = conversationService.createTag(conversationId, tagDto);
 
-        return new ResponseEntity<>(savedConversation,HttpStatus.OK);
+        return new ResponseEntity<>(mapper.simpleMessageResponse("태그 추가 성공"),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
-    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
-                                                     @PathVariable("bookmark-id") long bookmarkId)
-    {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId);
-        Conversation conversation = conversationService.setSaveStatus(savedConversation);
-
-        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/{conversation-id}/tags")
+    @DeleteMapping("/{conversation-id}/tags/{tag-id}")
     public ResponseEntity deleteConversationTag(@PathVariable("conversation-id") long conversationId,
                                                 @PathVariable("tag-id") long tagId)
     {
         Conversation savedConversation = conversationService.deleteTag(conversationId, tagId);
+        conversationService.setSaveStatus(savedConversation);
 
-        return new ResponseEntity<>(savedConversation,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(mapper.simpleMessageResponse("태그 삭제 성공"),HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/bookmarks/{bookmark-name}")
