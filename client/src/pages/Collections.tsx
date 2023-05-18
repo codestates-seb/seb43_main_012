@@ -1,22 +1,23 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setContent,
   setSelectedBookmark,
   setSelectedTag,
-} from "../features/collection/collectionSlice";
-import { RootState } from "../app/store";
-import styled from "styled-components";
-// import { useState } from "react";
-// import data from "../data/data.json";
-// @ts-ignore
-import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
-// @ts-ignore
-import { ReactComponent as ThumbtackSolid } from "../assets/icons/thumbtack-solid.svg";
+} from '../features/collection/collectionSlice';
+import { RootState } from '../app/store';
+import styled from 'styled-components';
+import {
+  BookmarkType,
+  Conversation,
+  QnAType,
+  TagType,
+} from '../data/dataTypes';
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
 
 const Main = styled.main`
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* background-color: #f0f0f0; */
   max-width: 1080px;
   padding: 0 40px 0 40px;
 `;
@@ -29,36 +30,37 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  /* text-align: center; */
-  /* background-color: orange; */
   padding: 5px;
 `;
 
 const Content = styled.a`
-  /* flex-basis: 30%; */
   flex-basis: 16rem;
-  /* width: 17rem; */
-  /* background-color: #f0f0f0; */
   padding: 5px;
   border: solid;
   border-color: #c9ad6e;
   border-radius: 10px;
   margin: 0 1% 1% 0;
   p {
+    max-height: 7rem;
     text-align: left;
     word-break: break-all;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
   }
 
   .header {
     display: flex;
+    justify-content: space-between;
   }
   .title {
     /* word-break: break-all; */
   }
   .buttons {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: flex-start;
+    position: relative;
+    top: -5px;
   }
   .bookmark {
     color: #c9ad6e;
@@ -71,7 +73,6 @@ const Content = styled.a`
 const FixedContent = styled(Content)`
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-start; */
   align-items: flex-start;
 `;
 
@@ -81,38 +82,29 @@ const FixedContentContainer = styled.div`
   background-color: #faf7f1;
 `;
 
-// const FixedPin = styled.a`
-//   justify-content: center;
-//   align-items: center;
-//   padding: 5px;
-//   margin: 5px;
-//   background-color: #f0f0f0;
-//   border: solid;
-// `;
-
 const BookmarkContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 10.5rem;
-  /* background-color: blue; */
 `;
+
 const Bookmark = styled.button`
-  /* background-color: #f0f0f0; */
   padding: 5px;
 `;
+
 const BookmarkAdd = styled.button`
   flex-basis: 10rem;
-  /* background-color: #f0f0f0; */
   margin: 5px;
 `;
+
 const TagContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 10.5rem;
-  /* background-color: green; */
   margin: 10px 0 0 0;
 `;
+
 const Tag = styled.a`
   background-color: #f0f0f0;
   border-radius: 20px;
@@ -130,13 +122,10 @@ const SvgButton = styled.button`
   border: none;
   margin: 20% 5% 0 5%;
   background-color: transparent;
-
   cursor: pointer;
 `;
 
 const BookmarkButton = () => {
-  // const [clicked, setClicked] = useState(false);
-
   return (
     <SvgButton>
       <BookmarkSolid />
@@ -152,11 +141,26 @@ const PinButton = () => {
   );
 };
 
+type Content = {
+  conversations: Conversation[];
+  tags: TagType[];
+  bookmarks: BookmarkType[];
+};
+
 const Collections = () => {
   const dispatch = useDispatch();
   const { content, selectedBookmark, selectedTag } = useSelector(
     (state: RootState) => state.collection,
   );
+  useEffect(() => {
+    axios
+      .get(
+        'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
+      )
+      .then((response) => {
+        dispatch(setContent(response.data));
+      });
+  }, [dispatch]);
 
   const handleBookmarkClick = (bookmark: string) => {
     dispatch(setSelectedBookmark(bookmark));
@@ -189,7 +193,7 @@ const Collections = () => {
               </span>
 
               <div className="tag">
-                {conversation.tags.map((tag) => (
+                {conversation.tags.map((tag: TagType) => (
                   <span key={tag.tagId}>#{tag.tagName} </span>
                 ))}
               </div>
@@ -200,7 +204,7 @@ const Collections = () => {
       <BookmarkTagContent>
         <div>
           <BookmarkContainer>
-            <Bookmark key={"All"} onClick={() => handleBookmarkClick("All")}>
+            <Bookmark key={'All'} onClick={() => handleBookmarkClick('All')}>
               All
             </Bookmark>
             {content.bookmarks.map((bookmark) => (
@@ -214,7 +218,7 @@ const Collections = () => {
           </BookmarkContainer>
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
-            {content.tags.map((tag) => (
+            {content.tags.map((tag: TagType) => (
               <Tag
                 key={tag.tagName}
                 onClick={() => handleTagClick(tag.tagName)}
@@ -229,7 +233,7 @@ const Collections = () => {
             {content.conversations
               .filter(
                 (conversation) =>
-                  selectedBookmark === "All" ||
+                  selectedBookmark === 'All' ||
                   conversation.bookmarks[0].bookmarkName === selectedBookmark,
               )
               .map((conversation) => (
@@ -240,12 +244,13 @@ const Collections = () => {
                       <PinButton /> <BookmarkButton />
                     </span>
                   </div>
+                  <p>{conversation.answerSummary}</p>
                   <span className="bookmark">
-                    {" "}
+                    {' '}
                     {conversation.bookmarks[0].bookmarkName}
                   </span>
                   <div className="tag">
-                    {conversation.tags.map((tag) => (
+                    {conversation.tags.map((tag: TagType) => (
                       <span key={tag.tagId}>#{tag.tagName} </span>
                     ))}
                   </div>
