@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
     --color-error: #913535;
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
+    --color-default-darkgreen: #4E973C;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #E7CC8F;
     --color-default-yellow-50: rgba(231, 204, 143, 0.5);

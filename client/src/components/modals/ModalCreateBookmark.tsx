@@ -24,14 +24,17 @@ const PrimaryBtn = styled.button<ButtonProps>`
   border-radius: 20px;
   padding: 10px;
   font-size: 15px;
-  background-color: rgba(119, 173, 105, 0.6);
+  background-color: ${(props) =>
+    props.inputExists
+      ? 'var(--color-default-green)'
+      : 'rgba(119, 173, 105, 0.6)'};
   color: white;
 
   &:hover {
     cursor: pointer;
     background-color: ${(props) =>
       props.inputExists
-        ? 'var(--color-default-green)'
+        ? 'var(--color-default-darkgreen)'
         : 'rgba(119, 173, 105, 0.6)'};
   }
 `;
