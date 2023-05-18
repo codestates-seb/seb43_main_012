@@ -6,6 +6,8 @@ import { CPopover } from '@coreui/react';
 import styled from 'styled-components';
 import '../../styles/sass/custom_popover_saveUI.scss';
 import '../../styles/sass/custom_popover_saveUI_hover.scss';
+//import components
+import ModalCreateBookmark from '../modals/ModalCreateBookmark';
 
 //import data types
 import { BookmarkType } from '../../data/dataTypes';
@@ -72,7 +74,20 @@ const EditSaveUI = ({
   setEditState,
   setEditConfirm,
 }: Props) => {
-  const [isHoverOpen, setIsHoverOpen] = useState<boolean>(false);
+  const [isHoverOpen, setIsHoverOpen] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+
+  const handleModalOpenClick = (isOpen: boolean) => {
+    setIsModalOpen(isOpen);
+    setPopoverOpen(false);
+    setIsHoverOpen(true);
+  };
+  // useEffect(() => {}, []);
+  // useEffect(() => {
+  //   console.log('popover visibility');
+  //   setPopoverOpen(false);
+  // }, [isModalOpen]);
 
   const handleEditClick = () => {
     setEditState(!editState);
@@ -85,6 +100,7 @@ const EditSaveUI = ({
   const handleSaveClick = () => {
     console.log('clicked save!');
     setIsHoverOpen(!isHoverOpen);
+    setPopoverOpen(true);
   };
   const handleConfirmClick = () => {
     console.log('confirm click!');
@@ -142,28 +158,56 @@ const EditSaveUI = ({
               <AddTagIcon onClick={handleAddTagClick} />
             </IconItem>
           </CPopover>
-          <CPopover
-            className={isHoverOpen ? 'popover_saveUI_hover' : 'popover_saveUI'}
-            content={
-              isHoverOpen ? (
-                'save'
-              ) : (
-                <DialogBoxSaveBookmark bookmarks={bookmarks} cId={cId} />
-              )
-            }
-            placement={isHoverOpen ? 'top' : 'bottom'}
-            trigger={isHoverOpen ? 'hover' : 'click'}
-          >
-            <IconItem>
-              {saved ? (
-                <BookmarkedIcon onClick={handleSaveClick} />
-              ) : (
-                <AddBookmarkIcon onClick={handleSaveClick} />
-              )}
-            </IconItem>
-          </CPopover>
+          {/* isHoverOpen &&{' '} */}
+          {isHoverOpen ? (
+            <CPopover
+              className="popover_saveUI_hover"
+              content="save"
+              placement="top"
+              trigger="hover"
+            >
+              <IconItem>
+                {saved ? (
+                  <BookmarkedIcon onClick={handleSaveClick} />
+                ) : (
+                  <AddBookmarkIcon onClick={handleSaveClick} />
+                )}
+              </IconItem>
+            </CPopover>
+          ) : (
+            <CPopover
+              className="popover_saveUI"
+              // content="enter"
+              content={
+                <DialogBoxSaveBookmark
+                  bookmarks={bookmarks}
+                  cId={cId}
+                  setIsModalOpen={handleModalOpenClick}
+                />
+              }
+              placement="bottom"
+              trigger="click"
+              visible={popoverOpen}
+            >
+              <IconItem>
+                {saved ? (
+                  <BookmarkedIcon onClick={handleSaveClick} />
+                ) : (
+                  <AddBookmarkIcon
+                    onClick={handleSaveClick}
+                    // onMouseEnter={handleHoverOpen}
+                    // onMouseLeave={handleHoverOpen}
+                  />
+                )}
+              </IconItem>
+            </CPopover>
+          )}
         </IconItems>
       )}
+      <ModalCreateBookmark
+        visible={isModalOpen}
+        setVisible={handleModalOpenClick}
+      />
     </EditSaveUIBox>
   );
 };

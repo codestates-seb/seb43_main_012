@@ -20,14 +20,14 @@ const BoxBackdrop = styled(ModalBackdrop)`
 type Props = {
   cId: number;
   bookmarks: BookmarkType[];
-  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: (isOpen: boolean) => void;
 };
 
 type BookmarkCheckType = BookmarkType & {
   checked: boolean;
 };
 
-const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
+const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
   useEffect(() => {
     console.log('fetched bookmarks!');
     //temp solution
@@ -54,9 +54,9 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
   const [bookmarkList, setBookmarkList] =
     useState<BookmarkCheckType[]>(newTemp);
 
-  const handleModalBackdropClick = () => {
-    if (setIsOpen) setIsOpen(false);
-  };
+  // const handleModalBackdropClick = () => {
+  //   if (setIsOpen) setIsOpen(false);
+  // };
 
   //handle bookmark check/uncheck
   const handleBookmarkCheck = ({
@@ -94,7 +94,13 @@ const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsOpen }: Props) => {
     }
   };
 
-  return <BookmarkList list={bookmarkList} handleCheck={handleBookmarkCheck} />;
+  return (
+    <BookmarkList
+      setIsModalOpen={setIsModalOpen}
+      list={bookmarkList}
+      handleCheck={handleBookmarkCheck}
+    />
+  );
 };
 
 export default DialogBoxSaveBookmark;
