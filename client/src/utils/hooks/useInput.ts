@@ -23,7 +23,7 @@ export type InputProps = {
   placeholder?: string;
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
   id?: string;
-  maxlength?: number;
+  maxLength?: number;
 };
 
 export function useInput({
@@ -53,7 +53,7 @@ export function useInput({
     placeholder,
     onKeyDown: handleKeyDown,
     id,
-    maxlength,
+    maxLength: maxlength,
   };
 }
 

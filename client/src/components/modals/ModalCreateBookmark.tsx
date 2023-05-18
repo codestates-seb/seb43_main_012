@@ -95,6 +95,7 @@ const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
   const handleCreateClick = () => {
     if (value) {
       console.log('clicked!');
+      console.log('CId:', cId, 'bName:', value);
       (async function () {
         const res = await saveBookmark({ cId, bName: value });
         if (res) {
@@ -102,7 +103,7 @@ const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
           setVisible(false);
           setValue('');
         }
-      });
+      })();
     } else {
       setShowError(true);
     }
