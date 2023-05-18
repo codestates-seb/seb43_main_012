@@ -84,21 +84,22 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     // (async function () {
-    //   const conversation = await getConversation(9);
+    //   const conversation = await getConversation(5);
     //   if (conversation) {
     //     console.log('started new session!');
+    //     console.log('response: ', conversation);
     //     setConversation(conversation);
     //   }
     // })();
-    // (async function () {
-    //   const conversations = await getAllConversations();
-    //   if (conversations) {
-    //     console.log('fetched data!');
-    //     console.log(conversations);
-    //     // setConversation(conversation);
-    //   }
-    // })();
-    // saveBookmark({ cId: 2, bookmarks: ['과자', 'http'] });
+    (async function () {
+      const conversations = await getAllConversations();
+      if (conversations) {
+        console.log('fetched data!');
+        console.log(conversations);
+        // setConversation(conversation);
+      }
+    })();
+    // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
@@ -106,9 +107,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     // deleteConv();
     // getConversation(11);
     // continueConversation(10, 'how long has it took openai to launch you?');
-    // (async () => {
-    //   const post = await getJSON(): Promise<Post>
-    // })();
     // console.log(conversation);
   }, []);
 
@@ -163,6 +161,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
             />
             <EditSaveUI
               cId={conversation.conversationId}
+              saved={conversation.saved}
               bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
