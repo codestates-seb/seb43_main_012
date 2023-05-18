@@ -5,6 +5,7 @@ import DialogBoxSaveBookmark from '../dialogbox/DialogBoxSaveBookmark';
 import { CPopover } from '@coreui/react';
 import styled from 'styled-components';
 import '../../styles/sass/custom_popover_saveUI.scss';
+import '../../styles/sass/custom_popover_saveUI_hover.scss';
 
 //import data types
 import { BookmarkType } from '../../data/dataTypes';
@@ -15,6 +16,8 @@ import { ReactComponent as EditIcon } from '../../assets/icons/main_qna/iconEdit
 // @ts-ignore
 import { ReactComponent as AddBookmarkIcon } from '../../assets/icons/main_qna/iconAddBookmark.svg';
 // @ts-ignore
+import { ReactComponent as BookmarkedIcon } from '../../assets/icons/main_qna/iconBookmarked2.svg';
+// @ts-ignore
 import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
 // @ts-ignore
 import { ReactComponent as ConfirmIcon } from '../../assets/icons/main_qna/iconCheck.svg';
@@ -22,6 +25,7 @@ import { ReactComponent as ConfirmIcon } from '../../assets/icons/main_qna/iconC
 import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
 type Props = {
   cId: number;
+  saved: boolean;
   bookmarks: BookmarkType[];
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
@@ -62,15 +66,25 @@ const IconItem = styled.li`
 
 const EditSaveUI = ({
   cId,
+  saved,
   bookmarks,
   editState,
   setEditState,
   setEditConfirm,
 }: Props) => {
-  const [isSaveBoxOpen, setIsSaveBoxOpen] = useState<boolean>(false);
+  const [isHoverOpen, setIsHoverOpen] = useState<boolean>(false);
+
+  const handleEditClick = () => {
+    setEditState(!editState);
+  };
+
+  const handleAddTagClick = () => {
+    console.log('clicked add tag!');
+    setIsHoverOpen(!isHoverOpen);
+  };
   const handleSaveClick = () => {
     console.log('clicked save!');
-    setIsSaveBoxOpen(!isSaveBoxOpen);
+    setIsHoverOpen(!isHoverOpen);
   };
   const handleConfirmClick = () => {
     console.log('confirm click!');
@@ -80,10 +94,6 @@ const EditSaveUI = ({
 
   const handleCancelClick = () => {
     setEditConfirm(false);
-    setEditState(!editState);
-  };
-
-  const handleEditClick = () => {
     setEditState(!editState);
   };
 
@@ -112,19 +122,44 @@ const EditSaveUI = ({
         </>
       ) : (
         <IconItems>
-          <IconItem>
-            <EditIcon onClick={handleEditClick} />
-          </IconItem>
-          <IconItem>
-            <AddTagIcon />
-          </IconItem>
           <CPopover
-            className="popover_saveUI"
-            content={<DialogBoxSaveBookmark bookmarks={bookmarks} cId={cId} />}
-            placement="bottom"
+            className="popover_saveUI_hover"
+            content="edit"
+            placement="top"
+            trigger="hover"
           >
             <IconItem>
-              <AddBookmarkIcon onClick={handleSaveClick} />
+              <EditIcon onClick={handleEditClick} />
+            </IconItem>
+          </CPopover>
+          <CPopover
+            className="popover_saveUI_hover"
+            content="tag"
+            placement="top"
+            trigger="hover"
+          >
+            <IconItem>
+              <AddTagIcon onClick={handleAddTagClick} />
+            </IconItem>
+          </CPopover>
+          <CPopover
+            className={isHoverOpen ? 'popover_saveUI_hover' : 'popover_saveUI'}
+            content={
+              isHoverOpen ? (
+                'save'
+              ) : (
+                <DialogBoxSaveBookmark bookmarks={bookmarks} cId={cId} />
+              )
+            }
+            placement={isHoverOpen ? 'top' : 'bottom'}
+            trigger={isHoverOpen ? 'hover' : 'click'}
+          >
+            <IconItem>
+              {saved ? (
+                <BookmarkedIcon onClick={handleSaveClick} />
+              ) : (
+                <AddBookmarkIcon onClick={handleSaveClick} />
+              )}
             </IconItem>
           </CPopover>
         </IconItems>
