@@ -1,32 +1,32 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export const request = axios.create({
-  baseURL: `https://71fc-118-33-155-37.ngrok-free.app/`,
+  baseURL: `https://dbf6-118-33-155-37.ngrok-free.app/`,
 });
 
 export const requestAuth = axios.create({
-  baseURL: `https://71fc-118-33-155-37.ngrok-free.app/`,
+  baseURL: `https://dbf6-118-33-155-37.ngrok-free.app/`,
   headers: {
     'Content-type': 'application/json',
     'ngrok-skip-browser-warning': '69420',
     'Access-Control-Allow-Origin': 'http://localhost:3000',
-    Authorization: sessionStorage.getItem('token'),
   },
   timeout: 30000,
 });
 
 requestAuth.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem('token');
+    const sessionId = sessionStorage.getItem('sessionId');
 
-    if (!!token) {
-      config.headers.Authorization = token;
+    if (sessionId) {
+      config.headers.Cookie = `sessionid=${sessionId}`;
     }
+
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 requestAuth.interceptors.response.use(
