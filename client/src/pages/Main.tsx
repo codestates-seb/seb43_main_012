@@ -84,21 +84,21 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     // (async function () {
-    //   const conversation = await getConversation(3);
+    //   const conversation = await getConversation(5);
     //   if (conversation) {
     //     console.log('started new session!');
     //     console.log('response: ', conversation);
     //     setConversation(conversation);
     //   }
     // })();
-    // (async function () {
-    //   const conversations = await getAllConversations();
-    //   if (conversations) {
-    //     console.log('fetched data!');
-    //     console.log(conversations);
-    //     // setConversation(conversation);
-    //   }
-    // })();
+    (async function () {
+      const conversations = await getAllConversations();
+      if (conversations) {
+        console.log('fetched data!');
+        console.log(conversations);
+        // setConversation(conversation);
+      }
+    })();
     // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
