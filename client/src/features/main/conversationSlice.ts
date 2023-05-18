@@ -10,12 +10,14 @@ import {
 export type ConversationState = {
   cId: number;
   content: Conversation;
+  cTitle: string;
   bookmarks: BookmarkType[];
   tags: TagType[];
 };
 
 const initialState: ConversationState = {
   cId: -1,
+  cTitle: '',
   content: initialConvData,
   bookmarks: [],
   tags: [],
@@ -29,6 +31,7 @@ const conversationSlice = createSlice({
       console.log('reducer: set conversation');
       state.content = action.payload;
       state.cId = action.payload.conversationId;
+      state.cTitle = action.payload.title;
       state.bookmarks = action.payload.bookmarks;
       state.tags = action.payload.tags;
     },
@@ -53,8 +56,10 @@ const conversationSlice = createSlice({
       state.content.qnaList = updatedQnAList;
     },
 
-    editTitle: (state, action) => {
+    changeTitle: (state, action: { payload: string }) => {
       console.log('reducer: edit title');
+      state.content.title = action.payload;
+      state.cTitle = action.payload;
     },
     // changeQnASaveStatus: (
     //   state,
@@ -86,12 +91,14 @@ export const selectConversation = (state: RootState) =>
 
 export const selectCId = (state: RootState) => state.conversation.cId;
 
+export const selectCTitle = (state: RootState) => state.conversation.cTitle;
+
 export const selectCBookmarks = (state: RootState) =>
   state.conversation.bookmarks;
 
 export const selectCTags = (state: RootState) => state.conversation.tags;
 
-export const { setConversation, changeQnASaveStatus } =
+export const { setConversation, changeQnASaveStatus, changeTitle } =
   conversationSlice.actions;
 
 export default conversationSlice.reducer;

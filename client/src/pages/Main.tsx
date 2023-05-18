@@ -138,8 +138,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
-              cValue={conversation}
-              setCValue={setConversation}
               editState={editTitleState}
               setEditState={setEditTitleState}
               editConfirm={editConfirm}
