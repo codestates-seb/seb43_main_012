@@ -1,13 +1,11 @@
 import { axiosDefault } from '../utils/axiosConfig';
-import { Conversation } from '../data/dataTypes';
+import { Conversation } from '../data/d';
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 export async function getAllConversations() {
   try {
     const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
-    //   console.log(response);
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -73,7 +71,6 @@ export async function continueConversation(id: number, question: string) {
 export async function getConversation(id: number): Promise<Conversation> {
   try {
     const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
-    // console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);

@@ -11,7 +11,7 @@ import {
 //import components
 import GenericCheckbox from '../generic/GenericCheckbox';
 //import data
-import { BookmarkType } from '../../data/dataTypes';
+import { BookmarkType } from '../../data/d';
 
 type ListProp = {
   // isModalOpen: boolean;

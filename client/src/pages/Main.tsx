@@ -11,9 +11,12 @@ import Loading from '../components/chatinterface/Loading';
 //import files
 import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 
-//import data
-import { Conversation, initialConvData } from '../data/dataTypes';
-
+//import redux
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import {
+  selectConversation,
+  setConversation,
+} from '../features/main/conversationSlice';
 //import api
 import {
   getConversation,
@@ -21,12 +24,8 @@ import {
   getAllConversations,
 } from '../api/ChatInterfaceApi';
 
-// const TempBackdrop = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   z-index: 1;
-// `;
+//import data
+import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
   isOpen: boolean;
@@ -47,9 +46,8 @@ function scrollToLastQ() {
 }
 
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
-  //set initial State of conversation; -> store
-  const [conversation, setConversation] =
-    useState<Conversation>(initialConvData);
+  const conversation = useAppSelector(selectConversation);
+  const dispatch = useAppDispatch();
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
@@ -59,46 +57,46 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
-  const handleCheckQnAToSave = ({
-    id,
-    newCheckValue,
-  }: {
-    id: number;
-    newCheckValue: boolean;
-  }) => {
-    //turn that id's bookmarkStatus to false
-    const QnAToChange = conversation?.qnaList.find((qna) => qna.qnaId === id);
 
-    if (QnAToChange) {
-      const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
-      const updatedQnAList = [
-        updatedQnA,
-        ...(conversation?.qnaList || []).filter((qna) => qna.qnaId !== id),
-      ].sort((a, b) => a.qnaId - b.qnaId);
+  // const handleCheckQnAToSave = ({
+  //   id,
+  //   newCheckValue,
+  // }: {
+  //   id: number;
+  //   newCheckValue: boolean;
+  // }) => {
+  //   //turn that id's bookmarkStatus to false
+  //   const QnAToChange = conversation?.qnaList.find((qna) => qna.qnaId === id);
 
-      // console.log('to save: ', updatedQnAList);
-      if (conversation)
-        setConversation((prev) => ({ ...prev!, qnaList: updatedQnAList }));
-    }
-  };
+  //   if (QnAToChange) {
+  //     const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
+  //     const updatedQnAList = [
+  //       updatedQnA,
+  //       ...(conversation?.qnaList || []).filter((qna) => qna.qnaId !== id),
+  //     ].sort((a, b) => a.qnaId - b.qnaId);
+
+  //     // console.log('to save: ', updatedQnAList);
+  //     if (conversation)
+  //       setConversation((prev) => ({ ...prev!, qnaList: updatedQnAList }));
+  //   }
+  // };
 
   useEffect(() => {
-    // (async function () {
-    //   const conversation = await getConversation(5);
-    //   if (conversation) {
-    //     console.log('started new session!');
-    //     console.log('response: ', conversation);
-    //     setConversation(conversation);
-    //   }
-    // })();
     (async function () {
-      const conversations = await getAllConversations();
-      if (conversations) {
-        console.log('fetched data!');
-        console.log(conversations);
-        // setConversation(conversation);
+      const conversation = await getConversation(13);
+      if (conversation) {
+        console.log('started new session!');
+        console.log('response: ', conversation);
+        dispatch(setConversation(conversation));
       }
     })();
+    // (async function () {
+    //   const conversations = await getAllConversations();
+    //   if (conversations) {
+    //     console.log('fetched data!');
+    //     console.log(conversations);
+    //   }
+    // })();
     // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
@@ -126,30 +124,17 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         );
         if (newConversation) {
           console.log('continuing new session!');
-          setConversation(newConversation);
+          dispatch(setConversation(newConversation));
         }
       })();
     }
-    // (async function () {
-    //   const conversation = await getConversation(9);
-    //   if (conversation) {
-    //     console.log('fetched conversation data!');
-    //     setConversation(conversation);
-    //   }
-    // })();
-    // if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
   return (
     <MainBox isOpen={isOpen}>
       <M.MainBackdrop />
       <M.FixedTopBox>
-        <ChatInput
-          cValue={conversation}
-          setCValue={setConversation}
-          setIsLoading={setIsLoading}
-          updateQNum={updateQNum}
-        />
+        <ChatInput setIsLoading={setIsLoading} updateQNum={updateQNum} />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
@@ -171,11 +156,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         )}
       </M.FixedTopBox>
       {conversation.title ? (
-        <QnAList
-          isLoading={isLoading}
-          qnaItems={conversation?.qnaList}
-          handleCheck={handleCheckQnAToSave}
-        />
+        <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
       ) : (
         <M.LoadingBox>
           <Loading loadingGif={loadingGif} />

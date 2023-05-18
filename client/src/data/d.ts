@@ -4,53 +4,8 @@ export type ContentType = {
   bookmarks: BookmarkType[];
 };
 
-export type Post = {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  UserId: number;
-};
-
-export type GetPostResponse = {
-  data: Post;
-};
-
-// export type QnA = {
-//   conversationId: number;
-//   memberId: 1;
-//   title: string;
-//   answerSummary: string;
-//   modifiedAt: string;
-//   bookmarks: string;
-//   tags: string;
-//   saved: boolean;
-//   pinned: boolean;
-// };
-
 export type GetNewQnAResponse = {
   data: QnAType;
-};
-
-export type openAIAnswer = {
-  conversationId: number;
-  title: string;
-  bookmarks: string[];
-  tags: string[];
-  qnaList: [
-    {
-      qnaId: number;
-      question: string;
-      answer: string;
-      bookmarkStatus: boolean;
-      displayStatus: boolean;
-    },
-  ];
-};
-
-export type GetOpenAIResponse = {
-  data: openAIAnswer;
 };
 
 export type QnAType = {
@@ -64,11 +19,6 @@ export type BookmarkType = {
   bookmarkId: number;
   bookmarkName: string;
   checked?: boolean;
-};
-
-export type BookmarkTempType = {
-  categoryId: number;
-  categoryName: string;
 };
 
 export type TagType = {
@@ -101,7 +51,7 @@ export const initialConvData = {
   conversationId: -1,
   title: '',
   member: {
-    memberId: 'mumblefish',
+    memberId: 'NoOne',
     avatarLink: '',
   },
   answerSummary: '',
@@ -113,7 +63,7 @@ export const initialConvData = {
   published: false,
   bookmarks: [
     {
-      bookmarkId: 1,
+      bookmarkId: -1,
       bookmarkName: 'Default',
     },
   ] as BookmarkType[],
@@ -121,6 +71,13 @@ export const initialConvData = {
   viewCount: 0,
   activityLevel: 0,
 };
+
+export const DefaultBookmarks = [
+  {
+    bookmarkId: 1,
+    bookmarkName: 'Default',
+  },
+];
 
 export const tempBookmarks = [
   {
@@ -154,12 +111,5 @@ export const tempBookmarks = [
   {
     bookmarkId: 777,
     bookmarkName: 'Bookmark8',
-  },
-];
-
-export const DefaultBookmarks = [
-  {
-    bookmarkId: 1,
-    bookmarkName: 'Default',
   },
 ];
