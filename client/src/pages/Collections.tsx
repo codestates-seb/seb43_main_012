@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -16,6 +16,7 @@ import {
 } from '../data/dataTypes';
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
+import ModalContent from '../components/modals/ModalContent';
 
 const Main = styled.main`
   max-width: 1080px;
@@ -149,6 +150,10 @@ type Content = {
 
 const Collections = () => {
   const dispatch = useDispatch();
+
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
+
   const { content, selectedBookmark, selectedTag } = useSelector(
     (state: RootState) => state.collection,
   );
@@ -174,13 +179,31 @@ const Collections = () => {
     dispatch(setContent(newContent));
   };
 
+  const handleContentClick = (conversation: Conversation) => {
+    setSelectedConversation(conversation);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedConversation(null);
+  };
+
   return (
     <Main>
+      {selectedConversation && (
+        <ModalContent
+          conversation={selectedConversation}
+          onClose={handleCloseModal}
+        />
+      )}
       <FixedContentContainer>
         {content.conversations
           .filter((item) => item.pinned)
           .map((conversation) => (
-            <FixedContent href="#" key={conversation.conversationId}>
+            <FixedContent
+              key={conversation.conversationId}
+              href="#"
+              onClick={() => handleContentClick(conversation)}
+            >
               <div className="header">
                 <h3 className="title">{conversation.title}</h3>
                 <span className="buttons">
@@ -237,7 +260,11 @@ const Collections = () => {
                   conversation.bookmarks[0].bookmarkName === selectedBookmark,
               )
               .map((conversation) => (
-                <Content key={conversation.conversationId} href="#">
+                <Content
+                  key={conversation.conversationId}
+                  href="#"
+                  onClick={() => handleContentClick(conversation)}
+                >
                   <div className="header">
                     <h3 className="title">{conversation.title}</h3>
                     <span className="buttons">
