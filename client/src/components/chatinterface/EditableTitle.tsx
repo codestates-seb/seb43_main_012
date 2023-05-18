@@ -5,13 +5,32 @@ import React, {
   SetStateAction,
   ChangeEvent,
 } from 'react';
+
+//import data types
 import { Conversation } from '../../data/dataTypes';
+
+//import components
 import { useInput } from '../../utils/hooks/useInput';
 import Input from './Input';
+
+//import style
+import styled from 'styled-components';
 import { InputTitleBox } from '../../styles/MainStyle';
+import { InputCount } from '../../styles/InputStyle';
 
 //import api
 import { editTitle } from '../../api/ChatInterfaceApi';
+
+const TitleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const InputCount2 = styled(InputCount)`
+  padding-top: 5px;
+  width: 100%;
+`;
 
 type Props = {
   cValue: Conversation;
@@ -82,6 +101,7 @@ const EditableTitle = ({
     setValue,
     handleInput: handleTitleChange,
     id: 'titleInput',
+    maxlength: 70,
   });
 
   const InputTitle = Input({
@@ -91,7 +111,20 @@ const EditableTitle = ({
     handleInput: handleTitleChange,
   });
 
-  return <>{editState ? InputTitle : <h1>{cValue.title}</h1>}</>;
+  return (
+    <>
+      {editState ? (
+        <TitleBox>
+          {InputTitle}
+          <InputCount2>
+            {value.length}/<span>100</span>
+          </InputCount2>
+        </TitleBox>
+      ) : (
+        <h1>{cValue.title}</h1>
+      )}
+    </>
+  );
 };
 
 export default EditableTitle;
