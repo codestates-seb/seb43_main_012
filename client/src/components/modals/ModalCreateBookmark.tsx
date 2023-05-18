@@ -16,7 +16,10 @@ import { InputTitleBox } from '../../styles/MainStyle';
 import { useInput } from '../../utils/hooks/useInput';
 import Input from '../chatinterface/Input';
 
-const PrimaryBtn = styled.button`
+type ButtonProps = {
+  inputExists: boolean;
+};
+const PrimaryBtn = styled.button<ButtonProps>`
   border: none;
   border-radius: 20px;
   padding: 10px;
@@ -26,7 +29,10 @@ const PrimaryBtn = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: var(--color-default-green);
+    background-color: ${(props) =>
+      props.inputExists
+        ? 'var(--color-default-green)'
+        : 'rgba(119, 173, 105, 0.6)'};
   }
 `;
 
@@ -122,7 +128,13 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
 
       <CModalFooter>
         <SecondaryBtn onClick={() => setVisible(false)}>Cancel</SecondaryBtn>
-        <PrimaryBtn onClick={handleCreateClick}>Create</PrimaryBtn>
+        <PrimaryBtn
+          onClick={handleCreateClick}
+          {...(Boolean(value) ? {} : { disabled: true })}
+          inputExists={Boolean(value)}
+        >
+          Create
+        </PrimaryBtn>
       </CModalFooter>
     </CModal>
   );
