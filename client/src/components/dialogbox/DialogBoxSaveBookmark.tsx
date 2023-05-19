@@ -11,7 +11,6 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   selectCId,
   selectConversation,
-  // updateBookmark,
   addBookmarkAsync,
   deleteBookmarkAsync,
 } from '../../features/main/conversationSlice';
@@ -25,12 +24,8 @@ type Props = {
 
 const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
   const dispatch = useAppDispatch();
-  const cId = useAppSelector(selectCId);
   let bookmarks = useAppSelector(selectConversation).bookmarks;
   let uncheckedBookmarks = useAppSelector(selectConversation).bookmarkList;
-
-  //access stored data for current conversation, that was fetched from the server
-  //add property checked
 
   // const handleModalBackdropClick = () => {
   //   if (setIsOpen) setIsOpen(false);
@@ -50,12 +45,10 @@ const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
           (b) => b.bookmarkId === id,
         )?.bookmarkName;
         if (newBookmarkName) {
-          await dispatch(
-            addBookmarkAsync({ cId, bId: id, bName: newBookmarkName }),
-          );
+          await dispatch(addBookmarkAsync({ bName: newBookmarkName }));
         }
       } else {
-        await dispatch(deleteBookmarkAsync({ cId, bId: id }));
+        await dispatch(deleteBookmarkAsync({ bId: id }));
       }
     } catch (error) {
       // Handle the error if needed
