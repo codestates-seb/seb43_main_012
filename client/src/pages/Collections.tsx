@@ -14,7 +14,7 @@ import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-soli
 import ModalContent from '../components/modals/ModalContent';
 
 const Main = styled.main`
-  max-width: 1080px;
+  width: 1080px;
   padding: 0 40px 0 40px;
 `;
 
@@ -27,6 +27,11 @@ const ContentContainer = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   padding: 5px;
+`;
+
+const Title = styled.a`
+  margin-bottom: 1rem;
+  font-weight: bold;
 `;
 
 const Content = styled.a`
@@ -84,7 +89,10 @@ const BookmarkContainer = styled.div`
   width: 10.5rem;
 `;
 
-const Bookmark = styled.button`
+const Bookmark = styled.a`
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  margin: 0 5px 5px 0;
   padding: 5px;
 `;
 
@@ -199,13 +207,14 @@ const Collections = () => {
         {content.conversations
           .filter((item) => item.pinned)
           .map((conversation) => (
-            <FixedContent
-              key={conversation.conversationId}
-              href="#"
-              onClick={() => handleContentClick(conversation)}
-            >
+            <FixedContent>
               <div className="header">
-                <h3 className="title">{conversation.title}</h3>
+                <Title
+                  className="title"
+                  key={conversation.conversationId}
+                  href="#"
+                  onClick={() => handleContentClick(conversation)}
+                ></Title>
                 <span className="buttons">
                   <PinButton /> <BookmarkButton />
                 </span>
@@ -227,11 +236,16 @@ const Collections = () => {
       <BookmarkTagContent>
         <div>
           <BookmarkContainer>
-            <Bookmark key={'All'} onClick={() => handleBookmarkClick('All')}>
+            <Bookmark
+              href="#"
+              key={'All'}
+              onClick={() => handleBookmarkClick('All')}
+            >
               All
             </Bookmark>
             {content.bookmarks.map((bookmark) => (
               <Bookmark
+                href="#"
                 key={bookmark.bookmarkName}
                 onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
               >
@@ -257,16 +271,21 @@ const Collections = () => {
               .filter(
                 (conversation) =>
                   selectedBookmark === 'All' ||
-                  conversation.bookmarks[0].bookmarkName === selectedBookmark,
+                  conversation.bookmarks
+                    .map((b) => b.bookmarkName)
+                    .includes(selectedBookmark),
               )
               .map((conversation) => (
-                <Content
-                  key={conversation.conversationId}
-                  href="#"
-                  onClick={() => handleContentClick(conversation)}
-                >
+                <Content>
                   <div className="header">
-                    <h3 className="title">{conversation.title}</h3>
+                    <Title
+                      className="title"
+                      key={conversation.conversationId}
+                      href="#"
+                      onClick={() => handleContentClick(conversation)}
+                    >
+                      {conversation.title}
+                    </Title>
                     <span className="buttons">
                       <PinButton /> <BookmarkButton />
                     </span>
