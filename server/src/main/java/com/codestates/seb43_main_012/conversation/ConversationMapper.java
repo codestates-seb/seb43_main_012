@@ -21,10 +21,6 @@ public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
     private final TagRepository tagRepository;
-//    public ConversationMapper(QnAMapper qnaMapper)
-//    {
-//        this.qnaMapper = qnaMapper;
-//    }
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {

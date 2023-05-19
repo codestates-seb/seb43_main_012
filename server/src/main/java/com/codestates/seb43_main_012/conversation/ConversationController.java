@@ -5,18 +5,18 @@ import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
 import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.category.CategoryRepository;
+import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 
 @RestController
@@ -34,13 +34,15 @@ public class ConversationController {
     private final CategoryRepository categoryRepository;
 
 
-
     private final long MEMBER_ID = 1L;
 
     @PostMapping
-    public ResponseEntity generateConversation(@RequestBody QnADto.Post dto)
+    public ResponseEntity generateConversation(@RequestBody QnADto.Post dto,
+                                               @AuthenticationPrincipal MemberEntity member)
     {
-        Conversation savedConversation = conversationService.createConversation(MEMBER_ID, dto);
+        long memberId = member.getId();
+
+        Conversation savedConversation = conversationService.createConversation(memberId, dto);
 
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
@@ -86,7 +88,7 @@ public class ConversationController {
     public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody BookmarkDto.Post bookmarkDto)
     {
-        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto);
+        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto, MEMBER_ID);
 
         return new ResponseEntity<>(mapper.postBookmarkResponse(bookmarkId,bookmarkDto.getBookmarkName()), HttpStatus.OK);
     }
@@ -95,7 +97,7 @@ public class ConversationController {
     public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
                                                      @PathVariable("bookmark-id") long bookmarkId)
     {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId);
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId, MEMBER_ID);
         conversationService.setSaveStatus(savedConversation);
 
         return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 삭제 성공"), HttpStatus.NO_CONTENT);
@@ -123,7 +125,7 @@ public class ConversationController {
     @GetMapping("/bookmarks/{bookmark-name}")
     public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName)
     {
-        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName);
+        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName, MEMBER_ID);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses,HttpStatus.OK);
     }
@@ -131,7 +133,7 @@ public class ConversationController {
     @GetMapping("/tags/{tag-name}")
     public ResponseEntity getTaggedConversation(@PathVariable("tag-name") String tagName)
     {
-        List<Conversation> conversations = conversationService.findTaggedConversations(tagName);
+        List<Conversation> conversations = conversationService.findTaggedConversations(tagName, MEMBER_ID);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses,HttpStatus.OK);
     }

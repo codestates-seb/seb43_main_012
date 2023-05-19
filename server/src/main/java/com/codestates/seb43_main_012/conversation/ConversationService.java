@@ -98,14 +98,14 @@ public class ConversationService {
 
 
     @Transactional
-    public List<Conversation> findBookmarkedConversations(String categoryName)
+    public List<Conversation> findBookmarkedConversations(String categoryName, long memberId)
     {
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByBookmarkName(categoryName);
         List<Conversation> conversations = new ArrayList<>();
         conversationRepository.findAll();
 
         conversationCategories.stream().forEach(conversationCategory -> {
-            if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == memberId)
                 conversations.add(conversationCategory.getConversation());
         });
 
@@ -113,14 +113,14 @@ public class ConversationService {
     }
 
     @Transactional
-    public List<Conversation> findTaggedConversations(String tagName)
+    public List<Conversation> findTaggedConversations(String tagName, long memberId)
     {
         List<ConversationTag> conversationTags = conversationTagRepository.findAllByTagName(tagName);
         List<Conversation> conversations = new ArrayList<>();
         conversationRepository.findAll();
 
         conversationTags.stream().forEach(conversationTag -> {
-            if(conversationTag.getConversation().isDeleteStatus() == false && conversationTag.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationTag.getConversation().isDeleteStatus() == false && conversationTag.getConversation().getMember().getId() == memberId)
                 conversations.add(conversationTag.getConversation());
         });
 
@@ -128,21 +128,21 @@ public class ConversationService {
     }
 
     @Transactional
-    public long createBookmark(long conversationId, BookmarkDto.Post dto)
+    public long createBookmark(long conversationId, BookmarkDto.Post dto, long memberId)
     {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setSaved(true);
         findConversation.setBookmarked(true);
 
-        if(bookmarkRepository.findByMemberIdAndConversationConversationId(MEMBER_ID,conversationId).isEmpty())
+        if(bookmarkRepository.findByMemberIdAndConversationConversationId(memberId,conversationId).isEmpty())
         {
             Bookmark bookmark = new Bookmark();
-            bookmark.setMemberId(MEMBER_ID);
+            bookmark.setMemberId(memberId);
             bookmark.addConversation(findConversation);
             bookmarkRepository.save(bookmark);
         }
 
-        Category category = categoryService.createCategory(MEMBER_ID, dto.getBookmarkName());
+        Category category = categoryService.createCategory(memberId, dto.getBookmarkName());
 
         Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationConversationIdAndBookmarkName(conversationId, dto.getBookmarkName());
 
@@ -161,7 +161,7 @@ public class ConversationService {
     }
 
     @Transactional
-    public Conversation cancelBookmark(long conversationId, long bookmarkId)
+    public Conversation cancelBookmark(long conversationId, long bookmarkId, long memberId)
     {
         Conversation findConversation = findConversation(conversationId);
 
@@ -169,7 +169,7 @@ public class ConversationService {
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
         if(conversationCategories.isEmpty())
         {
-            bookmarkRepository.deleteByMemberIdAndConversationConversationId(MEMBER_ID,conversationId);
+            bookmarkRepository.deleteByMemberIdAndConversationConversationId(memberId,conversationId);
             findConversation.setBookmarked(false);
         }
 
