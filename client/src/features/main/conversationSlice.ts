@@ -92,7 +92,10 @@ const conversationSlice = createSlice({
             { bookmarkId: bId, bookmarkName: newBookmarkName },
             ...state.content.bookmarks,
           ];
+          const newUncheckedBookmarks: BookmarkType[] =
+            state.content.bookmarkList.filter((b) => b.bookmarkId !== bId);
           state.content.bookmarks = newBookmarks;
+          state.content.bookmarkList = newUncheckedBookmarks;
           console.log('bookmark added:', action.payload);
         }
       })
@@ -101,88 +104,19 @@ const conversationSlice = createSlice({
         const newBookmarks: BookmarkType[] = state.content.bookmarks.filter(
           (b) => b.bookmarkId !== bId,
         );
+        const uncheckedName = state.content.bookmarks.find(
+          (b) => b.bookmarkId === bId,
+        )?.bookmarkName;
+        if (uncheckedName) {
+          const newUncheckedBookmarks: BookmarkType[] = [
+            { bookmarkId: bId, bookmarkName: uncheckedName },
+            ...state.content.bookmarkList,
+          ];
+          state.content.bookmarkList = newUncheckedBookmarks;
+        }
         state.content.bookmarks = newBookmarks;
         console.log('bookmark deleted:', bId);
       });
-
-    // updateBookmark: (
-    //   state,
-    //   action: { payload: { bId: number; type: string } },
-    // ) => {
-    //   console.log('reducer: update bookmarks');
-    //   const { bId, type } = action.payload;
-
-    //   switch (type) {
-    //     case 'ADD': {
-    //       const newBookmarkName = state.content.bookmarkList.find(
-    //         (b) => b.bookmarkId === bId,
-    //       )?.bookmarkName;
-    //       //if there is a bookmark...
-    //       if (newBookmarkName) {
-    //         console.log('there is a bookmark!');
-    //         const newBookmarks: BookmarkType[] = [
-    //           { bookmarkId: bId, bookmarkName: newBookmarkName },
-    //           ...state.content.bookmarks,
-    //         ];
-    //         (async function () {
-    //           const res = await saveBookmark({
-    //             cId: state.cId,
-    //             bName: newBookmarkName,
-    //           });
-    //           if (res) {
-    //             console.log('bookmark added: ', res);
-    //             state.content.bookmarks = newBookmarks;
-    //             return res;
-    //           }
-    //         })();
-    //       }
-
-    //       break;
-    //     }
-
-    //     case 'DELETE': {
-    //       console.log('delete triggered');
-    //       const newBookmarks: BookmarkType[] = [
-    //         ...state.content.bookmarks.filter((b) => b.bookmarkId !== bId),
-    //       ];
-
-    //       (async function () {
-    //         await deleteBookmark({ cId: state.cId, bId });
-    //         console.log('bookmark deleted: ');
-    //         state.content.bookmarks = newBookmarks;
-    //       })();
-    //       break;
-    //     }
-    //     default:
-    //       console.log('액션타입이 존재하지 않습니다.');
-    //   }
-    // },
-
-    // createBookmark: (state, action: { payload: { bName: string } }) => {
-    //   console.log('reducer: create bookmark');
-    // },
-    // changeQnASaveStatus: (
-    //   state,
-    //   action: { payload: { id: number; newCheckValue: boolean } },
-    // ) => {
-    //   const qnaToChange = state.content.qnaList.find(
-    //     (qna) => qna.qnaId === action.payload.id,
-    //   );
-    //   if (qnaToChange) {
-    //     const updatedQnA = {
-    //       ...qnaToChange,
-    //       bookmarkStatus: action.payload.newCheckValue,
-    //     };
-    //     const updatedQnAList = [
-    //       ...state.content.qnaList.filter(
-    //         (qna) => qna.qnaId !== action.payload.id,
-    //       ),
-    //       updatedQnA,
-    //     ].sort((a, b) => a.qnaId - b.qnaId);
-
-    //     state.content.qnaList = updatedQnAList;
-    //   }
-    // },
   },
 });
 
@@ -192,11 +126,6 @@ export const selectConversation = (state: RootState) =>
 export const selectCId = (state: RootState) => state.conversation.cId;
 
 export const selectCTitle = (state: RootState) => state.conversation.cTitle;
-
-// export const selectCBookmarks = (state: RootState) =>
-//   state.conversation.bookmarks;
-
-// export const selectCTags = (state: RootState) => state.conversation.tags;
 
 export const { setConversation, changeQnASaveStatus, changeTitle } =
   conversationSlice.actions;
