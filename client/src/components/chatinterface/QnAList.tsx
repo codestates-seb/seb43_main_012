@@ -1,6 +1,6 @@
 import React from 'react';
 import QnA from './QnA';
-import { QnAType } from '../../data/dataTypes';
+import { QnAType } from '../../data/d';
 import { QnAListBox, LoadingBox } from '../../styles/MainStyle';
 // import Loading from '../chatinterface/Loading';
 
@@ -20,21 +20,14 @@ const Loading = styled.div`
 type QnAListProps = {
   isLoading: boolean;
   qnaItems: QnAType[];
-  handleCheck: ({
-    id,
-    newCheckValue,
-  }: {
-    id: number;
-    newCheckValue: boolean;
-  }) => void;
 };
 
-const QnAList = ({ isLoading, qnaItems, handleCheck }: QnAListProps) => {
+const QnAList = ({ isLoading, qnaItems }: QnAListProps) => {
   return (
     <>
       <QnAListBox id="qnaList">
         {qnaItems.map((qna) => (
-          <QnA key={qna.qnaId} qnaItem={qna} handleCheck={handleCheck} />
+          <QnA key={qna.qnaId} qnaItem={qna} />
         ))}
       </QnAListBox>
       {isLoading && (

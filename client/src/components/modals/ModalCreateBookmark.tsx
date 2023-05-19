@@ -17,8 +17,9 @@ import { InputCount } from '../../styles/InputStyle';
 import { useInput } from '../../utils/hooks/useInput';
 import Input from '../chatinterface/Input';
 
-//import api
-import { saveBookmark } from '../../api/ChatInterfaceApi';
+//import redux
+import { useAppDispatch } from '../../app/hooks';
+import { createBookmarkAsync } from '../../features/main/conversationSlice';
 
 type ButtonProps = {
   inputExists: boolean;
@@ -72,15 +73,15 @@ const ErrorMsg = styled.div`
 `;
 
 type Props = {
-  cId: number;
   visible: boolean;
   setVisible: (isOpen: boolean) => void;
 };
 
-const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
+const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   const [value, setValue] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
   // useEffect(() => {
   //   console.log(value);
   //   // if (value) {
@@ -92,24 +93,18 @@ const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
     if (!visible) setShowError(false);
   }, [visible]);
 
-  const handleCreateClick = () => {
+  const handleCreateClick = async () => {
     if (value) {
-      console.log('clicked!');
-      console.log('CId:', cId, 'bName:', value);
-      (async function () {
-        const res = await saveBookmark({ cId, bName: value });
-        if (res) {
-          console.log('created bookmark!');
-          setVisible(false);
-          setValue('');
-        }
-      })();
+      console.log('create bookmark btn clicked!');
+      const res = await dispatch(createBookmarkAsync({ bName: value }));
+      //res에서 bookmarkId만 추출해서, dispatch로 updateBookmarks 보내기 (추가)
+      console.log('created bookmark!');
+      setVisible(false);
+      setValue('');
     } else {
       setShowError(true);
     }
     //if value is not entered, you cannot create!
-
-    //make async request
   };
   const InputBookmarkNameProps = useInput({
     inputType: 'text',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Conversation } from '../../data/dataTypes';
+import { Conversation } from '../../data/d';
 import axios from 'axios';
 
 const ModalOverlay = styled.div`
@@ -53,10 +53,39 @@ const QnaListWrapper = styled.div`
   margin-top: 2rem;
 `;
 
+const QnaButton = styled.button`
+  display: block;
+  margin-bottom: 1rem;
+  border: solid;
+  border-color: #c9ad6e;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 type ModalContentProps = {
   conversation: Conversation;
   onClose: () => void;
 };
+
+const BookmarkButtonWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+`;
+
+const BookmarkButton = styled.button`
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: #c9ad6e;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+`;
 
 const ModalContent: React.FC<ModalContentProps> = ({
   conversation,
@@ -90,7 +119,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   }, [onClose]);
 
   return (
-    <>
+    <div>
       {isOpen && (
         <ModalOverlay className="modal-overlay">
           <ModalWrapper>
@@ -106,16 +135,37 @@ const ModalContent: React.FC<ModalContentProps> = ({
               <QnaListWrapper>
                 {selectedConversation.qnaList.map((qna) => (
                   <div key={qna.qnaId}>
-                    <h4>{qna.question}</h4>
-                    <p>{qna.answer}</p>
+                    <QnaButton
+                      onClick={() => {
+                        const answerDiv = document.getElementById(
+                          `answer-${qna.qnaId}`,
+                        );
+                        answerDiv.style.display =
+                          answerDiv.style.display === 'none' ? 'block' : 'none';
+                      }}
+                    >
+                      {qna.question}
+                    </QnaButton>
+                    <div id={`answer-${qna.qnaId}`} style={{ display: 'none' }}>
+                      <p>{qna.answer}</p>
+                      <br></br>
+                    </div>
                   </div>
                 ))}
+                <BookmarkButtonWrapper>
+                  {selectedConversation.bookmarks.map((bookmark) => (
+                    <BookmarkButton key={bookmark.bookmarkId}>
+                      {bookmark.bookmarkName}
+                    </BookmarkButton>
+                  ))}
+                </BookmarkButtonWrapper>
+                <BookmarkButton>+ Bookmark</BookmarkButton>
               </QnaListWrapper>
             </ContentWrapper>
           </ModalWrapper>
         </ModalOverlay>
       )}
-    </>
+    </div>
   );
 };
 
