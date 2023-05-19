@@ -88,7 +88,14 @@ const TopNav = ({
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   const navigate = useNavigate();
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem("isLoggedIn")
+
+  let isLoggedIn = false;
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    isLoggedIn = true;
+  } else {
+    isLoggedIn = false;
+  }
+  // const isLoggedIn = true;
   useEffect(() => {
     if (location.pathname === '/') {
       const element = document.getElementById(
@@ -102,21 +109,6 @@ const TopNav = ({
     }
   }, [location]);
 
-  //캐릭터 정보 겟~! 
-  const [Character, setCharacter] = useState<string>("");
-  const Id = localStorage.getItem('memberId');
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
-        setCharacter(userData.avatarLink);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUserInfo();
-  }, [Id]);
 
   return (
     <TN.TopNavBox>

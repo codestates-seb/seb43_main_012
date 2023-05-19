@@ -14,6 +14,7 @@ const OAuthButton: React.FC<OAuthButtonProps> = ({ buttonText, brand }) => {
 
   const handleClick = () => {
     setIsOpen(!isOpen);
+    alert("서비스 준비중입니다");
   };
 
   // const buttonClick = () => {
@@ -28,9 +29,9 @@ const OAuthButton: React.FC<OAuthButtonProps> = ({ buttonText, brand }) => {
           {buttonText}
         </button>
       </ButtonBox>
-      <ModalDisplayName isOpen2={isOpen} setIsOpen2={setIsOpen} />
     </ButtonWrapper>
   );
 };
 
 export default OAuthButton;
+

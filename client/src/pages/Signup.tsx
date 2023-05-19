@@ -1,5 +1,6 @@
 import { SignupBox, SignupWrapper } from "../styles/SignupStyle";
 import OAuthButton from "../components/member/OAuthButton";
+import GoogleLoginButton from "../components/member/GoogleOauth";
 import SignupForm from "../components/member/SignupForm";
 
 
@@ -10,8 +11,8 @@ function Signup(){
     <SignupWrapper>
       <h3>JOIN CHARTCRAWL</h3>
       <SignupBox>
-        <OAuthButton buttonText="Continue with Google" brand="google" />
-        <OAuthButton buttonText="Continue with KakaoTalk" brand="kakaotalk" />
+        <GoogleLoginButton />
+        <OAuthButton buttonText="KakaoTalk 계정으로 로그인" brand="kakaotalk" />
         <SignupForm />
       </SignupBox>
     </SignupWrapper>

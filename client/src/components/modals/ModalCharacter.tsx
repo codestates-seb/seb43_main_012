@@ -13,13 +13,11 @@ import {
   UserInfoItemTypes,
   handleUpdate,
 } from '../../api/MemberApi';
-
 //모달 오픈 프롭스
 type ModalCharacterProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
-
 function ModalCharacter({
   isOpen,
   setIsOpen,
@@ -27,11 +25,9 @@ function ModalCharacter({
   // 로컬에 저장한 memberId를 가져와서 파라미터 사용
   const navigate = useNavigate();
   const Id = localStorage.getItem('memberId');
-
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
   const [avatarLink, setAvatarLink] = useState<string>(''); // avatarLink 변수 정의
   const [username, setUsername] = useState<string>('');
-
   // 유저 정보 get 그중 avatarLink 가져오기, Id가 변동될 때마다 진행
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -45,10 +41,8 @@ function ModalCharacter({
         console.error(error);
       }
     };
-
     fetchUserInfo();
-  }, [Id]);
-
+  }, [isOpen]);
   // 모달 닫기 헨들러
   // 정보 패치 후 모달 닫기
   const closeModalHandler = async () => {
@@ -61,13 +55,11 @@ function ModalCharacter({
       console.error(error);
     }
   };
-
   // 아바타 지정 핸들러 (아바타 클릭시 해당 url이 저장)
   const selectCharacterHandler = (character: string) => {
     setSelectedCharacter(character);
     setIsOpen(true);
   };
-
   return (
     <CharacterWrapper>
       {isOpen && (
@@ -152,5 +144,4 @@ function ModalCharacter({
     </CharacterWrapper>
   );
 }
-
 export default ModalCharacter;
