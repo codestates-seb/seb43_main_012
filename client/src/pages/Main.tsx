@@ -58,6 +58,20 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     setQNum((prev) => prev + 1);
   };
 
+  const loadConv = async (cId: number) => {
+    if (cId !== -1) {
+      const conversation = await getConversation(cId);
+      if (conversation) {
+        console.log('started new session!');
+        console.log('response: ', conversation);
+        dispatch(setConversation(conversation));
+      }
+    } else {
+      //go back to default, clear the conversation!
+    }
+    return;
+  };
+
   // const handleCheckQnAToSave = ({
   //   id,
   //   newCheckValue,
@@ -82,14 +96,15 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   // };
 
   useEffect(() => {
-    (async function () {
-      const conversation = await getConversation(13);
-      if (conversation) {
-        console.log('started new session!');
-        console.log('response: ', conversation);
-        dispatch(setConversation(conversation));
-      }
-    })();
+    loadConv(13);
+    // (async function () {
+    //   const conversation = await getConversation(13);
+    //   if (conversation) {
+    //     console.log('started new session!');
+    //     console.log('response: ', conversation);
+    //     dispatch(setConversation(conversation));
+    //   }
+    // })();
     // (async function () {
     //   const conversations = await getAllConversations();
     //   if (conversations) {
