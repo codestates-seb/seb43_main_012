@@ -28,6 +28,8 @@ dependencies {
 	implementation 'com.h2database:h2'
 	implementation 'com.mysql:mysql-connector-j'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

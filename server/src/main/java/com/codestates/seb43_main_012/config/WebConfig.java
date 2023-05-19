@@ -14,14 +14,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins("http://localhost:3000", "https://788c-118-33-155-37.ngrok-free.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
-                .exposedHeaders("Authorization")
-                .exposedHeaders("Refresh")
-                .exposedHeaders("Set-cookie");
+                .exposedHeaders("Authorization","Refresh","Set-cookie","Access-Control-Allow-Origin", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers","Access-Control-Max-Age");
     }
     @Bean
     public TomcatContextCustomizer sameSiteCookiesConfig() {

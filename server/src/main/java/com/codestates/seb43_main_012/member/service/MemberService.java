@@ -30,7 +30,6 @@ public class MemberService {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public MemberDto signup(MemberDto memberDto) {
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
     MemberEntity memberEntity = MemberEntity.builder()

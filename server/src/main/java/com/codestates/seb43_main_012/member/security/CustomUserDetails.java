@@ -3,11 +3,12 @@ package com.codestates.seb43_main_012.member.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-
+@Component
 public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;

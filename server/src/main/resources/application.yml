@@ -18,6 +18,15 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1073148988890-188k39pvbsb7dr0adig03e1hgd96tbts.apps.googleusercontent.com
+            client-secret: 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
+      profiles:
+        include: oauth
 
 
 logging:
