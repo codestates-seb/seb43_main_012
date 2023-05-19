@@ -6,122 +6,121 @@ import { ModalBackdrop } from '../../styles/CharacterStyle';
 import BookmarkList from '../bookmarks/BookmarkList';
 //import data
 import { BookmarkType, DefaultBookmarks } from '../../data/d';
-//import api
-import { saveBookmark, deleteBookmark } from '../../api/ChatInterfaceApi';
+//import redux
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import {
+  selectCId,
+  selectConversation,
+  // updateBookmark,
+  addBookmarkAsync,
+  deleteBookmarkAsync,
+} from '../../features/main/conversationSlice';
 const BoxBackdrop = styled(ModalBackdrop)`
   background: transparent;
   z-index: 999;
 `;
 type Props = {
-  cId: number;
-  bookmarks: BookmarkType[];
   setIsModalOpen: (isOpen: boolean) => void;
 };
 
-type BookmarkCheckType = BookmarkType & {
-  checked: boolean;
-};
+// type BookmarkCheckType = BookmarkType & {
+//   checked: boolean;
+// };
 
-const DialogBoxSaveBookmark = ({ cId, bookmarks, setIsModalOpen }: Props) => {
+const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
+  const dispatch = useAppDispatch();
+  const cId = useAppSelector(selectCId);
+  let bookmarks = useAppSelector(selectConversation).bookmarks;
+  let uncheckedBookmarks = useAppSelector(selectConversation).bookmarkList;
+
+  const [bNum, setBNum] = useState<number>(bookmarks.length);
+
   useEffect(() => {
-    console.log('fetched bookmarks!');
-    //temp solution
-    if (bookmarks) {
-      const newBookmarks = bookmarks.map((b) => {
-        return {
-          ...b,
-          checked: true,
-        };
-      });
+    console.log('update bookmarks in dialog box');
+    console.log('checked:', bookmarks);
+    console.log('unchecked: ', uncheckedBookmarks);
+  }, [bNum]);
 
-      setBookmarkList(newBookmarks);
-    }
-  }, [bookmarks]);
+  // useEffect(() => {
+  //   console.log('fetching updated bookmarks!');
+  //   //temp solution
+  //   if (bookmarks) {
+  //     const newBookmarks = bookmarks.map((b) => {
+  //       return {
+  //         ...b,
+  //         checked: true,
+  //       };
+  //     });
+
+  //     setBookmarkList(newBookmarks);
+  //   }
+  // }, [bookmarks]);
 
   //access stored data for current conversation, that was fetched from the server
   //add property checked
-  const newTemp = DefaultBookmarks.map((b) => {
-    return { ...b, checked: false };
-  });
-
-  const [bookmarkList, setBookmarkList] =
-    useState<BookmarkCheckType[]>(newTemp);
 
   // const handleModalBackdropClick = () => {
   //   if (setIsOpen) setIsOpen(false);
   // };
 
-  useEffect(() => {
-    console.log('change in bookmarkList');
-  }, [bookmarkList]);
+  // useEffect(() => {
+  //   console.log('change in bookmarkList');
+  // }, [bookmarkList]);
 
   //handle bookmark check/uncheck
-  const handleBookmarkCheck = ({
+
+  const handleBookmarkCheck = async ({
     id,
     newCheckValue,
   }: {
     id: number;
     newCheckValue: boolean;
   }) => {
-    if (newCheckValue) {
-      const newBookmarkName = bookmarkList.find(
-        (b) => b.bookmarkId === id,
-      )?.bookmarkName;
-      if (newBookmarkName) {
-        (async function () {
-          const res = await saveBookmark({ cId, bName: newBookmarkName });
-          if (res) {
-            console.log('response well received');
-            setBookmarkList(
-              bookmarkList.map((b) => {
-                if (b.bookmarkId === id) {
-                  b.checked = true;
-                }
-                return b;
-              }),
-            );
-          }
-        })();
-      }
-    } else {
-      (async function () {
-        const res = await deleteBookmark({ cId, bId: id });
-        if (res)
-          setBookmarkList(
-            bookmarkList.map((b) => {
-              if (b.bookmarkId === id) {
-                b.checked = false;
-              }
-              return b;
-            }),
+    try {
+      if (newCheckValue) {
+        const newBookmarkName = uncheckedBookmarks.find(
+          (b) => b.bookmarkId === id,
+        )?.bookmarkName;
+        if (newBookmarkName) {
+          await dispatch(
+            addBookmarkAsync({ cId, bId: id, bName: newBookmarkName }),
           );
-      })();
+          setBNum((prev) => prev + 1);
+        }
+      } else {
+        await dispatch(deleteBookmarkAsync({ cId, bId: id }));
+        setBNum((prev) => prev - 1);
+      }
+    } catch (error) {
+      // Handle the error if needed
+      console.error('Error occurred:', error);
     }
-    // const index = bookmarkList.findIndex((item) => item.bookmarkId === id);
-    // const bookmarkToUpdate = bookmarkList.find(
-    //   (item) => item.bookmarkId === id,
-    // );
-
-    // if (index !== -1 && bookmarkToUpdate) {
-    //   const updatedBookmarks = bookmarkList.map((b) => {
-    //     if (b.bookmarkId === index) b.checked = newCheckValue;
-    //     return b;
-    //   });
-    //   const updatedBookmarkNames = updatedBookmarks
-    //     .filter((b) => b.checked)
-    //     .map((b) => b.bookmarkName);
-    //   //update conversation on server
-    //   deleteBookmark({
-    //     cId,
-    //     bookmarks: updatedBookmarkNames,
-    //   });
-    // }
   };
+  // const handleBookmarkCheck = ({
+  //   id,
+  //   newCheckValue,
+  // }: {
+  //   id: number;
+  //   newCheckValue: boolean;
+  // }) => {
+  //   //if checked
+  //   if (newCheckValue) {
+  //     dispatch(updateBookmark({ bId: id, type: 'ADD' }));
+  //     setBNum((prev) => prev + 1);
+  //   } else {
+  //     dispatch(updateBookmark({ bId: id, type: 'DELETE' }));
+  //     setBNum((prev) => prev - 1);
+  //   }
+  // };
 
+  // const updateBNum = () => {
+  //   console.log('updating bookmark numbers');
+  // };
   return (
     <BookmarkList
       setIsModalOpen={setIsModalOpen}
-      list={bookmarkList.filter((b) => b.checked === true)}
+      list={bookmarks}
+      uncheckedList={uncheckedBookmarks}
       handleCheck={handleBookmarkCheck}
     />
   );

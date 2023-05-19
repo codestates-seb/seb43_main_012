@@ -126,7 +126,7 @@ export async function saveBookmark({
       },
     );
     console.log('success in creating bookmark!', response.data);
-    return response.data;
+    return response.data.message;
   } catch (error) {
     console.log(error);
     throw error;
@@ -157,13 +157,13 @@ export async function deleteBookmark({
 }: {
   cId: number;
   bId: number;
-}): Promise<string> {
+}) {
   try {
-    const response = await axiosDefault.delete(
+    await axiosDefault.delete(
       `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
     );
-    console.log(response.data);
-    return response.data;
+    // console.log(response.data);
+    // return response.data.message;
     // Handle any further operations with the response if needed
   } catch (error) {
     console.log(error);

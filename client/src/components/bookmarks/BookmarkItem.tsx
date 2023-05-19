@@ -37,13 +37,16 @@ export const InsetGradient = styled.div`
 
 type ItemProp = {
   bookmark: BookmarkType;
+  checkStatus: boolean;
   handleCheck: (...args: any[]) => void;
 };
 
-export const BookmarkItem = ({ bookmark, handleCheck }: ItemProp) => {
-  const [isChecked, setIsChecked] = useState<boolean>(
-    bookmark.checked || false,
-  );
+export const BookmarkItem = ({
+  bookmark,
+  checkStatus,
+  handleCheck,
+}: ItemProp) => {
+  const [isChecked, setIsChecked] = useState<boolean>(checkStatus);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
@@ -52,7 +55,7 @@ export const BookmarkItem = ({ bookmark, handleCheck }: ItemProp) => {
         <div>
           <Checkbox
             id={bookmark.bookmarkId}
-            isChecked={bookmark.checked || false}
+            isChecked={isChecked}
             setIsChecked={setIsChecked}
             isHovered={isHovered}
             setIsHovered={setIsHovered}
