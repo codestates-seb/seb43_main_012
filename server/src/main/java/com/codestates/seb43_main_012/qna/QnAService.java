@@ -66,6 +66,16 @@ public class QnAService {
         return messages;
     }
 
+    public List<Long> findConversationIDs(String query)
+    {
+        List<QnA> qnaList = qnaRepository.findAllByQuestionContainingOrAnswerContaining(query,query);
+
+        List<Long> IDs = new ArrayList<>();
+
+        qnaList.stream().forEach(qna -> IDs.add(qna.getConversation().getConversationId()));
+
+        return IDs;
+    }
 
     public QnA requestAnswer(QnADto.Post dto)
     {

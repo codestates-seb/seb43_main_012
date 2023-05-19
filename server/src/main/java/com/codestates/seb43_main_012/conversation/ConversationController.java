@@ -14,7 +14,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -43,6 +45,15 @@ public class ConversationController {
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{conversation-id}")
+    public ResponseEntity patchConversation(@PathVariable("conversation-id") long conversationId,
+                                            @RequestBody ConversationDto.Patch dto)
+    {
+        Conversation conversation = conversationService.updateConversation(conversationId, dto);
+
+        return new ResponseEntity<>(conversation, HttpStatus.OK);
+    }
+
     @GetMapping("/{conversation-id}")
     public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
     {
@@ -52,6 +63,8 @@ public class ConversationController {
         List<Long> conversationCategoryIDs = new ArrayList<>();
         conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getBookmarkId()));
 
+        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
+
         List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(MEMBER_ID, conversationCategoryIDs);
 
         ConversationDto.Response response = mapper.responseForGetOneConversation(conversation, categories);
@@ -60,10 +73,11 @@ public class ConversationController {
     }
 
     @GetMapping
-    public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort)
+    public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort,
+                                           @RequestParam(value = "q", required = false) String query)
     {
         if(sort == null) sort = "desc";
-        List<Conversation> conversations = conversationService.findConversations(sort);
+        List<Conversation> conversations = conversationService.findConversations(sort, query);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
@@ -72,45 +86,54 @@ public class ConversationController {
     public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody BookmarkDto.Post bookmarkDto)
     {
-        Conversation savedConversation = conversationService.createBookmark(conversationId, bookmarkDto);
+        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto);
 
-        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(savedConversation),HttpStatus.OK);
+        return new ResponseEntity<>(mapper.postBookmarkResponse(bookmarkId,bookmarkDto.getBookmarkName()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
+    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
+                                                     @PathVariable("bookmark-id") long bookmarkId)
+    {
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId);
+        conversationService.setSaveStatus(savedConversation);
+
+        return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 삭제 성공"), HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{conversation-id}/tags")
     public ResponseEntity tagConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody TagDto.Post tagDto)
     {
-        Conversation savedConversation = conversationService.createTag(conversationId, tagDto);
+        long tagId = conversationService.createTag(conversationId, tagDto);
 
-        return new ResponseEntity<>(savedConversation,HttpStatus.OK);
+        return new ResponseEntity<>(mapper.postTagResponse(tagId,tagDto.getTagName()),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{conversation-id}/bookmarks")
-    public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
-                                                     @RequestBody BookmarkDto.Post bookmarkDto)
-    {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkDto.getBookmarkName());
-        Conversation conversation = conversationService.setSaveStatus(savedConversation);
-
-        return new ResponseEntity<>(mapper.conversationToCollectionResponseDto(conversation),HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/{conversation-id}/tags")
+    @DeleteMapping("/{conversation-id}/tags/{tag-id}")
     public ResponseEntity deleteConversationTag(@PathVariable("conversation-id") long conversationId,
                                                 @PathVariable("tag-id") long tagId)
     {
         Conversation savedConversation = conversationService.deleteTag(conversationId, tagId);
+        conversationService.setSaveStatus(savedConversation);
 
-        return new ResponseEntity<>(savedConversation,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(mapper.simpleMessageResponse("태그 삭제 성공"),HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/bookmarks/{bookmark-name}")
-    public ResponseEntity bookmarkConversation(@PathVariable("bookmark-name") String bookmarkName)
+    public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName)
     {
-        List<Bookmark> bookmarks = conversationService.findBookmarkedConversations(bookmarkName);
+        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName);
+        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+        return new ResponseEntity<>(responses,HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(bookmarks,HttpStatus.OK);
+    @GetMapping("/tags/{tag-name}")
+    public ResponseEntity getTaggedConversation(@PathVariable("tag-name") String tagName)
+    {
+        List<Conversation> conversations = conversationService.findTaggedConversations(tagName);
+        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+        return new ResponseEntity<>(responses,HttpStatus.OK);
     }
 
     @DeleteMapping("/{conversation-id}")

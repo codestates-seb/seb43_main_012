@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.conversation;
 
+import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
@@ -12,9 +13,7 @@ import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -144,15 +143,29 @@ public class ConversationMapper {
         return responses;
     }
 
-
-    private List<String> stringToList(String str)
+    public Map<String, String> simpleMessageResponse(String message)
     {
-        List<String> list = new ArrayList<>();
-        if(str == null || str.equals("[]")) return list;
+        Map<String,String> response = new HashMap<>();
+        response.put("message",message);
 
-        Arrays.stream(str.substring(1,str.length()-1).split(","))
-                .forEach(subStr -> list.add(subStr.replace("\"","")));
+        return response;
+    }
+    public Map<String, Object> postBookmarkResponse(long bookmarkId, String bookmarkName)
+    {
+        Map<String,Object> response = new HashMap<>();
 
-        return list;
+        response.put("bookmarkId", bookmarkId);
+        response.put("bookmarkName", bookmarkName);
+
+        return response;
+    }
+    public Map<String, Object> postTagResponse(long tagId, String tagName)
+    {
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("tagId", tagId);
+        response.put("tagName", tagName);
+
+        return response;
     }
 }

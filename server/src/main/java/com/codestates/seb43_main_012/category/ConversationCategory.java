@@ -21,6 +21,7 @@ public class ConversationCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
+
     private long bookmarkId;
     private String bookmarkName;
 

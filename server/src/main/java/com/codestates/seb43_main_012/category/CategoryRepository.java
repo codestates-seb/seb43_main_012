@@ -11,4 +11,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findAllByMemberId(long memberId);
 
     List<Category> findAllByMemberIdAndIdNotIn(long memberId, List<Long> id);
+
+    Optional<Category> findByMemberIdAndName(long memberId, String name);
+
+    void deleteByMemberIdAndId(long memberId, long categoryId);
 }

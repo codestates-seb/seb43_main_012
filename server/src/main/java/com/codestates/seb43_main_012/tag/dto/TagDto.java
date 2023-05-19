@@ -14,7 +14,7 @@ public class TagDto {
     @NoArgsConstructor
     public static class Post {
         @NotNull
-        private List<String> tags;
+        private String tagName;
     }
 
     @Getter
