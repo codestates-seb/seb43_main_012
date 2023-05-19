@@ -19,3 +19,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export type CustomThunkAPI = {
+  dispatch: AppDispatch;
+  getState: () => RootState;
+};
