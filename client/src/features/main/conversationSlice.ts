@@ -94,8 +94,14 @@ const conversationSlice = createSlice({
           ];
           const newUncheckedBookmarks: BookmarkType[] =
             state.content.bookmarkList.filter((b) => b.bookmarkId !== bId);
+          //if there was no bookmarks before, then change to saved
+          if (!state.content.bookmarks.length) {
+            console.log('must change saved to true');
+            state.content.saved = true;
+          }
           state.content.bookmarks = newBookmarks;
           state.content.bookmarkList = newUncheckedBookmarks;
+
           console.log('bookmark added:', action.payload);
         }
       })
@@ -114,7 +120,12 @@ const conversationSlice = createSlice({
           ];
           state.content.bookmarkList = newUncheckedBookmarks;
         }
+        if (state.content.bookmarks.length <= 1) {
+          console.log('must change saved to false');
+          state.content.saved = false;
+        }
         state.content.bookmarks = newBookmarks;
+
         console.log('bookmark deleted:', bId);
       });
   },
