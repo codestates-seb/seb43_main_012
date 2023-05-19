@@ -18,7 +18,6 @@ export type QnAType = {
 export type BookmarkType = {
   bookmarkId: number;
   bookmarkName: string;
-  checked?: boolean;
 };
 
 export type TagType = {
@@ -42,6 +41,7 @@ export type Conversation = {
   pinned: boolean;
   published: boolean;
   bookmarks: BookmarkType[];
+  bookmarkList: BookmarkType[];
   tags: TagType[];
   viewCount: number;
   activityLevel: number;
@@ -67,6 +67,7 @@ export const initialConvData = {
       bookmarkName: 'Default',
     },
   ] as BookmarkType[],
+  bookmarkList: [] as BookmarkType[],
   tags: [] as TagType[],
   viewCount: 0,
   activityLevel: 0,

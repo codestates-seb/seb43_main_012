@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //import style
 import styled from 'styled-components';
@@ -17,6 +17,7 @@ type ListProp = {
   // isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   list: BookmarkType[];
+  uncheckedList: BookmarkType[];
   handleCheck: ({
     id,
     newCheckValue,
@@ -72,24 +73,45 @@ const AddBookmark = styled(SignoutItem)`
   }
 `;
 
-const BookmarkList = ({ list, handleCheck, setIsModalOpen }: ListProp) => {
+const BookmarkList = ({
+  list,
+  uncheckedList,
+  handleCheck,
+  setIsModalOpen,
+}: ListProp) => {
   const handleModalOpen = () => {
-    console.log('create bookmark modal open!');
+    console.log('save bookmark modal open!');
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    console.log('bookmarkList loaded');
+    console.log(list);
+  }, [list, uncheckedList]);
+
   return (
     <>
-      {Boolean(list.length) && (
-        <BookmarkItems>
-          {list.map((bookmark: BookmarkType) => (
+      <BookmarkItems>
+        {Boolean(list.length) &&
+          list.map((bookmark: BookmarkType) => (
             <BookmarkItem
               key={bookmark.bookmarkId}
               bookmark={bookmark}
+              checkStatus={true}
               handleCheck={handleCheck}
             />
           ))}
-        </BookmarkItems>
-      )}
+        {Boolean(uncheckedList.length) &&
+          uncheckedList.map((bookmark: BookmarkType) => (
+            <BookmarkItem
+              key={bookmark.bookmarkId}
+              bookmark={bookmark}
+              checkStatus={false}
+              handleCheck={handleCheck}
+            />
+          ))}
+      </BookmarkItems>
+
       <Footer>
         {Boolean(list.length) && (
           <Options>

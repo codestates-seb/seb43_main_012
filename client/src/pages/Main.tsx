@@ -117,6 +117,10 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   }, [isLoading]);
 
   useEffect(() => {
+    console.log('store conversation UPDATED');
+  }, [conversation]);
+
+  useEffect(() => {
     if (conversation.title) {
       (async function () {
         const newConversation = await getConversation(
@@ -143,9 +147,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
               editConfirm={editConfirm}
             />
             <EditSaveUI
-              cId={conversation.conversationId}
-              saved={conversation.saved}
-              bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
               setEditConfirm={setEditConfirm}
