@@ -73,10 +73,11 @@ public class ConversationController {
     }
 
     @GetMapping
-    public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort)
+    public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort,
+                                           @RequestParam(value = "q", required = false) String query)
     {
         if(sort == null) sort = "desc";
-        List<Conversation> conversations = conversationService.findConversations(sort);
+        List<Conversation> conversations = conversationService.findConversations(sort, query);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
@@ -85,9 +86,9 @@ public class ConversationController {
     public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody BookmarkDto.Post bookmarkDto)
     {
-        Conversation savedConversation = conversationService.createBookmark(conversationId, bookmarkDto);
+        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto);
 
-        return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 추가 성공"), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.postBookmarkResponse(bookmarkId,bookmarkDto.getBookmarkName()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
@@ -104,9 +105,9 @@ public class ConversationController {
     public ResponseEntity tagConversation(@PathVariable("conversation-id") long conversationId,
                                               @RequestBody TagDto.Post tagDto)
     {
-        Conversation savedConversation = conversationService.createTag(conversationId, tagDto);
+        long tagId = conversationService.createTag(conversationId, tagDto);
 
-        return new ResponseEntity<>(mapper.simpleMessageResponse("태그 추가 성공"),HttpStatus.OK);
+        return new ResponseEntity<>(mapper.postTagResponse(tagId,tagDto.getTagName()),HttpStatus.OK);
     }
 
     @DeleteMapping("/{conversation-id}/tags/{tag-id}")

@@ -1,10 +1,9 @@
 package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.*;
-import com.codestates.seb43_main_012.category.Category;
-import com.codestates.seb43_main_012.category.CategoryRepository;
-import com.codestates.seb43_main_012.category.ConversationCategory;
-import com.codestates.seb43_main_012.category.ConversationCategoryRepository;
+import com.codestates.seb43_main_012.category.*;
+import com.codestates.seb43_main_012.exception.BusinessLogicException;
+import com.codestates.seb43_main_012.exception.ExceptionCode;
 import com.codestates.seb43_main_012.member.repository.MemberRepository;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
@@ -33,23 +32,11 @@ public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final ConversationCategoryRepository conversationCategoryRepository;
     private final TagRepository tagRepository;
     private final ConversationTagRepository conversationTagRepository;
     private final QnAService qnaService;
-//    public ConversationService(ConversationRepository conversationRepository,
-//                               MemberRepository memberRepository,
-//                               BookmarkRepository bookmarkRepository,
-//                               CategoryRepository categoryRepository,
-//                               ConversationCategoryRepository conversationCategoryRepository)
-//    {
-//        this.conversationRepository = conversationRepository;
-//        this.memberRepository = memberRepository;
-//        this.bookmarkRepository = bookmarkRepository;
-//        this.categoryRepository = categoryRepository;
-//        this.conversationCategoryRepository = conversationCategoryRepository;
-//    }
 
     public Conversation saveConversation(Conversation conversation)
     {
@@ -93,17 +80,21 @@ public class ConversationService {
     public Conversation findConversation(long conversationId)
     {
         Optional<Conversation> optional = conversationRepository.findById(conversationId);
-        Conversation conversation = optional.orElseThrow(()->new RuntimeException("wrong id"));
+        Conversation conversation = optional.orElseThrow(()->new BusinessLogicException(ExceptionCode.CONV_NOT_FOUND));
         return conversation;
     }
 
-    public List<Conversation> findConversations(String sort)
+    public List<Conversation> findConversations(String sort, String query)
     {
-       if(sort.equals("desc"))
-            return conversationRepository.findAllByDeleteStatusAndSaved(false,false,Sort.by(Sort.Direction.DESC, "modifiedAt"));
+        List<Long> IDs = qnaService.findConversationIDs(query);
+
+        if(sort.equals("desc"))
+            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
         else
-            return conversationRepository.findAllByDeleteStatusAndSaved(false, false,Sort.by(Sort.Direction.ASC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
     }
+
+
 
     @Transactional
     public List<Conversation> findBookmarkedConversations(String categoryName)
@@ -113,7 +104,7 @@ public class ConversationService {
         conversationRepository.findAll();
 
         conversationCategories.stream().forEach(conversationCategory -> {
-            if(conversationCategory.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == MEMBER_ID)
                 conversations.add(conversationCategory.getConversation());
         });
 
@@ -128,7 +119,7 @@ public class ConversationService {
         conversationRepository.findAll();
 
         conversationTags.stream().forEach(conversationTag -> {
-            if(conversationTag.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationTag.getConversation().isDeleteStatus() == false && conversationTag.getConversation().getMember().getId() == MEMBER_ID)
                 conversations.add(conversationTag.getConversation());
         });
 
@@ -136,7 +127,7 @@ public class ConversationService {
     }
 
     @Transactional
-    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
+    public long createBookmark(long conversationId, BookmarkDto.Post dto)
     {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setSaved(true);
@@ -149,8 +140,8 @@ public class ConversationService {
             bookmark.addConversation(findConversation);
             bookmarkRepository.save(bookmark);
         }
-        Category category = categoryRepository.findByName(dto.getBookmarkName()).orElse(new Category(MEMBER_ID, dto.getBookmarkName()));
-        categoryRepository.save(category);
+
+        Category category = categoryService.createCategory(MEMBER_ID, dto.getBookmarkName());
 
         Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationConversationIdAndBookmarkName(conversationId, dto.getBookmarkName());
 
@@ -163,8 +154,9 @@ public class ConversationService {
             );
             conversationCategoryRepository.save(conversationCategory);
         }
+        conversationRepository.save(findConversation);
 
-        return conversationRepository.save(findConversation);
+        return category.getId();
     }
 
     @Transactional
@@ -185,7 +177,7 @@ public class ConversationService {
     }
 
     @Transactional
-    public Conversation createTag(long conversationId, TagDto.Post tagDto)
+    public long createTag(long conversationId, TagDto.Post tagDto)
     {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setSaved(true);
@@ -206,7 +198,9 @@ public class ConversationService {
             conversationTagRepository.save(conversationTag);
         }
 
-        return conversationRepository.save(findConversation);
+        conversationRepository.save(findConversation);
+
+        return tag.getTagId();
     }
 
     @Transactional

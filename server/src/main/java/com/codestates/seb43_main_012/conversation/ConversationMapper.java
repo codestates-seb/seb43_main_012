@@ -1,5 +1,6 @@
 package com.codestates.seb43_main_012.conversation;
 
+import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
@@ -146,6 +147,24 @@ public class ConversationMapper {
     {
         Map<String,String> response = new HashMap<>();
         response.put("message",message);
+
+        return response;
+    }
+    public Map<String, Object> postBookmarkResponse(long bookmarkId, String bookmarkName)
+    {
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("bookmarkId", bookmarkId);
+        response.put("bookmarkName", bookmarkName);
+
+        return response;
+    }
+    public Map<String, Object> postTagResponse(long tagId, String tagName)
+    {
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("tagId", tagId);
+        response.put("tagName", tagName);
 
         return response;
     }
