@@ -26,7 +26,9 @@ const initialState: ConversationState = {
 // Create an async thunk for adding a bookmark
 export const addBookmarkAsync = createAsyncThunk(
   'conversation/addBookmark',
-  async ({ cId, bId, bName }: { cId: number; bId: number; bName: string }) => {
+  async ({ bName }: { bName: string }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.content.conversationId;
     const res = await saveBookmark({ cId, bName });
     return res;
   },
@@ -35,7 +37,9 @@ export const addBookmarkAsync = createAsyncThunk(
 // Create an async thunk for deleting a bookmark
 export const deleteBookmarkAsync = createAsyncThunk(
   'conversation/deleteBookmark',
-  async ({ cId, bId }: { cId: number; bId: number }) => {
+  async ({ bId }: { bId: number }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.content.conversationId;
     const res = await deleteBookmark({ cId, bId });
     return res;
   },

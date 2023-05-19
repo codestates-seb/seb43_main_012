@@ -17,9 +17,6 @@ import { InputCount } from '../../styles/InputStyle';
 import { useInput } from '../../utils/hooks/useInput';
 import Input from '../chatinterface/Input';
 
-//import api
-import { saveBookmark } from '../../api/ChatInterfaceApi';
-
 //import redux
 import { useAppDispatch } from '../../app/hooks';
 import { createBookmarkAsync } from '../../features/main/conversationSlice';
@@ -76,12 +73,11 @@ const ErrorMsg = styled.div`
 `;
 
 type Props = {
-  cId: number;
   visible: boolean;
   setVisible: (isOpen: boolean) => void;
 };
 
-const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
+const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   const [value, setValue] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -108,8 +104,6 @@ const ModalCreateBookmark = ({ cId, visible, setVisible }: Props) => {
       setShowError(true);
     }
     //if value is not entered, you cannot create!
-
-    //make async request
   };
   const InputBookmarkNameProps = useInput({
     inputType: 'text',
