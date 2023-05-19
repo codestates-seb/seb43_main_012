@@ -109,6 +109,31 @@ const TopNav = ({
     }
   }, [location]);
 
+  const [avatarLink, setAvatarLink] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+
+  let Id: any = 0
+  if (localStorage.getItem("memberId")) {
+    Id = localStorage.getItem("memberId")
+  } else {
+    Id= 0
+  }
+  
+  
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
+        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+        setUsername(userData.username); // username 값 설정
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
 
   return (
     <TN.TopNavBox>
@@ -172,7 +197,11 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            <img src={Character} alt="AvatarIcon A" />
+            {avatarLink === username?(
+              username[0]
+            ):
+            <img src={avatarLink} alt="AvatarIcon A" />
+          }
           </AvatarIcon>
         ) : (
           <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
