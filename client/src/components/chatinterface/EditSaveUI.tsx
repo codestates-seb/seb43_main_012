@@ -86,15 +86,20 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
     setIsHoverOpen(true);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.stopPropagation();
     setEditState(!editState);
   };
 
-  const handleAddTagClick = () => {
+  const handleAddTagClick = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
     console.log('clicked add tag!');
     setIsHoverOpen(!isHoverOpen);
   };
-  const handleSaveClick = () => {
+  const handleSaveClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.stopPropagation();
     console.log('clicked save!');
     setIsHoverOpen(!isHoverOpen);
     setPopoverOpen(true);
@@ -122,6 +127,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
       }
     }
   }, [editState]);
+
   return (
     <EditSaveUIBox>
       {editState ? (
@@ -130,7 +136,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
             <ConfirmIcon onClick={handleConfirmClick} />
           </IconItem>
           <IconItem>
-            <CancelIcon onClick={handleConfirmClick} />
+            <CancelIcon onClick={handleCancelClick} />
           </IconItem>
         </>
       ) : (
@@ -155,7 +161,6 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
               <AddTagIcon onClick={handleAddTagClick} />
             </IconItem>
           </CPopover>
-          {/* isHoverOpen &&{' '} */}
           {isHoverOpen ? (
             <CPopover
               className="popover_saveUI_hover"
