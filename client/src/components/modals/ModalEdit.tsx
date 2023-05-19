@@ -90,7 +90,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
         <ModalBackdrop onClick={closeModalHandler}>
           <EditView onClick={(e) => e.stopPropagation()}>
             <Character onClick={CharacterModal}>
-              {setAvatarLink === setUsername ? (
+              {avatarLink === username ? (
                 avatarLink[0]
               ) : (
                 <img src={avatarLink} alt="" />
@@ -120,7 +120,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
             ) : (
               <div>
                 <ErrorMessage>비밀번호는 영어, 숫자, 특수문자를 포함한 8자리 이상의 문자여야합니다.</ErrorMessage>
-                <button>save</button>
+                <button onClick={handleSave}>save</button>
               </div>
             )}
           </EditView>

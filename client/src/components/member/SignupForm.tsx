@@ -47,28 +47,22 @@ const SignupForm: React.FC = () => {
     }
   }, [password2]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     const avatarLink = getRandomCharacter();
 
     try{
-      handleSignup({
+      await handleSignup({
       username,
       userId,
       password,
       avatarLink,
       setErrors,
     });
-    handleClick();
     navigate("/login");
   }
-    catch{
+    catch(error){
       console.log(error);
-      alert("잠시 후에 다시 시도해주세요.");
     }
-  };
-
-  const handleClick = () => {
-    setIsOpen(!isOpen);
   };
 
   return (

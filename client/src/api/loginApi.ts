@@ -22,8 +22,8 @@ export const handleLogin = async ({
       const sessionId = extractSessionIdFromCookies(cookies);
       sessionStorage.setItem('sessionId', sessionId);
     }
-  sessionStorage.setItem('token',res.headers["Authorization"]);
-  sessionStorage.setItem('refresh', JSON.stringify(res.data.refresh));
+  localStorage.setItem('token',res.data.authorization);
+  localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
   return res;
