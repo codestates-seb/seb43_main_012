@@ -1,0 +1,319 @@
+{
+  "conversations": [
+    {
+      "conversationId": 1,
+      "title": "제목1",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        },
+        {
+          "qnaId": 2,
+          "question": "질문2",
+          "answer": "답변2",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 2,
+      "title": "제목2",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 3,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 3,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 4,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 5,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 6,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 7,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 8,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 9,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    },
+    {
+      "conversationId": 10,
+      "title": "제목3",
+      "member": {
+        "memberId": "유저1",
+        "avatarLink": "https://i.pravatar.cc/150?img=3"
+      },
+      "answerSummary": "내용요약본",
+      "createdAt": "2011-10-05T14:48:00.000Z",
+      "modifiedAt": "2011-10-05T14:48:00.000Z",
+
+      "qnaList": [
+        {
+          "qnaId": 1,
+          "question": "질문1",
+          "answer": "답변1",
+          "bookmarkStatus": false,
+          "displayStatus": true
+        }
+      ],
+      "saved": true,
+      "pinned": false,
+      "published": false,
+      "bookmarks": [],
+      "tags": [],
+      "viewCount": 0,
+      "activityLevel": 0
+    }
+  ]
+}
