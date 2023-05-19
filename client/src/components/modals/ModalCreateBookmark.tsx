@@ -97,6 +97,7 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
     if (value) {
       console.log('create bookmark btn clicked!');
       const res = await dispatch(createBookmarkAsync({ bName: value }));
+      //res에서 bookmarkId만 추출해서, dispatch로 updateBookmarks 보내기 (추가)
       console.log('created bookmark!');
       setVisible(false);
       setValue('');

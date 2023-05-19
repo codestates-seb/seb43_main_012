@@ -70,22 +70,12 @@ const IconItem = styled.li`
   }
 `;
 
-const EditSaveUI = ({
-  // cId,
-  // saved,
-  // bookmarks,
-  editState,
-  setEditState,
-  setEditConfirm,
-}: Props) => {
+const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isHoverOpen, setIsHoverOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
-  // const bookmarks = useAppSelector(selectCBookmarks);
-  const cId = useAppSelector(selectCId);
   const conv = useAppSelector(selectConversation);
   const saved = conv.saved;
-  // const bookmarks = useAppSelector(selectConversation).bookmarks;
 
   useEffect(() => {
     console.log('saved status changed: ', saved);
