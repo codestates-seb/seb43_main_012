@@ -1,11 +1,11 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export const request = axios.create({
-  baseURL: `https://788c-118-33-155-37.ngrok-free.app/`,
+  baseURL: `${import.meta.env.VITE_BASE_URL}`,
 });
 
 export const requestAuth = axios.create({
-  baseURL: `https://788c-118-33-155-37.ngrok-free.app/`,
+  baseURL: `${import.meta.env.VITE_BASE_URL}`,
   headers: {
     'Content-type': 'application/json',
     'ngrok-skip-browser-warning': '69420',
