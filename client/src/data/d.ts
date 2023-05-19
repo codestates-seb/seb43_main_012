@@ -1,3 +1,5 @@
+export type MyGenericFunctionType<T> = (...args: T[]) => void;
+
 export type ContentType = {
   conversations: Conversation[];
   tags: TagType[];

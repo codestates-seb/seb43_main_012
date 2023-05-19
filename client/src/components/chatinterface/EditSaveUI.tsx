@@ -1,74 +1,26 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { EditSaveUIBox } from '../../styles/MainStyle';
-import DialogBoxSaveBookmark from '../dialogbox/DialogBoxSaveBookmark';
+
 //import style
-import { CPopover } from '@coreui/react';
-import styled from 'styled-components';
-import '../../styles/sass/custom_popover_saveUI.scss';
 import '../../styles/sass/custom_popover_saveUI_hover.scss';
+import { IconItems, IconItem } from '../../styles/IconStyle';
 //import components
 import ModalCreateBookmark from '../modals/ModalCreateBookmark';
-
-//import data types
-import { BookmarkType } from '../../data/d';
+import CheckCancelUI from '../uielements/CheckCancelUI';
+import BookmarkHoverBtn from '../uielements/BookmarkHoverBtn';
+import BookmarkClickBtn from '../uielements/BookmarkClickBtn';
+import EditTitleHoverBtn from '../uielements/EditTitleHoverBtn';
+import TagHoverBtn from '../uielements/TagHoverBtn';
 
 //import redux
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { selectConversation } from '../../features/main/conversationSlice';
 
-//import icons
-// @ts-ignore
-import { ReactComponent as EditIcon } from '../../assets/icons/main_qna/iconEdit2.svg';
-// @ts-ignore
-import { ReactComponent as AddBookmarkIcon } from '../../assets/icons/main_qna/iconAddBookmark.svg';
-// @ts-ignore
-import { ReactComponent as BookmarkedIcon } from '../../assets/icons/main_qna/iconBookmarked2.svg';
-// @ts-ignore
-import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
-// @ts-ignore
-import { ReactComponent as ConfirmIcon } from '../../assets/icons/main_qna/iconCheck.svg';
-// @ts-ignore
-import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
-import {
-  selectCId,
-  selectConversation,
-} from '../../features/main/conversationSlice';
 type Props = {
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
   setEditConfirm: Dispatch<SetStateAction<boolean>>;
 };
-
-const IconItems = styled.ul`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const IconItem = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--b60);
-  margin: 0 5px;
-
-  svg {
-    width: var(--size-icon-default);
-    height: var(--size-icon-default);
-    fill?: currentColor;
-    stroke?: currentColor;
-    // stroke: currentColor;
-  }
-
-  svg:hover {
-    fill?: black;
-    stroke?: black;
-  }
-
-  &: hover {
-    cursor: pointer;
-    color: black;
-  }
-`;
 
 const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isHoverOpen, setIsHoverOpen] = useState<boolean>(true);
@@ -131,74 +83,32 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   return (
     <EditSaveUIBox>
       {editState ? (
-        <>
-          <IconItem>
-            <ConfirmIcon onClick={handleConfirmClick} />
-          </IconItem>
-          <IconItem>
-            <CancelIcon onClick={handleCancelClick} />
-          </IconItem>
-        </>
+        <CheckCancelUI
+          handleConfirm={handleConfirmClick}
+          handleCancel={handleCancelClick}
+        />
       ) : (
         <IconItems>
-          <CPopover
-            className="popover_saveUI_hover"
-            content="edit"
-            placement="top"
-            trigger="hover"
-          >
-            <IconItem>
-              <EditIcon onClick={handleEditClick} />
-            </IconItem>
-          </CPopover>
-          <CPopover
-            className="popover_saveUI_hover"
-            content="tag"
-            placement="top"
-            trigger="hover"
-          >
-            <IconItem>
-              <AddTagIcon onClick={handleAddTagClick} />
-            </IconItem>
-          </CPopover>
+          <EditTitleHoverBtn handleEditClick={handleEditClick} />
           {isHoverOpen ? (
-            <CPopover
-              className="popover_saveUI_hover"
-              content="save"
-              placement="top"
-              trigger="hover"
-            >
-              <IconItem>
-                {saved ? (
-                  <BookmarkedIcon onClick={handleSaveClick} />
-                ) : (
-                  <AddBookmarkIcon onClick={handleSaveClick} />
-                )}
-              </IconItem>
-            </CPopover>
+            <TagHoverBtn handleAddTagClick={handleAddTagClick} />
           ) : (
-            <CPopover
-              className="popover_saveUI"
-              // content="enter"
-              content={
-                <DialogBoxSaveBookmark setIsModalOpen={handleModalOpenClick} />
-              }
-              placement="bottom"
-              trigger="click"
-              visible={popoverOpen}
-            >
-              <IconItem>
-                {saved ? (
-                  <BookmarkedIcon onClick={handleSaveClick} />
-                ) : (
-                  <AddBookmarkIcon
-                    onClick={handleSaveClick}
-                    // onMouseEnter={handleHoverOpen}
-                    // onMouseLeave={handleHoverOpen}
-                  />
-                )}
-              </IconItem>
-            </CPopover>
+            <BookmarkClickBtn
+              saved={saved}
+              popoverOpen={popoverOpen}
+              handleSaveClick={handleAddTagClick}
+              setIsModalOpen={handleModalOpenClick}
+            />
+          )}
+          {isHoverOpen ? (
+            <BookmarkHoverBtn saved={saved} handleSaveClick={handleSaveClick} />
+          ) : (
+            <BookmarkClickBtn
+              saved={saved}
+              popoverOpen={popoverOpen}
+              handleSaveClick={handleSaveClick}
+              setIsModalOpen={handleModalOpenClick}
+            />
           )}
         </IconItems>
       )}
