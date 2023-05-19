@@ -86,6 +86,7 @@ public class ConversationService {
 
     public List<Conversation> findConversations(String sort, String query)
     {
+        if(query == null) query = "";
         List<Long> IDs = qnaService.findConversationIDs(query);
 
         if(sort.equals("desc"))
