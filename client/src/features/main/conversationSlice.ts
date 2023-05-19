@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { RootState, AppThunk, CustomThunkAPI } from '../../app/store';
 import {
   Conversation,
   BookmarkType,
@@ -41,6 +41,17 @@ export const deleteBookmarkAsync = createAsyncThunk(
   },
 );
 
+export const createBookmarkAsync = createAsyncThunk(
+  'conversation/createBookmark',
+  async ({ bName }: { bName: string }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.content.conversationId;
+    console.log('cId: ', cId);
+    const res = await saveBookmark({ cId, bName });
+    return res;
+  },
+);
+
 const conversationSlice = createSlice({
   name: 'conversation',
   initialState,
@@ -77,6 +88,8 @@ const conversationSlice = createSlice({
       state.content.title = action.payload;
       state.cTitle = action.payload;
     },
+
+    createBookmark(state, action) {},
   },
 
   extraReducers: (builder) => {

@@ -72,29 +72,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     return;
   };
 
-  // const handleCheckQnAToSave = ({
-  //   id,
-  //   newCheckValue,
-  // }: {
-  //   id: number;
-  //   newCheckValue: boolean;
-  // }) => {
-  //   //turn that id's bookmarkStatus to false
-  //   const QnAToChange = conversation?.qnaList.find((qna) => qna.qnaId === id);
-
-  //   if (QnAToChange) {
-  //     const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
-  //     const updatedQnAList = [
-  //       updatedQnA,
-  //       ...(conversation?.qnaList || []).filter((qna) => qna.qnaId !== id),
-  //     ].sort((a, b) => a.qnaId - b.qnaId);
-
-  //     // console.log('to save: ', updatedQnAList);
-  //     if (conversation)
-  //       setConversation((prev) => ({ ...prev!, qnaList: updatedQnAList }));
-  //   }
-  // };
-
   useEffect(() => {
     loadConv(13);
     // (async function () {
