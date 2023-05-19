@@ -7,11 +7,11 @@ export const HistoryBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 95vw;
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
 `;
 
 // 검색창
 export const SearchBox = styled.input`
+  padding-left: 24px;
   width: 45vw;
   height: 30px;
   color: #d9d9d9;
@@ -50,7 +50,7 @@ export const HistoryBody = styled.div`
 export const TimeLine = styled.div`
   font-size: 15px;
   font-weight: bold;
-  margin: 1%;
+  margin: 5%;
 `;
 // 타임라인 박스
 export const TimeBox = styled.div`
@@ -75,3 +75,10 @@ export const HistoryBody2 = styled.div`
   width: 90vw;
   justify-content: space-around;
 `;
+
+export const DateContainer = styled.div``;
+export const DateButton = styled.div``;
+export const ContentContainer = styled.div``;
+export const ContentWraper = styled.div``;
+export const Content = styled.div``;
+
