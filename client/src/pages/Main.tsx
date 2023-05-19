@@ -16,6 +16,8 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
   selectConversation,
   setConversation,
+  initializeConversation,
+  selectCId,
 } from '../features/main/conversationSlice';
 //import api
 import {
@@ -25,6 +27,7 @@ import {
 } from '../api/ChatInterfaceApi';
 
 //import data
+import { initialState } from '../features/main/conversationSlice';
 import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
@@ -46,12 +49,17 @@ function scrollToLastQ() {
 }
 
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
-  const conversation = useAppSelector(selectConversation);
   const dispatch = useAppDispatch();
+
+  const conversation = useAppSelector(selectConversation);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [qNum, setQNum] = useState<number>(0);
+  const [currentCId, setCurrentCId] = useState<number>(
+    useAppSelector(selectCId),
+  );
+
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
-  const [qNum, setQNum] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateQNum = () => {
     console.log('updating question number!');
@@ -67,6 +75,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         dispatch(setConversation(conversation));
       }
     } else {
+      dispatch(initializeConversation(-1));
       //go back to default, clear the conversation!
     }
     return;
@@ -100,6 +109,10 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     // console.log(conversation);
   }, []);
 
+  // useEffect(() => {
+  //   loadConv(currentCId);
+  // }, [conversation.conversationId]);
+
   useEffect(() => {
     scrollToLastQ();
   }, [conversation.title, conversation.qnaList.length]);
@@ -121,6 +134,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         if (newConversation) {
           console.log('continuing new session!');
           dispatch(setConversation(newConversation));
+          setCurrentCId(newConversation.conversationId);
         }
       })();
     }

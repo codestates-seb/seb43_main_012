@@ -16,7 +16,7 @@ export type ConversationState = {
   status: 'idle' | 'loading' | 'failed';
 };
 
-const initialState: ConversationState = {
+export const initialState: ConversationState = {
   cId: -1,
   cTitle: '',
   content: initialConvData,
@@ -60,6 +60,13 @@ const conversationSlice = createSlice({
   name: 'conversation',
   initialState,
   reducers: {
+    initializeConversation: (state, action: { payload: number }) => {
+      console.log('initializing conversation!');
+      state.content = initialConvData;
+      state.cId = action.payload;
+      (state.cTitle = ''), (state.status = 'idle');
+    },
+
     setConversation: (state, action) => {
       console.log('reducer: set conversation');
       state.content = action.payload;
@@ -155,7 +162,11 @@ export const selectCId = (state: RootState) => state.conversation.cId;
 
 export const selectCTitle = (state: RootState) => state.conversation.cTitle;
 
-export const { setConversation, changeQnASaveStatus, changeTitle } =
-  conversationSlice.actions;
+export const {
+  initializeConversation,
+  setConversation,
+  changeQnASaveStatus,
+  changeTitle,
+} = conversationSlice.actions;
 
 export default conversationSlice.reducer;
