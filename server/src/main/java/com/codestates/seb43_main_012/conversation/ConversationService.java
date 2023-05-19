@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,19 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
-    public Conversation updateConversation(long conversationId)
+    public Conversation updateConversation(long conversationId, ConversationDto.Patch dto)
+    {
+        Optional<Conversation> optional = conversationRepository.findById(conversationId);
+        Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
+
+        Optional.ofNullable(dto.getTitle()).ifPresent(title -> findConversation.setTitle(title));
+        Optional.ofNullable(dto.getPinned()).ifPresent(pinned -> findConversation.setPinned(pinned));
+
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
+        return conversationRepository.save(findConversation);
+    }
+
+    public Conversation updateTimeConversation(long conversationId)
     {
         Optional<Conversation> optional = conversationRepository.findById(conversationId);
         Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
@@ -87,14 +100,39 @@ public class ConversationService {
     public List<Conversation> findConversations(String sort)
     {
        if(sort.equals("desc"))
-            return conversationRepository.findAllByDeleteStatus(false,Sort.by(Sort.Direction.DESC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndSaved(false,false,Sort.by(Sort.Direction.DESC, "modifiedAt"));
         else
-            return conversationRepository.findAllByDeleteStatus(false, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndSaved(false, false,Sort.by(Sort.Direction.ASC, "modifiedAt"));
     }
 
-    public List<Bookmark> findBookmarkedConversations(String bookmarkName)
+    @Transactional
+    public List<Conversation> findBookmarkedConversations(String categoryName)
     {
-        return bookmarkRepository.findAllByBookmarkName(MEMBER_ID,bookmarkName);
+        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByBookmarkName(categoryName);
+        List<Conversation> conversations = new ArrayList<>();
+        conversationRepository.findAll();
+
+        conversationCategories.stream().forEach(conversationCategory -> {
+            if(conversationCategory.getConversation().getMember().getId() == MEMBER_ID)
+                conversations.add(conversationCategory.getConversation());
+        });
+
+        return conversations;
+    }
+
+    @Transactional
+    public List<Conversation> findTaggedConversations(String tagName)
+    {
+        List<ConversationTag> conversationTags = conversationTagRepository.findAllByTagName(tagName);
+        List<Conversation> conversations = new ArrayList<>();
+        conversationRepository.findAll();
+
+        conversationTags.stream().forEach(conversationTag -> {
+            if(conversationTag.getConversation().getMember().getId() == MEMBER_ID)
+                conversations.add(conversationTag.getConversation());
+        });
+
+        return conversations;
     }
 
     @Transactional

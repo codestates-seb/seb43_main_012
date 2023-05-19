@@ -45,6 +45,15 @@ public class ConversationController {
         return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{conversation-id}")
+    public ResponseEntity patchConversation(@PathVariable("conversation-id") long conversationId,
+                                            @RequestBody ConversationDto.Patch dto)
+    {
+        Conversation conversation = conversationService.updateConversation(conversationId, dto);
+
+        return new ResponseEntity<>(conversation, HttpStatus.OK);
+    }
+
     @GetMapping("/{conversation-id}")
     public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
     {
@@ -111,11 +120,19 @@ public class ConversationController {
     }
 
     @GetMapping("/bookmarks/{bookmark-name}")
-    public ResponseEntity bookmarkConversation(@PathVariable("bookmark-name") String bookmarkName)
+    public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName)
     {
-        List<Bookmark> bookmarks = conversationService.findBookmarkedConversations(bookmarkName);
+        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName);
+        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+        return new ResponseEntity<>(responses,HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(bookmarks,HttpStatus.OK);
+    @GetMapping("/tags/{tag-name}")
+    public ResponseEntity getTaggedConversation(@PathVariable("tag-name") String tagName)
+    {
+        List<Conversation> conversations = conversationService.findTaggedConversations(tagName);
+        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+        return new ResponseEntity<>(responses,HttpStatus.OK);
     }
 
     @DeleteMapping("/{conversation-id}")

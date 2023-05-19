@@ -11,4 +11,6 @@ public interface ConversationCategoryRepository extends JpaRepository<Conversati
     List<ConversationCategory> findAllByConversationConversationId(long conversationId);
 
     Optional<ConversationCategory> findByConversationConversationIdAndBookmarkName(long conversationId, String bookmarkName);
+
+    List<ConversationCategory> findAllByBookmarkName(String categoryName);
 }

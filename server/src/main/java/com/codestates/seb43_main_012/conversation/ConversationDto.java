@@ -21,6 +21,16 @@ public class ConversationDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
+    @Setter
+    public static class Patch
+    {
+        private String title;
+        private Boolean pinned;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
     public static class Response
     {
         @Setter
