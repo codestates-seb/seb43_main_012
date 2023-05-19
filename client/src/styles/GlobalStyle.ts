@@ -17,8 +17,11 @@ const GlobalStyle = createGlobalStyle`
     --b10: #fafafc;
     --b0: #fff;
 
+    --color-error: #913535;
+    --color-offblack: #191919;
     --color-default-bg: #FFFFFF;
     --color-default-green: #77AD69;
+    --color-default-darkgreen: #4E973C;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #E7CC8F;
     --color-default-yellow-50: rgba(231, 204, 143, 0.5);
@@ -26,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
     --color-default-gray: #757575;
+    // --color-default-staticgray:
     --color-default-inactive: #D9D9D9;
     --color-default-border: #C9C9C9;
     --color-default-disabled: #999;
@@ -48,10 +52,12 @@ const GlobalStyle = createGlobalStyle`
 
     --text-fontsize-link: 20px;
     --text-fontsize-title: 24px;
+    --text-fontsize-info: 14px;
     --text-fontsize-logo: 25px;
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
     --text-fontsize-qinput: 18px;
+    --text-fontweight-regular: 400;
     --text-fontweight-medium: 500;
 
     --padding-top-topnavbox: 14px;

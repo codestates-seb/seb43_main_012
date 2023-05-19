@@ -1,3 +1,9 @@
+export type ContentType = {
+  conversations: Conversation[];
+  tags: TagType[];
+  bookmarks: BookmarkType[];
+};
+
 export type Post = {
   id: number;
   title: string;

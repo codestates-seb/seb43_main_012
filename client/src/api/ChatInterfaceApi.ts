@@ -7,24 +7,13 @@ export async function getAllConversations() {
   try {
     const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
     //   console.log(response);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
-
-// export async function getAllConversations() {
-//   axiosDefault
-//     .get<any>(`${BASE_URL}/conversations`)
-//     .then((res) => {
-//       console.log(res);
-//       // res.data;
-//       console.log(res.data);
-//     })
-//     .catch((err) => console.log(err));
-// }
 
 export async function askFirstQuestion(question: string) {
   try {
@@ -84,7 +73,7 @@ export async function continueConversation(id: number, question: string) {
 export async function getConversation(id: number): Promise<Conversation> {
   try {
     const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -109,10 +98,10 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
     throw error;
   }
 }
-
-export async function deleteConv() {
+//conversationId
+export async function deleteConveration() {
   axiosDefault
-    .delete<any>(`${BASE_URL}/conversations/5`)
+    .delete<any>(`${BASE_URL}/conversations/`)
     .then((res) => {
       console.log(res);
       console.log(res.data);
@@ -120,46 +109,70 @@ export async function deleteConv() {
     .catch((err) => console.log(err));
 }
 
-export async function saveCheckedQnA() {}
+export async function saveQnA() {}
 
-export async function deleteUncheckedQnA() {}
+export async function unsaveQnA() {}
 
 export async function saveBookmark({
   cId,
-  bookmarks,
+  bName,
 }: {
   cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .post(`${BASE_URL}/conversations/${cId}/bookmarks`, {
-      bookmarks,
-    })
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
+  bName: string;
+}): Promise<string> {
+  try {
+    console.log('sending bookmark create request');
+    const response = await axiosDefault.post(
+      `${BASE_URL}/conversations/${cId}/bookmarks`,
+      {
+        bookmarkName: bName,
+      },
+    );
+    console.log('success in creating bookmark!', response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
-export async function editBookmark({
+// export async function saveBookmark({
+//   cId,
+//   bookmarks,
+// }: {
+//   cId: number;
+//   bookmarks: string[];
+// }) {
+//   axiosDefault
+//     .post(`${BASE_URL}/conversations/${cId}/bookmarks`, {
+//       bookmarks,
+//     })
+//     .then((res) => {
+//       // console.log(res);
+//       console.log(res.data);
+//     })
+//     .catch((err) => console.log(err));
+// }
+
+export async function deleteBookmark({
   cId,
-  bookmarks,
+  bId,
 }: {
   cId: number;
-  bookmarks: string[];
-}) {
-  axiosDefault
-    .patch(`${BASE_URL}/conversations/${cId}/bookmarks`, {
-      bookmarks,
-    })
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
+  bId: number;
+}): Promise<string> {
+  try {
+    const response = await axiosDefault.delete(
+      `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
+    );
+    console.log(response.data);
+    return response.data;
+    // Handle any further operations with the response if needed
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
-
 // 참조
 // import fetch from 'node-fetch';
 
