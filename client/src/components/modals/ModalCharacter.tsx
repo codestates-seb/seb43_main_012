@@ -74,8 +74,8 @@ function ModalCharacter({
                   <img src={selectedCharacter} alt="" />
                 )}
               </MainCharacter>
-              <section>
-                <div>
+              <section className='charactersection'>
+                <div className='characterdiv'>
                   <Character
                     onClick={() => selectCharacterHandler('/character1.png')}
                     className={
@@ -101,7 +101,7 @@ function ModalCharacter({
                     <img src="/character3.png" alt="Character C" />
                   </Character>
                 </div>
-                <div>
+                <div className='characterdiv'>
                   <Character
                     onClick={() => selectCharacterHandler('/character4.png')}
                     className={

@@ -150,7 +150,6 @@ body {
     // margin-top: 30px;
     font-family: 'Scandia', sans-serif;
     padding-top: var(--size-minheight-topnav);
-    overflow: hidden;
 }
 
 a:link { text-decoration: none; color: inherit;}

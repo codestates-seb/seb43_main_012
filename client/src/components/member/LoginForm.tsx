@@ -49,6 +49,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
           setValue={setPassword}
           type="password"
           setErrors={setErrors}
+          placehorder = "영어+숫자+특수문자 8글자"
         />
         {errors.length !== 0 ? (
           <ErrorMessage>

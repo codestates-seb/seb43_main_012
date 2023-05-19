@@ -13,7 +13,7 @@ export const ModalBackdrop = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  background: rgba(256, 256, 256, 0.8);
+  background: rgba(256, 256, 256, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,11 +30,11 @@ export const ModalView = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -35%);
+  transform: translate(-50%, -45%);
   background-color: #fafafa;
   width: 90%;
   max-width: 795px;
-  height: 70%;
+  height: 85%;
   margin-bottom: 5%;
   color: black;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
@@ -51,7 +51,7 @@ export const ModalView = styled.div`
   .button-container {
     display: flex;
     justify-content: center;
-    height: 40px;
+    height: 60px;
   }
   .selectbutton {
     font-size: 20px;
@@ -61,10 +61,9 @@ export const ModalView = styled.div`
     border: none;
     text-decoration-line: underline;
     text-decoration-color: #c9ad6e;
-    height: 40px;
     border-radius: 5px;
     :hover {
-      color: #c9ad6e;
+      color: #fff;
     }
   }
   .Selectbutton {
@@ -93,37 +92,46 @@ export const ModalView = styled.div`
 `;
 
 // 캐릭터 고르는 박스
+//section은 박스 중 위 아래 나눠진 부분 위에 3개 묶음, 아래 3개 묶음
 export const CharacterBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
-  min-height: 72px;
-  div {
+  margin-top: 0px;
+  width: 1000px;
+  .characterdiv{
     display: flex;
     flex-direction: row;
+    width: 100px;
     justify-content: center;
     align-items: center;
   }
+  .charactersection{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+  }
 `;
 
+// 각 개별 캐릭터
 export const Character = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   align-items: center;
   max-width: 72px;
   max-height: 72px;
   text-align: center;
-  padding: 2.5rem;
+  padding: 40px;
   font-weight: bold;
   font-size: 2rem;
   color: #fff;
   background-color: var(--color-default-green);
   border: none;
   border-radius: 50px;
-  margin: 2vh;
+  margin-right: 20px;
   box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.2);
   transition: padding 0.2s ease-in-out;
 

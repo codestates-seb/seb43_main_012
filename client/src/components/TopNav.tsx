@@ -112,13 +112,12 @@ const TopNav = ({
   const [avatarLink, setAvatarLink] = useState<string>('');
   const [username, setUsername] = useState<string>('');
 
-  let Id: any = 0
+  let Id: any = 0;
   if (localStorage.getItem("memberId")) {
-    Id = localStorage.getItem("memberId")
+    Id = localStorage.getItem("memberId");
   } else {
-    Id= 0
+    Id = 0;
   }
-  
   
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -130,9 +129,10 @@ const TopNav = ({
         console.error(error);
       }
     };
-
+  
     fetchUserInfo();
-  }, []);
+  }, );
+  
 
 
   return (
