@@ -11,9 +11,14 @@ import Loading from '../components/chatinterface/Loading';
 //import files
 import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 
-//import data
-import { Conversation, initialConvData } from '../data/dataTypes';
-
+//import redux
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import {
+  selectConversation,
+  setConversation,
+  initializeConversation,
+  selectCId,
+} from '../features/main/conversationSlice';
 //import api
 import {
   getConversation,
@@ -21,12 +26,9 @@ import {
   getAllConversations,
 } from '../api/ChatInterfaceApi';
 
-// const TempBackdrop = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   z-index: 1;
-// `;
+//import data
+import { initialState } from '../features/main/conversationSlice';
+import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
   isOpen: boolean;
@@ -47,58 +49,55 @@ function scrollToLastQ() {
 }
 
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
-  //set initial State of conversation; -> store
-  const [conversation, setConversation] =
-    useState<Conversation>(initialConvData);
+  const dispatch = useAppDispatch();
+
+  const conversation = useAppSelector(selectConversation);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [qNum, setQNum] = useState<number>(0);
+  const [currentCId, setCurrentCId] = useState<number>(
+    useAppSelector(selectCId),
+  );
+
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
-  const [qNum, setQNum] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateQNum = () => {
     console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
-  const handleCheckQnAToSave = ({
-    id,
-    newCheckValue,
-  }: {
-    id: number;
-    newCheckValue: boolean;
-  }) => {
-    //turn that id's bookmarkStatus to false
-    const QnAToChange = conversation?.qnaList.find((qna) => qna.qnaId === id);
 
-    if (QnAToChange) {
-      const updatedQnA = { ...QnAToChange, bookmarkStatus: newCheckValue };
-      const updatedQnAList = [
-        updatedQnA,
-        ...(conversation?.qnaList || []).filter((qna) => qna.qnaId !== id),
-      ].sort((a, b) => a.qnaId - b.qnaId);
-
-      // console.log('to save: ', updatedQnAList);
-      if (conversation)
-        setConversation((prev) => ({ ...prev!, qnaList: updatedQnAList }));
+  const loadConv = async (cId: number) => {
+    if (cId !== -1) {
+      const conversation = await getConversation(cId);
+      if (conversation) {
+        console.log('started new session!');
+        console.log('response: ', conversation);
+        dispatch(setConversation(conversation));
+      }
+    } else {
+      dispatch(initializeConversation(-1));
+      //go back to default, clear the conversation!
     }
+    return;
   };
 
   useEffect(() => {
+    loadConv(13);
     // (async function () {
-    //   const conversation = await getConversation(5);
+    //   const conversation = await getConversation(13);
     //   if (conversation) {
     //     console.log('started new session!');
     //     console.log('response: ', conversation);
-    //     setConversation(conversation);
+    //     dispatch(setConversation(conversation));
     //   }
     // })();
-    (async function () {
-      const conversations = await getAllConversations();
-      if (conversations) {
-        console.log('fetched data!');
-        console.log(conversations);
-        // setConversation(conversation);
-      }
-    })();
+    // (async function () {
+    //   const conversations = await getAllConversations();
+    //   if (conversations) {
+    //     console.log('fetched data!');
+    //     console.log(conversations);
+    //   }
+    // })();
     // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
@@ -110,6 +109,10 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     // console.log(conversation);
   }, []);
 
+  // useEffect(() => {
+  //   loadConv(currentCId);
+  // }, [conversation.conversationId]);
+
   useEffect(() => {
     scrollToLastQ();
   }, [conversation.title, conversation.qnaList.length]);
@@ -119,6 +122,10 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   }, [isLoading]);
 
   useEffect(() => {
+    console.log('store conversation UPDATED');
+  }, [conversation]);
+
+  useEffect(() => {
     if (conversation.title) {
       (async function () {
         const newConversation = await getConversation(
@@ -126,43 +133,26 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         );
         if (newConversation) {
           console.log('continuing new session!');
-          setConversation(newConversation);
+          dispatch(setConversation(newConversation));
+          setCurrentCId(newConversation.conversationId);
         }
       })();
     }
-    // (async function () {
-    //   const conversation = await getConversation(9);
-    //   if (conversation) {
-    //     console.log('fetched conversation data!');
-    //     setConversation(conversation);
-    //   }
-    // })();
-    // if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
   return (
     <MainBox isOpen={isOpen}>
       <M.MainBackdrop />
       <M.FixedTopBox>
-        <ChatInput
-          cValue={conversation}
-          setCValue={setConversation}
-          setIsLoading={setIsLoading}
-          updateQNum={updateQNum}
-        />
+        <ChatInput setIsLoading={setIsLoading} updateQNum={updateQNum} />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
-              cValue={conversation}
-              setCValue={setConversation}
               editState={editTitleState}
               setEditState={setEditTitleState}
               editConfirm={editConfirm}
             />
             <EditSaveUI
-              cId={conversation.conversationId}
-              saved={conversation.saved}
-              bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
               setEditConfirm={setEditConfirm}
@@ -171,11 +161,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         )}
       </M.FixedTopBox>
       {conversation.title ? (
-        <QnAList
-          isLoading={isLoading}
-          qnaItems={conversation?.qnaList}
-          handleCheck={handleCheckQnAToSave}
-        />
+        <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
       ) : (
         <M.LoadingBox>
           <Loading loadingGif={loadingGif} />

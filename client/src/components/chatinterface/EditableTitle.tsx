@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 //import data types
-import { Conversation } from '../../data/dataTypes';
+import { Conversation } from '../../data/d';
 
 //import components
 import { useInput } from '../../utils/hooks/useInput';
@@ -21,6 +21,15 @@ import { InputCount } from '../../styles/InputStyle';
 //import api
 import { editTitle } from '../../api/ChatInterfaceApi';
 
+//import reducers
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import {
+  changeTitle,
+  selectCId,
+  selectCTitle,
+  selectConversation,
+} from '../../features/main/conversationSlice';
+
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,43 +42,47 @@ const InputCount2 = styled(InputCount)`
 `;
 
 type Props = {
-  cValue: Conversation;
-  setCValue: Dispatch<SetStateAction<Conversation>>;
+  // cValue: Conversation;
+  // setCValue: Dispatch<SetStateAction<Conversation>>;
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
   editConfirm: boolean;
 };
 const EditableTitle = ({
-  cValue,
-  setCValue,
+  // cValue,
+  // setCValue,
   editState,
   setEditState,
   editConfirm,
 }: Props) => {
-  const [value, setValue] = useState<string>(cValue.title);
+  const cTitle = useAppSelector(selectCTitle);
+  const cId = useAppSelector(selectCId);
+  const [value, setValue] = useState<string>(cTitle);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (value !== cValue.title) setValue(cValue.title);
-  }, [cValue, editState]);
+    if (value !== cTitle) setValue(cTitle);
+  }, [cTitle, editState]);
 
   useEffect(() => {
     console.log('edit state changed');
 
-    if (editConfirm && value) {
+    if (editConfirm) {
       //update the conversation
-      if (value !== cValue.title) {
+      if (value !== cTitle) {
         (async function () {
           const res = await editTitle({
-            id: cValue.conversationId,
+            id: cId,
             title: value,
           });
           if (res) {
             console.log('edit title success!');
-            setCValue((prev) => ({ ...prev, title: value }));
+            dispatch(changeTitle(value));
+            // setCValue((prev) => ({ ...prev, title: value }));
           }
         })();
         // editTitle({ id: cValue.conversationId, title: value });
-      } else setValue(cValue.title);
+      }
       //add dispatch function to update conversation title in data!
     }
   }, [editState]);
@@ -80,18 +93,18 @@ const EditableTitle = ({
     //only send if the input value has something
     if (value) {
       //add dispatch function to update conversation title in data!
-
       (async function () {
         const res = await editTitle({
-          id: cValue.conversationId,
+          id: cId,
           title: value,
         });
         if (res) {
           console.log('edit title success!');
-          setCValue((prev) => ({ ...prev, title: value }));
+          dispatch(changeTitle(value));
+          // setCValue((prev) => ({ ...prev, title: value }));
         }
       })();
-    } else setValue(cValue.title);
+    } else dispatch(changeTitle(value));
     setEditState(false);
   };
 
@@ -121,11 +134,7 @@ const EditableTitle = ({
           </InputCount2>
         </TitleBox>
       ) : (
-        <h1>
-          {cValue.title.length > 70
-            ? `${cValue.title.slice(70)}...`
-            : cValue.title}
-        </h1>
+        <h1>{cTitle.length > 70 ? `${cTitle.slice(70)}...` : cTitle}</h1>
       )}
     </>
   );

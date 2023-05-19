@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { QnAType } from '../../data/dataTypes';
+import { QnAType } from '../../data/d';
 import Checkbox from './Checkbox';
 import {
   QnAItemBox,
@@ -10,19 +10,25 @@ import {
   Center,
 } from '../../styles/MainStyle';
 
+import { useAppDispatch } from '../../app/hooks';
+import { changeQnASaveStatus } from '../../features/main/conversationSlice';
+
 type qnaProps = {
   qnaItem: QnAType;
-  handleCheck: ({
-    id,
-    newCheckValue,
-  }: {
-    id: number;
-    newCheckValue: boolean;
-  }) => void;
 };
-const QnA = ({ qnaItem, handleCheck }: qnaProps) => {
+
+type CheckProps = {
+  id: number;
+  newCheckValue: boolean;
+};
+const QnA = ({ qnaItem }: qnaProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const handleCheck = ({ id, newCheckValue }: CheckProps) => {
+    dispatch(changeQnASaveStatus({ id: qnaItem.qnaId, newCheckValue }));
+  };
   return (
     <QnAItemBox>
       <QnAItem>
