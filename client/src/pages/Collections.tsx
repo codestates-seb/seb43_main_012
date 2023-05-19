@@ -8,12 +8,7 @@ import {
 } from '../features/collection/collectionSlice';
 import { RootState } from '../app/store';
 import styled from 'styled-components';
-import {
-  BookmarkType,
-  Conversation,
-  QnAType,
-  TagType,
-} from '../data/dataTypes';
+import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
 import ModalContent from '../components/modals/ModalContent';

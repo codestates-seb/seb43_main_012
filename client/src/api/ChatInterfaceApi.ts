@@ -1,13 +1,11 @@
 import { axiosDefault } from '../utils/axiosConfig';
-import { Conversation } from '../data/dataTypes';
+import { Conversation } from '../data/d';
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 export async function getAllConversations() {
   try {
     const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
-    //   console.log(response);
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -73,7 +71,6 @@ export async function continueConversation(id: number, question: string) {
 export async function getConversation(id: number): Promise<Conversation> {
   try {
     const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
-    // console.log(res.data);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -129,7 +126,7 @@ export async function saveBookmark({
       },
     );
     console.log('success in creating bookmark!', response.data);
-    return response.data;
+    return response.data.message;
   } catch (error) {
     console.log(error);
     throw error;
@@ -160,30 +157,16 @@ export async function deleteBookmark({
 }: {
   cId: number;
   bId: number;
-}): Promise<string> {
+}) {
   try {
-    const response = await axiosDefault.delete(
+    await axiosDefault.delete(
       `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
     );
-    console.log(response.data);
-    return response.data;
+    // console.log(response.data);
+    // return response.data.message;
     // Handle any further operations with the response if needed
   } catch (error) {
     console.log(error);
     throw error;
   }
 }
-// 참조
-// import fetch from 'node-fetch';
-
-// export async function getFlight(filterBy = {}) {
-//   let queryResult = '';
-//   if (filterBy.departure.length) queryResult +=  `?departure=${filterBy.departure}`;
-//   if (filterBy.destination.length) queryResult += queryResult.length ? `&destination=${filterBy.destination}`: `?destination=${filterBy.destination}`;
-
-//   const filtered = await fetch(`http://ec2-13-124-90-231.ap-northeast-2.compute.amazonaws.com:81/flight${queryResult}`,
-//     {method: 'GET'})
-//     .then(resp => resp.json())
-//     .then(json=> json)
-//   return filtered;
-// }
