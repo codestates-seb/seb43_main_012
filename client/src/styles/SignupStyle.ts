@@ -31,11 +31,12 @@ export const SignupBox = styled.div`
 //OAuth 
 export const ButtonBox = styled.div`
   margin-bottom: 1.5%;
-  width: 259px;
+  width: 200px;
   height: 37px;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   background-color: #fff;
+  margin-top: 5px;
   display: flex;
   justify-content: center;
   align-items: center;

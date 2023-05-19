@@ -93,7 +93,15 @@ const TopNav = ({
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   const navigate = useNavigate();
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+  let isLoggedIn = false;
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    isLoggedIn = true;
+  } else {
+    isLoggedIn = false;
+  }
+  // const isLoggedIn = true;
+
   useEffect(() => {
     if (location.pathname === '/') {
       const element = document.getElementById(
@@ -107,21 +115,32 @@ const TopNav = ({
     }
   }, [location]);
 
-  //캐릭터 정보 겟~!
-  const [Character, setCharacter] = useState<string>('');
-  const Id = localStorage.getItem('memberId');
+  const [avatarLink, setAvatarLink] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+
+  let Id: any = 0
+  if (localStorage.getItem("memberId")) {
+    Id = localStorage.getItem("memberId")
+  } else {
+    Id= 0
+  }
+  
+  
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
-        setCharacter(userData.avatarLink);
+        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+        setUsername(userData.username); // username 값 설정
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchUserInfo();
-  }, [Id]);
+  }, []);
+
 
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));
@@ -190,7 +209,11 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            <img src={Character} alt="AvatarIcon A" />
+            {avatarLink === username?(
+              username[0]
+            ):
+            <img src={avatarLink} alt="AvatarIcon A" />
+          }
           </AvatarIcon>
         ) : (
           <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
