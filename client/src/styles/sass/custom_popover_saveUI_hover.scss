@@ -1,0 +1,86 @@
+@import "../node_modules/@coreui/coreui/scss/functions";
+@import "../node_modules/@coreui/coreui/scss/variables";
+
+@import "../node_modules/@coreui/coreui/scss/maps";
+@import "../node_modules/@coreui/coreui/scss/mixins";
+@import "../node_modules/@coreui/coreui/scss/root";
+@import "../../../node_modules/@coreui/coreui/scss/popover";
+
+.popover_saveUI_hover{
+    --#{$prefix}popover-bg: black !important;
+    --#{$prefix}popover-border-color: black !important;
+    --#{$prefix}popover-arrow-border: black !important;
+
+    --#{$prefix}popover-body-color: white !important;
+    --#{$prefix}popover-body-padding-x: 0.5rem !important;
+    --#{$prefix}popover-body-padding-y: 0.3rem !important;
+    // --#{$prefix}popover-header-padding-y: 3rem;
+    --#{$prefix}popover-border-radius: 0.3rem !important;
+    --#{$prefix}popover-arrow-height: 0.5rem!important;
+    border: none !important;
+
+
+    border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color);
+
+    & .popover-arrow{
+        top: calc( (var(--cui-popover-arrow-height)) + 1.2rem) !important;
+    }
+
+    & .bs-popover-top {
+        > .popover-arrow {
+            bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height)) - var(--#{$prefix}popover-border-width)); // stylelint-disable-line function-disallowed-list
+
+            &::before,
+            &::after {
+              border-width: var(--#{$prefix}popover-arrow-height) calc(var(--#{$prefix}popover-arrow-width) * .5) 0; // stylelint-disable-line function-disallowed-list
+            }
+
+            &::before {
+              bottom: 0;
+              border-top-color: var(--#{$prefix}popover-arrow-border);
+            }
+
+            &::after {
+              bottom: var(--#{$prefix}popover-border-width);
+              border-top-color: var(--#{$prefix}popover-bg);
+            }
+          }
+
+        // > .popover-arrow {
+        //     bottom: calc(-1 * (var(--#{$prefix}popover-arrow-height))) !important;
+        // }
+
+        // &::before {
+        //     bottom: 0;
+        //     border-top-color: transparent;
+        //   }
+
+        //   &::after {
+        //     bottom: var(--#{$prefix}popover-border-width);
+        //     border-top-color: transparent;
+        //   }
+    }
+
+    & .bs-popover-bottom > .popover-arrow{
+        // top: calc(-1 * (var(--cui-popover-arrow-height))) !important;
+
+        // &::before {
+        //     top: 0;
+        //     border-bottom-color: transparent;
+        //   }
+
+        //   &::after {
+        //     top: var(--#{$prefix}popover-border-width);
+        //     border-bottom-color: transparent;
+        //   }
+    }
+
+}
+
+
+
+// .popover-arrow::after{
+//     top:
+// }
+
+
