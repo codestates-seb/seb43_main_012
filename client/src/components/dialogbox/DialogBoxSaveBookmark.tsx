@@ -45,7 +45,7 @@ const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
           (b) => b.bookmarkId === id,
         )?.bookmarkName;
         if (newBookmarkName) {
-          await dispatch(addBookmarkAsync({ bName: newBookmarkName }));
+          await dispatch(addBookmarkAsync({ bId: id, bName: newBookmarkName }));
         }
       } else {
         await dispatch(deleteBookmarkAsync({ bId: id }));

@@ -26,7 +26,7 @@ const initialState: ConversationState = {
 // Create an async thunk for adding a bookmark
 export const addBookmarkAsync = createAsyncThunk(
   'conversation/addBookmark',
-  async ({ bName }: { bName: string }, thunkApi) => {
+  async ({ bId, bName }: { bId: number; bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.content.conversationId;
     const res = await saveBookmark({ cId, bName });
@@ -93,7 +93,7 @@ const conversationSlice = createSlice({
       state.cTitle = action.payload;
     },
 
-    createBookmark(state, action) {},
+    updateBookmarks: (state, action) => {},
   },
 
   extraReducers: (builder) => {
