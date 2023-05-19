@@ -83,9 +83,13 @@ const EditSaveUI = ({
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
   // const bookmarks = useAppSelector(selectCBookmarks);
   const cId = useAppSelector(selectCId);
-  const saved = useAppSelector(selectConversation).saved;
+  const conv = useAppSelector(selectConversation);
+  const saved = conv.saved;
   // const bookmarks = useAppSelector(selectConversation).bookmarks;
 
+  useEffect(() => {
+    console.log('saved status changed: ', saved);
+  }, [conv]);
   const handleModalOpenClick = (isOpen: boolean) => {
     setIsModalOpen(isOpen);
     setPopoverOpen(false);
