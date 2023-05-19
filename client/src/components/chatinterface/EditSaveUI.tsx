@@ -10,7 +10,10 @@ import '../../styles/sass/custom_popover_saveUI_hover.scss';
 import ModalCreateBookmark from '../modals/ModalCreateBookmark';
 
 //import data types
-import { BookmarkType } from '../../data/dataTypes';
+import { BookmarkType } from '../../data/d';
+
+//import redux
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 //import icons
 // @ts-ignore
@@ -25,10 +28,11 @@ import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAd
 import { ReactComponent as ConfirmIcon } from '../../assets/icons/main_qna/iconCheck.svg';
 // @ts-ignore
 import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
+import {
+  selectCId,
+  selectConversation,
+} from '../../features/main/conversationSlice';
 type Props = {
-  cId: number;
-  saved: boolean;
-  bookmarks: BookmarkType[];
   editState: boolean;
   setEditState: Dispatch<SetStateAction<boolean>>;
   setEditConfirm: Dispatch<SetStateAction<boolean>>;
@@ -66,28 +70,21 @@ const IconItem = styled.li`
   }
 `;
 
-const EditSaveUI = ({
-  cId,
-  saved,
-  bookmarks,
-  editState,
-  setEditState,
-  setEditConfirm,
-}: Props) => {
+const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isHoverOpen, setIsHoverOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+  const conv = useAppSelector(selectConversation);
+  const saved = conv.saved;
 
+  useEffect(() => {
+    console.log('saved status changed: ', saved);
+  }, [conv]);
   const handleModalOpenClick = (isOpen: boolean) => {
     setIsModalOpen(isOpen);
     setPopoverOpen(false);
     setIsHoverOpen(true);
   };
-  // useEffect(() => {}, []);
-  // useEffect(() => {
-  //   console.log('popover visibility');
-  //   setPopoverOpen(false);
-  // }, [isModalOpen]);
 
   const handleEditClick = () => {
     setEditState(!editState);
@@ -113,12 +110,12 @@ const EditSaveUI = ({
     setEditState(!editState);
   };
 
+  //to focus on title input when the edit status changes
   useEffect(() => {
     if (editState) {
       console.log('entered edit state!');
       const element = document.getElementById('titleInput') as HTMLInputElement;
       if (element) {
-        // console.log('found title element');
         element.selectionStart = element.value.length;
         element.selectionEnd = element.value.length;
         element.focus();
@@ -179,11 +176,7 @@ const EditSaveUI = ({
               className="popover_saveUI"
               // content="enter"
               content={
-                <DialogBoxSaveBookmark
-                  bookmarks={bookmarks}
-                  cId={cId}
-                  setIsModalOpen={handleModalOpenClick}
-                />
+                <DialogBoxSaveBookmark setIsModalOpen={handleModalOpenClick} />
               }
               placement="bottom"
               trigger="click"
@@ -205,7 +198,6 @@ const EditSaveUI = ({
         </IconItems>
       )}
       <ModalCreateBookmark
-        cId={cId}
         visible={isModalOpen}
         setVisible={handleModalOpenClick}
       />

@@ -23,6 +23,10 @@ import { ReactComponent as CollectionIcon } from '../assets/icons/topnav/iconCol
 // @ts-ignore
 import { ReactComponent as AnonymousIcon } from '../assets/icons/topnav/iconNonMember.svg';
 
+//import redux
+import { useAppDispatch } from '../app/hooks';
+import { initializeConversation } from '../features/main/conversationSlice';
+
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
   box-shadow: none;
@@ -58,6 +62,7 @@ type TopNavProps = {
     React.SetStateAction<{ x: number; y: number }>
   >;
   setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // setCurrentCId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const TopNav = ({
@@ -66,12 +71,12 @@ const TopNav = ({
   setIsModalLoginOpen,
   setDialogPosition,
 }: TopNavProps) => {
+  const dispatch = useAppDispatch();
   const handleUserBtnClick = (
     e:
       | React.MouseEvent<SVGSVGElement, MouseEvent>
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
-    
     e.preventDefault();
     // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
@@ -88,7 +93,7 @@ const TopNav = ({
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   const navigate = useNavigate();
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem("isLoggedIn")
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
   useEffect(() => {
     if (location.pathname === '/') {
       const element = document.getElementById(
@@ -102,8 +107,8 @@ const TopNav = ({
     }
   }, [location]);
 
-  //캐릭터 정보 겟~! 
-  const [Character, setCharacter] = useState<string>("");
+  //캐릭터 정보 겟~!
+  const [Character, setCharacter] = useState<string>('');
   const Id = localStorage.getItem('memberId');
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -117,6 +122,10 @@ const TopNav = ({
 
     fetchUserInfo();
   }, [Id]);
+
+  const handleChatBtnClick = () => {
+    dispatch(initializeConversation(-1));
+  };
 
   return (
     <TN.TopNavBox>
@@ -135,7 +144,7 @@ const TopNav = ({
               <div>
                 <HistoryIcon
                   className="svg"
-                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
                 />
               </div>
             </CPopover>
@@ -152,7 +161,8 @@ const TopNav = ({
               <div>
                 <ChatIcon
                   className="svg center"
-                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  onClick={handleChatBtnClick}
+                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
                 />
               </div>
             </CPopover>
@@ -170,7 +180,7 @@ const TopNav = ({
               <div>
                 <CollectionIcon
                   className="svg"
-                  onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
                 />
               </div>
             </CPopover>
