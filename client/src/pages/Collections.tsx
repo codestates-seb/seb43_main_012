@@ -1,15 +1,24 @@
-import styled from "styled-components";
-import { useState } from "react";
-import data from "../data/data.json";
-// @ts-ignore
-import { ReactComponent as BookmarkSolid } from "../assets/icons/bookmark-solid.svg";
-// @ts-ignore
-import { ReactComponent as ThumbtackSolid } from "../assets/icons/thumbtack-solid.svg";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setContent,
+  setSelectedBookmark,
+  setSelectedTag,
+} from '../features/collection/collectionSlice';
+import { RootState } from '../app/store';
+import styled from 'styled-components';
+import {
+  BookmarkType,
+  Conversation,
+  QnAType,
+  TagType,
+} from '../data/dataTypes';
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
+import ModalContent from '../components/modals/ModalContent';
 
 const Main = styled.main`
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* background-color: #f0f0f0; */
   max-width: 1080px;
   padding: 0 40px 0 40px;
 `;
@@ -22,23 +31,37 @@ const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  /* text-align: center; */
-  /* background-color: orange; */
   padding: 5px;
 `;
 
 const Content = styled.a`
-  flex-basis: 30%;
-  /* width: 17rem; */
-  /* background-color: #f0f0f0; */
+  flex-basis: 16rem;
   padding: 5px;
   border: solid;
   border-color: #c9ad6e;
   border-radius: 10px;
   margin: 0 1% 1% 0;
   p {
+    max-height: 7rem;
     text-align: left;
     word-break: break-all;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .title {
+    /* word-break: break-all; */
+  }
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    position: relative;
+    top: -5px;
   }
   .bookmark {
     color: #c9ad6e;
@@ -51,7 +74,6 @@ const Content = styled.a`
 const FixedContent = styled(Content)`
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-start; */
   align-items: flex-start;
 `;
 
@@ -61,38 +83,29 @@ const FixedContentContainer = styled.div`
   background-color: #faf7f1;
 `;
 
-// const FixedPin = styled.a`
-//   justify-content: center;
-//   align-items: center;
-//   padding: 5px;
-//   margin: 5px;
-//   background-color: #f0f0f0;
-//   border: solid;
-// `;
-
 const BookmarkContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 10.5rem;
-  /* background-color: blue; */
 `;
+
 const Bookmark = styled.button`
-  /* background-color: #f0f0f0; */
   padding: 5px;
 `;
+
 const BookmarkAdd = styled.button`
   flex-basis: 10rem;
-  /* background-color: #f0f0f0; */
   margin: 5px;
 `;
+
 const TagContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 10.5rem;
-  /* background-color: green; */
   margin: 10px 0 0 0;
 `;
+
 const Tag = styled.a`
   background-color: #f0f0f0;
   border-radius: 20px;
@@ -108,24 +121,15 @@ const BookmarkTagContent = styled.div`
 const SvgButton = styled.button`
   width: 20px;
   border: none;
+  margin: 20% 5% 0 5%;
   background-color: transparent;
-
   cursor: pointer;
 `;
 
 const BookmarkButton = () => {
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
-
   return (
     <SvgButton>
-      <BookmarkSolid
-        onClick={handleClick}
-        style={{ fill: clicked ? "blue" : "black" }}
-      />
+      <BookmarkSolid />
     </SvgButton>
   );
 };
@@ -138,34 +142,88 @@ const PinButton = () => {
   );
 };
 
+type Content = {
+  conversations: Conversation[];
+  tags: TagType[];
+  bookmarks: BookmarkType[];
+};
+
 const Collections = () => {
-  //data를 받아서 map으로 돌리기
-  const [content, setContent] = useState(data);
-  const [selectedBookmark, setSelectedBookmark] = useState("");
+  const dispatch = useDispatch();
+
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
+
+  const { content, selectedBookmark, selectedTag } = useSelector(
+    (state: RootState) => state.collection,
+  );
+  useEffect(() => {
+    axios
+      .get(
+        'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
+      )
+      .then((response) => {
+        dispatch(setContent(response.data));
+      });
+  }, [dispatch]);
+
+  const handleBookmarkClick = (bookmark: string) => {
+    dispatch(setSelectedBookmark(bookmark));
+  };
+
+  const handleTagClick = (tag: string) => {
+    dispatch(setSelectedTag(tag));
+  };
+
+  const handleContentUpdate = (newContent: any) => {
+    dispatch(setContent(newContent));
+  };
+
+  const handleContentClick = (conversation: Conversation) => {
+    axios
+      .get(
+        `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
+      )
+      .then((response) => {
+        setSelectedConversation(response.data);
+      });
+  };
+  const handleCloseModal = () => {
+    setSelectedConversation(null);
+  };
 
   return (
     <Main>
-      {/* <div>
-            <BookmarkButton />
-            <PinButton />
-          </div> */}
+      {selectedConversation && (
+        <ModalContent
+          conversation={selectedConversation}
+          onClose={handleCloseModal}
+        />
+      )}
       <FixedContentContainer>
-        {content.chat
-          .filter((item) => item.fixed)
-          .map(({ title, content, bookmark, tags, id }) => (
-            <FixedContent key={id} href="#">
-              <h3>{title}</h3>
-              <p>{content}</p>
-              <span className="bookmark">{bookmark}</span>
+        {content.conversations
+          .filter((item) => item.pinned)
+          .map((conversation) => (
+            <FixedContent
+              key={conversation.conversationId}
+              href="#"
+              onClick={() => handleContentClick(conversation)}
+            >
+              <div className="header">
+                <h3 className="title">{conversation.title}</h3>
+                <span className="buttons">
+                  <PinButton /> <BookmarkButton />
+                </span>
+              </div>
+              <p>{conversation.answerSummary}</p>
+              <span className="bookmark">
+                {conversation.bookmarks[0].bookmarkName}
+              </span>
 
               <div className="tag">
-                {tags.map(
-                  (tag) => (
-                    // <Tag key={tag} href="#">
-                    <span>#{tag} </span>
-                  ),
-                  // </Tag>
-                )}
+                {conversation.tags.map((tag: TagType) => (
+                  <span key={tag.tagId}>#{tag.tagName} </span>
+                ))}
               </div>
             </FixedContent>
           ))}
@@ -174,35 +232,62 @@ const Collections = () => {
       <BookmarkTagContent>
         <div>
           <BookmarkContainer>
-            {content.bookmark.map((bookmark) => (
-              <Bookmark onClick={() => setSelectedBookmark(bookmark)}>
-                {bookmark}
+            <Bookmark key={'All'} onClick={() => handleBookmarkClick('All')}>
+              All
+            </Bookmark>
+            {content.bookmarks.map((bookmark) => (
+              <Bookmark
+                key={bookmark.bookmarkName}
+                onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
+              >
+                {bookmark.bookmarkName}
               </Bookmark>
             ))}
           </BookmarkContainer>
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
-            {content.tags.map((tag) => (
-              <Tag href="#">{tag}</Tag>
+            {content.tags.map((tag: TagType) => (
+              <Tag
+                key={tag.tagName}
+                onClick={() => handleTagClick(tag.tagName)}
+              >
+                {tag.tagName}
+              </Tag>
             ))}
           </TagContainer>
         </div>
         <ContentWraper>
           <ContentContainer>
-            {content.chat
+            {content.conversations
               .filter(
-                (item) =>
-                  selectedBookmark === "All" ||
-                  item.bookmark === selectedBookmark,
+                (conversation) =>
+                  selectedBookmark === 'All' ||
+                  conversation.bookmarks[0].bookmarkName === selectedBookmark,
               )
-              .map(({ title, content, bookmark, tags, id }) => (
-                <Content key={id} href="#">
-                  <h3>{title}</h3>
-                  <p>{content}</p>
-                  <span className="bookmark">{bookmark}</span>
+              .map((conversation) => (
+                <Content
+                  key={conversation.conversationId}
+                  href="#"
+                  onClick={() => handleContentClick(conversation)}
+                >
+                  <div className="header">
+                    <h3 className="title">{conversation.title}</h3>
+                    <span className="buttons">
+                      <PinButton /> <BookmarkButton />
+                    </span>
+                  </div>
+                  <p>{conversation.answerSummary}</p>
+                  <div className="bookmark">
+                    {conversation.bookmarks.map((bookmark) => (
+                      <span key={bookmark.bookmarkId}>
+                        {bookmark.bookmarkName}
+                        {' || '}
+                      </span>
+                    ))}
+                  </div>
                   <div className="tag">
-                    {tags.map((tag) => (
-                      <span key={tag}>#{tag} </span>
+                    {conversation.tags.map((tag: TagType) => (
+                      <span key={tag.tagId}>#{tag.tagName} </span>
                     ))}
                   </div>
                 </Content>
@@ -212,9 +297,6 @@ const Collections = () => {
 
         <div></div>
       </BookmarkTagContent>
-      {/* <BookmarkButton>
-        <BookmarkSolid />
-      </BookmarkButton> */}
     </Main>
   );
 };

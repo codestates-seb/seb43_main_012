@@ -15,7 +15,11 @@ import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 import { Conversation, initialConvData } from '../data/dataTypes';
 
 //import api
-import { getConversation, saveBookmark } from '../api/ChatInterfaceApi';
+import {
+  getConversation,
+  saveBookmark,
+  getAllConversations,
+} from '../api/ChatInterfaceApi';
 
 // const TempBackdrop = styled.div`
 //   display: flex;
@@ -49,6 +53,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const updateQNum = () => {
     console.log('updating question number!');
@@ -79,13 +84,22 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     // (async function () {
-    //   const conversation = await getConversation(1);
+    //   const conversation = await getConversation(5);
     //   if (conversation) {
-    //     console.log('fetched data!');
+    //     console.log('started new session!');
+    //     console.log('response: ', conversation);
     //     setConversation(conversation);
     //   }
     // })();
-    // saveBookmark({ cId: 2, bookmarks: ['과자', 'http'] });
+    (async function () {
+      const conversations = await getAllConversations();
+      if (conversations) {
+        console.log('fetched data!');
+        console.log(conversations);
+        // setConversation(conversation);
+      }
+    })();
+    // saveBookmark({ cId: 3, bName: '기본폴더2' });
     // getAllConversations();
     // askFirstQuestion();
     // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
@@ -93,15 +107,16 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     // deleteConv();
     // getConversation(11);
     // continueConversation(10, 'how long has it took openai to launch you?');
-    // (async () => {
-    //   const post = await getJSON(): Promise<Post>
-    // })();
     // console.log(conversation);
   }, []);
 
   useEffect(() => {
     scrollToLastQ();
-  }, [conversation.title]);
+  }, [conversation.title, conversation.qnaList.length]);
+
+  useEffect(() => {
+    console.log('loading status changed');
+  }, [isLoading]);
 
   useEffect(() => {
     if (conversation.title) {
@@ -110,19 +125,19 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           conversation?.conversationId,
         );
         if (newConversation) {
-          console.log('fetched conversation data!');
+          console.log('continuing new session!');
           setConversation(newConversation);
         }
       })();
     }
     // (async function () {
-    //   const conversation = await getConversation(1);
+    //   const conversation = await getConversation(9);
     //   if (conversation) {
     //     console.log('fetched conversation data!');
     //     setConversation(conversation);
     //   }
     // })();
-    if (conversation) scrollToLastQ(); //do it when it's only asking more...
+    // if (conversation) scrollToLastQ(); //do it when it's only asking more...
   }, [qNum]);
 
   return (
@@ -132,6 +147,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
         <ChatInput
           cValue={conversation}
           setCValue={setConversation}
+          setIsLoading={setIsLoading}
           updateQNum={updateQNum}
         />
         {Boolean(conversation.title) && (
@@ -145,6 +161,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
             />
             <EditSaveUI
               cId={conversation.conversationId}
+              saved={conversation.saved}
               bookmarks={conversation.bookmarks}
               editState={editTitleState}
               setEditState={setEditTitleState}
@@ -153,8 +170,9 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      {conversation ? (
+      {conversation.title ? (
         <QnAList
+          isLoading={isLoading}
           qnaItems={conversation?.qnaList}
           handleCheck={handleCheckQnAToSave}
         />

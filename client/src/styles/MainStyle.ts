@@ -73,7 +73,7 @@ export const TitleBox = styled.title`
 export const InputTitleBox = styled(InputQBox)`
   justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: 100%;
   // margin-top: -5px;
   line-height: 32px;
   max-width: 700px;

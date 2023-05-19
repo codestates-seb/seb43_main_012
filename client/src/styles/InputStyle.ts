@@ -74,3 +74,17 @@ export const InputSubmitBtn = styled.button`
     cursor: default;
   }
 `;
+
+export const InputCount = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  // padding-left: 2px;
+  width: 80%;
+  font-size: var(--text-fontsize-info);
+  color: var(--color-offblack) !important;
+
+  span {
+    padding-left: 5px;
+    color: var(--color-default-gray) !important;
+  }
+`;
