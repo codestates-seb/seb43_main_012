@@ -85,7 +85,7 @@ const EditableTitle = ({
   }, [editState]);
 
   const handleTitleChange = () => {
-    console.log('did this even happen');
+    // console.log('did this even happen');
 
     //only send if the input value has something
     if (value) {
@@ -120,7 +120,7 @@ const EditableTitle = ({
     handleInput: handleTitleChange,
   });
 
-  console.log('title length: ', cTitle.length);
+  // console.log('title length: ', cTitle.length);
 
   return (
     <>

@@ -30,7 +30,6 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [bPopoverOpen, setBPopoverOpen] = useState<boolean>(false);
   const conv = useAppSelector(selectConversation);
-  const saved = conv.saved;
 
   useEffect(() => {
     // console.log('saved status changed: ', saved);

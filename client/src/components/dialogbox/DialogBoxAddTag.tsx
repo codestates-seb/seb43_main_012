@@ -98,8 +98,8 @@ const DialogBoxAddTag = () => {
   const addTags = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.currentTarget.value.length) {
       // console.log('text', event.currentTarget.value);
-      const tagNames = tagList.map((t) => t.tagName);
-      if (!tagNames.includes(event.currentTarget.value)) {
+      const tagNames = tagList.map((t) => t.tagName.toLowerCase());
+      if (!tagNames.includes(event.currentTarget.value.toLowerCase())) {
         const res = await dispatch(
           addTagAsync({ tName: event.currentTarget.value }),
         );
