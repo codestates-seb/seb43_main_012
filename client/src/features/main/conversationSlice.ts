@@ -34,10 +34,14 @@ export const addBookmarkAsync = createAsyncThunk(
   'conversation/addBookmark',
   async ({ bId, bName }: { bId: number; bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.content.conversationId;
 
-    const res = await saveBookmark({ cId, bName });
-    return res;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.content.conversationId;
+      const res = await saveBookmark({ cId, bName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
   },
 );
 
@@ -46,9 +50,14 @@ export const deleteBookmarkAsync = createAsyncThunk(
   'conversation/deleteBookmark',
   async ({ bId }: { bId: number }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.cId;
-    const res = await deleteBookmark({ cId, bId });
-    return;
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await deleteBookmark({ cId, bId });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
   },
 );
 
@@ -57,9 +66,13 @@ export const createBookmarkAsync = createAsyncThunk(
   async ({ bName }: { bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
 
-    const cId = state.conversation.cId;
-    const res = await saveBookmark({ cId, bName });
-    return res;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      const res = await saveBookmark({ cId, bName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
   },
 );
 
@@ -68,9 +81,13 @@ export const updatePinAsync = createAsyncThunk(
   async ({ value }: { value: boolean }, thunkApi) => {
     // console.log('test: updating pin: ', value);
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.cId;
-    const res = await updatePinState({ cId, value });
-    return;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await updatePinState({ cId, value });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
   },
 );
 
@@ -79,9 +96,15 @@ export const addTagAsync = createAsyncThunk(
   async ({ tName }: { tName: string }, thunkApi) => {
     // console.log('test: add tag');
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.cId;
-    const res = await addTag({ cId, tName });
-    return res;
+    // console.log('test: ', state.conversation.status);
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      const res = await addTag({ cId, tName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
   },
 );
 
@@ -90,9 +113,13 @@ export const deleteTagAsync = createAsyncThunk(
   async ({ tId }: { tId: number }, thunkApi) => {
     // console.log('test: delete tag');
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.cId;
-    const res = await deleteTag({ cId, tId });
-    return;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await deleteTag({ cId, tId });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
   },
 );
 
@@ -100,6 +127,9 @@ const conversationSlice = createSlice({
   name: 'conversation',
   initialState,
   reducers: {
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
     initializeConversation: (state, action: { payload: number }) => {
       console.log('initializing conversation!');
       state.content = initialConvData;

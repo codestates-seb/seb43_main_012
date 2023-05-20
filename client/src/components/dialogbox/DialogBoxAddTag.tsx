@@ -95,8 +95,8 @@ const DialogBoxAddTag = () => {
   //2. if there is no input, does not add tag
   //3. once a tag is added, the input value is emptied
   const addTags = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    event.stopPropagation();
     if (event.currentTarget.value.length) {
-      // console.log('text', event.currentTarget.value);
       const tagNames = tagList.map((t) => t.tagName.toLowerCase());
       if (!tagNames.includes(event.currentTarget.value.toLowerCase())) {
         const res = await dispatch(
@@ -104,6 +104,7 @@ const DialogBoxAddTag = () => {
         );
 
         if (res.payload) {
+          console.log(res.payload);
           const payload = res.payload as {
             tagId: number;
             tagName: string;
