@@ -23,6 +23,16 @@ export async function getSavedConversations() {
   }
 }
 
+export async function getCollections() {
+  try {
+    const response = await axiosDefault.get<any>(`${BASE_URL}/collections`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function askFirstQuestion(question: string) {
   try {
     const response = await axiosDefault.post<any>(`${BASE_URL}/conversations`, {
