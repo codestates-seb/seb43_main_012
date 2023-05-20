@@ -105,7 +105,7 @@ const TopNav = ({
         'questionInput',
       ) as HTMLInputElement | null;
       if (element) {
-        console.log('element found!');
+        // console.log('element found!');
         element.focus();
       }
       // navigate(0);
@@ -119,7 +119,6 @@ const TopNav = ({
   if (localStorage.getItem('memberId')) {
     Id = localStorage.getItem('memberId');
   } else {
-    Id = 0;
     Id = 0;
   }
 

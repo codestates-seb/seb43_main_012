@@ -81,13 +81,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   useEffect(() => {
     loadConv(10);
 
-    (async function () {
-      const conversations = await getSavedConversations();
-      if (conversations) {
-        // console.log('fetched data!');
-        console.log(conversations);
-      }
-    })();
+    // (async function () {
+    //   const conversations = await getSavedConversations();
+    //   if (conversations) {
+    //     // console.log('fetched data!');
+    //     console.log(conversations);
+    //   }
+    // })();
   }, []);
 
   // useEffect(() => {
