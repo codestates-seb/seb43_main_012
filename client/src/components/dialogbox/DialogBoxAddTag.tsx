@@ -1,8 +1,15 @@
+//import style
 import { useState } from 'react';
 import styled from 'styled-components';
 
+//import redux/api
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { selectConversation } from '../../features/main/conversationSlice';
+import {
+  selectConversation,
+  addTagAsync,
+  deleteTagAsync,
+  updateTags,
+} from '../../features/main/conversationSlice';
 
 //test
 import { v4 as uuidv4 } from 'uuid';
@@ -84,41 +91,55 @@ const DialogBoxAddTag = () => {
   const dispatch = useAppDispatch();
   const tagList = useAppSelector(selectConversation).tags;
 
-  // const initialTags: string[] = tagList.map((t) => t.tagName);
-  const [tags, setTags] = useState(tagList);
+  // const [tags, setTags] = useState(tagList);
   const [newTag, setNewTag] = useState('');
 
-  //triggered when x is clicked
-  //copies taglist to avoid directly changing state variable
-  const removeTags = (indexToRemove: number) => {
-    console.log(tags);
-    console.log('remove tag: ', indexToRemove);
-    const tagsCopy = tags.slice().filter((t) => t.tagId !== indexToRemove);
-    setTags(tagsCopy);
-
-    //could use filter instead!
-    //setTags(tags.filter((el, idx) => idx !== indexToRemove))
-  };
-
-  //in addition to adding tags when enter is clicked, this method
+  //0. triggered when enter is clicked
   //1. checks if the tag already exists before adding the tag
   //2. if there is no input, does not add tag
   //3. once a tag is added, the input value is emptied
-  const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const addTags = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.currentTarget.value.length) {
-      //when there is no input, no tag added
-      const tagNames = tags.map((t) => t.tagName);
+      // console.log('text', event.currentTarget.value);
+      const tagNames = tagList.map((t) => t.tagName);
       if (!tagNames.includes(event.currentTarget.value)) {
-        setTags([
-          ...tags,
-          {
-            tagId: uuidToDecimal(uuidv4()),
-            tagName: event.currentTarget.value,
-          },
-        ]);
+        const res = await dispatch(
+          addTagAsync({ tName: event.currentTarget.value }),
+        );
+
+        if (res.payload) {
+          const payload = res.payload as {
+            tagId: number;
+            tagName: string;
+          };
+          dispatch(
+            updateTags({
+              tId: payload.tagId,
+              tName: newTag,
+              type: 'ADD',
+            }),
+          );
+        }
+
+        // setTags([
+        //   ...tagList,
+        //   {
+        //     tagId: uuidToDecimal(uuidv4()),
+        //     tagName: event.currentTarget.value,
+        //   },
+        // ]);
         setNewTag('');
       }
     }
+  };
+
+  const removeTags = async (indexToRemove: number) => {
+    await dispatch(deleteTagAsync({ tId: indexToRemove }));
+    dispatch(updateTags({ tId: indexToRemove, type: 'DELETE' }));
+    // console.log(tagList);
+    // console.log('remove tag: ', indexToRemove);
+    // const tagsCopy = tagList.slice().filter((t) => t.tagId !== indexToRemove);
+    // setTags(tagsCopy);
   };
 
   const newTagHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +149,7 @@ const DialogBoxAddTag = () => {
     <>
       <TagsInput>
         <ul id="tags">
-          {tags.map((tag) => (
+          {tagList.map((tag) => (
             <li key={tag.tagId} className="tag">
               <span className="tag-title">{tag.tagName}</span>
               <span

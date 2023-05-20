@@ -11,6 +11,8 @@ import {
   saveBookmark,
   deleteBookmark,
   updatePinState,
+  addTag,
+  deleteTag,
 } from '../../api/ChatInterfaceApi';
 
 export type ConversationState = {
@@ -46,7 +48,7 @@ export const deleteBookmarkAsync = createAsyncThunk(
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.cId;
     const res = await deleteBookmark({ cId, bId });
-    return res;
+    return;
   },
 );
 
@@ -64,11 +66,33 @@ export const createBookmarkAsync = createAsyncThunk(
 export const updatePinAsync = createAsyncThunk(
   'conversation/updatePin',
   async ({ value }: { value: boolean }, thunkApi) => {
-    console.log('test: updating pin: ', value);
+    // console.log('test: updating pin: ', value);
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.cId;
     const res = await updatePinState({ cId, value });
+    return;
+  },
+);
+
+export const addTagAsync = createAsyncThunk(
+  'conversation/addTag',
+  async ({ tName }: { tName: string }, thunkApi) => {
+    console.log('test: add tag');
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.cId;
+    const res = await addTag({ cId, tName });
     return res;
+  },
+);
+
+export const deleteTagAsync = createAsyncThunk(
+  'conversation/deleteTag',
+  async ({ tId }: { tId: number }, thunkApi) => {
+    console.log('test: delete tag');
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.cId;
+    const res = await deleteTag({ cId, tId });
+    return;
   },
 );
 
@@ -116,6 +140,7 @@ const conversationSlice = createSlice({
       state.cTitle = action.payload;
     },
 
+    //when adding new bookmark
     updateBookmarks: (
       state,
       action: { payload: { bId: number; bName: string } },
@@ -142,6 +167,37 @@ const conversationSlice = createSlice({
         state.content.bookmarkList = state.content.bookmarkList.filter(
           (b) => b.bookmarkId !== bId,
         );
+      }
+    },
+
+    updateTags: (
+      state,
+      action: {
+        payload: { tId?: number; tName?: string; type: 'ADD' | 'DELETE' };
+      },
+    ) => {
+      const { tId, tName, type } = action.payload;
+
+      switch (type) {
+        case 'ADD': {
+          if (tId && tName) {
+            state.content.tags = [
+              ...state.content.tags,
+              { tagId: tId, tagName: tName },
+            ];
+          }
+          break;
+        }
+        case 'DELETE': {
+          if (tId) {
+            state.content.tags = state.content.tags.filter(
+              (t) => t.tagId !== tId,
+            );
+          }
+          break;
+        }
+        default:
+          return;
       }
     },
   },
@@ -215,6 +271,7 @@ export const {
   changeQnASaveStatus,
   changeTitle,
   updateBookmarks,
+  updateTags,
 } = conversationSlice.actions;
 
 export default conversationSlice.reducer;

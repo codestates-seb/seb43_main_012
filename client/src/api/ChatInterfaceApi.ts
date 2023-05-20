@@ -132,6 +132,30 @@ export async function deleteBookmark({
   }
 }
 
+export async function addTag({ cId, tName }: { cId: number; tName: string }) {
+  try {
+    const response = await axiosDefault.post(
+      `${BASE_URL}/conversations/${cId}/tags`,
+      {
+        tagName: tName,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteTag({ cId, tId }: { cId: number; tId: number }) {
+  try {
+    await axiosDefault.delete(`${BASE_URL}/conversations/${cId}/tags/${tId}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function updatePinState({
   cId,
   value,

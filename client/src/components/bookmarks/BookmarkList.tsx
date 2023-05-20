@@ -93,14 +93,15 @@ const BookmarkList = ({
     setIsModalOpen(true);
   };
 
-  const handlePinCheck = ({
+  const handlePinCheck = async ({
     id,
     newCheckValue,
   }: {
     id?: number;
     newCheckValue: boolean;
   }) => {
-    dispatch(updatePinAsync({ value: newCheckValue }));
+    await dispatch(updatePinAsync({ value: newCheckValue }));
+    console.log('updated pin');
   };
 
   useEffect(() => {
