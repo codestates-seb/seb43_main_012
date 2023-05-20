@@ -85,17 +85,16 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
 
   const handleCreateClick = async () => {
     if (value) {
-      console.log('create bookmark btn clicked!');
+      // console.log('create bookmark btn clicked!');
       const res = await dispatch(createBookmarkAsync({ bName: value }));
       if (res.payload) {
-        console.log('unique bookmark name');
+        // console.log('unique bookmark name');
         const payload = res.payload as {
           bookmarkId: number;
           bookmarkName: string;
         };
         dispatch(updateBookmarks({ bId: payload.bookmarkId, bName: value }));
       }
-      // console.log('created bookmark!');
       setVisible(false);
       setValue('');
     }

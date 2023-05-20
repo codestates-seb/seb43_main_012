@@ -8,10 +8,17 @@ import {
   SignOutFooter,
   SignoutItem,
 } from '../../styles/TopNavStyle';
+
 //import components
 import GenericCheckbox from '../generic/GenericCheckbox';
+
 //import data
 import { BookmarkType } from '../../data/d';
+
+//import redux / api
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { selectConversation } from '../../features/main/conversationSlice';
+import { updatePinAsync } from '../../features/main/conversationSlice';
 
 type ListProp = {
   // isModalOpen: boolean;
@@ -79,9 +86,21 @@ const BookmarkList = ({
   handleCheck,
   setIsModalOpen,
 }: ListProp) => {
+  const dispatch = useAppDispatch();
+  const pinned = useAppSelector(selectConversation).pinned;
   const handleModalOpen = () => {
     // console.log('save bookmark modal open!');
     setIsModalOpen(true);
+  };
+
+  const handlePinCheck = ({
+    id,
+    newCheckValue,
+  }: {
+    id?: number;
+    newCheckValue: boolean;
+  }) => {
+    dispatch(updatePinAsync({ value: newCheckValue }));
   };
 
   useEffect(() => {
@@ -116,13 +135,17 @@ const BookmarkList = ({
           <Options>
             <Option>
               <BookmarkCheckbox>
-                <GenericCheckbox size="small" />
+                <GenericCheckbox
+                  size="small"
+                  handleCheck={handlePinCheck}
+                  checked={pinned}
+                />
               </BookmarkCheckbox>
               <div>Pin</div>
             </Option>
             <Option>
               <BookmarkCheckbox>
-                <GenericCheckbox size="small" />
+                <GenericCheckbox size="small" disabled={true} />
               </BookmarkCheckbox>
               <div>Publish</div>
             </Option>

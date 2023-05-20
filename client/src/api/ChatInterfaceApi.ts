@@ -72,7 +72,7 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
         title,
       },
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -126,6 +126,23 @@ export async function deleteBookmark({
     await axiosDefault.delete(
       `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
     );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function updatePinState({
+  cId,
+  value,
+}: {
+  cId: number;
+  value: boolean;
+}) {
+  try {
+    await axiosDefault.patch(`${BASE_URL}/conversations/${cId}`, {
+      pinned: value,
+    });
   } catch (error) {
     console.log(error);
     throw error;

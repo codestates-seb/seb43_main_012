@@ -7,7 +7,11 @@ import {
   initialConvData,
 } from '../../data/d';
 
-import { saveBookmark, deleteBookmark } from '../../api/ChatInterfaceApi';
+import {
+  saveBookmark,
+  deleteBookmark,
+  updatePinState,
+} from '../../api/ChatInterfaceApi';
 
 export type ConversationState = {
   cId: number;
@@ -40,7 +44,7 @@ export const deleteBookmarkAsync = createAsyncThunk(
   'conversation/deleteBookmark',
   async ({ bId }: { bId: number }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.content.conversationId;
+    const cId = state.conversation.cId;
     const res = await deleteBookmark({ cId, bId });
     return res;
   },
@@ -51,8 +55,19 @@ export const createBookmarkAsync = createAsyncThunk(
   async ({ bName }: { bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
 
-    const cId = state.conversation.content.conversationId;
+    const cId = state.conversation.cId;
     const res = await saveBookmark({ cId, bName });
+    return res;
+  },
+);
+
+export const updatePinAsync = createAsyncThunk(
+  'conversation/updatePin',
+  async ({ value }: { value: boolean }, thunkApi) => {
+    console.log('test: updating pin: ', value);
+    const state = thunkApi.getState() as RootState;
+    const cId = state.conversation.cId;
+    const res = await updatePinState({ cId, value });
     return res;
   },
 );
@@ -180,7 +195,10 @@ const conversationSlice = createSlice({
 
         console.log('bookmark deleted:', bId);
       })
-      .addCase(createBookmarkAsync.fulfilled, (state, action) => {});
+      .addCase(updatePinAsync.fulfilled, (state, action) => {
+        const { value } = action.meta.arg;
+        state.content.pinned = value;
+      });
   },
 });
 
