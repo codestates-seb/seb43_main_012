@@ -94,7 +94,10 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
         <IconItems>
           <EditTitleHoverBtn handleEditClick={handleEditClick} />
           {isTHoverOpen ? (
-            <TagHoverBtn handleAddTagClick={handleAddTagClick} />
+            <TagHoverBtn
+              saved={Boolean(conv.tags.length)}
+              handleAddTagClick={handleAddTagClick}
+            />
           ) : (
             <TagClickBtn
               saved={Boolean(conv.tags.length)}
@@ -102,7 +105,10 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
             />
           )}
           {isBHoverOpen ? (
-            <BookmarkHoverBtn saved={saved} handleSaveClick={handleSaveClick} />
+            <BookmarkHoverBtn
+              saved={Boolean(conv.bookmarks.length)}
+              handleSaveClick={handleSaveClick}
+            />
           ) : (
             <BookmarkClickBtn
               saved={Boolean(conv.bookmarks.length)}

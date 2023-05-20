@@ -132,7 +132,7 @@ const EditableTitle = ({
           </InputCount2>
         </TitleBox>
       ) : (
-        <h1>{cTitle.length > 80 ? `${cTitle.slice(0, 80)}...` : cTitle}</h1>
+        <h1>{cTitle.length > 90 ? `${cTitle.slice(0, 90)}...` : cTitle}</h1>
       )}
     </>
   );

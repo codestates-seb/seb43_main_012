@@ -18,6 +18,7 @@ type Props = {
 };
 
 const TagClickBtn = ({ saved, handleSaveClick }: Props) => {
+  console.log('tags exist: ', saved);
   return (
     <CPopover
       className="popover_saveUI"
@@ -31,7 +32,7 @@ const TagClickBtn = ({ saved, handleSaveClick }: Props) => {
         {saved ? (
           <TaggedIcon onClick={handleSaveClick} />
         ) : (
-          <TaggedIcon onClick={handleSaveClick} />
+          <AddTagIcon onClick={handleSaveClick} />
         )}
       </IconItem>
     </CPopover>

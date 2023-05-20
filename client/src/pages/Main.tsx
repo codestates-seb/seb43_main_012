@@ -85,7 +85,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     (async function () {
       const conversations = await getSavedConversations();
       if (conversations) {
-        console.log('fetched data!');
+        // console.log('fetched data!');
         console.log(conversations);
       }
     })();
@@ -114,7 +114,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           conversation?.conversationId,
         );
         if (newConversation) {
-          console.log('continuing new session!');
+          // console.log('continuing new session!');
           dispatch(setConversation(newConversation));
           setCurrentCId(newConversation.conversationId);
         }

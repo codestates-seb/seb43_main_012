@@ -4,12 +4,15 @@ import { IconItem } from '../../styles/IconStyle';
 
 // @ts-ignore
 import { ReactComponent as AddTagIcon } from '../../assets/icons/main_qna/iconAddTag.svg';
-
+//@ts-ignore
+import { ReactComponent as TaggedIcon } from '../../assets/icons/main_qna/iconTagged.svg';
 import { MyGenericFunctionType } from '../../data/d';
 
 const TagHoverBtn = ({
+  saved,
   handleAddTagClick,
 }: {
+  saved: boolean;
   handleAddTagClick: MyGenericFunctionType<any>;
 }) => {
   return (
@@ -20,7 +23,11 @@ const TagHoverBtn = ({
       trigger="hover"
     >
       <IconItem>
-        <AddTagIcon onClick={handleAddTagClick} />
+        {saved ? (
+          <TaggedIcon onClick={handleAddTagClick} />
+        ) : (
+          <AddTagIcon onClick={handleAddTagClick} />
+        )}
       </IconItem>
     </CPopover>
   );
