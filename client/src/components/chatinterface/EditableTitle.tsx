@@ -65,7 +65,7 @@ const EditableTitle = ({
   }, [cTitle, editState]);
 
   useEffect(() => {
-    console.log('edit state changed');
+    // console.log('edit state changed');
 
     if (editConfirm) {
       //update the conversation
@@ -76,19 +76,16 @@ const EditableTitle = ({
             title: value,
           });
           if (res) {
-            console.log('edit title success!');
+            // console.log('edit title success!');
             dispatch(changeTitle(value));
-            // setCValue((prev) => ({ ...prev, title: value }));
           }
         })();
-        // editTitle({ id: cValue.conversationId, title: value });
       }
-      //add dispatch function to update conversation title in data!
     }
   }, [editState]);
 
   const handleTitleChange = () => {
-    console.log('did this even happen');
+    // console.log('did this even happen');
 
     //only send if the input value has something
     if (value) {
@@ -101,7 +98,6 @@ const EditableTitle = ({
         if (res) {
           console.log('edit title success!');
           dispatch(changeTitle(value));
-          // setCValue((prev) => ({ ...prev, title: value }));
         }
       })();
     } else dispatch(changeTitle(value));
@@ -124,6 +120,8 @@ const EditableTitle = ({
     handleInput: handleTitleChange,
   });
 
+  // console.log('title length: ', cTitle.length);
+
   return (
     <>
       {editState ? (
@@ -134,7 +132,7 @@ const EditableTitle = ({
           </InputCount2>
         </TitleBox>
       ) : (
-        <h1>{cTitle.length > 70 ? `${cTitle.slice(70)}...` : cTitle}</h1>
+        <h1>{cTitle.length > 90 ? `${cTitle.slice(0, 90)}...` : cTitle}</h1>
       )}
     </>
   );

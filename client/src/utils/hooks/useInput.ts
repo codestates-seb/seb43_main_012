@@ -41,7 +41,6 @@ export function useInput({
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      // console.log("enter key pressed!");
       handleInput();
     }
   };
@@ -56,5 +55,3 @@ export function useInput({
     maxLength: maxlength,
   };
 }
-
-// export default useInput;

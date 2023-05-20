@@ -8,10 +8,8 @@ import {
   CModalFooter,
 } from '@coreui/react';
 import styled from 'styled-components';
-import '../../styles/sass/custom_modal_createbookmark.scss';
 import { InputTitleBox } from '../../styles/MainStyle';
 import { InputCount } from '../../styles/InputStyle';
-// import '../../styles/sass/custom_buttons.scss';
 
 //import components
 import { useInput } from '../../utils/hooks/useInput';
@@ -19,7 +17,10 @@ import Input from '../chatinterface/Input';
 
 //import redux
 import { useAppDispatch } from '../../app/hooks';
-import { createBookmarkAsync } from '../../features/main/conversationSlice';
+import {
+  createBookmarkAsync,
+  updateBookmarks,
+} from '../../features/main/conversationSlice';
 
 type ButtonProps = {
   inputExists: boolean;
@@ -79,32 +80,24 @@ type Props = {
 
 const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   const [value, setValue] = useState<string>('');
-  const [showError, setShowError] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   console.log(value);
-  //   // if (value) {
-  //   //   setShowError(false);
-  //   // }
-  // }, [value]);
-
-  useEffect(() => {
-    if (!visible) setShowError(false);
-  }, [visible]);
 
   const handleCreateClick = async () => {
     if (value) {
-      console.log('create bookmark btn clicked!');
+      // console.log('create bookmark btn clicked!');
       const res = await dispatch(createBookmarkAsync({ bName: value }));
-      //res에서 bookmarkId만 추출해서, dispatch로 updateBookmarks 보내기 (추가)
-      console.log('created bookmark!');
+      if (res.payload) {
+        // console.log('unique bookmark name');
+        const payload = res.payload as {
+          bookmarkId: number;
+          bookmarkName: string;
+        };
+        dispatch(updateBookmarks({ bId: payload.bookmarkId, bName: value }));
+      }
       setVisible(false);
       setValue('');
-    } else {
-      setShowError(true);
     }
-    //if value is not entered, you cannot create!
   };
   const InputBookmarkNameProps = useInput({
     inputType: 'text',
@@ -137,7 +130,6 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
         <InputCount>
           {value.length}/<span>30</span>
         </InputCount>
-        {/* {showError && <ErrorMsg>내용을 입력하여 주십시오</ErrorMsg>} */}
       </CModalBody>
 
       <CModalFooter>

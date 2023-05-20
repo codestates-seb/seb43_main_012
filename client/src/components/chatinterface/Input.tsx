@@ -38,8 +38,7 @@ function Input({
       {SVGStyledComponent && SubmitSVGButton && (
         <button
           onClick={handleInput}
-          {...(inputExists ? {} : { disabled: true })} // and if you're logged in, if not, open an error
-          //"you need to login first!"
+          {...(inputExists ? {} : { disabled: true })}
         >
           <SubmitSVGButton />
         </button>

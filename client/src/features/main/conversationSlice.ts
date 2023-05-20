@@ -7,7 +7,13 @@ import {
   initialConvData,
 } from '../../data/d';
 
-import { saveBookmark, deleteBookmark } from '../../api/ChatInterfaceApi';
+import {
+  saveBookmark,
+  deleteBookmark,
+  updatePinState,
+  addTag,
+  deleteTag,
+} from '../../api/ChatInterfaceApi';
 
 export type ConversationState = {
   cId: number;
@@ -28,9 +34,14 @@ export const addBookmarkAsync = createAsyncThunk(
   'conversation/addBookmark',
   async ({ bId, bName }: { bId: number; bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.content.conversationId;
-    const res = await saveBookmark({ cId, bName });
-    return res;
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.content.conversationId;
+      const res = await saveBookmark({ cId, bName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
   },
 );
 
@@ -39,9 +50,14 @@ export const deleteBookmarkAsync = createAsyncThunk(
   'conversation/deleteBookmark',
   async ({ bId }: { bId: number }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.content.conversationId;
-    const res = await deleteBookmark({ cId, bId });
-    return res;
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await deleteBookmark({ cId, bId });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
   },
 );
 
@@ -49,10 +65,61 @@ export const createBookmarkAsync = createAsyncThunk(
   'conversation/createBookmark',
   async ({ bName }: { bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
-    const cId = state.conversation.content.conversationId;
-    console.log('cId: ', cId);
-    const res = await saveBookmark({ cId, bName });
-    return res;
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      const res = await saveBookmark({ cId, bName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
+  },
+);
+
+export const updatePinAsync = createAsyncThunk(
+  'conversation/updatePin',
+  async ({ value }: { value: boolean }, thunkApi) => {
+    // console.log('test: updating pin: ', value);
+    const state = thunkApi.getState() as RootState;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await updatePinState({ cId, value });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
+  },
+);
+
+export const addTagAsync = createAsyncThunk(
+  'conversation/addTag',
+  async ({ tName }: { tName: string }, thunkApi) => {
+    // console.log('test: add tag');
+    const state = thunkApi.getState() as RootState;
+    // console.log('test: ', state.conversation.status);
+
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      const res = await addTag({ cId, tName });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return res;
+    }
+  },
+);
+
+export const deleteTagAsync = createAsyncThunk(
+  'conversation/deleteTag',
+  async ({ tId }: { tId: number }, thunkApi) => {
+    // console.log('test: delete tag');
+    const state = thunkApi.getState() as RootState;
+    if (state.conversation.status === 'idle') {
+      thunkApi.dispatch(conversationSlice.actions.setStatus('loading'));
+      const cId = state.conversation.cId;
+      await deleteTag({ cId, tId });
+      thunkApi.dispatch(conversationSlice.actions.setStatus('idle'));
+      return;
+    }
   },
 );
 
@@ -60,6 +127,9 @@ const conversationSlice = createSlice({
   name: 'conversation',
   initialState,
   reducers: {
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
     initializeConversation: (state, action: { payload: number }) => {
       console.log('initializing conversation!');
       state.content = initialConvData;
@@ -100,7 +170,66 @@ const conversationSlice = createSlice({
       state.cTitle = action.payload;
     },
 
-    updateBookmarks: (state, action) => {},
+    //when adding new bookmark
+    updateBookmarks: (
+      state,
+      action: { payload: { bId: number; bName: string } },
+    ) => {
+      const { bId, bName } = action.payload;
+      // console.log('reducer: update bookmark');
+
+      const allBookmarks = [
+        ...state.content.bookmarks.map((b) => b.bookmarkName),
+        ...state.content.bookmarkList.map((b) => b.bookmarkName),
+      ];
+
+      if (!allBookmarks.includes(bName)) {
+        state.content.bookmarks = [
+          { bookmarkId: bId, bookmarkName: bName },
+          ...state.content.bookmarks,
+        ];
+      } else {
+        //just add to checked list, remove from unchecked list
+        state.content.bookmarks = [
+          { bookmarkId: bId, bookmarkName: bName },
+          ...state.content.bookmarks,
+        ];
+        state.content.bookmarkList = state.content.bookmarkList.filter(
+          (b) => b.bookmarkId !== bId,
+        );
+      }
+    },
+
+    updateTags: (
+      state,
+      action: {
+        payload: { tId?: number; tName?: string; type: 'ADD' | 'DELETE' };
+      },
+    ) => {
+      const { tId, tName, type } = action.payload;
+
+      switch (type) {
+        case 'ADD': {
+          if (tId && tName) {
+            state.content.tags = [
+              ...state.content.tags,
+              { tagId: tId, tagName: tName },
+            ];
+          }
+          break;
+        }
+        case 'DELETE': {
+          if (tId) {
+            state.content.tags = state.content.tags.filter(
+              (t) => t.tagId !== tId,
+            );
+          }
+          break;
+        }
+        default:
+          return;
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -120,13 +249,13 @@ const conversationSlice = createSlice({
             state.content.bookmarkList.filter((b) => b.bookmarkId !== bId);
           //if there was no bookmarks before, then change to saved
           if (!state.content.bookmarks.length) {
-            console.log('must change saved to true');
+            // console.log('must change saved to true');
             state.content.saved = true;
           }
           state.content.bookmarks = newBookmarks;
           state.content.bookmarkList = newUncheckedBookmarks;
 
-          console.log('bookmark added:', action.payload);
+          // console.log('bookmark added:', action.payload);
         }
       })
       .addCase(deleteBookmarkAsync.fulfilled, (state, action) => {
@@ -145,12 +274,16 @@ const conversationSlice = createSlice({
           state.content.bookmarkList = newUncheckedBookmarks;
         }
         if (state.content.bookmarks.length <= 1) {
-          console.log('must change saved to false');
+          // console.log('must change saved to false');
           state.content.saved = false;
         }
         state.content.bookmarks = newBookmarks;
 
-        console.log('bookmark deleted:', bId);
+        // console.log('bookmark deleted:', bId);
+      })
+      .addCase(updatePinAsync.fulfilled, (state, action) => {
+        const { value } = action.meta.arg;
+        state.content.pinned = value;
       });
   },
 });
@@ -167,6 +300,8 @@ export const {
   setConversation,
   changeQnASaveStatus,
   changeTitle,
+  updateBookmarks,
+  updateTags,
 } = conversationSlice.actions;
 
 export default conversationSlice.reducer;
