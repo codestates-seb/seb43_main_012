@@ -6,6 +6,7 @@ import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationMapper;
 import com.codestates.seb43_main_012.tag.dto.TagResponseDto;
+import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
 import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class CollectionMapper {
     {
         this.conversationMapper = conversationMapper;
     }
-    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories, List<Tag> tags)
+    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories, List<ConversationTag> tags)
     {
         List<BookmarkDto.Response> bookmarks = new ArrayList<>();
         categories.stream().forEach(category -> bookmarks.add(categoryToBookmarkResponseDto(category)));
@@ -45,7 +46,7 @@ public class CollectionMapper {
         return response;
     }
 
-    private TagResponseDto tagToTagResponseDto(Tag tag)
+    private TagResponseDto tagToTagResponseDto(ConversationTag tag)
     {
         var response = new TagResponseDto(
                 tag.getTagId(),

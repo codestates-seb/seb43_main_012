@@ -3,6 +3,8 @@ package com.codestates.seb43_main_012.qna;
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationMapper;
 import com.codestates.seb43_main_012.conversation.ConversationService;
+import com.codestates.seb43_main_012.exception.BusinessLogicException;
+import com.codestates.seb43_main_012.exception.ExceptionCode;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -46,7 +48,7 @@ public class QnAController {
     public ResponseEntity postQuestion(@RequestBody QnADto.Post dto)
     {
         long conversationId = dto.getConversationId();
-        if(conversationId == 0) throw new RuntimeException("conversationId cannot be empty");
+        if(conversationId == 0) throw new BusinessLogicException(ExceptionCode.CONV_NOT_FOUND);
 
         QnA savedQnA = qnaService.requestAnswer(dto);
 

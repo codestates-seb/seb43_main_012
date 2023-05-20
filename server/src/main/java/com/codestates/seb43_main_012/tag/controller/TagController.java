@@ -62,12 +62,12 @@ public class TagController {
 
     // 태그 상태 변화 수정코드
 
-    @DeleteMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL + "/{tagId}")
-    public ResponseEntity deleteTag(@PathVariable("conversationId") @Positive Long conversationId,
-                                    @PathVariable("tagId") @Positive Long tagId) {
-        Tag deletedTag = tagService.deleteTag(conversationId, tagId);
-
-        return new ResponseEntity<>(
-                mapper.tagToTagSimpleResponseDto(deletedTag),HttpStatus.NO_CONTENT);
-    }
+//    @DeleteMapping(TAG_DEFAULT_URL + "/{conversationId}" + TAG_DEFAULT_URL + "/{tagId}")
+//    public ResponseEntity deleteTag(@PathVariable("conversationId") @Positive Long conversationId,
+//                                    @PathVariable("tagId") @Positive Long tagId) {
+//        Tag deletedTag = tagService.deleteTag(conversationId, tagId);
+//
+//        return new ResponseEntity<>(
+//                mapper.tagToTagSimpleResponseDto(deletedTag),HttpStatus.NO_CONTENT);
+//    }
 }

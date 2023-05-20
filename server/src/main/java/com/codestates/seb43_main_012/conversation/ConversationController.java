@@ -34,13 +34,11 @@ public class ConversationController {
     private final CategoryRepository categoryRepository;
 
 
-    private final long MEMBER_ID = 1L;
-
     @PostMapping
     public ResponseEntity generateConversation(@RequestBody QnADto.Post dto,
                                                @AuthenticationPrincipal MemberEntity member)
     {
-        long memberId = member.getId();
+        Long memberId = member.getId();
 
         Conversation savedConversation = conversationService.createConversation(memberId, dto);
 
@@ -57,8 +55,11 @@ public class ConversationController {
     }
 
     @GetMapping("/{conversation-id}")
-    public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId)
+    public ResponseEntity getConversation(@PathVariable("conversation-id") long conversationId,
+                                          @AuthenticationPrincipal MemberEntity member)
     {
+        Long memberId = member.getId();
+
         Conversation conversation = conversationService.viewCountUp(conversationId);
 
         // 이 부분 서비스 클래스로 분리해야함
@@ -67,7 +68,7 @@ public class ConversationController {
 
         if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
 
-        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(MEMBER_ID, conversationCategoryIDs);
+        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
 
         ConversationDto.Response response = mapper.responseForGetOneConversation(conversation, categories);
 
@@ -76,28 +77,37 @@ public class ConversationController {
 
     @GetMapping
     public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort,
-                                           @RequestParam(value = "q", required = false) String query)
+                                           @RequestParam(value = "q", required = false) String query,
+                                           @AuthenticationPrincipal MemberEntity member)
     {
+        Long memberId = member.getId();
+
         if(sort == null) sort = "desc";
-        List<Conversation> conversations = conversationService.findConversations(sort, query);
+        List<Conversation> conversations = conversationService.findConversations(sort, query, memberId);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/{conversation-id}/bookmarks")
     public ResponseEntity bookmarkConversation(@PathVariable("conversation-id") long conversationId,
-                                              @RequestBody BookmarkDto.Post bookmarkDto)
+                                               @RequestBody BookmarkDto.Post bookmarkDto,
+                                               @AuthenticationPrincipal MemberEntity member)
     {
-        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto, MEMBER_ID);
+        Long memberId = member.getId();
+
+        long bookmarkId = conversationService.createBookmark(conversationId, bookmarkDto, memberId);
 
         return new ResponseEntity<>(mapper.postBookmarkResponse(bookmarkId,bookmarkDto.getBookmarkName()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{conversation-id}/bookmarks/{bookmark-id}")
     public ResponseEntity deleteConversationBookmark(@PathVariable("conversation-id") long conversationId,
-                                                     @PathVariable("bookmark-id") long bookmarkId)
+                                                     @PathVariable("bookmark-id") long bookmarkId,
+                                                     @AuthenticationPrincipal MemberEntity member)
     {
-        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId, MEMBER_ID);
+        Long memberId = member.getId();
+
+        Conversation savedConversation = conversationService.cancelBookmark(conversationId, bookmarkId, memberId);
         conversationService.setSaveStatus(savedConversation);
 
         return new ResponseEntity<>(mapper.simpleMessageResponse("북마크 삭제 성공"), HttpStatus.NO_CONTENT);
@@ -123,17 +133,23 @@ public class ConversationController {
     }
 
     @GetMapping("/bookmarks/{bookmark-name}")
-    public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName)
+    public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName,
+                                                    @AuthenticationPrincipal MemberEntity member)
     {
-        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName, MEMBER_ID);
+        Long memberId = member.getId();
+
+        List<Conversation> conversations = conversationService.findBookmarkedConversations(categoryName, memberId);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses,HttpStatus.OK);
     }
 
     @GetMapping("/tags/{tag-name}")
-    public ResponseEntity getTaggedConversation(@PathVariable("tag-name") String tagName)
+    public ResponseEntity getTaggedConversation(@PathVariable("tag-name") String tagName,
+                                                @AuthenticationPrincipal MemberEntity member)
     {
-        List<Conversation> conversations = conversationService.findTaggedConversations(tagName, MEMBER_ID);
+        Long memberId = member.getId();
+
+        List<Conversation> conversations = conversationService.findTaggedConversations(tagName, memberId);
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
         return new ResponseEntity<>(responses,HttpStatus.OK);
     }

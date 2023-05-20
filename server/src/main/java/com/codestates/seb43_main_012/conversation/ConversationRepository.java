@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface ConversationRepository  extends JpaRepository<Conversation, Long> {
-    List<Conversation> findAllBySavedAndDeleteStatus(boolean isSaved, boolean deleteStatus);
+    List<Conversation> findAllByMemberIdAndSavedAndDeleteStatus(long memberId, boolean isSaved, boolean deleteStatus);
 
     List<Conversation> findAllByDeleteStatusAndSavedAndConversationIdIn(boolean deleteStatus, boolean saved, List<Long> IDs, Sort sort);
 }

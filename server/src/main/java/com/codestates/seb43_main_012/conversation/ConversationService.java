@@ -84,10 +84,10 @@ public class ConversationService {
         return conversation;
     }
 
-    public List<Conversation> findConversations(String sort, String query)
+    public List<Conversation> findConversations(String sort, String query, long memberId)
     {
         if(query == null) query = "";
-        List<Long> IDs = qnaService.findConversationIDs(query);
+        List<Long> IDs = qnaService.findConversationIDs(query, memberId);
 
         if(sort.equals("desc"))
             return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
@@ -226,9 +226,9 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
-    public List<Conversation> getSavedConversation(boolean isSaved)
+    public List<Conversation> getSavedConversation(long memberId, boolean isSaved)
     {
-        return conversationRepository.findAllBySavedAndDeleteStatus(isSaved, false);
+        return conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, isSaved, false);
     }
 
     public void removeConversation(long conversationId)
