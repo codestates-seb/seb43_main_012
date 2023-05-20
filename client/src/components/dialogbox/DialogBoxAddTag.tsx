@@ -11,9 +11,6 @@ import {
   updateTags,
 } from '../../features/main/conversationSlice';
 
-//test
-import { v4 as uuidv4 } from 'uuid';
-
 export const TagsInput = styled.div`
   display: flex;
   justify-content: center;
@@ -121,13 +118,6 @@ const DialogBoxAddTag = () => {
           );
         }
 
-        // setTags([
-        //   ...tagList,
-        //   {
-        //     tagId: uuidToDecimal(uuidv4()),
-        //     tagName: event.currentTarget.value,
-        //   },
-        // ]);
         setNewTag('');
       }
     }
@@ -136,10 +126,6 @@ const DialogBoxAddTag = () => {
   const removeTags = async (indexToRemove: number) => {
     await dispatch(deleteTagAsync({ tId: indexToRemove }));
     dispatch(updateTags({ tId: indexToRemove, type: 'DELETE' }));
-    // console.log(tagList);
-    // console.log('remove tag: ', indexToRemove);
-    // const tagsCopy = tagList.slice().filter((t) => t.tagId !== indexToRemove);
-    // setTags(tagsCopy);
   };
 
   const newTagHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

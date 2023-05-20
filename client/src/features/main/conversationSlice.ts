@@ -77,7 +77,7 @@ export const updatePinAsync = createAsyncThunk(
 export const addTagAsync = createAsyncThunk(
   'conversation/addTag',
   async ({ tName }: { tName: string }, thunkApi) => {
-    console.log('test: add tag');
+    // console.log('test: add tag');
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.cId;
     const res = await addTag({ cId, tName });
@@ -88,7 +88,7 @@ export const addTagAsync = createAsyncThunk(
 export const deleteTagAsync = createAsyncThunk(
   'conversation/deleteTag',
   async ({ tId }: { tId: number }, thunkApi) => {
-    console.log('test: delete tag');
+    // console.log('test: delete tag');
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.cId;
     const res = await deleteTag({ cId, tId });
@@ -146,7 +146,7 @@ const conversationSlice = createSlice({
       action: { payload: { bId: number; bName: string } },
     ) => {
       const { bId, bName } = action.payload;
-      console.log('reducer: update bookmark');
+      // console.log('reducer: update bookmark');
 
       const allBookmarks = [
         ...state.content.bookmarks.map((b) => b.bookmarkName),
@@ -219,13 +219,13 @@ const conversationSlice = createSlice({
             state.content.bookmarkList.filter((b) => b.bookmarkId !== bId);
           //if there was no bookmarks before, then change to saved
           if (!state.content.bookmarks.length) {
-            console.log('must change saved to true');
+            // console.log('must change saved to true');
             state.content.saved = true;
           }
           state.content.bookmarks = newBookmarks;
           state.content.bookmarkList = newUncheckedBookmarks;
 
-          console.log('bookmark added:', action.payload);
+          // console.log('bookmark added:', action.payload);
         }
       })
       .addCase(deleteBookmarkAsync.fulfilled, (state, action) => {
@@ -244,12 +244,12 @@ const conversationSlice = createSlice({
           state.content.bookmarkList = newUncheckedBookmarks;
         }
         if (state.content.bookmarks.length <= 1) {
-          console.log('must change saved to false');
+          // console.log('must change saved to false');
           state.content.saved = false;
         }
         state.content.bookmarks = newBookmarks;
 
-        console.log('bookmark deleted:', bId);
+        // console.log('bookmark deleted:', bId);
       })
       .addCase(updatePinAsync.fulfilled, (state, action) => {
         const { value } = action.meta.arg;
