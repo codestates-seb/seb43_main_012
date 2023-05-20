@@ -120,6 +120,7 @@ const TopNav = ({
     Id = localStorage.getItem('memberId');
   } else {
     Id = 0;
+    Id = 0;
   }
 
   useEffect(() => {

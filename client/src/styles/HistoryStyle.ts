@@ -48,9 +48,9 @@ export const HistoryBody = styled.div`
 
 // 시간표시
 export const TimeLine = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
-  margin: 5%;
+  margin: 40px;
 `;
 // 타임라인 박스
 export const TimeBox = styled.div`
@@ -60,25 +60,11 @@ export const TimeBox = styled.div`
   width: 100%;
   div {
     min-width: 200px;
-    height: 100px;
-    border: 2px solid;
-    margin: 1.5%;
+    height: 150px;
   }
 `;
 
-//히스토리페이지의 아래부분2(버튼 누른 후)
-export const HistoryBody2 = styled.div`
-  margin-top: -1%;
-  margin-bottom: 1%;
-  display: flex;
-  flex-direction: column;
-  width: 90vw;
-  justify-content: space-around;
-`;
 
 export const DateContainer = styled.div``;
-export const DateButton = styled.div``;
-export const ContentContainer = styled.div``;
-export const ContentWraper = styled.div``;
-export const Content = styled.div``;
+
 
