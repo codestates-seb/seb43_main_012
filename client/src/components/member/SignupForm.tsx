@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import SignupInput from "../member/SignupInput";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SignupInput from '../member/SignupInput';
 import {
   ErrorMessage,
   FormBox,
@@ -12,17 +12,15 @@ import {
   checkPassword,
   checkUsername,
   confirmPassword,
-} from "../../utils/checkSignup";
-import useCheck from "../../hooks/useCheck";
-import handleSignup from "../../api/signupApi";
-import { getRandomCharacter } from "./RandomCharcter";
+} from '../../utils/checkSignup';
+import useCheck from '../../hooks/useCheck';
+import handleSignup from '../../api/signupApi';
+import { getRandomCharacter } from './RandomCharcter';
 
 const SignupForm: React.FC = () => {
-
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-
 
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
@@ -47,23 +45,26 @@ const SignupForm: React.FC = () => {
     }
   }, [password2]);
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const avatarLink = getRandomCharacter();
 
-    try{
+    try {
       await handleSignup({
-      username,
-      userId,
-      password,
-      avatarLink,
-      setErrors,
-    });
-    navigate("/login");
-  }
-    catch(error){
+        username,
+        userId,
+        password,
+        avatarLink,
+        setErrors,
+      });
+      navigate('/login');
+    } catch (error) {
       console.log(error);
     }
   };
+
+  const handleAlert = () =>{
+    alert('각각의 양식의 맞춰 작성해주세요.')
+  }
 
   return (
     <FormBox>
@@ -114,16 +115,18 @@ const SignupForm: React.FC = () => {
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {isUserId &&
-          isUsername &&
-          ispassword &&
-          password2.length !== 0 &&
-          isPasswordConfirm ?(
-            <SignButton type="button" onClick={handleSubmit}>
-          Sign up
-        </SignButton>
-          ) :( <SignButton type="button">
-          Sign up
-        </SignButton>)}
+        isUsername &&
+        ispassword &&
+        password2.length !== 0 &&
+        isPasswordConfirm ? (
+          <SignButton type="button" onClick={handleSubmit}>
+            Sign up
+          </SignButton>
+        ) : (
+          <div>
+            <SignButton type="button" onClick={handleAlert}>Sign up</SignButton>
+          </div>
+        )}
       </form>
     </FormBox>
   );
