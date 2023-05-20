@@ -1,9 +1,6 @@
 package com.codestates.seb43_main_012.member.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -73,4 +70,5 @@ public class MemberEntity implements UserDetails {
         // return whether user is enabled, for now returning true
         return true;
     }
+
 }
