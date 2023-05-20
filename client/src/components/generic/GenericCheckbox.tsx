@@ -177,7 +177,7 @@ const GenericCheckbox = ({
         checked={isChecked}
         onChange={handleCheckboxChange}
         id={uniqueId}
-        disabled
+        {...(disabled ? { disabled } : {})}
       />
       <label
         htmlFor={uniqueId}
