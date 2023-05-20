@@ -11,8 +11,6 @@ import BookmarkClickBtn from '../uielements/BookmarkClickBtn';
 import EditTitleHoverBtn from '../uielements/EditTitleHoverBtn';
 import TagHoverBtn from '../uielements/TagHoverBtn';
 import TagClickBtn from '../uielements/TagClickBtn';
-//@ts-ignore
-import { ReactComponent as TaggedIcon } from '../../assets/icons/main_qna/iconAddTagDuotone.svg';
 
 //import redux
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -29,6 +27,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const [isTHoverOpen, setIsTHoverOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [bPopoverOpen, setBPopoverOpen] = useState<boolean>(false);
+  const [tPopoverOpen, setTPopoverOpen] = useState<boolean>(false);
   const conv = useAppSelector(selectConversation);
 
   useEffect(() => {
@@ -43,6 +42,8 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const handleEditClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     setEditState(!editState);
+    if (bPopoverOpen) setBPopoverOpen(false);
+    if (tPopoverOpen) setTPopoverOpen(false);
   };
 
   const handleAddTagClick = (
@@ -50,13 +51,16 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   ) => {
     e.stopPropagation();
     console.log('clicked add tag!');
+    setTPopoverOpen(true);
     setIsTHoverOpen(!isTHoverOpen);
+    if (bPopoverOpen) setBPopoverOpen(false);
   };
   const handleSaveClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     // console.log('clicked save!');
-    setIsBHoverOpen(!isBHoverOpen);
     setBPopoverOpen(true);
+    setIsBHoverOpen(!isBHoverOpen);
+    if (tPopoverOpen) setTPopoverOpen(false);
   };
   const handleConfirmClick = () => {
     // console.log('confirm click!');
@@ -100,6 +104,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
           ) : (
             <TagClickBtn
               saved={Boolean(conv.tags.length)}
+              popoverOpen={tPopoverOpen}
               handleSaveClick={handleAddTagClick}
             />
           )}

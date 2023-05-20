@@ -12,20 +12,19 @@ import { MyGenericFunctionType } from '../../data/d';
 
 type Props = {
   saved: boolean;
-  //   popoverOpen: boolean;
+  popoverOpen: boolean;
   handleSaveClick: MyGenericFunctionType<any>;
   //   setIsModalOpen: (isOpen: boolean) => void;
 };
 
-const TagClickBtn = ({ saved, handleSaveClick }: Props) => {
+const TagClickBtn = ({ saved, popoverOpen, handleSaveClick }: Props) => {
   return (
     <CPopover
       className="popover_saveUI"
-      //   content="content"
       content={<DialogBoxAddTag />}
       placement="bottom"
       trigger="click"
-      visible={true}
+      visible={popoverOpen}
     >
       <IconItem>
         {saved ? (

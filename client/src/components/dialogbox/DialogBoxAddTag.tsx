@@ -88,7 +88,6 @@ const DialogBoxAddTag = () => {
   const dispatch = useAppDispatch();
   const tagList = useAppSelector(selectConversation).tags;
 
-  // const [tags, setTags] = useState(tagList);
   const [newTag, setNewTag] = useState('');
 
   //0. triggered when enter is clicked

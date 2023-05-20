@@ -10,7 +10,6 @@ import QnAList from '../components/chatinterface/QnAList';
 import Loading from '../components/chatinterface/Loading';
 //import files
 import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
-
 //import redux
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
