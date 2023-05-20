@@ -13,6 +13,16 @@ export async function getAllConversations() {
   }
 }
 
+export async function getSavedConversations() {
+  try {
+    const response = await axiosDefault.get<any>(`${BASE_URL}/collections`);
+    return response.data.conversations;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function askFirstQuestion(question: string) {
   try {
     const response = await axiosDefault.post<any>(`${BASE_URL}/conversations`, {
