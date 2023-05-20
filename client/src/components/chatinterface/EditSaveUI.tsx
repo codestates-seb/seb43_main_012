@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { EditSaveUIBox } from '../../styles/MainStyle';
 
 //import style
-import '../../styles/sass/custom_popover_saveUI_hover.scss';
 import { IconItems, IconItem } from '../../styles/IconStyle';
 //import components
 import ModalCreateBookmark from '../modals/ModalCreateBookmark';
@@ -11,6 +10,9 @@ import BookmarkHoverBtn from '../uielements/BookmarkHoverBtn';
 import BookmarkClickBtn from '../uielements/BookmarkClickBtn';
 import EditTitleHoverBtn from '../uielements/EditTitleHoverBtn';
 import TagHoverBtn from '../uielements/TagHoverBtn';
+import TagClickBtn from '../uielements/TagClickBtn';
+//@ts-ignore
+import { ReactComponent as TaggedIcon } from '../../assets/icons/main_qna/iconAddTagDuotone.svg';
 
 //import redux
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -23,19 +25,20 @@ type Props = {
 };
 
 const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
-  const [isHoverOpen, setIsHoverOpen] = useState<boolean>(true);
+  const [isBHoverOpen, setIsBHoverOpen] = useState<boolean>(true);
+  const [isTHoverOpen, setIsTHoverOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+  const [bPopoverOpen, setBPopoverOpen] = useState<boolean>(false);
   const conv = useAppSelector(selectConversation);
   const saved = conv.saved;
 
   useEffect(() => {
-    console.log('saved status changed: ', saved);
+    // console.log('saved status changed: ', saved);
   }, [conv]);
   const handleModalOpenClick = (isOpen: boolean) => {
     setIsModalOpen(isOpen);
-    setPopoverOpen(false);
-    setIsHoverOpen(true);
+    setBPopoverOpen(false);
+    setIsBHoverOpen(true);
   };
 
   const handleEditClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
@@ -48,16 +51,16 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   ) => {
     e.stopPropagation();
     console.log('clicked add tag!');
-    setIsHoverOpen(!isHoverOpen);
+    setIsTHoverOpen(!isTHoverOpen);
   };
   const handleSaveClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
-    console.log('clicked save!');
-    setIsHoverOpen(!isHoverOpen);
-    setPopoverOpen(true);
+    // console.log('clicked save!');
+    setIsBHoverOpen(!isBHoverOpen);
+    setBPopoverOpen(true);
   };
   const handleConfirmClick = () => {
-    console.log('confirm click!');
+    // console.log('confirm click!');
     setEditConfirm(true);
     setEditState(!editState);
   };
@@ -70,7 +73,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   //to focus on title input when the edit status changes
   useEffect(() => {
     if (editState) {
-      console.log('entered edit state!');
+      // console.log('entered edit state!');
       const element = document.getElementById('titleInput') as HTMLInputElement;
       if (element) {
         element.selectionStart = element.value.length;
@@ -90,22 +93,20 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
       ) : (
         <IconItems>
           <EditTitleHoverBtn handleEditClick={handleEditClick} />
-          {isHoverOpen ? (
+          {isTHoverOpen ? (
             <TagHoverBtn handleAddTagClick={handleAddTagClick} />
           ) : (
-            <BookmarkClickBtn
-              saved={saved}
-              popoverOpen={popoverOpen}
+            <TagClickBtn
+              saved={Boolean(conv.tags.length)}
               handleSaveClick={handleAddTagClick}
-              setIsModalOpen={handleModalOpenClick}
             />
           )}
-          {isHoverOpen ? (
+          {isBHoverOpen ? (
             <BookmarkHoverBtn saved={saved} handleSaveClick={handleSaveClick} />
           ) : (
             <BookmarkClickBtn
-              saved={saved}
-              popoverOpen={popoverOpen}
+              saved={Boolean(conv.bookmarks.length)}
+              popoverOpen={bPopoverOpen}
               handleSaveClick={handleSaveClick}
               setIsModalOpen={handleModalOpenClick}
             />

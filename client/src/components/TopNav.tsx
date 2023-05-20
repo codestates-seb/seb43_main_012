@@ -7,9 +7,6 @@ import { UserInfoItemTypes, handleUserInfo } from '../api/MemberApi';
 
 //import style
 import styled from 'styled-components';
-// import '@coreui/coreui/dist/css/coreui.min.css';
-import '../styles/sass/custom_popover_topnav.scss';
-
 import * as TN from '../styles/TopNavStyle';
 import { Character } from '../styles/CharacterStyle';
 
@@ -95,7 +92,7 @@ const TopNav = ({
   const location = useLocation();
 
   let isLoggedIn = false;
-  if (localStorage.getItem("isLoggedIn") === "true") {
+  if (localStorage.getItem('isLoggedIn') === 'true') {
     isLoggedIn = true;
   } else {
     isLoggedIn = false;
@@ -118,14 +115,12 @@ const TopNav = ({
   const [avatarLink, setAvatarLink] = useState<string>('');
   const [username, setUsername] = useState<string>('');
 
-  let Id: any = 0
-  if (localStorage.getItem("memberId")) {
-    Id = localStorage.getItem("memberId")
+  let Id: any = 0;
+  if (localStorage.getItem('memberId')) {
+    Id = localStorage.getItem('memberId');
   } else {
-    Id= 0
+    Id = 0;
   }
-  
-  
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -140,7 +135,6 @@ const TopNav = ({
 
     fetchUserInfo();
   }, []);
-
 
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));
@@ -209,11 +203,11 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            {avatarLink === username?(
+            {avatarLink === username ? (
               username[0]
-            ):
-            <img src={avatarLink} alt="AvatarIcon A" />
-          }
+            ) : (
+              <img src={avatarLink} alt="AvatarIcon A" />
+            )}
           </AvatarIcon>
         ) : (
           <AnonymousIcon className="svg" onClick={handleUserBtnClick} />

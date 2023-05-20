@@ -80,13 +80,12 @@ const BookmarkList = ({
   setIsModalOpen,
 }: ListProp) => {
   const handleModalOpen = () => {
-    console.log('save bookmark modal open!');
+    // console.log('save bookmark modal open!');
     setIsModalOpen(true);
   };
 
   useEffect(() => {
-    console.log('bookmarkList loaded');
-    console.log(list);
+    // console.log('bookmarkList loaded');
   }, [list, uncheckedList]);
 
   return (

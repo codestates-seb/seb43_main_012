@@ -29,6 +29,7 @@ export const addBookmarkAsync = createAsyncThunk(
   async ({ bId, bName }: { bId: number; bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
     const cId = state.conversation.content.conversationId;
+
     const res = await saveBookmark({ cId, bName });
     return res;
   },
@@ -49,8 +50,8 @@ export const createBookmarkAsync = createAsyncThunk(
   'conversation/createBookmark',
   async ({ bName }: { bName: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
+
     const cId = state.conversation.content.conversationId;
-    console.log('cId: ', cId);
     const res = await saveBookmark({ cId, bName });
     return res;
   },
@@ -100,7 +101,34 @@ const conversationSlice = createSlice({
       state.cTitle = action.payload;
     },
 
-    updateBookmarks: (state, action) => {},
+    updateBookmarks: (
+      state,
+      action: { payload: { bId: number; bName: string } },
+    ) => {
+      const { bId, bName } = action.payload;
+      console.log('reducer: update bookmark');
+
+      const allBookmarks = [
+        ...state.content.bookmarks.map((b) => b.bookmarkName),
+        ...state.content.bookmarkList.map((b) => b.bookmarkName),
+      ];
+
+      if (!allBookmarks.includes(bName)) {
+        state.content.bookmarks = [
+          { bookmarkId: bId, bookmarkName: bName },
+          ...state.content.bookmarks,
+        ];
+      } else {
+        //just add to checked list, remove from unchecked list
+        state.content.bookmarks = [
+          { bookmarkId: bId, bookmarkName: bName },
+          ...state.content.bookmarks,
+        ];
+        state.content.bookmarkList = state.content.bookmarkList.filter(
+          (b) => b.bookmarkId !== bId,
+        );
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -151,7 +179,8 @@ const conversationSlice = createSlice({
         state.content.bookmarks = newBookmarks;
 
         console.log('bookmark deleted:', bId);
-      });
+      })
+      .addCase(createBookmarkAsync.fulfilled, (state, action) => {});
   },
 });
 
@@ -167,6 +196,7 @@ export const {
   setConversation,
   changeQnASaveStatus,
   changeTitle,
+  updateBookmarks,
 } = conversationSlice.actions;
 
 export default conversationSlice.reducer;
