@@ -39,7 +39,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
           const userData: UserInfoItemTypes = await handleUserInfo(
             `user/${mId}`,
           );
-          console.log(userData);
+          // console.log(userData);
           const date: number[] = userData.createdAt;
           dispatch(
             updateMemberInfo({

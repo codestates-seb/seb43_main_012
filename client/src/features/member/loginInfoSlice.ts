@@ -45,8 +45,8 @@ const memberSlice = createSlice({
       }
     },
     updateMemberInfo: (state, action: { payload: UserInfo }) => {
-      console.log('reducer memberinfo: was this done?');
-      console.log(action.payload);
+      //   console.log('reducer memberinfo: was this done?');
+      //   console.log(action.payload);
       state.memberInfo = action.payload;
     },
   },

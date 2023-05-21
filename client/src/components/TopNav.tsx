@@ -94,10 +94,9 @@ const TopNav = ({
   });
 
   const fetchUserInfo = async () => {
-    console.log('updating member state');
     const mId = localStorage.getItem('memberId');
     const userData: UserInfoItemTypes = await handleUserInfo(`user/${mId}`);
-    console.log(userData);
+    // console.log(userData);
     const date: number[] = userData.createdAt;
     dispatch(
       updateMemberInfo({
@@ -141,7 +140,7 @@ const TopNav = ({
       avatarLink: _memberInfo.avatarLink,
     });
     setIsLoggedIn(_loginState);
-  }, [_memberInfo, _loginState]);
+  }, [_loginState]);
 
   // const fetchUserInfo = async () => {
   //   // if (!memberInfo.userId) return;
