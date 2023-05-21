@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { requestAuth } from '../utils/axiosConfig';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setContent,
@@ -161,7 +162,7 @@ const Collections = () => {
     (state: RootState) => state.collection,
   );
   useEffect(() => {
-    axios
+    requestAuth
       .get(
         'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
       )
@@ -183,7 +184,7 @@ const Collections = () => {
   };
 
   const handleContentClick = (conversation: Conversation) => {
-    axios
+    requestAuth
       .get(
         `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
       )

@@ -123,21 +123,33 @@ const TopNav = ({
   }
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
-        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
-        setUsername(userData.username); // username 값 설정
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUserInfo();
+    if (localStorage.getItem('memberId')) {
+      const fetchUserInfo = async () => {
+        try {
+          const userData: UserInfoItemTypes = await handleUserInfo(
+            `user/${Id}`,
+          );
+          setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+          setUsername(userData.username); // username 값 설정
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchUserInfo();
+    }
   }, []);
 
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));
+  };
+
+  const handleAnonymousClick = (
+    e:
+      | React.MouseEvent<SVGSVGElement, MouseEvent>
+      | React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    setIsModalLoginOpen(true);
   };
 
   return (
@@ -157,7 +169,7 @@ const TopNav = ({
               <div>
                 <HistoryIcon
                   className="svg"
-                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
                 />
               </div>
             </CPopover>
@@ -174,8 +186,9 @@ const TopNav = ({
               <div>
                 <ChatIcon
                   className="svg center"
-                  onClick={handleChatBtnClick}
-                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  onClick={
+                    isLoggedIn ? handleChatBtnClick : handleAnonymousClick
+                  }
                 />
               </div>
             </CPopover>
@@ -193,7 +206,7 @@ const TopNav = ({
               <div>
                 <CollectionIcon
                   className="svg"
-                  // onClick={isLoggedIn ? undefined : handleUserBtnClick}
+                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
                 />
               </div>
             </CPopover>

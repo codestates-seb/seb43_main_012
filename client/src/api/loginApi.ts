@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { request, requestAuth } from '../utils/axiosConfig';
+import { request } from '../utils/axiosConfig';
 
 interface LoginArgs {
   userId: string;
