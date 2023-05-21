@@ -40,7 +40,6 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Router>
             <TopNav
-              isLoggedIn={isLoggedIn}
               isUserDialogOpen={isUserDialogOpen}
               setIsUserDialogOpen={setIsUserDialogOpen}
               setIsModalLoginOpen={setIsModalLoginOpen}
@@ -50,7 +49,6 @@ function App() {
               <ModalLogin
                 isOpen={isModalLoginOpen}
                 setIsOpen={setIsModalLoginOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {isUserDialogOpen && (
@@ -73,7 +71,6 @@ function App() {
                   <Login
                     isOpen={isModalLoginOpen}
                     setIsOpen={setIsModalLoginOpen}
-                    setIsLoggedIn={setIsLoggedIn}
                   />
                 }
               />

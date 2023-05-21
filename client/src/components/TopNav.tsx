@@ -61,14 +61,12 @@ const navTooltip = {
 };
 
 type TopNavProps = {
-  isLoggedIn: boolean;
   isUserDialogOpen: boolean;
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setDialogPosition: React.Dispatch<
     React.SetStateAction<{ x: number; y: number }>
   >;
   setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // setCurrentCId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type MemberInfoType = {

@@ -13,7 +13,6 @@ import {
 } from '../../features/member/loginInfoSlice';
 
 type Props = {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   closeModal: () => void;
 };
 
@@ -41,7 +40,7 @@ export function formatDateTime(arr: number[]) {
   });
 }
 
-const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
+const LoginForm = ({ closeModal }: Props) => {
   const [userId, setuserId] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
@@ -86,7 +85,6 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
     try {
       const res = await handleLogin({ userId, password, setErrors });
       if (res.status === 200) {
-        setIsLoggedIn(true);
         console.log(localStorage.getItem('token'));
 
         //리덕스 state 업데이트
