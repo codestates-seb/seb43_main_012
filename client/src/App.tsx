@@ -19,7 +19,6 @@ const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
 
-import loadingGif from './assets/gifs/dot-anim1_sm.gif';
 const CollectionPins = lazy(
   () => import('./components/overlay/CollectionPins'),
 );

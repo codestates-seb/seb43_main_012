@@ -31,6 +31,16 @@ function isValidPassword(password: string): boolean {
   return /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password);
 }
 
+function formatDateTime(arr: number[]) {
+  // Please note that JavaScript counts months from 0 (January) to 11 (December),
+  // so we subtract 1 from the month.
+  let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+  return date.toLocaleDateString('default', {
+    year: 'numeric',
+    month: 'short',
+  });
+}
+
 const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
   const [userId, setuserId] = useState('');
   const [password, setPassword] = useState('');
@@ -81,20 +91,18 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
 
         //리덕스 state 업데이트
         if (localStorage.getItem('memberId')) {
-          // console.log('updating member state');
           const mId = localStorage.getItem('memberId');
           const userData: UserInfoItemTypes = await handleUserInfo(
             `user/${mId}`,
           );
-          // console.log(userData);
-          const date: number[] = userData.createdAt;
+          console.log(formatDateTime(userData.createdAt));
           dispatch(
             updateMemberInfo({
               userId: userData.id,
               userEmail: userData.userId,
               username: userData.username,
               avatarLink: userData.avatarLink,
-              createdDate: `${date[1]}.${date[0]}} `,
+              createdDate: formatDateTime(userData.createdAt),
             }),
           );
           dispatch(changeLoginState('ON'));

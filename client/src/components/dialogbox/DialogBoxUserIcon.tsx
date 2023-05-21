@@ -13,8 +13,12 @@ import {
 import { ModalBackdrop } from '../../styles/CharacterStyle';
 import styled from 'styled-components';
 import { logoutApi } from '../../api/LogoutApi';
-import { useAppDispatch } from '../../app/hooks';
-import { changeLoginState } from '../../features/member/loginInfoSlice';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import {
+  changeLoginState,
+  selectMemberInfo,
+} from '../../features/member/loginInfoSlice';
+import { useSelector } from 'react-redux';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
@@ -44,7 +48,7 @@ const DialogBoxUserIcon = ({
   setIsUserDialogOpen,
   setIsLoggedIn,
 }: BoxProps) => {
-  console.log(`x: ${dialogPosition.x} `);
+  const mInfo = useSelector(selectMemberInfo);
 
   const handleDialogItemClick = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -84,7 +88,11 @@ const DialogBoxUserIcon = ({
       <BoxBackdrop onClick={handleModalBackdropClick} />
       <MovingDialogBox posX={dialogPosition.x} posY={dialogPosition.y}>
         <UserInfo>
-          <UserCreatedDate>✨ Member since Apr 2023</UserCreatedDate>
+          {Boolean(mInfo.userId) && (
+            <UserCreatedDate>
+              {`✨ Member since ${mInfo.createdDate}`}
+            </UserCreatedDate>
+          )}
           <DialogItems>
             <DialogSelectItem onClick={handleDialogItemClick}>
               <Link to="/mypage">Profile</Link>
@@ -99,7 +107,7 @@ const DialogBoxUserIcon = ({
               Start Guide
             </DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
-            <EmailItem>sunga.jlh@gmail.com</EmailItem>
+            {Boolean(mInfo.userId) && <EmailItem>{mInfo.userEmail}</EmailItem>}
           </SignOutFooter>
         </UserInfo>
       </MovingDialogBox>
