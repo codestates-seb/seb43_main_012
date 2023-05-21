@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { request, requestAuth } from './request';
-
-
+import { request, requestAuth } from '../utils/axiosConfig';
 
 interface SignupArgs {
   username: string;
@@ -19,18 +17,16 @@ const handleSignup = async ({
   setErrors,
 }: SignupArgs) => {
   try {
-  
     const res = await request.post(`/api/signup`, {
       username,
       userId,
       password,
       avatarLink,
-
     });
     console.log(res.data);
     return res;
   } catch (error) {
-    alert("회원가입에 실패했습니다. 다시 시도해 주세요.")
+    alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
     console.log(error);
     return error;
   }

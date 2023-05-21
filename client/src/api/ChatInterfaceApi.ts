@@ -1,11 +1,11 @@
-import { axiosDefault } from '../utils/axiosConfig';
+import { requestAuth } from '../utils/axiosConfig';
 import { BookmarkType, Conversation } from '../data/d';
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 export async function getAllConversations() {
   try {
-    const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
+    const response = await requestAuth.get<any>(`${BASE_URL}/conversations`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -15,7 +15,7 @@ export async function getAllConversations() {
 
 export async function getSavedConversations() {
   try {
-    const response = await axiosDefault.get<any>(`${BASE_URL}/collections`);
+    const response = await requestAuth.get<any>(`${BASE_URL}/collections`);
     return response.data.conversations;
   } catch (error) {
     console.error(error);
@@ -25,7 +25,7 @@ export async function getSavedConversations() {
 
 export async function getCollections() {
   try {
-    const response = await axiosDefault.get<any>(`${BASE_URL}/collections`);
+    const response = await requestAuth.get<any>(`${BASE_URL}/collections`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -35,7 +35,7 @@ export async function getCollections() {
 
 export async function askFirstQuestion(question: string) {
   try {
-    const response = await axiosDefault.post<any>(`${BASE_URL}/conversations`, {
+    const response = await requestAuth.post<any>(`${BASE_URL}/conversations`, {
       question,
     });
     return response.data;
@@ -46,7 +46,7 @@ export async function askFirstQuestion(question: string) {
 }
 
 export async function askFirstQuestionOpenAI(question: string) {
-  axiosDefault
+  requestAuth
     .post<any>(`${BASE_URL}/openai/question`, {
       question,
     })
@@ -58,7 +58,7 @@ export async function askFirstQuestionOpenAI(question: string) {
 
 export async function continueConversation(id: number, question: string) {
   try {
-    const response = await axiosDefault.post<any>(
+    const response = await requestAuth.post<any>(
       `${BASE_URL}/openai/question`,
       {
         conversationId: id,
@@ -75,7 +75,7 @@ export async function continueConversation(id: number, question: string) {
 
 export async function getConversation(id: number): Promise<Conversation> {
   try {
-    const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
+    const res = await requestAuth.get<any>(`${BASE_URL}/conversations/${id}`);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -86,7 +86,7 @@ export async function getConversation(id: number): Promise<Conversation> {
 export async function editTitle({ id, title }: { id: number; title: string }) {
   // console.log('edit title api called!');
   try {
-    const response = await axiosDefault.patch<any>(
+    const response = await requestAuth.patch<any>(
       `${BASE_URL}/conversations/${id}`,
       {
         title,
@@ -101,7 +101,7 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
 }
 //conversationId
 export async function deleteConveration() {
-  axiosDefault
+  requestAuth
     .delete<any>(`${BASE_URL}/conversations/`)
     .then((res) => {
       console.log(res);
@@ -122,7 +122,7 @@ export async function saveBookmark({
   bName: string;
 }): Promise<BookmarkType> {
   try {
-    const response = await axiosDefault.post(
+    const response = await requestAuth.post(
       `${BASE_URL}/conversations/${cId}/bookmarks`,
       {
         bookmarkName: bName,
@@ -143,7 +143,7 @@ export async function deleteBookmark({
   bId: number;
 }) {
   try {
-    await axiosDefault.delete(
+    await requestAuth.delete(
       `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
     );
   } catch (error) {
@@ -154,7 +154,7 @@ export async function deleteBookmark({
 
 export async function addTag({ cId, tName }: { cId: number; tName: string }) {
   try {
-    const response = await axiosDefault.post(
+    const response = await requestAuth.post(
       `${BASE_URL}/conversations/${cId}/tags`,
       {
         tagName: tName,
@@ -169,7 +169,7 @@ export async function addTag({ cId, tName }: { cId: number; tName: string }) {
 
 export async function deleteTag({ cId, tId }: { cId: number; tId: number }) {
   try {
-    await axiosDefault.delete(`${BASE_URL}/conversations/${cId}/tags/${tId}`);
+    await requestAuth.delete(`${BASE_URL}/conversations/${cId}/tags/${tId}`);
   } catch (error) {
     console.log(error);
     throw error;
@@ -184,7 +184,7 @@ export async function updatePinState({
   value: boolean;
 }) {
   try {
-    await axiosDefault.patch(`${BASE_URL}/conversations/${cId}`, {
+    await requestAuth.patch(`${BASE_URL}/conversations/${cId}`, {
       pinned: value,
     });
   } catch (error) {
