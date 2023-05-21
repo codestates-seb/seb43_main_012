@@ -44,7 +44,7 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
           console.error('Error in continueConversation:', error);
         }
       })();
-    } else {
+    } else if (localStorage.getItem('token')) {
       (async function () {
         try {
           const res = await askFirstQuestion(qValue);
