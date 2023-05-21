@@ -57,7 +57,6 @@ function App() {
               <DialogBoxUserIcon
                 dialogPosition={dialogPosition}
                 setIsUserDialogOpen={setIsUserDialogOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {/* {showHistory && <History />}

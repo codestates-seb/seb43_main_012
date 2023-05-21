@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   DialogBox,
@@ -23,7 +23,6 @@ import { useSelector } from 'react-redux';
 type BoxProps = {
   dialogPosition: { x: number; y: number };
   setIsUserDialogOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type StyleProps = {
@@ -46,7 +45,6 @@ const BoxBackdrop = styled(ModalBackdrop)`
 const DialogBoxUserIcon = ({
   dialogPosition,
   setIsUserDialogOpen,
-  setIsLoggedIn,
 }: BoxProps) => {
   const mInfo = useSelector(selectMemberInfo);
 
@@ -59,10 +57,6 @@ const DialogBoxUserIcon = ({
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
-  // const handleLogout = () => {
-  //   if (setIsLoggedIn) setIsLoggedIn(false);
-  //   if (setIsUserDialogOpen) setIsUserDialogOpen(false);
-  // };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {

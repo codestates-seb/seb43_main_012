@@ -6,10 +6,6 @@ export type ContentType = {
   bookmarks: BookmarkType[];
 };
 
-export type GetNewQnAResponse = {
-  data: QnAType;
-};
-
 export type QnAType = {
   qnaId: number;
   question: string;
@@ -48,6 +44,8 @@ export type Conversation = {
   viewCount: number;
   activityLevel: number;
 };
+
+export type ConversationThumbnail = Omit<Conversation, 'qnaList'>;
 
 export const initialConvData = {
   conversationId: -1,

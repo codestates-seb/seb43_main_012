@@ -4,7 +4,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 //import components
 import { CPopover } from '@coreui/react';
 import { UserInfoItemTypes, handleUserInfo } from '../api/MemberApi';
-
+//import functions
+import { formatDateTime } from './member/LoginForm';
 //import style
 import styled from 'styled-components';
 import * as TN from '../styles/TopNavStyle';
@@ -104,7 +105,7 @@ const TopNav = ({
         userEmail: userData.userId,
         username: userData.username,
         avatarLink: userData.avatarLink,
-        createdDate: `${date[1]}.${date[0]}} `,
+        createdDate: formatDateTime(userData.createdAt),
       }),
     );
     dispatch(changeLoginState('ON'));

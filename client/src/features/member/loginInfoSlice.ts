@@ -21,7 +21,7 @@ const initialState: UserState = {
     userEmail: '',
     username: '',
     avatarLink: '',
-    createdDate: '',
+    createdDate: 'Apr 2023',
   },
 };
 

@@ -30,7 +30,7 @@ function History(): ReactElement {
   useEffect(() => {
     const currentMonth = new Date().getMonth();
     const availableMonths = Array.from(
-      { length: 2 },
+      { length: 3 },
       (_, index) => currentMonth - index,
     ).map((month) => {
       const adjustedMonth = month < 1 ? month + 12 : month;

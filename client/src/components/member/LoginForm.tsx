@@ -31,7 +31,7 @@ function isValidPassword(password: string): boolean {
   return /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password);
 }
 
-function formatDateTime(arr: number[]) {
+export function formatDateTime(arr: number[]) {
   // Please note that JavaScript counts months from 0 (January) to 11 (December),
   // so we subtract 1 from the month.
   let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
