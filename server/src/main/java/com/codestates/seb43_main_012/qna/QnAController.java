@@ -8,6 +8,7 @@ import com.codestates.seb43_main_012.exception.ExceptionCode;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,8 @@ public class QnAController {
     }
 
     @PostMapping
-    public ResponseEntity postQuestion(@RequestBody QnADto.Post dto)
+    public ResponseEntity postQuestion(@RequestBody QnADto.Post dto,
+                                       @AuthenticationPrincipal MemberEntity member)
     {
         long conversationId = dto.getConversationId();
         if(conversationId == 0) throw new BusinessLogicException(ExceptionCode.CONV_NOT_FOUND);

@@ -115,7 +115,8 @@ public class ConversationController {
 
     @PostMapping("/{conversation-id}/tags")
     public ResponseEntity tagConversation(@PathVariable("conversation-id") long conversationId,
-                                              @RequestBody TagDto.Post tagDto)
+                                          @RequestBody TagDto.Post tagDto,
+                                          @AuthenticationPrincipal MemberEntity member)
     {
         long tagId = conversationService.createTag(conversationId, tagDto);
 
@@ -124,7 +125,8 @@ public class ConversationController {
 
     @DeleteMapping("/{conversation-id}/tags/{tag-id}")
     public ResponseEntity deleteConversationTag(@PathVariable("conversation-id") long conversationId,
-                                                @PathVariable("tag-id") long tagId)
+                                                @PathVariable("tag-id") long tagId,
+                                                @AuthenticationPrincipal MemberEntity member)
     {
         Conversation savedConversation = conversationService.deleteTag(conversationId, tagId);
         conversationService.setSaveStatus(savedConversation);
@@ -155,7 +157,8 @@ public class ConversationController {
     }
 
     @DeleteMapping("/{conversation-id}")
-    public ResponseEntity deleteConversation(@PathVariable("conversation-id") long conversationId)
+    public ResponseEntity deleteConversation(@PathVariable("conversation-id") long conversationId,
+                                             @AuthenticationPrincipal MemberEntity member)
     {
         conversationService.removeConversation(conversationId);
 
