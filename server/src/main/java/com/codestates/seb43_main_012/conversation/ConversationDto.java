@@ -38,7 +38,7 @@ public class ConversationDto {
         private MemberDto.ResponseForConversation member;
         private String title;
         private List<QnADto.Response> qnaList;
-        private List<ConversationCategory> bookmarks;
+        private List<ConversationCategoryDto> bookmarks;
         private List<ConversationCategoryDto> bookmarkList;
         private List<Tag> tags;
         private Boolean saved;
@@ -59,7 +59,7 @@ public class ConversationDto {
         private String title;
         private String answerSummary;
         private String modifiedAt;
-        private List<ConversationCategory> bookmarks;
+        private List<ConversationCategoryDto> bookmarks;
         private List<Tag> tags;
         private Boolean saved;
         private Boolean pinned;

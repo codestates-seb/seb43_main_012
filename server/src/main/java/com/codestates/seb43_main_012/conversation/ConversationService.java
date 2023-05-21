@@ -150,8 +150,7 @@ public class ConversationService {
         {
             ConversationCategory conversationCategory = new ConversationCategory(
                     findConversation,
-                    category.getId(),
-                    category.getName()
+                    category
             );
             conversationCategoryRepository.save(conversationCategory);
         }
@@ -165,7 +164,7 @@ public class ConversationService {
     {
         Conversation findConversation = findConversation(conversationId);
 
-        conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkId(conversationId, bookmarkId);
+        conversationCategoryRepository.deleteByConversationConversationIdAndCategoryId(conversationId, bookmarkId);
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
         if(conversationCategories.isEmpty())
         {

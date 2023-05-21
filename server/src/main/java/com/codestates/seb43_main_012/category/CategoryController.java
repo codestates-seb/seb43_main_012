@@ -31,11 +31,12 @@ public class CategoryController {
 
     @PatchMapping("/{bookmark-id}")
     public ResponseEntity patchCategory(@RequestBody CategoryDto.Patch dto,
-                                       @AuthenticationPrincipal MemberEntity member)
+                                        @PathVariable("bookmark-id") long categoryId,
+                                        @AuthenticationPrincipal MemberEntity member)
     {
         Long memberId = member.getId();
 
-        Category category = categoryService.updateCategory(memberId, dto.getBookmarkName());
+        Category category = categoryService.updateCategory(memberId, categoryId, dto.getBookmarkName());
 
         CategoryDto.Response response = new CategoryDto.Response(category.getId(), category.getName());
 

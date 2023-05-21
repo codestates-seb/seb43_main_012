@@ -39,7 +39,7 @@ public class ConversationMapper {
                 new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 conversation.getTitle(),
                 qnaResponseList,
-                conversation.getBookmarks(),
+                conversationCategoriesToCategoryResponseDtos(conversation.getBookmarks()),
                 categoriesToCategoryResponseDtos(categories),
                 tags,
                 conversation.getSaved(),
@@ -76,8 +76,8 @@ public class ConversationMapper {
     private ConversationCategoryDto conversationCategoryToCategoryResponseDto(ConversationCategory conversationCategory)
     {
         ConversationCategoryDto response = new ConversationCategoryDto(
-                conversationCategory.getBookmarkId(),
-                conversationCategory.getBookmarkName()
+                conversationCategory.getCategory().getId(),
+                conversationCategory.getCategory().getName()
         );
 
         return response;
@@ -113,7 +113,7 @@ public class ConversationMapper {
                         conv.getTitle(),
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
-                        conv.getBookmarks(),
+                        conversationCategoriesToCategoryResponseDtos(conv.getBookmarks()),
                         tags,
                         conv.getSaved(),
                         conv.getPinned(),

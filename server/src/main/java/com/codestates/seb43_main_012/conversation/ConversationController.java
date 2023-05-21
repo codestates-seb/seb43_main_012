@@ -64,7 +64,7 @@ public class ConversationController {
 
         // 이 부분 서비스 클래스로 분리해야함
         List<Long> conversationCategoryIDs = new ArrayList<>();
-        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getBookmarkId()));
+        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
 
         if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
 
