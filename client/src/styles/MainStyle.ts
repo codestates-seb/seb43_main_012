@@ -158,11 +158,13 @@ export const QnATitle = styled.title`
 
 export const QnAAnswer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 18px;
   font-weight: 400;
   padding: 5px 0;
+  // overflow-x: hidden;
 `;
 
 //change this Center value to center the Q and A without the checkbox

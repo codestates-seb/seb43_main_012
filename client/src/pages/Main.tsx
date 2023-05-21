@@ -90,7 +90,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       // })();
       //edit bookmark test
       (async function () {
-        // await loadConv(22);
+        await loadConv(27);
         // const res = await editBookmark({
         //   bId: 33,
         //   newName: 'WorldHist',
