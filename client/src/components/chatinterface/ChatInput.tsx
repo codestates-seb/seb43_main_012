@@ -47,8 +47,10 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
     } else if (localStorage.getItem('token')) {
       (async function () {
         try {
+          setIsLoading(true);
           const res = await askFirstQuestion(qValue);
           console.log('asked first Question: ', res);
+          setIsLoading(false);
           setQValue('');
           dispatch(setConversation(res));
           // setCValue(res);

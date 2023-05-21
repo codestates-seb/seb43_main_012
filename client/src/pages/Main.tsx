@@ -52,7 +52,7 @@ function scrollToLastQ() {
 const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const dispatch = useAppDispatch();
 
-  const conversation = useAppSelector(selectConversation);
+  const conversation: Conversation = useAppSelector(selectConversation);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
   const [currentCId, setCurrentCId] = useState<number>(
@@ -164,9 +164,11 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       {conversation.title ? (
         <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
       ) : (
-        <M.LoadingBox>
-          <Loading loadingGif={loadingGif} />
-        </M.LoadingBox>
+        isLoading && (
+          <M.LoadingBox>
+            <Loading loadingGif={loadingGif} />
+          </M.LoadingBox>
+        )
       )}
     </MainBox>
   );

@@ -39,22 +39,12 @@ export async function askFirstQuestion(question: string) {
     const response = await requestAuth.post<any>(`${BASE_URL}/conversations`, {
       question,
     });
+    console.log(response.data.qnaList[0].answer);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
-
-export async function askFirstQuestionOpenAI(question: string) {
-  requestAuth
-    .post<any>(`${BASE_URL}/openai/question`, {
-      question,
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
 }
 
 export async function continueConversation(id: number, question: string) {
