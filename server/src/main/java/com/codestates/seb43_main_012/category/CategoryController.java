@@ -29,6 +29,19 @@ public class CategoryController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{bookmark-id}")
+    public ResponseEntity patchCategory(@RequestBody CategoryDto.Patch dto,
+                                       @AuthenticationPrincipal MemberEntity member)
+    {
+        Long memberId = member.getId();
+
+        Category category = categoryService.updateCategory(memberId, dto.getBookmarkName());
+
+        CategoryDto.Response response = new CategoryDto.Response(category.getId(), category.getName());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{bookmark-id}")
     public ResponseEntity deleteCategory(@PathVariable("bookmark-id") long categoryId,
                                          @AuthenticationPrincipal MemberEntity member)

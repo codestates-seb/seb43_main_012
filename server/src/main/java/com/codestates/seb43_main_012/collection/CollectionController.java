@@ -34,20 +34,6 @@ public class CollectionController {
     private final CategoryRepository categoryRepository;
     private final ConversationTagRepository conversationTagRepository;
     private final TagRepository tagRepository;
-//    public CollectionController(ConversationService conversationService,
-//                                MemberService memberService,
-//                                BookmarkRepository bookmarkRepository,
-//                                CollectionMapper collectionMapper,
-//                                CategoryRepository categoryRepository,
-//                                ConversationTagRepository conversationTagRepository)
-//    {
-//        this.conversationService = conversationService;
-//        this.memberService = memberService;
-//        this.bookmarkRepository = bookmarkRepository;
-//        this.collectionMapper = collectionMapper;
-//        this.categoryRepository = categoryRepository;
-//        this.conversationTagRepository = conversationTagRepository;
-//    }
 
     @GetMapping
     public ResponseEntity getCollections(@AuthenticationPrincipal MemberEntity member)

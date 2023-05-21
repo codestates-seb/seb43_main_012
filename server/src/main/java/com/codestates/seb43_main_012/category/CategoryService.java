@@ -26,6 +26,17 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public Category updateCategory(long memberId, String categoryName)
+    {
+        Optional<Category> optional = categoryRepository.findByMemberIdAndName(memberId, categoryName);
+
+        Category category = optional.orElseThrow();
+
+        category.setName(categoryName);
+
+        return categoryRepository.save(category);
+    }
+
     @Transactional
     public void removeCategory(long memberId, long categoryId)
     {
