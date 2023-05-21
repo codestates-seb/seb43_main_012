@@ -25,7 +25,7 @@ function ModalCharacter({
   // 로컬에 저장한 memberId를 가져와서 파라미터 사용
   const navigate = useNavigate();
   const Id = localStorage.getItem('memberId');
-  const [selectedCharacter, setSelectedCharacter] = useState<string>("");
+  const [selectedCharacter, setSelectedCharacter] = useState<string>('');
   const [avatarLink, setAvatarLink] = useState<string>(''); // avatarLink 변수 정의
   const [username, setUsername] = useState<string>('');
   // 유저 정보 get 그중 avatarLink 가져오기, Id가 변동될 때마다 진행
@@ -74,8 +74,8 @@ function ModalCharacter({
                   <img src={selectedCharacter} alt="" />
                 )}
               </MainCharacter>
-              <section className='charactersection'>
-                <div className='characterdiv'>
+              <section className="charactersection">
+                <div className="characterdiv">
                   <Character
                     onClick={() => selectCharacterHandler('/character1.png')}
                     className={
@@ -101,7 +101,7 @@ function ModalCharacter({
                     <img src="/character3.png" alt="Character C" />
                   </Character>
                 </div>
-                <div className='characterdiv'>
+                <div className="characterdiv">
                   <Character
                     onClick={() => selectCharacterHandler('/character4.png')}
                     className={

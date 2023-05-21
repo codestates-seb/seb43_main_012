@@ -64,7 +64,4 @@ export const TimeBox = styled.div`
   }
 `;
 
-
 export const DateContainer = styled.div``;
-
-

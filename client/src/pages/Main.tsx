@@ -23,6 +23,7 @@ import {
   getConversation,
   getAllConversations,
   getSavedConversations,
+  getCollections,
 } from '../api/ChatInterfaceApi';
 
 //import data
@@ -79,10 +80,19 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   };
 
   useEffect(() => {
-    loadConv(10);
+    if (localStorage.getItem('token')) {
+      loadConv(9);
+      // (async function () {
+      //   const conversations = await getAllConversations();
+      //   if (conversations) {
+      //     // console.log('fetched data!');
+      //     console.log(conversations);
+      //   }
+      // })();
+    }
 
     // (async function () {
-    //   const conversations = await getSavedConversations();
+    //   const conversations = await getCollections();
     //   if (conversations) {
     //     // console.log('fetched data!');
     //     console.log(conversations);

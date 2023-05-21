@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { TagType } from '../../data/dataTypes';
+import { TagType } from '../../data/d';
 
 const Main = styled.main`
   max-width: 1080px;
@@ -11,7 +11,7 @@ const Main = styled.main`
 const ContentWraper = styled.div`
   border: none;
   width: 100%;
-   overflow-y: hidden;
+  overflow-y: hidden;
 `;
 
 const ContentContainer = styled.div`
@@ -68,7 +68,6 @@ export type Conversation = {
   viewCount: number;
   activityLevel: number;
 };
-
 
 const ContentData = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);

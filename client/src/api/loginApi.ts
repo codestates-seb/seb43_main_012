@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { request, requestAuth } from './request';
+import { request } from '../utils/axiosConfig';
 
 interface LoginArgs {
   userId: string;
@@ -18,11 +18,11 @@ export const handleLogin = async ({
   });
   if (res.status !== 200) throw new Error(res.data.message);
   const cookies = res.headers['set-cookie'];
-    if (cookies) {
-      const sessionId = extractSessionIdFromCookies(cookies);
-      sessionStorage.setItem('sessionId', sessionId);
-    }
-  localStorage.setItem('token',res.data.authorization);
+  if (cookies) {
+    const sessionId = extractSessionIdFromCookies(cookies);
+    sessionStorage.setItem('sessionId', sessionId);
+  }
+  localStorage.setItem('token', res.data.authorization);
   localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
@@ -38,4 +38,3 @@ const extractSessionIdFromCookies = (cookies: string[]) => {
   }
   return '';
 };
-

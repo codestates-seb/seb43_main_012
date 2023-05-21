@@ -62,9 +62,9 @@ const SignupForm: React.FC = () => {
     }
   };
 
-  const handleAlert = () =>{
-    alert('각각의 양식의 맞춰 작성해주세요.')
-  }
+  const handleAlert = () => {
+    alert('각각의 양식의 맞춰 작성해주세요.');
+  };
 
   return (
     <FormBox>
@@ -124,12 +124,13 @@ const SignupForm: React.FC = () => {
           </SignButton>
         ) : (
           <div>
-            <SignButton type="button" onClick={handleAlert}>Sign up</SignButton>
+            <SignButton type="button" onClick={handleAlert}>
+              Sign up
+            </SignButton>
           </div>
         )}
       </form>
     </FormBox>
   );
 };
-
 export default SignupForm;
