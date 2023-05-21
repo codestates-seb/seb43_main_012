@@ -4,6 +4,13 @@ import { FormContainer } from '../../styles/LoginStyle';
 import SignupInput from '../member/SignupInput';
 import { ErrorMessage, SignButton } from '../../styles/SignupStyle';
 import { handleLogin } from '../../api/loginApi';
+import { UserInfoItemTypes, handleUserInfo } from '../../api/MemberApi';
+
+import { useAppDispatch } from '../../app/hooks';
+import {
+  changeLoginState,
+  updateMemberInfo,
+} from '../../features/member/loginInfoSlice';
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +23,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
   const [errors, setErrors] = useState('');
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,6 +32,26 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
       if (res.status === 200) {
         setIsLoggedIn(true);
         console.log(localStorage.getItem('token'));
+
+        if (localStorage.getItem('memberId')) {
+          console.log('updating member state');
+          const mId = localStorage.getItem('memberId');
+          const userData: UserInfoItemTypes = await handleUserInfo(
+            `user/${mId}`,
+          );
+          console.log(userData);
+          const date: number[] = userData.createdAt;
+          dispatch(
+            updateMemberInfo({
+              userId: userData.id,
+              userEmail: userData.userId,
+              username: userData.username,
+              avatarLink: userData.avatarLink,
+              createdDate: `${date[1]}.${date[0]}} `,
+            }),
+          );
+          dispatch(changeLoginState('ON'));
+        }
         closeModal();
         navigate('/');
       }

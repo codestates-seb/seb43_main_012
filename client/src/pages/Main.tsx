@@ -24,6 +24,7 @@ import {
   getAllConversations,
   getSavedConversations,
   getCollections,
+  editBookmark,
 } from '../api/ChatInterfaceApi';
 
 //import data
@@ -71,6 +72,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       const conversation = await getConversation(cId);
       if (conversation) {
         // console.log('started new session!');
+        // console.log(conversation);
         dispatch(setConversation(conversation));
       }
     } else {
@@ -81,7 +83,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      loadConv(9);
       // (async function () {
       //   const conversations = await getAllConversations();
       //   if (conversations) {
@@ -89,15 +90,24 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       //     console.log(conversations);
       //   }
       // })();
+      //edit bookmark test
+      (async function () {
+        // await loadConv(22);
+        // const res = await editBookmark({
+        //   bId: 33,
+        //   newName: 'WorldHist',
+        // });
+        // console.log(res);
+      })();
     }
 
-    // (async function () {
-    //   const conversations = await getCollections();
-    //   if (conversations) {
-    //     // console.log('fetched data!');
-    //     console.log(conversations);
-    //   }
-    // })();
+    (async function () {
+      const conversations = await getCollections();
+      if (conversations) {
+        // console.log('fetched data!');
+        console.log(conversations);
+      }
+    })();
   }, []);
 
   // useEffect(() => {

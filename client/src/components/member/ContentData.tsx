@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { requestAuth } from '../../utils/axiosConfig';
+import { getAllConversations } from '../../api/ChatInterfaceApi';
 import styled from 'styled-components';
 import { TagType } from '../../data/d';
 
@@ -49,6 +51,8 @@ const Content = styled.a`
   }
 `;
 
+const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
+
 // 받아오는 데이터 타입 설정
 export type Conversation = {
   conversationId: number;
@@ -74,17 +78,16 @@ const ContentData = () => {
 
   // 데이터 GET
   useEffect(() => {
-    axios
-      .get(
-        'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
-      )
-      .then((response) => {
-        const data = response.data;
-        setConversations(data.conversations);
-      })
-      .catch((error) => {
-        console.log('Error:', error);
-      });
+    (async function () {
+      try {
+        const conversations = await getAllConversations();
+        console.log(conversations);
+        setConversations(conversations);
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    })();
   }, []);
 
   // 제목과 태그만 빼놓음

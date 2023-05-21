@@ -13,6 +13,8 @@ import {
 import { ModalBackdrop } from '../../styles/CharacterStyle';
 import styled from 'styled-components';
 import { logoutApi } from '../../api/LogoutApi';
+import { useAppDispatch } from '../../app/hooks';
+import { changeLoginState } from '../../features/member/loginInfoSlice';
 
 type BoxProps = {
   dialogPosition: { x: number; y: number };
@@ -45,9 +47,10 @@ const DialogBoxUserIcon = ({
   console.log(`x: ${dialogPosition.x} `);
 
   const handleDialogItemClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
   ) => {
     //close modal
+    e.stopPropagation();
     console.log('dialog item clicked!');
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
@@ -57,17 +60,20 @@ const DialogBoxUserIcon = ({
   //   if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   // };
   const navigate = useNavigate();
-  const handleLogout = async() => {
-    try{
-      await logoutApi(`logout`)
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    try {
+      await logoutApi(`logout`);
+      dispatch(changeLoginState('OFF'));
       navigate(`/`);
+      if (setIsUserDialogOpen) setIsUserDialogOpen(false);
       alert('로그아웃 되었습니다.');
-    }
-    catch(error){
+    } catch (error) {
       console.error(error);
-      alert('잠시 후 다시 시도해 주세요.')
+      if (setIsUserDialogOpen) setIsUserDialogOpen(false);
+      alert('잠시 후 다시 시도해 주세요.');
     }
-};
+  };
 
   const handleModalBackdropClick = () => {
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);
@@ -89,7 +95,9 @@ const DialogBoxUserIcon = ({
             <DialogSelectItem>Public Chats</DialogSelectItem>
           </DialogItems>
           <SignOutFooter>
-            <DialogSelectItem>Start Guide</DialogSelectItem>
+            <DialogSelectItem onClick={handleDialogItemClick}>
+              Start Guide
+            </DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             <EmailItem>sunga.jlh@gmail.com</EmailItem>
           </SignOutFooter>

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState, AppThunk, CustomThunkAPI } from '../../app/store';
+import { RootState, AppThunk } from '../../app/store';
 import {
   Conversation,
   BookmarkType,

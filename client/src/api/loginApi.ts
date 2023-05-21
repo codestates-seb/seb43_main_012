@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { request } from '../utils/axiosConfig';
-
 interface LoginArgs {
   userId: string;
   password: string;
@@ -22,10 +21,12 @@ export const handleLogin = async ({
     const sessionId = extractSessionIdFromCookies(cookies);
     sessionStorage.setItem('sessionId', sessionId);
   }
+
   localStorage.setItem('token', res.data.authorization);
   localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
+
   return res;
 };
 

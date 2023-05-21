@@ -1,5 +1,6 @@
 import { requestAuth } from '../utils/axiosConfig';
 import { BookmarkType, Conversation } from '../data/d';
+import { request } from 'http';
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -146,6 +147,23 @@ export async function deleteBookmark({
     await requestAuth.delete(
       `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
     );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function editBookmark({
+  bId,
+  newName,
+}: {
+  bId: number;
+  newName: string;
+}) {
+  try {
+    await requestAuth.patch(`${BASE_URL}/bookmarks/${bId}`, {
+      bookmarkName: newName,
+    });
   } catch (error) {
     console.log(error);
     throw error;
