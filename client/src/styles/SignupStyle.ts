@@ -135,8 +135,11 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ErrorMessage = styled.p`
+  text-align: center;
   font-size: 11px;
   color: #913535;
+  max-width: 200px;
+  word-break: keep-all;
   .error {
     margin-bottom: 10px;
     margin-top: 0px;

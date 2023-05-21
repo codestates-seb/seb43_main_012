@@ -35,9 +35,16 @@ export const SignupLink = styled.div`
   padding: 16px;
 `;
 export const FormContainer = styled.div`
-  padding: 24px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 0;
   background-color: #fff5de;
   border-radius: 5px;
+  input {
+    min-width: 200px;
+    text-align: center;
+  }
 `;
 
 export const ErrorMessage = styled.p`

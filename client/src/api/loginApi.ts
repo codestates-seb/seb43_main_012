@@ -7,26 +7,24 @@ interface LoginArgs {
   setErrors: any;
 }
 
-function isValidEmail(email: string): boolean {
-  const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return regex.test(email);
-}
-
 export const handleLogin = async ({
   userId,
   password,
   setErrors,
 }: LoginArgs) => {
-  let key: string = '';
-  if (!isValidEmail(userId)) {
-    console.log('its displayname');
-    key = 'username';
-  } else {
-    console.log('its email');
-    key = 'userId';
-  }
+  // let key: string = '';
+  // if (!isValidEmail(userId)) {
+  //   // console.log('its displayname');
+  //   alert('올바른 이메일 주소를 입력해주세요.');
+
+  //   // key = 'username';
+  // } else {
+  //   console.log('its email');
+  //   key = 'userId';
+  // }
   const res = await request.post(`/api/login`, {
-    [key]: userId,
+    // [key]: userId,
+    userId,
     password,
   });
   if (res.status !== 200) throw new Error(res.data.message);
