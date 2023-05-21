@@ -1,23 +1,23 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export const request = axios.create({
-  baseURL: `https://788c-118-33-155-37.ngrok-free.app/`,
+  baseURL: `${import.meta.env.VITE_BASE_URL}`,
 });
 
 export const requestAuth = axios.create({
-  baseURL: `https://788c-118-33-155-37.ngrok-free.app/`,
+  baseURL: `${import.meta.env.VITE_BASE_URL}`,
   headers: {
     'Content-type': 'application/json',
     'ngrok-skip-browser-warning': '69420',
     'Access-Control-Allow-Origin': 'http://localhost:3000',
-    Authorization: localStorage.getItem("token"),
+    Authorization: localStorage.getItem('token'),
   },
   timeout: 30000,
 });
 
 requestAuth.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (!!token) {
       config.headers.Authorization = token;
@@ -27,7 +27,7 @@ requestAuth.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 응답 에러 처리 인터셉터
@@ -37,7 +37,7 @@ requestAuth.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // requestAuth.interceptors.request.use(

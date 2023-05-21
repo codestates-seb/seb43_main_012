@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { LightTheme } from './styles/theme/LightTheme';
+import './styles/sass/custom_popover_modal.scss';
+
 //Lazy-loaded pages & components
 
 const TopNav = lazy(() => import('./components/TopNav'));

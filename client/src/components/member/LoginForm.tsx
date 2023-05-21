@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FormContainer } from "../../styles/LoginStyle";
-import SignupInput from "../member/SignupInput";
-import { ErrorMessage, SignButton } from "../../styles/SignupStyle";
-import { handleLogin } from "../../api/loginApi";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FormContainer } from '../../styles/LoginStyle';
+import SignupInput from '../member/SignupInput';
+import { ErrorMessage, SignButton } from '../../styles/SignupStyle';
+import { handleLogin } from '../../api/loginApi';
 
 type Props = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,22 +11,21 @@ type Props = {
 };
 
 const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
-
-  const [userId, setuserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState("");
+  const [userId, setuserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) =>{
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const res = await handleLogin({ userId, password, setErrors });
       if (res.status === 200) {
         setIsLoggedIn(true);
-        console.log(localStorage.getItem("token"));
+        console.log(localStorage.getItem('token'));
         closeModal();
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
@@ -49,6 +48,7 @@ const LoginForm = ({ setIsLoggedIn, closeModal }: Props) => {
           setValue={setPassword}
           type="password"
           setErrors={setErrors}
+          placehorder="영어+숫자+특수문자 8글자"
         />
         {errors.length !== 0 ? (
           <ErrorMessage>

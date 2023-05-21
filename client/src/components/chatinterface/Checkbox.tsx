@@ -149,23 +149,19 @@ const Checkbox = ({
   setIsHovered,
   handleCheck,
 }: CheckboxProps) => {
-  // const stringId = `checkbox_${id}`;
   const [uniqueId] = useState<string>(
     () => `checkbox_${Math.random().toString(36).substring(7)}`,
   );
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // console.log('checked handler!');
     event.stopPropagation();
-    console.log('id: ', id);
-    console.log('clicked checkbox: ', event.target.id);
+    // console.log('clicked checkbox: ', event.target.id);
     handleCheck({ id: id, newCheckValue: event.target.checked });
     setIsChecked(event.target.checked);
   };
 
   const handleHover = (event: MouseEvent<HTMLLabelElement>) => {
     if (setIsHovered) {
-      // console.log('hovering: ', event.type === 'mouseenter');
       setIsHovered(event.type === 'mouseenter');
     }
   };

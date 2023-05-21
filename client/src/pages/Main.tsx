@@ -10,7 +10,6 @@ import QnAList from '../components/chatinterface/QnAList';
 import Loading from '../components/chatinterface/Loading';
 //import files
 import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
-
 //import redux
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
@@ -22,8 +21,9 @@ import {
 //import api
 import {
   getConversation,
-  saveBookmark,
   getAllConversations,
+  getSavedConversations,
+  getCollections,
 } from '../api/ChatInterfaceApi';
 
 //import data
@@ -62,7 +62,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
 
   const updateQNum = () => {
-    console.log('updating question number!');
+    // console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
 
@@ -70,43 +70,25 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     if (cId !== -1) {
       const conversation = await getConversation(cId);
       if (conversation) {
-        console.log('started new session!');
-        console.log('response: ', conversation);
+        // console.log('started new session!');
         dispatch(setConversation(conversation));
       }
     } else {
       dispatch(initializeConversation(-1));
-      //go back to default, clear the conversation!
     }
     return;
   };
 
   useEffect(() => {
-    loadConv(13);
-    // (async function () {
-    //   const conversation = await getConversation(13);
-    //   if (conversation) {
-    //     console.log('started new session!');
-    //     console.log('response: ', conversation);
-    //     dispatch(setConversation(conversation));
-    //   }
-    // })();
-    // (async function () {
-    //   const conversations = await getAllConversations();
-    //   if (conversations) {
-    //     console.log('fetched data!');
-    //     console.log(conversations);
-    //   }
-    // })();
-    // saveBookmark({ cId: 3, bName: '기본폴더2' });
-    // getAllConversations();
-    // askFirstQuestion();
-    // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
-    // askFirstQuestionOpenAI();
-    // deleteConv();
-    // getConversation(11);
-    // continueConversation(10, 'how long has it took openai to launch you?');
-    // console.log(conversation);
+    loadConv(10);
+
+    (async function () {
+      const conversations = await getCollections();
+      if (conversations) {
+        // console.log('fetched data!');
+        console.log(conversations);
+      }
+    })();
   }, []);
 
   // useEffect(() => {
@@ -118,7 +100,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   }, [conversation.title, conversation.qnaList.length]);
 
   useEffect(() => {
-    console.log('loading status changed');
+    // console.log('loading status changed');
   }, [isLoading]);
 
   useEffect(() => {
@@ -132,7 +114,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           conversation?.conversationId,
         );
         if (newConversation) {
-          console.log('continuing new session!');
+          // console.log('continuing new session!');
           dispatch(setConversation(newConversation));
           setCurrentCId(newConversation.conversationId);
         }

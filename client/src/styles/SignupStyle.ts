@@ -28,7 +28,7 @@ export const SignupBox = styled.div`
   background-color: #fff5de;
 `;
 
-//OAuth 
+//OAuth
 export const ButtonBox = styled.div`
   margin-bottom: 1.5%;
   width: 200px;
@@ -137,4 +137,8 @@ export const ButtonWrapper = styled.div`
 export const ErrorMessage = styled.p`
   font-size: 11px;
   color: #913535;
-`
+  .error {
+    margin-bottom: 10px;
+    margin-top: 0px;
+  }
+`;

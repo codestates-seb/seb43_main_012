@@ -12,6 +12,8 @@ type CheckboxProps = {
   id?: number;
   size?: string;
   handleCheck?: (...params: any[]) => void; //how to set any params
+  checked?: boolean;
+  disabled?: boolean;
 };
 
 type StyleProps = {
@@ -136,19 +138,23 @@ const Round = styled.div<StyleProps>`
   }
 `;
 
-const GenericCheckbox = ({ id, size, handleCheck }: CheckboxProps) => {
-  // const stringId = `checkbox_${id}`;
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+const GenericCheckbox = ({
+  id,
+  size,
+  handleCheck,
+  checked,
+  disabled,
+}: CheckboxProps) => {
+  const [isChecked, setIsChecked] = useState<boolean>(checked || false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [uniqueId] = useState<string>(
     () => `checkbox_${Math.random().toString(36).substring(7)}`,
   );
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // console.log('checked handler!');
     event.stopPropagation();
-    console.log('id: ', id);
-    console.log('clicked checkbox: ', event.target.id);
+    // console.log('id: ', id);
+    // console.log('clicked checkbox: ', event.target.id);
     if (handleCheck)
       handleCheck({ id: id, newCheckValue: event.target.checked });
     setIsChecked(event.target.checked);
@@ -156,7 +162,6 @@ const GenericCheckbox = ({ id, size, handleCheck }: CheckboxProps) => {
 
   const handleHover = (event: MouseEvent<HTMLLabelElement>) => {
     if (setIsHovered) {
-      // console.log('hovering: ', event.type === 'mouseenter');
       setIsHovered(event.type === 'mouseenter');
     }
   };
@@ -172,6 +177,7 @@ const GenericCheckbox = ({ id, size, handleCheck }: CheckboxProps) => {
         checked={isChecked}
         onChange={handleCheckboxChange}
         id={uniqueId}
+        {...(disabled ? { disabled } : {})}
       />
       <label
         htmlFor={uniqueId}

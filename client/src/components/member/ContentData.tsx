@@ -1,88 +1,119 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  setContent,
-  setSelectedBookmark,
-  setSelectedTag,
-} from '../../features/collection/collectionSlice';
-import { RootState } from '../../app/store';
 import styled from 'styled-components';
-import {
-  BookmarkType,
-  Conversation,
-  QnAType,
-  TagType,
-} from '../../data/dataTypes';
-import { ReactComponent as BookmarkSolid } from '../../assets/icons/bookmark-solid.svg';
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
-import ModalContent from '../../components/modals/ModalContent';
-import exp from 'constants';
+import { TagType } from '../../data/d';
 
-//styled
+const Main = styled.main`
+  max-width: 1080px;
+  padding: 0 40px 0 40px;
+`;
+
+const ContentWraper = styled.div`
+  border: none;
+  width: 100%;
+  overflow-y: hidden;
+`;
+
 const ContentContainer = styled.div`
+  border: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: flex-start;
   padding: 5px;
 `;
 
-const Content = styled.div``;
+const Content = styled.a`
+  padding: 5px;
+  border: solid;
+  border-color: #c9ad6e;
+  border-radius: 10px;
+  margin: 0 1% 1% 0;
 
-// content의 타입
-type Content = {
-  conversations: Conversation[];
+  p {
+    max-height: 7rem;
+    text-align: left;
+    word-break: break-all;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .title {
+    /* word-break: break-all; */
+  }
+
+  .tag {
+    color: #7bb06e;
+  }
+`;
+
+// 받아오는 데이터 타입 설정
+export type Conversation = {
+  conversationId: number;
+  title: string;
+  member: {
+    memberId: string;
+    avatarLink: string;
+  };
+  answerSummary: string;
+  createdAt: string;
+  modifiedAt: string;
+
+  saved: boolean;
+  pinned: boolean;
+  published: boolean;
   tags: TagType[];
-  bookmarks: BookmarkType[];
+  viewCount: number;
+  activityLevel: number;
 };
 
-const UseData = () => {
-  const dispatch = useDispatch();
-  const { content, selectedBookmark, selectedTag } = useSelector(
-    (state: RootState) => state.collection,
-  );
-  const [selectedConversation, setSelectedConversation] =
-    useState<Conversation | null>(null);
+const ContentData = () => {
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
-  const currentDate = new Date();
-  const today = currentDate.toISOString().slice(0, 10);
-
+  // 데이터 GET
   useEffect(() => {
     axios
       .get(
         'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
       )
       .then((response) => {
-        dispatch(setContent(response.data));
-        console.log(response.data);
+        const data = response.data;
+        setConversations(data.conversations);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
       });
-  }, [dispatch]);
+  }, []);
 
+  // 제목과 태그만 빼놓음
   return (
-    <ContentContainer>
-      {content.conversations
-        .filter((conversation) => {
-          const conversationDate = new Date(conversation.modifiedAt);
-          const conversationDateString = conversationDate
-            .toISOString()
-            .slice(0, 10);
-          return conversationDateString === today;
-        })
-        .map((conversation) => (
-          <Content key={conversation.conversationId}>
-            <div className="header">
-              <h3 className="title">{conversation.title}</h3>
-            </div>
-            <p>{conversation.answerSummary}</p>
-            <div className="tag">
-              {conversation.tags.map((tag: TagType) => (
-                <span key={tag.tagId}>#{tag.tagName} </span>
-              ))}
-            </div>
-          </Content>
-        ))}
-    </ContentContainer>
+    <Main>
+      <ContentWraper>
+        <ContentContainer>
+          {conversations.map((conversation) => (
+            <Content
+              key={conversation.conversationId}
+              href="#"
+              onClick={() => {
+                // Handle content click
+              }}
+            >
+              <div className="header">
+                <h3 className="title">{conversation.title}</h3>
+              </div>
+              <div className="tag">
+                {conversation.tags.map((tag) => (
+                  <span key={tag.tagId}>#{tag.tagName} </span>
+                ))}
+              </div>
+            </Content>
+          ))}
+        </ContentContainer>
+      </ContentWraper>
+    </Main>
   );
 };
 
-export default UseData;
+export default ContentData;

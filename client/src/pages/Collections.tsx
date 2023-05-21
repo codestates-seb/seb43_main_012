@@ -256,10 +256,7 @@ const Collections = () => {
           <BookmarkAdd>+New Collection</BookmarkAdd>
           <TagContainer>
             {content.tags.map((tag: TagType) => (
-              <Tag
-                key={tag.tagName}
-                onClick={() => handleTagClick(tag.tagName)}
-              >
+              <Tag key={tag.tagId} onClick={() => handleTagClick(tag.tagName)}>
                 {tag.tagName}
               </Tag>
             ))}
