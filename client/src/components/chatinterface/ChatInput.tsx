@@ -78,10 +78,6 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
     SubmitSVGButton: SubmitIcon,
   });
 
-  // useEffect(() => {
-  //   console.log("qvalue: ", Boolean(qValue));
-  // }, [qValue]);
-
   return questionInput;
 };
 

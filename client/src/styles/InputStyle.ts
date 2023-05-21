@@ -7,14 +7,15 @@ export const InputQBox = styled.div`
   width: 100%;
   max-width: var(--size-maxwidth-pc-main);
   z-index: 995;
+  position: relative;
   input {
     width: 100%;
     min-height: 2.5rem;
     border: 1px solid #d9d9d9;
     border-radius: 0.5rem;
-    // box-shadow: 2px 2px gray;
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.4);
     padding: 10px;
+    padding-right: 40px;
     outline: none;
     font-size: var(--text-font-size-qinput);
     ::placeholder {
@@ -29,6 +30,8 @@ export const InputQBox = styled.div`
     display: block;
     position: absolute;
     right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
