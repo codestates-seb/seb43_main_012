@@ -60,7 +60,7 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpServletResponse response) throws IOException {
         MemberEntity loggedInMember = memberService.login(memberDto);
         String accessToken = jwtUtil.generateToken(loggedInMember.getUsername());
-        String refreshToken = jwtUtil.generateRefreshToken(loggedInMember.getUsername());  // 임시로 사용할 리프레시 토큰
+        String refreshToken = "REFRESH_TOKEN";  // 임시로 사용할 리프레시 토큰
 
         // JWT 토큰을 응답 헤더 Authorization에 추가
         String authorizationHeader = "Bearer " + accessToken;
@@ -97,24 +97,6 @@ public class MemberController {
 
 
         return ResponseEntity.ok(responseData);
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<Map<String, Object>> refresh(@RequestBody Map<String, String> request) {
-        String refreshToken = request.get("refreshToken");
-        if (!jwtUtil.isTokenExpired(refreshToken)) {
-            String username = jwtUtil.getUsernameFromToken(refreshToken);
-            String accessToken = jwtUtil.generateToken(username);
-
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("Authorization", "Bearer " + accessToken);
-
-            return ResponseEntity.ok(responseData);
-        } else {
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("error", "Refresh token expired");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
-        }
     }
     @GetMapping("/user/{id}")
     public ResponseEntity<MemberDto> getMemberById(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
@@ -185,7 +167,6 @@ public class MemberController {
         if (updateFields.containsKey("username")) {
             String username = (String) updateFields.get("username");
             memberDto.setUsername(username);
-            memberService.updateMember(memberDto);
             String newAccessToken = jwtUtil.generateToken(username);
             String authorizationHeader = "Bearer " + newAccessToken;
             response.setHeader("Authorization", authorizationHeader);
