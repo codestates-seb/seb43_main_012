@@ -17,6 +17,7 @@ public class MemberDto {
     private Long id;
     private String username;
     private String userId;
+    private String displayName;
     private String password;
     private LocalDateTime createdAt;
     private String avatarLink;
@@ -42,6 +43,7 @@ public class MemberDto {
                 .userId(memberEntity.getUserId())
                 .createdAt(memberEntity.getCreatedAt())
                 .avatarLink(memberEntity.getAvatarLink())
+                .displayName(memberEntity.getDisplayName())
                 .build();
     }
 }
