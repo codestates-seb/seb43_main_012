@@ -1,36 +1,18 @@
-server:
-  port: 8080
 
-jwt:
-  secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
-  expiration: 86400
+---
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dbforuser1?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: dlrla0413
+  profiles:
+    active: local
 
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 1073148988890-188k39pvbsb7dr0adig03e1hgd96tbts.apps.googleusercontent.com
-            client-secret: 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
-      profiles:
-        include: oauth
+---
 
+spring:
+  profiles:
+    active: dev
 
-logging:
-  level:
-    root: INFO
-    com.example: DEBUG
-  file: /path/to/log/file.log
+---
+
+spring:
+  profiles:
+    active: local2

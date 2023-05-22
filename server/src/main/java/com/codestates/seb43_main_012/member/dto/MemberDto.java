@@ -1,10 +1,7 @@
 package com.codestates.seb43_main_012.member.dto;
 
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
-    private String identifier;
     private Long id;
     private String username;
     private String userId;
@@ -44,5 +40,14 @@ public class MemberDto {
                 .createdAt(memberEntity.getCreatedAt())
                 .avatarLink(memberEntity.getAvatarLink())
                 .build();
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public static class ResponseForConversation
+    {
+        private long memberId;
+        private String username;
     }
 }
