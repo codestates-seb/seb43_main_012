@@ -60,7 +60,7 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpServletResponse response) throws IOException {
         MemberEntity loggedInMember = memberService.login(memberDto);
         String accessToken = jwtUtil.generateToken(loggedInMember.getUsername());
-        String refreshToken = "REFRESH_TOKEN";  // 임시로 사용할 리프레시 토큰
+        String refreshToken = jwtUtil.generateRefreshToken(loggedInMember.getUsername());  // 임시로 사용할 리프레시 토큰
 
         // JWT 토큰을 응답 헤더 Authorization에 추가
         String authorizationHeader = "Bearer " + accessToken;
@@ -80,6 +80,7 @@ public class MemberController {
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setId(loggedInMember.getId());
         customUserDetails.setUsername(loggedInMember.getUsername());
+        customUserDetails.setDisplayName(loggedInMember.getDisplayName());
         customUserDetails.setUserId(loggedInMember.getUserId());
 
         // 인증 객체로 설정
@@ -91,12 +92,31 @@ public class MemberController {
         responseData.put("message", "로그인에 성공했습니다.");
         responseData.put("memberId", customUserDetails.getId());
         responseData.put("username", customUserDetails.getUsername());
+        responseData.put("displayName", customUserDetails.getDisplayName());
         responseData.put("userid", customUserDetails.getUserId());
         responseData.put("authorization", authorizationHeader);
         responseData.put("Refresh", refreshToken);
 
 
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Map<String, Object>> refresh(@RequestBody Map<String, String> request) {
+        String refreshToken = request.get("refreshToken");
+        if (!jwtUtil.isTokenExpired(refreshToken)) {
+            String username = jwtUtil.getUsernameFromToken(refreshToken);
+            String accessToken = jwtUtil.generateToken(username);
+
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("Authorization", accessToken);
+
+            return ResponseEntity.ok(responseData);
+        } else {
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("error", "Refresh token expired");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
+        }
     }
     @GetMapping("/user/{id}")
     public ResponseEntity<MemberDto> getMemberById(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
@@ -164,24 +184,9 @@ public class MemberController {
             String encryptedPassword = passwordEncoder.encode(password);
             memberDto.setPassword(encryptedPassword);
         }
-        if (updateFields.containsKey("username")) {
-            String username = (String) updateFields.get("username");
-            memberDto.setUsername(username);
-            String newAccessToken = jwtUtil.generateToken(username);
-            String authorizationHeader = "Bearer " + newAccessToken;
-            response.setHeader("Authorization", authorizationHeader);
-            Cookie cookie = new Cookie("jwt_token", newAccessToken);
-            cookie.setPath("/");
-            cookie.setSecure(true);
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(86400);
-            response.addCookie(cookie);
-
-            Map<String, String> responseData = new HashMap<>();
-            responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
-            responseData.put("Authorization", authorizationHeader);
-
-            return ResponseEntity.ok(responseData);
+        if (updateFields.containsKey("displayName")) {
+            String displayName = (String) updateFields.get("displayName");
+            memberDto.setDisplayName(displayName);
         }
         if (updateFields.containsKey("userId")) {
             String userId = (String) updateFields.get("userId");
@@ -196,7 +201,7 @@ public class MemberController {
         memberService.updateMember(memberDto);
 
         Map<String, String> responseData = new HashMap<>();
-        responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
+        responseData.put("message", "'" + memberDto.getDisplayName() + "'님의 정보를 수정했습니다.");
 
         return ResponseEntity.ok(responseData);
     }

@@ -22,6 +22,8 @@ public class MemberEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
+    private String displayName;
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false, unique = true)
     private String userId;
@@ -29,6 +31,9 @@ public class MemberEntity implements UserDetails {
     private LocalDateTime createdAt;
     @Column
     private String avatarLink;
+    public String getDisplayName(){
+        return this.displayName;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

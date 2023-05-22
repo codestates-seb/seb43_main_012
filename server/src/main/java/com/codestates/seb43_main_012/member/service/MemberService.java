@@ -38,6 +38,7 @@ public class MemberService {
             .userId(memberDto.getUserId())
             .createdAt(LocalDateTime.now())
             .avatarLink(memberDto.getAvatarLink())
+            .displayName(memberDto.getDisplayName())
             .build();
 
     MemberEntity savedMember = memberRepository.save(memberEntity);
@@ -60,6 +61,7 @@ public class MemberService {
                 .map(memberEntity -> MemberDto.builder()
                         .id(memberEntity.getId())
                         .username(memberEntity.getUsername())
+                        .displayName(memberEntity.getDisplayName())
                         .password(memberEntity.getPassword())
                         .userId(memberEntity.getUserId())
                         .createdAt(memberEntity.getCreatedAt())
@@ -87,6 +89,7 @@ public class MemberService {
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(memberDto.getId())
                 .username(memberDto.getUsername())
+                .displayName(memberDto.getDisplayName())
                 .password(memberDto.getPassword())
                 .userId(memberDto.getUserId())
                 .createdAt(memberDto.getCreatedAt())
