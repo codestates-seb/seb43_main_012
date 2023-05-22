@@ -43,18 +43,7 @@ public class MemberService {
     MemberEntity savedMember = memberRepository.save(memberEntity);
     return MemberDto.from(savedMember);
 }
-/*
     public MemberEntity login(MemberDto memberDto) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUserId(memberDto.getUserId());
-        if (optionalMemberEntity.isPresent()) {
-            MemberEntity memberEntity = optionalMemberEntity.get();
-            if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
-                return memberEntity;
-            }
-        }
-        throw new BadCredentialsException("로그인 정보가 유효하지 않습니다.");
-    }
-*/public MemberEntity login(MemberDto memberDto) {
     Optional<MemberEntity> optionalMemberEntity;
     String identifier = memberDto.getIdentifier();
 
