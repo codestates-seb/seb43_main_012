@@ -91,11 +91,11 @@ public class ConversationService {
         List<Long> IDs = qnaService.findConversationIDs(query, memberId);
 
         if(sort.equals("activityLevel"))
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "activityLevel","modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.DESC, "activityLevel","modifiedAt"));
         else if(sort.equals("asc"))
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
         else
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
+            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
 
     }
 
