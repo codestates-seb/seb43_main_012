@@ -107,7 +107,7 @@ public class MemberController {
             String accessToken = jwtUtil.generateToken(username);
 
             Map<String, Object> responseData = new HashMap<>();
-            responseData.put("Authorization", accessToken);
+            responseData.put("Authorization", "Bearer " + accessToken);
 
             return ResponseEntity.ok(responseData);
         } else {
@@ -185,6 +185,7 @@ public class MemberController {
         if (updateFields.containsKey("username")) {
             String username = (String) updateFields.get("username");
             memberDto.setUsername(username);
+            memberService.updateMember(memberDto);
             String newAccessToken = jwtUtil.generateToken(username);
             String authorizationHeader = "Bearer " + newAccessToken;
             response.setHeader("Authorization", authorizationHeader);
