@@ -88,8 +88,10 @@ const BookmarkList = ({
 }: ListProp) => {
   const dispatch = useAppDispatch();
   const pinned = useAppSelector(selectConversation).pinned;
-  const handleModalOpen = () => {
+  const handleModalOpen = (e: React.MouseEvent<HTMLLIElement>) => {
     // console.log('save bookmark modal open!');
+    e.preventDefault();
+    e.stopPropagation();
     setIsModalOpen(true);
   };
 

@@ -65,14 +65,17 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
     setIsBHoverOpen(!isBHoverOpen);
     if (tPopoverOpen) setTPopoverOpen(false);
   };
-  const handleConfirmClick = () => {
+  const handleConfirmClick = (e: React.MouseEvent<Element>) => {
     // console.log('confirm click!');
-
+    e.preventDefault();
+    e.stopPropagation();
     setEditConfirm(true);
     setEditState(!editState);
   };
 
-  const handleCancelClick = () => {
+  const handleCancelClick = (e: React.MouseEvent<Element>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setEditConfirm(false);
     setEditState(!editState);
   };

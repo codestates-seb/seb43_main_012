@@ -88,9 +88,16 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const handleCreateClick = async () => {
+  const handleCreateClick = async (
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>,
+  ) => {
+    console.log('create bookmark btn clicked!');
+
+    e.preventDefault();
+    e.stopPropagation();
     if (value) {
-      // console.log('create bookmark btn clicked!');
+      console.log('create bookmark btn clicked2!');
+
       const res = await dispatch(createBookmarkAsync({ bName: value }));
       if (res.payload) {
         // console.log('unique bookmark name');
