@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
+    private String identifier;
     private Long id;
     private String username;
     private String userId;
