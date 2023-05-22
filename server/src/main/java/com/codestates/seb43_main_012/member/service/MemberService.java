@@ -45,7 +45,16 @@ public class MemberService {
 }
 
     public MemberEntity login(MemberDto memberDto) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUserId(memberDto.getUserId());
+        Optional<MemberEntity> optionalMemberEntity;
+        String identifier = memberDto.getIdentifier();
+
+        // 입력이 userId 형식인지 확인
+        if (identifier.contains("@")) {
+            optionalMemberEntity = memberRepository.findByUserId(identifier);
+        } else { // 그렇지 않으면 username으로 간주
+            optionalMemberEntity = memberRepository.findByUsername(identifier);
+        }
+
         if (optionalMemberEntity.isPresent()) {
             MemberEntity memberEntity = optionalMemberEntity.get();
             if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
