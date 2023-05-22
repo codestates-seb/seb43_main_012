@@ -131,6 +131,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
         }
+
         chain.doFilter(request, response);
     }
 }
