@@ -9,7 +9,7 @@
 
 
 .popover_saveUI{
-    // z-index: 995;
+    z-index: 1090;
     --#{$prefix}popover-bg: white !important;
     // --#{$prefix}popover-border-color: var(--color-default-navtooltip);
     // --#{$prefix}popover-arrow-border: var(--#{$prefix}popover-border-color) !important;
@@ -480,6 +480,7 @@
 
 
       max-width: var(--size-maxwidth-chatbox);
+      // min-height: 1000px;
     }
 
   }
