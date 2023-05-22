@@ -17,7 +17,7 @@ export const MainBackdrop = styled.div`
   z-index: 990;
 `;
 export const MainBox = styled.main<MainProps>`
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: var(--size-minwidth-pc-main);

@@ -11,7 +11,7 @@ import {
   TimeBox,
 } from '../styles/HistoryStyle';
 
-import ContentData from '../components/member/ContentData';
+import HistoryData from '../components/member/HistoryData';
 
 function History(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,28 +65,17 @@ function History(): ReactElement {
         <DeleteButton>Clear History</DeleteButton>
       </HistoryHeader>
       <HistoryBody>
-        <DateContainer>
-          <TimeLine>Today</TimeLine>
-          <TimeBox>
-            <ContentData></ContentData>
-          </TimeBox>
-          <TimeLine>7Days</TimeLine>
-          <TimeBox>
-            <ContentData></ContentData>
-          </TimeBox>
-          <TimeLine>30Days</TimeLine>
-          <TimeBox>
-            <ContentData></ContentData>
-          </TimeBox>
-          {months.map((month, index) => (
+        {/* <DateContainer> */}
+        <HistoryData />
+        {/* {months.map((month, index) => (
             <TimeLine
               key={index}
               onClick={() => handleMonthButtonClick(selectedMonth - index)}
             >
               {month}
             </TimeLine>
-          ))}
-        </DateContainer>
+          ))} */}
+        {/* </DateContainer> */}
       </HistoryBody>
     </HistoryBox>
   );

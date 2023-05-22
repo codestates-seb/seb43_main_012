@@ -31,7 +31,7 @@ export type Conversation = {
     avatarLink: string;
   };
   answerSummary: string;
-  createdAt: string;
+  // createdAt: string;
   modifiedAt: string;
 
   qnaList: QnAType[];
@@ -45,7 +45,7 @@ export type Conversation = {
   activityLevel: number;
 };
 
-export type ConversationThumbnail = Omit<Conversation, 'qnaList'>;
+export type ConversationThumbType = Omit<Conversation, 'qnaList'>;
 
 export const initialConvData = {
   conversationId: -1,

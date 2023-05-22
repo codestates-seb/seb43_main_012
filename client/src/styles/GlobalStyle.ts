@@ -25,7 +25,9 @@ const GlobalStyle = createGlobalStyle`
     --color-default-green-opacity: rgba(119,173,105, 0.9);
     --color-default-yellow: #E7CC8F;
     --color-default-yellow-50: rgba(231, 204, 143, 0.5);
+    --color-default-yellow-10: rgba(231, 204, 143, 0.2);
     --color-default-yellow-title: #C9AD6E;
+    --color-default-yellow-darker: #C9AD6E;
     --color-default-yellow-dark: #E8C169;
     --color-default-lightestgray:  #FAFAFA;
     --color-default-gray: #757575;
@@ -38,6 +40,8 @@ const GlobalStyle = createGlobalStyle`
     --color-border-dialogbox: rgba(117, 117, 117, 0.5);
     --color-dropshadow-dialogbox: rgba(117, 117, 117, 0.1);
     --color-checked-inactive: #CCCCCC;
+    // --color-thumbnail-border:
+    --color-thumbnail-bg: rgba(231, 204, 143, 0.5);
 
     --size-minheight-topnav: 105px;
     --size-minwidth-topnavicons: 500px;
