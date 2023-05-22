@@ -23,8 +23,9 @@ import { setConversation } from '../../features/main/conversationSlice';
 type ChatProps = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   updateQNum: () => void;
+  isMax?: boolean;
 };
-const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
+const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
   const cId = useAppSelector(selectCId);
   const dispatch = useAppDispatch();
@@ -47,8 +48,10 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
     } else if (localStorage.getItem('token')) {
       (async function () {
         try {
+          setIsLoading(true);
           const res = await askFirstQuestion(qValue);
           console.log('asked first Question: ', res);
+          setIsLoading(false);
           setQValue('');
           dispatch(setConversation(res));
           // setCValue(res);
@@ -75,10 +78,6 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
     SVGStyledComponent: InputSubmitBtn,
     SubmitSVGButton: SubmitIcon,
   });
-
-  // useEffect(() => {
-  //   console.log("qvalue: ", Boolean(qValue));
-  // }, [qValue]);
 
   return questionInput;
 };

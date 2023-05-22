@@ -12,6 +12,7 @@ import {
 
 import { useAppDispatch } from '../../app/hooks';
 import { changeQnASaveStatus } from '../../features/main/conversationSlice';
+import TextWithFormatting from './TextWithFormatting';
 
 type qnaProps = {
   qnaItem: QnAType;
@@ -29,6 +30,7 @@ const QnA = ({ qnaItem }: qnaProps) => {
   const handleCheck = ({ id, newCheckValue }: CheckProps) => {
     dispatch(changeQnASaveStatus({ id: qnaItem.qnaId, newCheckValue }));
   };
+
   return (
     <QnAItemBox>
       <QnAItem>
@@ -58,7 +60,9 @@ const QnA = ({ qnaItem }: qnaProps) => {
           />
         </QnACheckbox>
         <Center>
-          <QnAAnswer>{qnaItem.answer}</QnAAnswer>
+          {/* <QnAAnswer>{qnaItem.answer}</QnAAnswer> */}
+
+          <QnAAnswer>{TextWithFormatting(qnaItem.answer)}</QnAAnswer>
         </Center>
       </QnAItem>
     </QnAItemBox>

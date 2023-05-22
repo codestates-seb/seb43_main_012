@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { request } from '../utils/axiosConfig';
-
+import { left } from '@popperjs/core';
 interface LoginArgs {
   userId: string;
   password: string;
@@ -12,7 +12,18 @@ export const handleLogin = async ({
   password,
   setErrors,
 }: LoginArgs) => {
+  // let key: string = '';
+  // if (!isValidEmail(userId)) {
+  //   // console.log('its displayname');
+  //   alert('올바른 이메일 주소를 입력해주세요.');
+
+  //   // key = 'username';
+  // } else {
+  //   console.log('its email');
+  //   key = 'userId';
+  // }
   const res = await request.post(`/api/login`, {
+    // [key]: userId,
     userId,
     password,
   });
@@ -22,10 +33,12 @@ export const handleLogin = async ({
     const sessionId = extractSessionIdFromCookies(cookies);
     sessionStorage.setItem('sessionId', sessionId);
   }
+
   localStorage.setItem('token', res.data.authorization);
   localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
+
   return res;
 };
 

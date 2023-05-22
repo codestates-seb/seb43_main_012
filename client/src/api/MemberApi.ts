@@ -2,11 +2,13 @@ import axios from 'axios';
 // import { response } from 'express';
 import { request, requestAuth } from '../utils/axiosConfig';
 
-export interface UserInfoItemTypes {
+export type UserInfoItemTypes = {
+  id: number;
+  createdAt: number[];
   avatarLink: string;
   username: string;
   userId: string;
-}
+};
 
 export const handleUserInfo = async (
   URL: String,

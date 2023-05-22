@@ -8,8 +8,6 @@ import EditableTitle from '../components/chatinterface/EditableTitle';
 import EditSaveUI from '../components/chatinterface/EditSaveUI';
 import QnAList from '../components/chatinterface/QnAList';
 import Loading from '../components/chatinterface/Loading';
-//import files
-import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
 //import redux
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
@@ -24,6 +22,7 @@ import {
   getAllConversations,
   getSavedConversations,
   getCollections,
+  editBookmark,
 } from '../api/ChatInterfaceApi';
 
 //import data
@@ -31,8 +30,10 @@ import { initialState } from '../features/main/conversationSlice';
 import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
-  isOpen: boolean;
+  isOpen?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  isMax?: boolean;
+  newCId?: number;
 };
 
 //to fix current width, would have to measure the box width!
@@ -48,10 +49,10 @@ function scrollToLastQ() {
   if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
-const Main = ({ isOpen, setIsOpen }: MainProps) => {
+const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const dispatch = useAppDispatch();
 
-  const conversation = useAppSelector(selectConversation);
+  const conversation: Conversation = useAppSelector(selectConversation);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
   const [currentCId, setCurrentCId] = useState<number>(
@@ -71,6 +72,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       const conversation = await getConversation(cId);
       if (conversation) {
         // console.log('started new session!');
+        console.log(conversation);
         dispatch(setConversation(conversation));
       }
     } else {
@@ -81,14 +83,22 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      loadConv(9);
-      // (async function () {
-      //   const conversations = await getAllConversations();
-      //   if (conversations) {
-      //     // console.log('fetched data!');
-      //     console.log(conversations);
-      //   }
-      // })();
+      (async function () {
+        const conversations = await getAllConversations();
+        if (conversations) {
+          // console.log('fetched data!');
+          // console.log(conversations.bookmarkList);
+        }
+      })();
+      //edit bookmark test
+      (async function () {
+        // await loadConv(3);
+        // const res = await editBookmark({
+        //   bId: 33,
+        //   newName: 'WorldHist',
+        // });
+        // console.log(res);
+      })();
     }
 
     // (async function () {
@@ -133,9 +143,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   return (
     <MainBox isOpen={isOpen}>
-      <M.MainBackdrop />
-      <M.FixedTopBox>
-        <ChatInput setIsLoading={setIsLoading} updateQNum={updateQNum} />
+      <M.MainBackdrop isMax={isMax} />
+      <M.FixedTopBox isMax={isMax}>
+        <ChatInput
+          setIsLoading={setIsLoading}
+          updateQNum={updateQNum}
+          isMax={isMax}
+        />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
@@ -151,12 +165,14 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      {conversation.title ? (
+      {Boolean(conversation.conversationId) ? (
         <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
       ) : (
-        <M.LoadingBox>
-          <Loading loadingGif={loadingGif} />
-        </M.LoadingBox>
+        isLoading && (
+          <M.LoadingBox>
+            <Loading />
+          </M.LoadingBox>
+        )
       )}
     </MainBox>
   );

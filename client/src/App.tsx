@@ -19,7 +19,6 @@ const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
 
-import loadingGif from './assets/gifs/dot-anim1_sm.gif';
 const CollectionPins = lazy(
   () => import('./components/overlay/CollectionPins'),
 );
@@ -29,7 +28,6 @@ const DialogBoxUserIcon = lazy(
 
 function App() {
   //login state, modalOpen dialogOpen State
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState<boolean>(false);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const [isModalLoginOpen, setIsModalLoginOpen] = useState<boolean>(false);
@@ -41,7 +39,6 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Router>
             <TopNav
-              isLoggedIn={isLoggedIn}
               isUserDialogOpen={isUserDialogOpen}
               setIsUserDialogOpen={setIsUserDialogOpen}
               setIsModalLoginOpen={setIsModalLoginOpen}
@@ -51,14 +48,12 @@ function App() {
               <ModalLogin
                 isOpen={isModalLoginOpen}
                 setIsOpen={setIsModalLoginOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {isUserDialogOpen && (
               <DialogBoxUserIcon
                 dialogPosition={dialogPosition}
                 setIsUserDialogOpen={setIsUserDialogOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {/* {showHistory && <History />}
@@ -75,7 +70,6 @@ function App() {
                   <Login
                     isOpen={isModalLoginOpen}
                     setIsOpen={setIsModalLoginOpen}
-                    setIsLoggedIn={setIsLoggedIn}
                   />
                 }
               />

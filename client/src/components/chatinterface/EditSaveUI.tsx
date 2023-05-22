@@ -40,6 +40,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   };
 
   const handleEditClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.preventDefault();
     e.stopPropagation();
     setEditState(!editState);
     if (bPopoverOpen) setBPopoverOpen(false);
@@ -49,6 +50,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   const handleAddTagClick = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
   ) => {
+    e.preventDefault();
     e.stopPropagation();
     console.log('clicked add tag!');
     setTPopoverOpen(true);
@@ -56,6 +58,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
     if (bPopoverOpen) setBPopoverOpen(false);
   };
   const handleSaveClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.preventDefault();
     e.stopPropagation();
     // console.log('clicked save!');
     setBPopoverOpen(true);
@@ -64,6 +67,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
   };
   const handleConfirmClick = () => {
     // console.log('confirm click!');
+
     setEditConfirm(true);
     setEditState(!editState);
   };

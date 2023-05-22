@@ -4,7 +4,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 //import components
 import { CPopover } from '@coreui/react';
 import { UserInfoItemTypes, handleUserInfo } from '../api/MemberApi';
-
+//import functions
+import { formatDateTime } from './member/LoginForm';
 //import style
 import styled from 'styled-components';
 import * as TN from '../styles/TopNavStyle';
@@ -20,10 +21,18 @@ import { ReactComponent as CollectionIcon } from '../assets/icons/topnav/iconCol
 // @ts-ignore
 import { ReactComponent as AnonymousIcon } from '../assets/icons/topnav/iconNonMember.svg';
 
-//import redux
-import { useAppDispatch } from '../app/hooks';
+//import redux/api
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import {
+  UserInfo,
+  selectMemberInfo,
+  selectLoginState,
+} from '../features/member/loginInfoSlice';
 import { initializeConversation } from '../features/main/conversationSlice';
-
+import {
+  updateMemberInfo,
+  changeLoginState,
+} from '../features/member/loginInfoSlice';
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
   box-shadow: none;
@@ -52,14 +61,18 @@ const navTooltip = {
 };
 
 type TopNavProps = {
-  isLoggedIn: boolean;
   isUserDialogOpen: boolean;
   setIsUserDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setDialogPosition: React.Dispatch<
     React.SetStateAction<{ x: number; y: number }>
   >;
   setIsModalLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // setCurrentCId: React.Dispatch<React.SetStateAction<number>>;
+};
+
+type MemberInfoType = {
+  userId: number;
+  username: string;
+  avatarLink: string;
 };
 
 const TopNav = ({
@@ -69,6 +82,89 @@ const TopNav = ({
   setDialogPosition,
 }: TopNavProps) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const _memberInfo = useAppSelector(selectMemberInfo);
+  const _loginState = useAppSelector(selectLoginState);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(_loginState);
+  const [memberInfo, setMemberInfo] = useState<MemberInfoType>({
+    userId: _memberInfo.userId,
+    username: _memberInfo.username,
+    avatarLink: _memberInfo.avatarLink,
+  });
+
+  const fetchUserInfo = async () => {
+    const mId = localStorage.getItem('memberId');
+    const userData: UserInfoItemTypes = await handleUserInfo(`user/${mId}`);
+    // console.log(userData);
+    const date: number[] = userData.createdAt;
+    dispatch(
+      updateMemberInfo({
+        userId: userData.id,
+        userEmail: userData.userId,
+        username: userData.username,
+        avatarLink: userData.avatarLink,
+        createdDate: formatDateTime(userData.createdAt),
+      }),
+    );
+    dispatch(changeLoginState('ON'));
+  };
+  //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
+  useEffect(() => {
+    if (location.pathname === '/') {
+      const element = document.getElementById(
+        'questionInput',
+      ) as HTMLInputElement | null;
+      if (element) {
+        element.focus();
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+    if (localStorage.getItem('memberId')) {
+      fetchUserInfo();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log('topnav update');
+    setMemberInfo({
+      userId: _memberInfo.userId,
+      username: _memberInfo.username,
+      avatarLink: _memberInfo.avatarLink,
+    });
+    setIsLoggedIn(_loginState);
+  }, [_loginState]);
+
+  // const fetchUserInfo = async () => {
+  //   // if (!memberInfo.userId) return;
+  //   setMemberInfo({...memberInfo, avatarLink: })
+  //   try {
+  //     // const userData: UserInfoItemTypes = await handleUserInfo(`user/${id}`);
+  //     // console.log(userData);
+
+  //     setMemberInfo({ ...memberInfo, avatarLink: userData.avatarLink });
+  //     setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+  //     setUsername(userData.username); // username 값 설정
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleAnonymousClick = (
+    e:
+      | React.MouseEvent<SVGSVGElement, MouseEvent>
+      | React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    setIsModalLoginOpen(true);
+  };
+
   const handleUserBtnClick = (
     e:
       | React.MouseEvent<SVGSVGElement, MouseEvent>
@@ -87,69 +183,8 @@ const TopNav = ({
     }
   };
 
-  //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  let isLoggedIn = false;
-  if (localStorage.getItem('isLoggedIn') === 'true') {
-    isLoggedIn = true;
-  } else {
-    isLoggedIn = false;
-  }
-  // const isLoggedIn = true;
-
-  useEffect(() => {
-    if (location.pathname === '/') {
-      const element = document.getElementById(
-        'questionInput',
-      ) as HTMLInputElement | null;
-      if (element) {
-        // console.log('element found!');
-        element.focus();
-      }
-      // navigate(0);
-    }
-  }, [location]);
-
-  const [avatarLink, setAvatarLink] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-
-  let Id: any = 0;
-  if (localStorage.getItem('memberId')) {
-    Id = localStorage.getItem('memberId');
-  } else {
-    Id = 0;
-  }
-
-  useEffect(() => {
-    if (localStorage.getItem('memberId')) {
-      const fetchUserInfo = async () => {
-        try {
-          const userData: UserInfoItemTypes = await handleUserInfo(
-            `user/${Id}`,
-          );
-          setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
-          setUsername(userData.username); // username 값 설정
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchUserInfo();
-    }
-  }, []);
-
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));
-  };
-
-  const handleAnonymousClick = (
-    e:
-      | React.MouseEvent<SVGSVGElement, MouseEvent>
-      | React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-    setIsModalLoginOpen(true);
   };
 
   return (
@@ -216,10 +251,10 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            {avatarLink === username ? (
-              username[0]
+            {!Boolean(memberInfo.userId) ? (
+              'A'
             ) : (
-              <img src={avatarLink} alt="AvatarIcon A" />
+              <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
             )}
           </AvatarIcon>
         ) : (
