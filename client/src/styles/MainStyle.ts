@@ -11,16 +11,19 @@ type BackdropProps = {
 
 export const MainBackdrop = styled.div<BackdropProps>`
   position: fixed;
-  top: var(--size-minheight-topnav);
-  {${(props) => (props.isMax ? `` : `left: 0`)}};
+  top: ${(props) => (props.isMax ? '30px' : 'var(--size-minheight-topnav)')};
+
+   {
+    ${(props) => (props.isMax ? `` : `left: 0`)}
+  }
   // left: 0;
   display: flex;
 
   width: 100vw;
   max-width: ${(props) =>
     props.isMax ? 'var(--size-minwidth-pc-main)' : '100vw'};
-  }
-  height: 220px;
+  height: ${(props) => (props.isMax ? '150px' : '220px')};
+
   background-color: rgba(255, 255, 255, 1);
   z-index: 990;
 `;
@@ -36,14 +39,14 @@ export const MainBox = styled.main<MainProps>`
   padding; 20px;
 `;
 
-export const FixedTopBox = styled.div`
+export const FixedTopBox = styled.div<BackdropProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: ${(props) => (props.isMax ? '50px' : '80px')};
   left: 0;
-  top: 80px;
   z-index: 997;
   width: 100%;
   max-width: var(--size-minwidth-pc-main);
@@ -51,6 +54,7 @@ export const FixedTopBox = styled.div`
 
 export const FixedChatbox = styled(FixedTopBox)`
   max-width: var(--size-minwidth-pc-main);
+  top: 50px;
 `;
 export const TitleBox = styled.title`
   display: flex;

@@ -72,7 +72,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
       const conversation = await getConversation(cId);
       if (conversation) {
         // console.log('started new session!');
-        // console.log(conversation);
+        console.log(conversation);
         dispatch(setConversation(conversation));
       }
     } else {
@@ -82,17 +82,17 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token') && newCId) {
-      // (async function () {
-      //   const conversations = await getAllConversations();
-      //   if (conversations) {
-      //     // console.log('fetched data!');
-      //     console.log(conversations);
-      //   }
-      // })();
+    if (localStorage.getItem('token')) {
+      (async function () {
+        const conversations = await getAllConversations();
+        if (conversations) {
+          // console.log('fetched data!');
+          // console.log(conversations.bookmarkList);
+        }
+      })();
       //edit bookmark test
       (async function () {
-        await loadConv(newCId);
+        // await loadConv(3);
         // const res = await editBookmark({
         //   bId: 33,
         //   newName: 'WorldHist',
@@ -101,13 +101,13 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
       })();
     }
 
-    (async function () {
-      const conversations = await getCollections();
-      if (conversations) {
-        // console.log('fetched data!');
-        console.log(conversations);
-      }
-    })();
+    // (async function () {
+    //   const conversations = await getCollections();
+    //   if (conversations) {
+    //     // console.log('fetched data!');
+    //     console.log(conversations);
+    //   }
+    // })();
   }, []);
 
   // useEffect(() => {
@@ -144,7 +144,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   return (
     <MainBox isOpen={isOpen}>
       <M.MainBackdrop isMax={isMax} />
-      <M.FixedTopBox>
+      <M.FixedTopBox isMax={isMax}>
         <ChatInput
           setIsLoading={setIsLoading}
           updateQNum={updateQNum}

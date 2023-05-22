@@ -61,12 +61,7 @@ export const initialConvData = {
   saved: false,
   pinned: false,
   published: false,
-  bookmarks: [
-    {
-      bookmarkId: -1,
-      bookmarkName: 'Default',
-    },
-  ] as BookmarkType[],
+  bookmarks: [] as BookmarkType[],
   bookmarkList: [] as BookmarkType[],
   tags: [] as TagType[],
   viewCount: 0,

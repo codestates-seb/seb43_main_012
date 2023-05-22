@@ -162,8 +162,8 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
                           <h3
                             className="title"
                             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                              e.stopPropagation();
                               e.preventDefault();
+                              e.stopPropagation();
                               handleThumbnailClick(conversation.conversationId);
                             }}
                           >

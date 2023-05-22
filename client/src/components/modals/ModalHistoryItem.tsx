@@ -22,11 +22,12 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
   return (
     <CModal
       className="modal_bookmark modal_chatbox"
-      alignment="center"
+      alignment="top"
       visible={visible}
       onClose={() => {
         setVisible(false);
-        dispatch(initializeConversation(-1));
+        //   console.log('modal history item closing!');
+        //   // dispatch(initializeConversation(-1));
       }}
     >
       <CModalBody className="modal_bookmark2">

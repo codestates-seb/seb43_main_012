@@ -105,33 +105,36 @@ const BookmarkList = ({
   };
 
   useEffect(() => {
-    // console.log('bookmarkList loaded');
+    console.log('bookmarkList loaded');
   }, [list, uncheckedList]);
 
   return (
     <>
-      {(Boolean(list.length) || Boolean(uncheckedList.length)) && (
-        <BookmarkItems>
-          {Boolean(list.length) &&
-            list.map((bookmark: BookmarkType) => (
-              <BookmarkItem
-                key={bookmark.bookmarkId}
-                bookmark={bookmark}
-                checkStatus={true}
-                handleCheck={handleCheck}
-              />
-            ))}
-          {Boolean(uncheckedList.length) &&
-            uncheckedList.map((bookmark: BookmarkType) => (
-              <BookmarkItem
-                key={bookmark.bookmarkId}
-                bookmark={bookmark}
-                checkStatus={false}
-                handleCheck={handleCheck}
-              />
-            ))}
-        </BookmarkItems>
-      )}
+      {(Boolean(list) || Boolean(list)) &&
+        (Boolean(list.length) || Boolean(list.length)) && (
+          <BookmarkItems>
+            {Boolean(list) &&
+              Boolean(list.length) &&
+              list.map((bookmark: BookmarkType) => (
+                <BookmarkItem
+                  key={bookmark.bookmarkId}
+                  bookmark={bookmark}
+                  checkStatus={true}
+                  handleCheck={handleCheck}
+                />
+              ))}
+            {Boolean(uncheckedList) &&
+              Boolean(uncheckedList.length) &&
+              uncheckedList.map((bookmark: BookmarkType) => (
+                <BookmarkItem
+                  key={bookmark.bookmarkId}
+                  bookmark={bookmark}
+                  checkStatus={false}
+                  handleCheck={handleCheck}
+                />
+              ))}
+          </BookmarkItems>
+        )}
 
       <Footer>
         {Boolean(list.length) && (
