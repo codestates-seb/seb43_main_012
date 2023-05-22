@@ -80,7 +80,6 @@ public class MemberController {
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setId(loggedInMember.getId());
         customUserDetails.setUsername(loggedInMember.getUsername());
-        customUserDetails.setDisplayName(loggedInMember.getDisplayName());
         customUserDetails.setUserId(loggedInMember.getUserId());
 
         // 인증 객체로 설정
@@ -92,7 +91,6 @@ public class MemberController {
         responseData.put("message", "로그인에 성공했습니다.");
         responseData.put("memberId", customUserDetails.getId());
         responseData.put("username", customUserDetails.getUsername());
-        responseData.put("displayName", customUserDetails.getDisplayName());
         responseData.put("userid", customUserDetails.getUserId());
         responseData.put("authorization", authorizationHeader);
         responseData.put("Refresh", refreshToken);
@@ -184,9 +182,24 @@ public class MemberController {
             String encryptedPassword = passwordEncoder.encode(password);
             memberDto.setPassword(encryptedPassword);
         }
-        if (updateFields.containsKey("displayName")) {
-            String displayName = (String) updateFields.get("displayName");
-            memberDto.setDisplayName(displayName);
+        if (updateFields.containsKey("username")) {
+            String username = (String) updateFields.get("username");
+            memberDto.setUsername(username);
+            String newAccessToken = jwtUtil.generateToken(username);
+            String authorizationHeader = "Bearer " + newAccessToken;
+            response.setHeader("Authorization", authorizationHeader);
+            Cookie cookie = new Cookie("jwt_token", newAccessToken);
+            cookie.setPath("/");
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(86400);
+            response.addCookie(cookie);
+
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
+            responseData.put("Authorization", authorizationHeader);
+
+            return ResponseEntity.ok(responseData);
         }
         if (updateFields.containsKey("userId")) {
             String userId = (String) updateFields.get("userId");
@@ -201,7 +214,7 @@ public class MemberController {
         memberService.updateMember(memberDto);
 
         Map<String, String> responseData = new HashMap<>();
-        responseData.put("message", "'" + memberDto.getDisplayName() + "'님의 정보를 수정했습니다.");
+        responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
 
         return ResponseEntity.ok(responseData);
     }

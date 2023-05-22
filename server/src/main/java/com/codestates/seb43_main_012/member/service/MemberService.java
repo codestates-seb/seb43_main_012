@@ -38,13 +38,12 @@ public class MemberService {
             .userId(memberDto.getUserId())
             .createdAt(LocalDateTime.now())
             .avatarLink(memberDto.getAvatarLink())
-            .displayName(memberDto.getDisplayName())
             .build();
 
     MemberEntity savedMember = memberRepository.save(memberEntity);
     return MemberDto.from(savedMember);
 }
-
+/*
     public MemberEntity login(MemberDto memberDto) {
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUserId(memberDto.getUserId());
         if (optionalMemberEntity.isPresent()) {
@@ -55,13 +54,31 @@ public class MemberService {
         }
         throw new BadCredentialsException("로그인 정보가 유효하지 않습니다.");
     }
+*/public MemberEntity login(MemberDto memberDto) {
+    Optional<MemberEntity> optionalMemberEntity;
+    String identifier = memberDto.getIdentifier();
+
+    // 입력이 userId 형식인지 확인
+    if (identifier.contains("@")) {
+        optionalMemberEntity = memberRepository.findByUserId(identifier);
+    } else { // 그렇지 않으면 username으로 간주
+        optionalMemberEntity = memberRepository.findByUsername(identifier);
+    }
+
+    if (optionalMemberEntity.isPresent()) {
+        MemberEntity memberEntity = optionalMemberEntity.get();
+        if (passwordEncoder.matches(memberDto.getPassword(), memberEntity.getPassword())) {
+            return memberEntity;
+        }
+    }
+    throw new BadCredentialsException("로그인 정보가 유효하지 않습니다.");
+}
 
     public List<MemberDto> getAllMembers() {
         return memberRepository.findAll().stream()
                 .map(memberEntity -> MemberDto.builder()
                         .id(memberEntity.getId())
                         .username(memberEntity.getUsername())
-                        .displayName(memberEntity.getDisplayName())
                         .password(memberEntity.getPassword())
                         .userId(memberEntity.getUserId())
                         .createdAt(memberEntity.getCreatedAt())
@@ -89,7 +106,6 @@ public class MemberService {
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(memberDto.getId())
                 .username(memberDto.getUsername())
-                .displayName(memberDto.getDisplayName())
                 .password(memberDto.getPassword())
                 .userId(memberDto.getUserId())
                 .createdAt(memberDto.getCreatedAt())
