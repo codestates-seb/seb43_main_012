@@ -12,7 +12,6 @@ import java.util.Date;
 public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;
-    private String displayName;
     private String password;
     private String userId;
     private Date createdAt;
@@ -34,10 +33,6 @@ public class CustomUserDetails implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-    public String getDisplayName() { return displayName;}
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     @Override
