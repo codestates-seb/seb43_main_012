@@ -23,8 +23,9 @@ import { setConversation } from '../../features/main/conversationSlice';
 type ChatProps = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   updateQNum: () => void;
+  isMax?: boolean;
 };
-const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
+const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
   const cId = useAppSelector(selectCId);
   const dispatch = useAppDispatch();

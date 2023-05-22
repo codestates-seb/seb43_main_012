@@ -52,6 +52,7 @@ const GlobalStyle = createGlobalStyle`
     --size-avatar-center-hover: 70px;
     --size-icon-default: 32px;
     --size-minwidth-pc-main: 700px;
+    --size-maxwidth-chatbox: 800px;
     --size-maxwidth-pc-main: 1080px;
 
     --text-fontsize-link: 20px;

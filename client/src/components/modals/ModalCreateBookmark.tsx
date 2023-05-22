@@ -73,6 +73,11 @@ const ErrorMsg = styled.div`
   padding-top: 10px;
 `;
 
+// const ModalWrap = styled.div`
+//   display: flex;
+//   max-width: 500px ! !important;
+// `;
+
 type Props = {
   visible: boolean;
   setVisible: (isOpen: boolean) => void;
@@ -116,6 +121,7 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   });
 
   return (
+    // <ModalWrap>
     <CModal
       className="modal_bookmark"
       alignment="center"
@@ -148,6 +154,7 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
         </PrimaryBtn>
       </CModalFooter>
     </CModal>
+    // </ModalWrap>
   );
 };
 

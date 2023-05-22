@@ -8,16 +8,28 @@ import { TimeLine, TimeBox } from '../../styles/HistoryStyle';
 import { DateFilter, filterConvsByDate } from '../../utils/DateFiltering';
 import { truncateTitle } from '../../utils/ContentFunctions';
 
+import { useAppDispatch } from '../../app/hooks';
+import { getConversation } from '../../api/ChatInterfaceApi';
+import {
+  setConversation,
+  initializeConversation,
+} from '../../features/main/conversationSlice';
+
 import { TagType, ConversationThumbType } from '../../data/d';
 
 const Main = styled.main`
+  min-width: 270px;
   max-width: 1080px;
-  padding: 0 40px;
+  padding: 0;
 `;
 
 const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+align-content; flex-start;
   border: none;
   width: 100%;
+  height: 100%;
   overflow-y: hidden;
 `;
 
@@ -91,35 +103,19 @@ const Content = styled.a`
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
-// // 받아오는 데이터 타입 설정
-// export type Conversation = {
-//   conversationId: number;
-//   title: string;
-//   member: {
-//     memberId: string;
-//     avatarLink: string;
-//   };
-//   answerSummary: string;
-//   createdAt: string;
-//   modifiedAt: string;
-
-//   saved: boolean;
-//   pinned: boolean;
-//   published: boolean;
-//   tags: TagType[];
-//   viewCount: number;
-//   activityLevel: number;
-// };
-
 type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];
 };
 
+type HistoryProps = {
+  handleClick: () => void;
+};
+
 // ...rest of your code remains same...
 
-const HistoryData = () => {
+const HistoryData = ({ handleClick }: HistoryProps) => {
   const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
-
+  const dispatch = useAppDispatch();
   // 데이터 GET
   useEffect(() => {
     (async function () {
@@ -133,6 +129,19 @@ const HistoryData = () => {
       }
     })();
   }, []);
+
+  const loadConv = async (cId: number) => {
+    const conversation = await getConversation(cId);
+    if (conversation) {
+      dispatch(setConversation(conversation));
+    }
+    return;
+  };
+  const handleThumbnailClick = async (cId: number) => {
+    console.log('thumbnail clicked!, ', cId);
+    await loadConv(cId);
+    handleClick();
+  };
 
   return (
     <>
@@ -152,8 +161,10 @@ const HistoryData = () => {
                         <div className="header">
                           <h3
                             className="title"
-                            onClick={() => {
-                              // Handle content click
+                            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              handleThumbnailClick(conversation.conversationId);
                             }}
                           >
                             {truncateTitle(conversation.title, 50)}

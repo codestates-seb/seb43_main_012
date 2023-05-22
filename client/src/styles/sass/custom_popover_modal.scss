@@ -305,6 +305,7 @@
   display: flex;
   align-items: center;
   min-height: calc(100% - var(--#{$prefix}modal-margin) * 2);
+  // max-width: 1080px;
 }
 
 // Actual modal
@@ -419,6 +420,7 @@
   // Automatically set modal's width for larger viewports
   .modal-dialog {
     max-width: var(--#{$prefix}modal-width);
+    // max-width: 1080px;
     margin-right: auto;
     margin-left: auto;
   }
@@ -470,4 +472,17 @@
     }
   }
 }
+
+.modal_chatbox {
+  @include media-breakpoint-up(sm) {
+
+    .modal-dialog {
+
+
+      max-width: var(--size-maxwidth-chatbox);
+    }
+
+  }
+}
+
 // scss-docs-end modal-fullscreen-loop

@@ -30,8 +30,10 @@ import { initialState } from '../features/main/conversationSlice';
 import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
-  isOpen: boolean;
+  isOpen?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  isMax?: boolean;
+  newCId?: number;
 };
 
 //to fix current width, would have to measure the box width!
@@ -47,7 +49,7 @@ function scrollToLastQ() {
   if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
-const Main = ({ isOpen, setIsOpen }: MainProps) => {
+const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const dispatch = useAppDispatch();
 
   const conversation: Conversation = useAppSelector(selectConversation);
@@ -80,7 +82,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') && newCId) {
       // (async function () {
       //   const conversations = await getAllConversations();
       //   if (conversations) {
@@ -90,7 +92,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
       // })();
       //edit bookmark test
       (async function () {
-        await loadConv(27);
+        await loadConv(newCId);
         // const res = await editBookmark({
         //   bId: 33,
         //   newName: 'WorldHist',
@@ -141,9 +143,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   return (
     <MainBox isOpen={isOpen}>
-      <M.MainBackdrop />
+      <M.MainBackdrop isMax={isMax} />
       <M.FixedTopBox>
-        <ChatInput setIsLoading={setIsLoading} updateQNum={updateQNum} />
+        <ChatInput
+          setIsLoading={setIsLoading}
+          updateQNum={updateQNum}
+          isMax={isMax}
+        />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
