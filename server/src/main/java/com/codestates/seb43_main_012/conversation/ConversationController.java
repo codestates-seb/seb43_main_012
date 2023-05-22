@@ -31,7 +31,6 @@ public class ConversationController {
     private final ConversationMapper mapper;
     private final BookmarkRepository bookmarkRepository;
     private final QnAService qnaService;
-    private final CategoryRepository categoryRepository;
 
 
     @PostMapping
@@ -60,17 +59,7 @@ public class ConversationController {
     {
         Long memberId = member.getId();
 
-        Conversation conversation = conversationService.viewCountUp(conversationId);
-
-        // 이 부분 서비스 클래스로 분리해야함
-        List<Long> conversationCategoryIDs = new ArrayList<>();
-        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
-
-        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
-
-        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
-
-        ConversationDto.Response response = mapper.responseForGetOneConversation(conversation, categories);
+        ConversationDto.Response response = conversationService.getConversationAndCategoryList(conversationId, memberId);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }

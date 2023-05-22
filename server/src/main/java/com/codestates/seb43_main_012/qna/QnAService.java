@@ -7,6 +7,7 @@ import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -80,6 +81,7 @@ public class QnAService {
         return IDs;
     }
 
+    @Transactional
     public QnA requestAnswer(QnADto.Post dto)
     {
         // set header
@@ -125,8 +127,10 @@ public class QnAService {
         }
         qna.setConversation(conversation);
 
+        conversation.setActivityLevel(conversation.getActivityLevel()+1);
         conversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(conversation);
+
         QnA savedQnA = saveQnA(qna);
         conversation.addQnA(savedQnA);
 

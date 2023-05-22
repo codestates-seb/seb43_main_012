@@ -18,9 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +36,8 @@ public class ConversationService {
     private final TagRepository tagRepository;
     private final ConversationTagRepository conversationTagRepository;
     private final QnAService qnaService;
+    private final ConversationMapper conversationMapper;
+    private final CategoryRepository categoryRepository;
 
     public Conversation saveConversation(Conversation conversation)
     {
@@ -89,13 +90,31 @@ public class ConversationService {
         if(query == null) query = "";
         List<Long> IDs = qnaService.findConversationIDs(query, memberId);
 
-        if(sort.equals("desc"))
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
-        else
+        if(sort.equals("activityLevel"))
+            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "activityLevel","modifiedAt"));
+        else if(sort.equals("asc"))
             return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+        else
+            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
+
     }
 
+    @Transactional
+    public ConversationDto.Response getConversationAndCategoryList(long conversationId, long memberId)
+    {
+        Conversation conversation = viewCountUp(conversationId);
 
+        List<Long> conversationCategoryIDs = new ArrayList<>();
+        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
+
+        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
+
+        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
+
+        ConversationDto.Response response = conversationMapper.responseForGetOneConversation(conversation, categories);
+
+        return response;
+    }
 
     @Transactional
     public List<Conversation> findBookmarkedConversations(String categoryName, long memberId)
@@ -107,6 +126,22 @@ public class ConversationService {
         conversationCategories.stream().forEach(conversationCategory -> {
             if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == memberId)
                 conversations.add(conversationCategory.getConversation());
+        });
+
+        List<Conversation> sortedConversations = sortConversationByModifiedAt(conversations);
+
+        return sortedConversations;
+    }
+
+    private List<Conversation> sortConversationByModifiedAt(List<Conversation> conversations)
+    {
+        Collections.sort(conversations, new Comparator<Conversation>() {
+            @Override
+            public int compare(Conversation o1, Conversation o2) {
+                LocalDateTime dateTime1 = LocalDateTime.parse(o1.getModifiedAt(), DateTimeFormatter.ISO_DATE_TIME);
+                LocalDateTime dateTime2 = LocalDateTime.parse(o2.getModifiedAt(), DateTimeFormatter.ISO_DATE_TIME);
+                return dateTime2.compareTo(dateTime1);
+            }
         });
 
         return conversations;
@@ -222,12 +257,13 @@ public class ConversationService {
     {
         Conversation conversation = findConversation(conversationId);
         conversation.setViewCount(conversation.getViewCount()+1);
+        conversation.setActivityLevel(conversation.getActivityLevel()+1);
         return conversationRepository.save(conversation);
     }
 
     public List<Conversation> getSavedConversation(long memberId, boolean isSaved)
     {
-        return conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, isSaved, false);
+        return conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, isSaved, false, Sort.by(Sort.Direction.DESC, "modifiedAt"));
     }
 
     public void removeConversation(long conversationId)

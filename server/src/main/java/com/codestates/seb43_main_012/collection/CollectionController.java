@@ -12,6 +12,7 @@ import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
 import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/collections")
@@ -41,7 +43,7 @@ public class CollectionController {
         Long memberId = member.getId();
 
         //북마크 테이블 조회는 해당 카테고리를 골랐을 때
-        List<Category> categories = categoryRepository.findAllByMemberId(memberId);
+        List<Category> categories = categoryRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "id"));
 
         List<Conversation> conversations = conversationService.getSavedConversation(memberId,true);
 
@@ -51,12 +53,14 @@ public class CollectionController {
 
         //내가 작성한 대화의 id를 리스트로 뽑아내서 tag table을 조회
         //List<ConversationTag> conversationTags = conversationTagRepository.findAllByConversationIdIn(convIds);
-        List<Tag> tags = tagRepository.findAll();
 //        tagService.
 //                conversation_tag조회할때 saved된 대화id리스트를 사용 -> chatgpt참고;
         //List<Bookmark> bookmark = bookmarkRepository.findAllByMemberId(1L);
 
         List<ConversationTag> conversationTags = conversationTagRepository.findAllByConversationConversationIdIn(convIDs);
+        List<Tag> tags = new ArrayList<>();
+
+        //conversationTags.stream().forEach(convTag -> tags.add());
 
         return new ResponseEntity<>(collectionMapper.responseForGetCollectionPage(conversations, categories, conversationTags), HttpStatus.OK);
     }
