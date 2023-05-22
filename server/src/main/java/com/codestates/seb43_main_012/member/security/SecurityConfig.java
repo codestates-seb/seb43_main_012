@@ -1,6 +1,7 @@
 package com.codestates.seb43_main_012.member.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -17,6 +18,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 @EnableWebSecurity
@@ -37,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public FilterRegistrationBean<SimpleCORSFilter> corsFilter() {
         FilterRegistrationBean<SimpleCORSFilter> bean = new FilterRegistrationBean<>();
@@ -53,30 +58,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .headers().frameOptions().sameOrigin()
+                .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
+                //.cors(withDefaults())
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/signup", "/api/login","/api/refresh").permitAll()
+                .antMatchers("/api/signup", "/api/login","/**").permitAll()
+                //.antMatchers("/api/signup", "/api/login").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 도메인에서 접근 가능하도록 설정
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 HTTP Method를 허용
-        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 Header를 허용
-        configuration.setAllowCredentials(true); // 쿠키 전송을 허용
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // 모든 도메인에서 접근 가능하도록 설정
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 HTTP Method를 허용
+//        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 Header를 허용
+//        configuration.setAllowCredentials(true); // 쿠키 전송을 허용
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//    }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
