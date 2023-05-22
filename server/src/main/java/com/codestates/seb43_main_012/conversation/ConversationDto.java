@@ -68,4 +68,17 @@ public class ConversationDto {
         private int activityLevel;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    public static class ModifiedAt
+    {
+        private int year;
+        private int month;
+        private int day;
+        private int hour;
+        private int minute;
+        private int second;
+        private int nano;
+    }
 }

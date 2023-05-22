@@ -154,4 +154,12 @@ public class ConversationController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping("/{conversation-id}/time")
+    public ResponseEntity setModifiedAt(@PathVariable("conversation-id") long conversationId,
+                                        @RequestBody ConversationDto.ModifiedAt modifiedAt)
+    {
+        conversationService.setModifiedAtCustom(conversationId, modifiedAt);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

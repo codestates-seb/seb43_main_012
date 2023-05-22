@@ -189,6 +189,7 @@ public class ConversationService {
             );
             conversationCategoryRepository.save(conversationCategory);
         }
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(findConversation);
 
         return category.getId();
@@ -232,7 +233,7 @@ public class ConversationService {
             );
             conversationTagRepository.save(conversationTag);
         }
-
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(findConversation);
 
         return tag.getTagId();
@@ -279,6 +280,17 @@ public class ConversationService {
 
         conversation.setSaved(false);
         conversationRepository.save(conversation);
+    }
+
+    public Conversation setModifiedAtCustom(long conversationId, ConversationDto.ModifiedAt m)
+    {
+        Optional<Conversation> optional = conversationRepository.findById(conversationId);
+        Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
+
+        LocalDateTime time = LocalDateTime.of(m.getYear(),m.getMonth(),m.getDay(),m.getHour(),m.getMinute(),m.getSecond(),m.getNano());
+
+        findConversation.setModifiedAt(String.valueOf(time));
+        return conversationRepository.save(findConversation);
     }
 
 //    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
