@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CollectionMapper {
@@ -27,7 +28,13 @@ public class CollectionMapper {
         categories.stream().forEach(category -> bookmarks.add(categoryToBookmarkResponseDto(category)));
 
         List<TagResponseDto> tagResponses = new ArrayList<>();
-        tags.stream().forEach(tag -> tagResponses.add(tagToTagResponseDto(tag)));
+        List<Long> IDs = new ArrayList<>();
+        tags.stream().forEach(tag -> {
+            if(!IDs.contains(tag.getTagId())) {
+                tagResponses.add(tagToTagResponseDto(tag));
+                IDs.add(tag.getTagId());
+            }
+        });
 
         var response = new CollectionPageDto(
                 bookmarks,
