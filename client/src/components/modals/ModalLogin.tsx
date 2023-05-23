@@ -33,10 +33,12 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
               />
               <LoginForm closeModal={closeModalHandler} />
               <SignupLink>
-                <span>아직 회원이 아니신가요?</span>
-                <Link to="/signup" onClick={closeModalHandler}>
-                  Sign up
-                </Link>
+                <span>
+                  아직 회원이 아니신가요?
+                  <Link to="/signup" onClick={closeModalHandler}>
+                    <a>회원가입</a>
+                  </Link>
+                </span>
               </SignupLink>
             </LoginView>
           </ModalBackdrop>

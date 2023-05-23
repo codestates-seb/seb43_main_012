@@ -30,7 +30,9 @@ export const SignupBox = styled.div`
 
 //OAuth
 export const ButtonBox = styled.div`
+  display: flex;
   margin-bottom: 1.5%;
+  width: 100%;
   width: 200px;
   height: 37px;
   border: 1px solid #e5e5e5;
@@ -72,9 +74,19 @@ export const Formform = styled.form`
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  & div {
+    display: flex;
+    justify-content: center;
+    min-width: 150px;
+    padding 0;
+    height: fit-content;
+  }
 `;
 //비밀번호 안내 문구
-export const PasswordText = styled.p`
+export const PasswordText = styled.div`
+  display: flex;
+  flex-direction: column;
   text-align: center;
   font-size: 11px;
   color: #727981;
@@ -83,10 +95,13 @@ export const PasswordText = styled.p`
 
 // 가입버튼
 export const SignButton = styled.button`
-  width: 80%;
-  min-width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
   height: 37px;
-  margin: 10% 0 10% 10%;
+  // margin: 10%;
+  margin-bottom: 10%;
   background: #c9ad6e;
   box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.25);
   border-radius: 20px;

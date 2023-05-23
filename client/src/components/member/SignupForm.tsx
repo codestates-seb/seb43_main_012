@@ -35,10 +35,6 @@ const SignupForm: React.FC = () => {
   const [ispassword, setIsPassword] = useState(true);
   const [isPasswordConfirm, setPassWordConfirm] = useState(false);
 
-  // useCheck(checkUsername, username, setIsUsername);
-  // useCheck(checkId, userId, setIsUserId);
-  // useCheck(checkPassword, password, setIsPassword);
-
   const DisplayErrorMessages = () => {
     useCheck(checkUsername, username, setIsUsername);
     useCheck(checkId, userId, setIsUserId);
@@ -58,17 +54,6 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async () => {
     const avatarLink = getRandomCharacter();
 
-    //유효성검사부터 체크한 후 요청보내기
-    if (
-      !checkUsername(username) ||
-      !checkId(userId) ||
-      (!checkPassword(password) && !checkPassword(password2))
-    ) {
-      console.log('checking before submit');
-      // DisplayErrorMessages();
-      return;
-    }
-
     try {
       const res = await handleSignup({
         username,
@@ -79,7 +64,7 @@ const SignupForm: React.FC = () => {
       });
       if (res?.status === 201) navigate('/login');
     } catch (error) {
-      console.log('signup error', error);
+      // console.log('signup error', error);
     }
   };
 
