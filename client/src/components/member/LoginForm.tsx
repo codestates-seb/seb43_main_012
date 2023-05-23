@@ -114,7 +114,7 @@ const LoginForm = ({ closeModal }: Props) => {
     <FormContainer>
       <form onSubmit={handleSubmit}>
         <SignupInput
-          labelName="ID (email)"
+          labelName="Username / Email"
           value={userId}
           setValue={setuserId}
           setErrors={setErrors}
