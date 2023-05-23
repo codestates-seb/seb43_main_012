@@ -1,6 +1,4 @@
-import axios from 'axios';
-// import { response } from 'express';
-import { request, requestAuth } from '../utils/axiosConfig';
+import { requestAuth } from '../utils/axiosConfig';
 
 export type UserInfoItemTypes = {
   id: number;
