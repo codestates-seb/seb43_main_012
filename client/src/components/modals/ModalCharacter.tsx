@@ -73,8 +73,8 @@ function ModalCharacter({
             <h2>Select Your Character</h2>
             <CharacterBox>
               <MainCharacter>
-                {avatarLink === username ? (
-                  avatarLink[0]
+                {selectedCharacter === username ? (
+                  username[0]?.toUpperCase()
                 ) : (
                   <img src={selectedCharacter} alt="" />
                 )}
@@ -129,7 +129,7 @@ function ModalCharacter({
                       selectedCharacter === avatarLink ? 'selected' : ''
                     }
                   >
-                    {username[0]}
+                    {username[0]?.toUpperCase()}
                   </Character>
                 </div>
               </section>

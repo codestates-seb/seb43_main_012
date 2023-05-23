@@ -79,7 +79,7 @@ function MyPage() {
     <MyPageWrapper>
       <MainCharacter>
         {avatarLink === username ? (
-          displayName[0]
+          displayName[0]?.toUpperCase()
         ) : (
           <img src={avatarLink} alt="" />
         )}

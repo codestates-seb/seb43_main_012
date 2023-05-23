@@ -134,6 +134,7 @@ const TopNav = ({
 
   useEffect(() => {
     console.log('topnav update');
+    // console.log('memberavatar', _memberInfo.avatarLink);
 
     setMemberInfo({
       userId: _memberInfo.userId,
@@ -259,8 +260,8 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            {!Boolean(memberInfo.userId) ? (
-              'A'
+            {memberInfo.avatarLink === memberInfo.username ? (
+              memberInfo.username[0]?.toUpperCase()
             ) : (
               <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
             )}
