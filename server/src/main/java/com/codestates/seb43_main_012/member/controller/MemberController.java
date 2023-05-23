@@ -217,6 +217,7 @@ public class MemberController {
             Map<String, String> responseData = new HashMap<>();
             responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
             responseData.put("Authorization", authorizationHeader);
+            responseData.put("Refresh", newRefreshToken);
 
             return ResponseEntity.ok(responseData);
         }
