@@ -12,6 +12,8 @@ import { UserInfoItemTypes, handleUserInfo } from '../../api/MemberApi';
 import useCheck from '../../utils/hooks/useCheck';
 import { checkPassword, checkUsername } from '../../utils/checkSignup';
 import { ErrorMessage } from '../../styles/SignupStyle';
+import { useAppDispatch } from '../../app/hooks';
+import { updateUsername } from '../../features/member/loginInfoSlice';
 
 type ModalEditProps = {
   isOpen: boolean;
@@ -35,6 +37,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
   const [isOpen2, setIsOpen2] = useState(false);
 
   const Id = localStorage.getItem('memberId');
+  const dispatch = useAppDispatch();
 
   const CharacterModal = () => {
     setIsOpen2(!isOpen2);
@@ -75,6 +78,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
       // 패치
       try {
         await handleNameUpdate(`user/${Id}`, updatedUsername);
+        dispatch(updateUsername(updatedUsername));
         setUsernameInput('');
       } catch (error) {
         console.log('update name error', error);

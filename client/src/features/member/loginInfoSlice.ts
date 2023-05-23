@@ -21,7 +21,7 @@ const initialState: UserState = {
     userEmail: '',
     username: '',
     avatarLink: '',
-    createdDate: 'Apr 2023',
+    createdDate: '',
   },
 };
 
@@ -54,6 +54,10 @@ const memberSlice = createSlice({
       state.memberInfo.avatarLink = action.payload;
     },
 
+    updateUsername: (state, action: { payload: string }) => {
+      state.memberInfo.username = action.payload;
+    },
+
     initializeMemberState: (state, action) => {
       console.log('clearing member info');
       state = initialState;
@@ -67,6 +71,7 @@ export const {
   changeLoginState,
   updateMemberInfo,
   updateAvatar,
+  updateUsername,
   initializeMemberState,
 } = memberSlice.actions;
 export default memberSlice.reducer;

@@ -134,18 +134,20 @@ const TopNav = ({
 
   useEffect(() => {
     console.log('topnav update');
+
     setMemberInfo({
       userId: _memberInfo.userId,
       username: _memberInfo.username,
       avatarLink: _memberInfo.avatarLink,
     });
-    setIsLoggedIn(_loginState);
-  }, [_loginState]);
 
-  useEffect(() => {
-    console.log('memberinfo update');
-    setMemberInfo({ ...memberInfo, avatarLink: _memberInfo.avatarLink });
-  }, [_memberInfo]);
+    if (isLoggedIn !== _loginState) setIsLoggedIn(_loginState);
+  }, [_loginState, _memberInfo.avatarLink]);
+
+  // useEffect(() => {
+  //   console.log('memberinfo update');
+  //   setMemberInfo({ ...memberInfo, avatarLink: _memberInfo.avatarLink });
+  // }, [_memberInfo.avatarLink]);
 
   // const fetchUserInfo = async () => {
   //   // if (!memberInfo.userId) return;
