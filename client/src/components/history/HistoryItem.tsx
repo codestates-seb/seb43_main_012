@@ -5,7 +5,7 @@ import { ConversationThumbType } from '../../data/d';
 import { truncateTitle } from '../../utils/ContentFunctions';
 
 type Props = {
-  key: string;
+  uniqueId: string;
   conversations: ConversationThumbType[];
   handleClick: (cId: number) => void;
 };
@@ -78,9 +78,9 @@ const Content = styled.a`
   }
 `;
 
-const HistoryItem = ({ key, conversations, handleClick }: Props) => {
+const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
   return (
-    <ContentContainer id={`history-bin-${key}`}>
+    <ContentContainer id={`history-bin-${uniqueId}`}>
       {conversations.map((conversation) => (
         <Content key={conversation.conversationId}>
           <div className="header">

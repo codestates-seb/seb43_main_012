@@ -99,7 +99,7 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
               <Main>
                 <ContentWrapper>
                   <HistoryItem
-                    key={key}
+                    uniqueId={key}
                     conversations={conversations}
                     handleClick={handleThumbnailClick}
                   />
