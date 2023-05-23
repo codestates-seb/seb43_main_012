@@ -46,6 +46,8 @@ const Content = styled.a`
   border-color: #c9ad6e;
   border-radius: 10px;
   margin: 0 1% 1% 0;
+  height: 200px;
+  overflow: hidden;
   p {
     max-height: 7rem;
     text-align: left;

@@ -3,17 +3,15 @@ import {
   SearchBox,
   HistoryBox,
   HistoryHeader,
-  Filtering,
+  FilterBox,
   DeleteButton,
-  TimeLine,
   HistoryBody,
-  DateContainer,
-  TimeBox,
 } from '../styles/HistoryStyle';
 
 import HistoryData from '../components/history/HistoryData';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 import HistorySearch from '../components/history/HistorySearch';
+import HistoryFilter from '../components/history/HistoryFilter';
 
 function scrollToLeft() {
   console.log('scroll!');
@@ -47,7 +45,9 @@ function History(): ReactElement {
         <HistoryHeader>
           <HistorySearch />
           {/* <SearchBox placeholder=" Search your history! tags (#node.js), title, content, date (3-15-2023, 3-2023)"></SearchBox> */}
-          <Filtering onClick={handleClick}>Newest</Filtering>
+          <FilterBox>
+            <HistoryFilter />
+          </FilterBox>
           <DeleteButton>Clear History</DeleteButton>
         </HistoryHeader>
         <HistoryBody>

@@ -85,6 +85,7 @@ const TagsBox = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   font-size: 13px;
+  font-weight: 500;
   color: #7bb06e;
   margin-top: 15px;
   height: 30px;

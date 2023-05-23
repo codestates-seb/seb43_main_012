@@ -6,6 +6,7 @@
 @import "../node_modules/@coreui/coreui/scss/root";
 @import "../../../node_modules/@coreui/coreui/scss/popover";
 @import "../../../node_modules/@coreui/coreui/scss/modal";
+@import "../../../node_modules/@coreui/coreui/scss/dropdown";
 
 
 .popover_saveUI{
@@ -491,6 +492,12 @@
     }
 
   }
+}
+
+.dropdown_history {
+
+  --cui-dropdown-link-active-color: white;
+--cui-dropdown-link-active-bg: var(--color-default-yellow);
 }
 
 // scss-docs-end modal-fullscreen-loop

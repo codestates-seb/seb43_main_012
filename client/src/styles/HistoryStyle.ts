@@ -38,8 +38,8 @@ export const HistoryHeader = styled.div`
 `;
 
 // 필터링
-export const Filtering = styled.div`
-  padding: 5px;
+export const FilterBox = styled.div`
+  padding: 5px 20px;
 `;
 
 // 전체 히스토리 삭제 버튼
