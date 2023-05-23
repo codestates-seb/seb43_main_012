@@ -10,11 +10,7 @@ let token = localStorage.getItem('token');
 const axiosApi = (url: string, options?: AxiosRequestConfig): AxiosInstance => {
   const instance = axios.create({
     baseURL: url,
-    // headers: {
-    //   'ngrok-skip-browser-warning': '69420',
-    //   // 'Access-Control-Allow-Origin': 'http://localhost:3000',
-    // },
-    // timeout: 5000,
+    timeout: 5000,
     ...options,
   });
   return instance;
@@ -33,7 +29,7 @@ const axiosApi2 = (
       'Access-Control-Allow-Origin': 'http://localhost:3000',
       Authorization: token,
     },
-    timeout: 30000,
+    timeout: 10000,
     ...options,
   });
 

@@ -24,7 +24,7 @@ export const handleLogin = async ({
   // }
   const res = await request.post(`/api/login`, {
     // [key]: userId,
-    userId,
+    identifier: userId,
     password,
   });
   if (res.status !== 200) throw new Error(res.data.message);

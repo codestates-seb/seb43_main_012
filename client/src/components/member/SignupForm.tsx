@@ -13,9 +13,10 @@ import {
   checkUsername,
   confirmPassword,
 } from '../../utils/checkSignup';
-import useCheck from '../../hooks/useCheck';
+import useCheck from '../../utils/hooks/useCheck';
 import handleSignup from '../../api/signupApi';
 import { getRandomCharacter } from './RandomCharcter';
+import { AxiosResponse } from 'axios';
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
@@ -28,14 +29,22 @@ const SignupForm: React.FC = () => {
   const [password2, setPassword2] = useState('');
   const [error, setErrors] = useState('');
 
-  const [isUsername, setIsUsername] = useState(false);
-  const [isUserId, setIsUserId] = useState(false);
-  const [ispassword, setIsPassword] = useState(false);
+  const [isUsername, setIsUsername] = useState(true);
+  const [isUserId, setIsUserId] = useState(true);
+  const [ispassword, setIsPassword] = useState(true);
   const [isPasswordConfirm, setPassWordConfirm] = useState(false);
 
-  useCheck(checkUsername, username, setIsUsername);
-  useCheck(checkId, userId, setIsUserId);
-  useCheck(checkPassword, password, setIsPassword);
+  // useCheck(checkUsername, username, setIsUsername);
+  // useCheck(checkId, userId, setIsUserId);
+  // useCheck(checkPassword, password, setIsPassword);
+
+  const DisplayErrorMessages = () => {
+    useCheck(checkUsername, username, setIsUsername);
+    useCheck(checkId, userId, setIsUserId);
+    useCheck(checkPassword, password, setIsPassword);
+  };
+
+  DisplayErrorMessages();
 
   useEffect(() => {
     if (confirmPassword(password, password2) === false) {
@@ -48,17 +57,27 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async () => {
     const avatarLink = getRandomCharacter();
 
+    if (
+      !checkUsername(username) ||
+      !checkId(userId) ||
+      (!checkPassword(password) && !checkPassword(password2))
+    ) {
+      console.log('checking before submit');
+      // DisplayErrorMessages();
+      return;
+    }
+
     try {
-      await handleSignup({
+      const res = await handleSignup({
         username,
         userId,
         password,
         avatarLink,
         setErrors,
       });
-      navigate('/login');
+      if (res?.status === 201) navigate('/login');
     } catch (error) {
-      console.log(error);
+      console.log('signup error', error);
     }
   };
 
@@ -70,24 +89,24 @@ const SignupForm: React.FC = () => {
     <FormBox>
       <form>
         <SignupInput
-          labelName="Display name"
+          labelName="Username"
           type="text"
           value={username}
           setValue={setUsername}
           setErrors={setErrors}
         />
         {isUsername === true ? null : (
-          <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>
+          <ErrorMessage>Username을 입력해주세요.</ErrorMessage>
         )}
         <SignupInput
-          labelName="ID (email)"
+          labelName="E-mail"
           type="text"
           value={userId}
           setValue={setUserId}
           setErrors={setErrors}
         />
         {isUserId === true ? null : (
-          <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>
+          <ErrorMessage>이메일을 입력해주세요.</ErrorMessage>
         )}
         <SignupInput
           labelName="Password"

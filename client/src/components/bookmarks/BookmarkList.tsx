@@ -88,8 +88,10 @@ const BookmarkList = ({
 }: ListProp) => {
   const dispatch = useAppDispatch();
   const pinned = useAppSelector(selectConversation).pinned;
-  const handleModalOpen = () => {
+  const handleModalOpen = (e: React.MouseEvent<HTMLLIElement>) => {
     // console.log('save bookmark modal open!');
+    e.preventDefault();
+    e.stopPropagation();
     setIsModalOpen(true);
   };
 
@@ -110,31 +112,31 @@ const BookmarkList = ({
 
   return (
     <>
-      {(Boolean(list) || Boolean(list)) &&
-        (Boolean(list.length) || Boolean(list.length)) && (
-          <BookmarkItems>
-            {Boolean(list) &&
-              Boolean(list.length) &&
-              list.map((bookmark: BookmarkType) => (
-                <BookmarkItem
-                  key={bookmark.bookmarkId}
-                  bookmark={bookmark}
-                  checkStatus={true}
-                  handleCheck={handleCheck}
-                />
-              ))}
-            {Boolean(uncheckedList) &&
-              Boolean(uncheckedList.length) &&
-              uncheckedList.map((bookmark: BookmarkType) => (
-                <BookmarkItem
-                  key={bookmark.bookmarkId}
-                  bookmark={bookmark}
-                  checkStatus={false}
-                  handleCheck={handleCheck}
-                />
-              ))}
-          </BookmarkItems>
-        )}
+      {((Boolean(list) && Boolean(list.length)) ||
+        (Boolean(uncheckedList) && Boolean(uncheckedList.length))) && (
+        <BookmarkItems>
+          {Boolean(list) &&
+            Boolean(list.length) &&
+            list.map((bookmark: BookmarkType) => (
+              <BookmarkItem
+                key={bookmark.bookmarkId}
+                bookmark={bookmark}
+                checkStatus={true}
+                handleCheck={handleCheck}
+              />
+            ))}
+          {Boolean(uncheckedList) &&
+            Boolean(uncheckedList.length) &&
+            uncheckedList.map((bookmark: BookmarkType) => (
+              <BookmarkItem
+                key={bookmark.bookmarkId}
+                bookmark={bookmark}
+                checkStatus={false}
+                handleCheck={handleCheck}
+              />
+            ))}
+        </BookmarkItems>
+      )}
 
       <Footer>
         {Boolean(list.length) && (

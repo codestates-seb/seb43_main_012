@@ -104,6 +104,7 @@
 
 
 .popover_topnav{
+
   --#{$prefix}popover-bg: var(--color-default-navtooltip) !important;
   --#{$prefix}popover-border-color: var(--color-default-navtooltip) !important;
   --#{$prefix}popover-arrow-border: var(--color-default-navtooltip) !important;
@@ -156,7 +157,13 @@
 
 }
 
+.popover_saveUI_hover_modal {
+  z-index: 1095;
+}
+
 .popover_saveUI_hover{
+  z-index: 1090;
+
   --#{$prefix}popover-bg: black !important;
   --#{$prefix}popover-border-color: black !important;
   --#{$prefix}popover-arrow-border: black !important;

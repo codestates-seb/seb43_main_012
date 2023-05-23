@@ -27,13 +27,12 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
       onClose={() => {
         setVisible(false);
         //   console.log('modal history item closing!');
-        //   // dispatch(initializeConversation(-1));
+        dispatch(initializeConversation(-1));
       }}
     >
       <CModalBody className="modal_bookmark2">
         <Main isMax={true} />
       </CModalBody>
-      {/* <CModalBody>Modal Stuff</CModalBody> */}
     </CModal>
   );
 };

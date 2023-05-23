@@ -9,7 +9,7 @@ import {
 import ModalCharacter from '../modals/ModalCharacter';
 import { handleNameUpdate, handlePasswordUpdate } from '../../api/MemberApi';
 import { UserInfoItemTypes, handleUserInfo } from '../../api/MemberApi';
-import useCheck from '../../hooks/useCheck';
+import useCheck from '../../utils/hooks/useCheck';
 import { checkPassword } from '../../utils/checkSignup';
 import { ErrorMessage } from '../../styles/SignupStyle';
 
@@ -119,7 +119,10 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
               </div>
             ) : (
               <div>
-                <ErrorMessage>비밀번호는 영어, 숫자, 특수문자를 포함한 8자리 이상의 문자여야합니다.</ErrorMessage>
+                <ErrorMessage>
+                  비밀번호는 영어, 숫자, 특수문자를 포함한 8자리 이상의
+                  문자여야합니다.
+                </ErrorMessage>
                 <button onClick={handleSave}>save</button>
               </div>
             )}

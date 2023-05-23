@@ -95,6 +95,7 @@ const DialogBoxAddTag = () => {
   //2. if there is no input, does not add tag
   //3. once a tag is added, the input value is emptied
   const addTags = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
     event.stopPropagation();
     if (event.currentTarget.value.length) {
       const tagNames = tagList.map((t) => t.tagName.toLowerCase());
@@ -158,6 +159,10 @@ const DialogBoxAddTag = () => {
                 addTags(e);
               }
             }
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
           }}
           placeholder="Click enter to add tags!"
         />

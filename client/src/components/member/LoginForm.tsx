@@ -59,11 +59,7 @@ const LoginForm = ({ closeModal }: Props) => {
       return false;
     }
 
-    if (!containsAtSymbol(id)) {
-      setErrors('이메일 주소를 입력해주세요.');
-      return false;
-    }
-    if (!isValidEmail(id)) {
+    if (containsAtSymbol(id) && !isValidEmail(id)) {
       setErrors('이메일 주소를 확인해주세요.');
       return false;
     }
@@ -118,7 +114,7 @@ const LoginForm = ({ closeModal }: Props) => {
     <FormContainer>
       <form onSubmit={handleSubmit}>
         <SignupInput
-          labelName="ID (email)"
+          labelName="Username / Email"
           value={userId}
           setValue={setuserId}
           setErrors={setErrors}

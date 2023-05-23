@@ -30,6 +30,11 @@ const BookmarkClickBtn = ({
       placement="bottom"
       trigger="click"
       visible={popoverOpen}
+      onClick={(e) => {
+        console.log('cpopover clicked');
+        // e.preventDefault();
+        e.stopPropagation();
+      }}
     >
       <IconItem>
         {saved ? (
