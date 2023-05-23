@@ -60,7 +60,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
   }, [isOpen2]);
 
   const handleInvalidUsername = () => {
-    alert('Username은 다섯자 이상이어야 합니다.');
+    alert('중복되는 Username입니다.');
   };
 
   const handleSave = async () => {
@@ -75,14 +75,19 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
       // 패치
       try {
         await handleNameUpdate(`user/${Id}`, updatedUsername);
+        setUsernameInput('');
       } catch (error) {
-        console.log(error);
+        console.log('update name error', error);
+        //중복된다고 메시지를 띄우기
+        handleInvalidUsername();
+        throw error;
       }
     }
     if (updatedPassword) {
       //패치
       try {
         await handlePasswordUpdate(`user/${Id}`, updatedPassword);
+        setPasswordInput('');
       } catch (error) {
         console.log(error);
       }

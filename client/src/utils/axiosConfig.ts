@@ -2,9 +2,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-// const LOCALHOST = import.meta.env.VITE_LOCALHOST;
 
 let token = localStorage.getItem('token');
+axios.defaults.withCredentials = true;
 
 //NGROK: 인증 필요 없는 GET 요청
 const axiosApi = (url: string, options?: AxiosRequestConfig): AxiosInstance => {

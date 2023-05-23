@@ -23,8 +23,17 @@ export const handleLogin = async ({
     sessionStorage.setItem('sessionId', sessionId);
   }
 
+  // access refresh token
+  // cannot access headers
+  // const token = res.headers['Authorization'];
+  // const headers = res.headers;
+  // console.log('JWT Token:', token);
+  // console.log('headers:', headers);
+  // console.log('body', res.data);
+  // console.log(headers['cache-control']);
+
   localStorage.setItem('token', res.data.authorization);
-  localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
+  localStorage.setItem('refresh', JSON.stringify(res.data.Refresh));
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
 

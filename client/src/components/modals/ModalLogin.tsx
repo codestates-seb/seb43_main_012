@@ -36,7 +36,7 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
                 <span>
                   아직 회원이 아니신가요?
                   <Link to="/signup" onClick={closeModalHandler}>
-                    <a>회원가입</a>
+                    회원가입
                   </Link>
                 </span>
               </SignupLink>

@@ -62,7 +62,7 @@ const LoginForm = ({ closeModal }: Props) => {
     try {
       const res = await handleLogin({ userId, password, setErrors });
       if (res.status === 200) {
-        console.log(localStorage.getItem('token'));
+        // console.log(localStorage.getItem('token'));
 
         //리덕스 state 업데이트
         if (localStorage.getItem('memberId')) {
