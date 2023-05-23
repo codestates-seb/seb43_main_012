@@ -6,12 +6,17 @@ import {
   FilterBox,
   DeleteButton,
   HistoryBody,
+  ReloadBox,
 } from '../styles/HistoryStyle';
+import { ReactComponent as ReloadBtn } from '../assets/icons/history/iconReload.svg';
 
 import HistoryData from '../components/history/HistoryData';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 import HistorySearch from '../components/history/HistorySearch';
 import HistoryFilter from '../components/history/HistoryFilter';
+
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function scrollToLeft() {
   console.log('scroll!');
@@ -24,6 +29,7 @@ function scrollToLeft() {
 }
 function History(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   // 클릭하면 열리는 모달 혹은 페이지가 필요할 경우 사용
   const handleClick = () => {
@@ -34,6 +40,9 @@ function History(): ReactElement {
     setIsOpen(!isOpen);
   };
 
+  const handleReloadClick = () => {
+    navigate(0);
+  };
   useEffect(() => {
     scrollToLeft();
     console.log('changed!');
@@ -43,8 +52,11 @@ function History(): ReactElement {
     <>
       <HistoryBox>
         <HistoryHeader>
+          <ReloadBox onClick={handleReloadClick}>
+            <ReloadBtn />
+          </ReloadBox>
+          {/* <DeleteButton>Reload</DeleteButton> */}
           <HistorySearch />
-          {/* <SearchBox placeholder=" Search your history! tags (#node.js), title, content, date (3-15-2023, 3-2023)"></SearchBox> */}
           <FilterBox>
             <HistoryFilter />
           </FilterBox>

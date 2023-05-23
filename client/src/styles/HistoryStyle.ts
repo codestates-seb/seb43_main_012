@@ -82,6 +82,7 @@ export const DeleteButton = styled.button`
   border: none;
   border-radius: 30px;
   padding: 10px;
+  margin: 0 2px;
   font-size: 15px;
   font-weight: 500;
   border: 1.5px solid var(--color-default-yellow-darker);
@@ -94,4 +95,18 @@ export const DeleteButton = styled.button`
     color: white;
     background-color: var(--color-default-yellow);
   }
+`;
+
+export const ReloadBox = styled.div`
+  color: var(--color-default-yellow-darker);
+
+  &:hover {
+    cursor: pointer;
+  }
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  margin-right: 10px;
 `;

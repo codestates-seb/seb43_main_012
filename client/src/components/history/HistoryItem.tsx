@@ -12,6 +12,7 @@ import { updatePinState, deleteConversation } from '../../api/ChatInterfaceApi';
 type Props = {
   conversation: ConversationThumbType;
   handleClick: (cId: number) => void;
+  handleTagClick: (tId: number | string) => void;
 };
 
 const Content = styled.div`
@@ -89,6 +90,10 @@ const TagsBox = styled.div`
   margin-top: 15px;
   height: 30px;
   overflow-y: hidden;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TagBox = styled.span`
@@ -97,7 +102,7 @@ const TagBox = styled.span`
   padding: 0 5px;
 `;
 
-const HistoryItem = ({ conversation, handleClick }: Props) => {
+const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
   // const dispatch = useAppDispatch();
   const [show, setShow] = useState(true);
 
@@ -113,6 +118,14 @@ const HistoryItem = ({ conversation, handleClick }: Props) => {
     console.log('delete success!');
     setShow(false);
     // initializeConversation(-1);
+  };
+
+  const handleTagBtnClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // console.log('event: ', e);
+    console.log('event: ', e.target.id);
+    handleTagClick(e.target.id);
   };
 
   return (
@@ -141,7 +154,13 @@ const HistoryItem = ({ conversation, handleClick }: Props) => {
           {!!conversation.tags.length && (
             <TagsBox>
               {conversation.tags.map((tag: any) => (
-                <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
+                <TagBox
+                  key={tag.tagId}
+                  id={tag.tagName}
+                  onClick={handleTagBtnClick}
+                >
+                  #{tag.tagName}{' '}
+                </TagBox>
               ))}
             </TagsBox>
           )}

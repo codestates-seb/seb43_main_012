@@ -82,7 +82,7 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
     throw error;
   }
 }
-//conversationId
+
 export async function deleteConversation(cId: number) {
   requestAuth
     .delete<any>(`/conversations/${cId}`)
@@ -91,6 +91,18 @@ export async function deleteConversation(cId: number) {
       console.log(res.data);
     })
     .catch((err) => console.log(err));
+}
+
+//searchTagResults
+export async function getTaggedConversations(tagId: number | string) {
+  try {
+    const res = await requestAuth.get(`/conversations/tags/${tagId}`);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
 
 export async function saveQnA() {}
