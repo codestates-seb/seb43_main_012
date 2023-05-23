@@ -13,6 +13,8 @@ import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
 import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,18 +87,18 @@ public class ConversationService {
         return conversation;
     }
 
-    public List<Conversation> findConversations(String sort, String query, long memberId)
-    {
-        if(query == null) query = "";
+    public Page<Conversation> findConversations(String sort, String query, long memberId, int page, int size) {
+        if (query == null) query = "";
         List<Long> IDs = qnaService.findConversationIDs(query, memberId);
-
-        if(sort.equals("activityLevel"))
-            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.DESC, "activityLevel","modifiedAt"));
-        else if(sort.equals("asc"))
-            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+        PageRequest pageRequest;
+        if (sort.equals("activityLevel"))
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "activityLevel", "modifiedAt"));
+        else if (sort.equals("asc"))
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "modifiedAt"));
         else
-            return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "modifiedAt"));
 
+        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, pageRequest);
     }
 
     @Transactional
@@ -272,6 +274,11 @@ public class ConversationService {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setDeleteStatus(true);
         conversationRepository.save(findConversation);
+    }
+
+    public void removeAll()
+    {
+        //conversationRepository.updateAllDeleteStatusToTrue();
     }
 
     public void setSaveStatus(Conversation conversation)

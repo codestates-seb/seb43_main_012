@@ -11,6 +11,7 @@ import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ConversationController {
 
-    @Value("${apikey}")
-    private String API_KEY;
-    private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private final ConversationService conversationService;
     private final ConversationMapper mapper;
     private final BookmarkRepository bookmarkRepository;
@@ -67,14 +65,19 @@ public class ConversationController {
     @GetMapping
     public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort,
                                            @RequestParam(value = "q", required = false) String query,
+                                           @RequestParam(value = "page", required = false) Integer page,
                                            @AuthenticationPrincipal MemberEntity member)
     {
         Long memberId = member.getId();
 
         if(sort == null) sort = "desc";
-        List<Conversation> conversations = conversationService.findConversations(sort, query, memberId);
+        if(page == null) page = 1;
+        int size = 2;
+
+        Page<Conversation> conversationPage = conversationService.findConversations(sort, query, memberId, page-1, size);
+        List<Conversation> conversations = conversationPage.getContent();
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(responses,conversationPage), HttpStatus.OK);
     }
 
     @PostMapping("/{conversation-id}/bookmarks")
@@ -150,6 +153,14 @@ public class ConversationController {
                                              @AuthenticationPrincipal MemberEntity member)
     {
         conversationService.removeConversation(conversationId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteConversations()
+    {
+        conversationService.removeAll();
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

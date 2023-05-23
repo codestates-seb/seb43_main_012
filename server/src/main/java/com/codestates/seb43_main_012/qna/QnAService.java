@@ -5,6 +5,8 @@ import com.codestates.seb43_main_012.conversation.ConversationRepository;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,8 +111,11 @@ public class QnAService {
 
         // 답변 생성
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
+        //RestTemplate restTemplate = new RestTemplate();
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        //ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(API_ENDPOINT, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {});
 
         // 이전 대화 저장
         List<Object> a = (List<Object>) response.getBody().get("choices");
