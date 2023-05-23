@@ -1,5 +1,10 @@
 import { ReactElement, useState, useEffect } from 'react';
-import { MyEditData, EditView, EditForm } from '../../styles/MyPageStyle';
+import {
+  MyEditData,
+  EditView,
+  EditForm,
+  EditCharacterText,
+} from '../../styles/MyPageStyle';
 import { useNavigate } from 'react-router-dom';
 import {
   Character,
@@ -111,6 +116,8 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
                 <img src={avatarLink} alt="" />
               )}
             </Character>
+            <EditCharacterText>Click to change</EditCharacterText>
+            <EditCharacterText>avatar!</EditCharacterText>
             {isOpen2 && (
               <ModalCharacter isOpen={isOpen2} setIsOpen={setIsOpen2} />
             )}
