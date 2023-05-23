@@ -40,14 +40,30 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberDto memberDto) {
-        MemberDto createdMember = memberService.signup(memberDto);
-        createdMember.setCreatedAt(LocalDateTime.now());
+        try {
+            MemberDto createdMember = memberService.signup(memberDto);
+            createdMember.setCreatedAt(LocalDateTime.now());
 
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put("message", "회원가입에 성공했습니다.\n로그인 페이지로 이동됩니다.");
-        responseData.put("userid", createdMember.getUserId());
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("message", "회원가입에 성공했습니다.\n로그인 페이지로 이동됩니다.");
+            responseData.put("userid", createdMember.getUserId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseData);
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseData);
+        } catch (MemberService.DuplicateUserIdException e) {
+            String errorMessage = e.getMessage();
+
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", errorMessage);
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        } catch (MemberService.DuplicateUsernameException e) {
+            String errorMessage = e.getMessage();
+
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", errorMessage);
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 
     @PostMapping("/login")

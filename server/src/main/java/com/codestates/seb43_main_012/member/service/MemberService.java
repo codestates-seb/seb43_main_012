@@ -24,6 +24,17 @@ public class MemberService {
     public MemberDto signup(MemberDto memberDto) {
     String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
+        boolean isUsernameExists = memberRepository.existsByUsername(memberDto.getUsername());
+        boolean isUserIdExists = memberRepository.existsByUserId(memberDto.getUserId());
+
+        if (isUsernameExists) {
+            throw new DuplicateUsernameException("이미 사용 중인 사용자 이름입니다.");
+        }
+
+        if (isUserIdExists) {
+            throw new DuplicateUserIdException("이미 사용 중인 사용자 ID입니다.");
+        }
+
     MemberEntity memberEntity = MemberEntity.builder()
             .username(memberDto.getUsername())
             .password(encodedPassword)
@@ -94,6 +105,18 @@ public class MemberService {
                 .avatarLink(memberDto.getAvatarLink())
                 .build();
         memberRepository.save(memberEntity);
+    }
+
+    public class DuplicateUsernameException extends RuntimeException {
+        public DuplicateUsernameException(String message) {
+            super(message);
+        }
+    }
+
+    public class DuplicateUserIdException extends RuntimeException {
+        public DuplicateUserIdException(String message) {
+            super(message);
+        }
     }
 
 }
