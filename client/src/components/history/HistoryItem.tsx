@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { ConversationThumbType } from '../../data/d';
 import { truncateTitle } from '../../utils/ContentFunctions';
+import HistoryEditUI from './HistoryEditUI';
 
 type Props = {
   uniqueId: string;
@@ -23,21 +24,29 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 5px 5px 5px;
+  padding: 40px 5px 5px 5px;
   border: 1.5px solid var(--color-default-yellow);
   background-color: var(--color-thumbnail-bg);
   border-radius: 10px;
   margin: 0 0.5%;
   // margin-bottom: 10px;
+  position: relative;
 
   min-width: 270px;
   min-height: 150px;
   max-height: 170px;
   overflow-y: hidden;
+
   p {
     max-height: 7rem;
     text-align: left;
     word-break: break-all;
+  }
+
+  .fixed {
+    position: absolute;
+    top: 5px;
+    right: 5px;
   }
 
   .header {
@@ -106,6 +115,9 @@ const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
     <ContentContainer id={`history-bin-${uniqueId}`}>
       {conversations.map((conversation) => (
         <Content key={conversation.conversationId}>
+          <div className="fixed">
+            <HistoryEditUI pinned={conversation.pinned} />
+          </div>
           <div className="header">
             <h3
               className="title"

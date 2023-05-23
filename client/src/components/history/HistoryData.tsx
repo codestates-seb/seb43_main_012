@@ -38,8 +38,6 @@ type HistoryProps = {
   handleClick: () => void;
 };
 
-// ...rest of your code remains same...
-
 const HistoryData = ({ handleClick }: HistoryProps) => {
   const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
   const dispatch = useAppDispatch();
@@ -48,8 +46,10 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
   useEffect(() => {
     (async function () {
       try {
-        const conversations = await getAllConversations();
+        const conversations: ConversationThumbType[] =
+          await getAllConversations();
         console.log(filterConvsByDate(conversations));
+        conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
         setBinnedConv(filterConvsByDate(conversations));
       } catch (err) {
         console.log(err);
@@ -62,8 +62,11 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
     console.log('update history data');
     (async function () {
       try {
-        const conversations = await getAllConversations();
+        const conversations: ConversationThumbType[] =
+          await getAllConversations();
         console.log(filterConvsByDate(conversations));
+        //sort by pinned status
+        conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
         setBinnedConv(filterConvsByDate(conversations));
       } catch (err) {
         console.log(err);
