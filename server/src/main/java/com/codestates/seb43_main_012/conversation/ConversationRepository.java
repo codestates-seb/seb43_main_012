@@ -15,6 +15,7 @@ public interface ConversationRepository  extends JpaRepository<Conversation, Lon
     List<Conversation> findAllByMemberIdAndSavedAndDeleteStatus(long memberId, boolean isSaved, boolean deleteStatus);
     List<Conversation> findAllByMemberIdAndSavedAndDeleteStatus(long memberId, boolean isSaved, boolean deleteStatus, Sort sort);
 
+    List<Conversation> findAllByDeleteStatusAndConversationIdIn(boolean deleteStatus, List<Long> IDs, Sort sort);
     Page<Conversation> findAllByDeleteStatusAndConversationIdIn(boolean deleteStatus, List<Long> IDs, Pageable pageable);
 
 //    @Modifying

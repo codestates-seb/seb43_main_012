@@ -8,6 +8,7 @@ import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAService;
+import com.codestates.seb43_main_012.response.MultiResponseDto;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,18 +65,26 @@ public class ConversationController {
     public ResponseEntity getConversations(@RequestParam(value = "sort", required = false) String sort,
                                            @RequestParam(value = "q", required = false) String query,
                                            @RequestParam(value = "page", required = false) Integer page,
-                                           @AuthenticationPrincipal MemberEntity member)
-    {
+                                           @AuthenticationPrincipal MemberEntity member) {
         Long memberId = member.getId();
 
-        if(sort == null) sort = "desc";
-        if(page == null) page = 1;
-        int size = 20;
+        if (sort == null) sort = "desc";
+        int size = 10;
 
-        Page<Conversation> conversationPage = conversationService.findConversations(sort, query, memberId, page-1, size);
-        List<Conversation> conversations = conversationPage.getContent();
-        List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+        List<Conversation> conversations;
+        if (page == null)
+        {
+            conversations = conversationService.findConversationList(sort, query, memberId);
+            List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+            return new ResponseEntity<>(responses, HttpStatus.OK);
+        }
+        else
+        {
+            Page<Conversation> conversationPage = conversationService.findConversations(sort, query, memberId, page-1, size);
+            conversations = conversationPage.getContent();
+            List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+            return new ResponseEntity<>(new MultiResponseDto<>(responses, conversationPage), HttpStatus.OK);
+        }
     }
 
     @PostMapping("/{conversation-id}/bookmarks")
