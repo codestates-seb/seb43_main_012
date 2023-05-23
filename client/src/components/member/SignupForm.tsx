@@ -4,6 +4,7 @@ import SignupInput from '../member/SignupInput';
 import {
   ErrorMessage,
   FormBox,
+  Formform,
   PasswordText,
   SignButton,
 } from '../../styles/SignupStyle';
@@ -57,6 +58,7 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async () => {
     const avatarLink = getRandomCharacter();
 
+    //유효성검사부터 체크한 후 요청보내기
     if (
       !checkUsername(username) ||
       !checkId(userId) ||
@@ -87,7 +89,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <FormBox>
-      <form>
+      <Formform>
         <SignupInput
           labelName="Username"
           type="text"
@@ -116,11 +118,13 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {ispassword === true ? null : (
-          <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호를 입력해주세요.
+          </ErrorMessage>
         )}
         <PasswordText>
-          Passwords must contain at least eight characters, including at least 1
-          letter and 1 number.
+          <p>비밀번호는 최소 8자 이상이어야 하며,</p>
+          <p>대소문자/숫자/특수문자를 모두 포함해야 합니다.</p>
         </PasswordText>
 
         <SignupInput
@@ -148,7 +152,7 @@ const SignupForm: React.FC = () => {
             </SignButton>
           </div>
         )}
-      </form>
+      </Formform>
     </FormBox>
   );
 };
