@@ -128,17 +128,33 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   });
 
   return (
-    // <ModalWrap>
     <CModal
       className="modal_bookmark"
       alignment="center"
       visible={visible}
-      onClose={() => setVisible(false)}
+      onClose={() => {
+        setVisible(false);
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
     >
-      <CModalHeader>
+      <CModalHeader
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         <CModalTitle>Create Collection</CModalTitle>
       </CModalHeader>
-      <CModalBody>
+      <CModalBody
+        onClick={(e) => {
+          // console.log('clicked cmodal body');
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         {InputBookmarkName}
         <InputCount>
           {value.length}/<span>30</span>
@@ -161,7 +177,6 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
         </PrimaryBtn>
       </CModalFooter>
     </CModal>
-    // </ModalWrap>
   );
 };
 

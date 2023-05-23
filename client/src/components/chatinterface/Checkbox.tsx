@@ -155,7 +155,7 @@ const Checkbox = ({
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
-    // console.log('clicked checkbox: ', event.target.id);
+    console.log('clicked checkbox: ', event.target.id);
     handleCheck({ id: id, newCheckValue: event.target.checked });
     setIsChecked(event.target.checked);
   };

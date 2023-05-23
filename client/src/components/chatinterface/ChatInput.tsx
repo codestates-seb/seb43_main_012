@@ -13,6 +13,7 @@ import { Conversation } from '../../data/d';
 import {
   askFirstQuestion,
   continueConversation,
+  getConversation,
 } from '../../api/ChatInterfaceApi';
 
 //import redux
@@ -53,7 +54,14 @@ const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
           console.log('asked first Question: ', res);
           setIsLoading(false);
           setQValue('');
-          dispatch(setConversation(res));
+
+          //for now.. because there's no bookmarkList
+          if (!res.bookmarkList) {
+            const res2 = await getConversation(res.conversationId);
+            dispatch(setConversation(res2));
+          } else {
+            dispatch(setConversation(res));
+          }
           // setCValue(res);
         } catch (error) {
           console.error('Error in ask first question:', error);

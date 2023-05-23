@@ -156,6 +156,10 @@
 
 }
 
+.popover_saveUI_hover_modal {
+  z-index: 1095;
+}
+
 .popover_saveUI_hover{
   --#{$prefix}popover-bg: black !important;
   --#{$prefix}popover-border-color: black !important;
