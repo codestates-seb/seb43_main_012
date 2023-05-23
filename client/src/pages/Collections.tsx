@@ -21,13 +21,17 @@ const Main = styled.main`
 
 const ContentWraper = styled.div`
   width: 100%;
+  // overflow: scroll;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
+  // flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
   padding: 5px;
+  overflow: scroll;
+  height: 700px;
 `;
 
 const Title = styled.a`

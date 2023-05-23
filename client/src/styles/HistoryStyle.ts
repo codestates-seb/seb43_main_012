@@ -74,11 +74,6 @@ export const TimeBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  div {
-    min-width: 250px;
-    height: 150px;
-  }
-  // padding-left: 10px;
 `;
 
 export const DateContainer = styled.div`

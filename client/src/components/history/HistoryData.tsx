@@ -28,7 +28,6 @@ align-content; flex-start;
   border: none;
   width: 100%;
   height: 100%;
-  overflow-y: hidden;
 `;
 
 export type BinnedConvType = {

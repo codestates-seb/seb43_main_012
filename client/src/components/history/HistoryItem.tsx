@@ -13,22 +13,28 @@ const ContentContainer = styled.div`
   border: none;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  padding: 5px 0;
+  padding: 0 0 20px 0;
   overflow-x: scroll;
+  height: 100%;
 `;
 
-const Content = styled.a`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  padding: 40px 5px;
+  padding: 30px 5px 5px 5px;
   border: 1.5px solid var(--color-default-yellow);
   background-color: var(--color-thumbnail-bg);
   border-radius: 10px;
   margin: 0 0.5%;
-  = p {
+  // margin-bottom: 10px;
+
+  min-width: 270px;
+  min-height: 150px;
+  max-height: 170px;
+  overflow-y: hidden;
+  p {
     max-height: 7rem;
     text-align: left;
     word-break: break-all;
@@ -38,7 +44,8 @@ const Content = styled.a`
     display: flex;
     justify-content: center;
     align-content: center;
-    height: fit-content;
+    height: 75px;
+    flex-wrap: wrap;
     // background-color: green;
     // background-color: var(--color-thumbnail-bg);
   }
@@ -46,8 +53,10 @@ const Content = styled.a`
   .title {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     text-overflow: ellipsis;
+    height: fit-content;
+
     font-size: 18px;
     line-height: 1.5rem;
     font-weight: 500;
@@ -72,10 +81,24 @@ const Content = styled.a`
     // background-repeat: no-repeat;
     // background-size: cover;
   }
+`;
 
-  .tag {
-    color: #7bb06e;
-  }
+const TagsBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #7bb06e;
+  margin-top: 15px;
+  height: 30px;
+  overflow-y: hidden;
+`;
+
+const TagBox = styled.span`
+  display: flex;
+  flex-direction: row;
+  padding: 0 5px;
 `;
 
 const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
@@ -96,11 +119,11 @@ const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
             </h3>
           </div>
           {!!conversation.tags.length && (
-            <div className="tag">
+            <TagsBox>
               {conversation.tags.map((tag: any) => (
-                <span key={tag.tagId}>#{tag.tagName} </span>
+                <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
               ))}
-            </div>
+            </TagsBox>
           )}
         </Content>
       ))}
