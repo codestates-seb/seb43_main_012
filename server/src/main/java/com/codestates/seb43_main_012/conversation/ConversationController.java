@@ -72,12 +72,12 @@ public class ConversationController {
 
         if(sort == null) sort = "desc";
         if(page == null) page = 1;
-        int size = 2;
+        int size = 10;
 
         Page<Conversation> conversationPage = conversationService.findConversations(sort, query, memberId, page-1, size);
         List<Conversation> conversations = conversationPage.getContent();
         List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
-        return new ResponseEntity<>(new MultiResponseDto<>(responses,conversationPage), HttpStatus.OK);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/{conversation-id}/bookmarks")
