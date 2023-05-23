@@ -70,7 +70,7 @@ public class ConversationController {
 
         if(sort == null) sort = "desc";
         if(page == null) page = 1;
-        int size = 10;
+        int size = 20;
 
         Page<Conversation> conversationPage = conversationService.findConversations(sort, query, memberId, page-1, size);
         List<Conversation> conversations = conversationPage.getContent();
