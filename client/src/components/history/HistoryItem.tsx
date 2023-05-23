@@ -1,44 +1,21 @@
-import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-import { requestAuth } from '../../utils/axiosConfig';
-import { getAllConversations } from '../../api/ChatInterfaceApi';
+import React from 'react';
 import styled from 'styled-components';
-import { TimeLine, TimeBox } from '../../styles/HistoryStyle';
 
-import { DateFilter, filterConvsByDate } from '../../utils/DateFiltering';
+import { ConversationThumbType } from '../../data/d';
 import { truncateTitle } from '../../utils/ContentFunctions';
 
-import { useAppDispatch } from '../../app/hooks';
-import { getConversation } from '../../api/ChatInterfaceApi';
-import {
-  setConversation,
-  initializeConversation,
-} from '../../features/main/conversationSlice';
-
-import { TagType, ConversationThumbType } from '../../data/d';
-
-const Main = styled.main`
-  min-width: 270px;
-  max-width: 1080px;
-  padding: 0;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-align-content; flex-start;
-  border: none;
-  width: 100%;
-  height: 100%;
-  overflow-y: hidden;
-`;
-
+type Props = {
+  uniqueId: string;
+  conversations: ConversationThumbType[];
+  handleClick: (cId: number) => void;
+};
 const ContentContainer = styled.div`
   border: none;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   padding: 5px 0;
+  overflow-x: scroll;
 `;
 
 const Content = styled.a`
@@ -101,93 +78,34 @@ const Content = styled.a`
   }
 `;
 
-const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
-
-type BinnedConvType = {
-  [key in DateFilter]: ConversationThumbType[];
-};
-
-type HistoryProps = {
-  handleClick: () => void;
-};
-
-// ...rest of your code remains same...
-
-const HistoryData = ({ handleClick }: HistoryProps) => {
-  const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
-  const dispatch = useAppDispatch();
-  // 데이터 GET
-  useEffect(() => {
-    (async function () {
-      try {
-        const conversations = await getAllConversations();
-        console.log(filterConvsByDate(conversations));
-        setBinnedConv(filterConvsByDate(conversations));
-      } catch (err) {
-        console.log(err);
-        throw err;
-      }
-    })();
-  }, []);
-
-  const loadConv = async (cId: number) => {
-    const conversation = await getConversation(cId);
-    if (conversation) {
-      dispatch(setConversation(conversation));
-    }
-    return;
-  };
-  const handleThumbnailClick = async (cId: number) => {
-    console.log('thumbnail clicked!, ', cId);
-    await loadConv(cId);
-    handleClick();
-  };
-
+const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
   return (
-    <>
-      {Object.keys(binnedConv).map((key) => {
-        const conversations = binnedConv[key];
-        if (!conversations.length) return;
-
-        return (
-          <React.Fragment key={key}>
-            <TimeLine>{key.toUpperCase()}</TimeLine>
-            <TimeBox>
-              <Main>
-                <ContentWrapper>
-                  <ContentContainer>
-                    {conversations.map((conversation) => (
-                      <Content key={conversation.conversationId}>
-                        <div className="header">
-                          <h3
-                            className="title"
-                            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleThumbnailClick(conversation.conversationId);
-                            }}
-                          >
-                            {truncateTitle(conversation.title, 50)}
-                          </h3>
-                        </div>
-                        {!!conversation.tags.length && (
-                          <div className="tag">
-                            {conversation.tags.map((tag) => (
-                              <span key={tag.tagId}>#{tag.tagName} </span>
-                            ))}
-                          </div>
-                        )}
-                      </Content>
-                    ))}
-                  </ContentContainer>
-                </ContentWrapper>
-              </Main>
-            </TimeBox>
-          </React.Fragment>
-        );
-      })}
-    </>
+    <ContentContainer id={`history-bin-${uniqueId}`}>
+      {conversations.map((conversation) => (
+        <Content key={conversation.conversationId}>
+          <div className="header">
+            <h3
+              className="title"
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleClick(conversation.conversationId);
+              }}
+            >
+              {truncateTitle(conversation.title, 50)}
+            </h3>
+          </div>
+          {!!conversation.tags.length && (
+            <div className="tag">
+              {conversation.tags.map((tag: any) => (
+                <span key={tag.tagId}>#{tag.tagName} </span>
+              ))}
+            </div>
+          )}
+        </Content>
+      ))}
+    </ContentContainer>
   );
 };
 
-export default HistoryData;
+export default HistoryItem;

@@ -108,6 +108,7 @@ const TopNav = ({
     );
     dispatch(changeLoginState('ON'));
   };
+
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   useEffect(() => {
     if (location.pathname === '/') {
@@ -133,13 +134,21 @@ const TopNav = ({
 
   useEffect(() => {
     console.log('topnav update');
+    // console.log('memberavatar', _memberInfo.avatarLink);
+
     setMemberInfo({
       userId: _memberInfo.userId,
       username: _memberInfo.username,
       avatarLink: _memberInfo.avatarLink,
     });
-    setIsLoggedIn(_loginState);
-  }, [_loginState]);
+
+    if (isLoggedIn !== _loginState) setIsLoggedIn(_loginState);
+  }, [_loginState, _memberInfo.avatarLink]);
+
+  // useEffect(() => {
+  //   console.log('memberinfo update');
+  //   setMemberInfo({ ...memberInfo, avatarLink: _memberInfo.avatarLink });
+  // }, [_memberInfo.avatarLink]);
 
   // const fetchUserInfo = async () => {
   //   // if (!memberInfo.userId) return;
@@ -251,8 +260,8 @@ const TopNav = ({
       <TN.MemberBox>
         {isLoggedIn ? (
           <AvatarIcon onClick={handleUserBtnClick}>
-            {!Boolean(memberInfo.userId) ? (
-              'A'
+            {memberInfo.avatarLink === memberInfo.username ? (
+              memberInfo.username[0]?.toUpperCase()
             ) : (
               <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
             )}

@@ -1,6 +1,4 @@
-import axios from 'axios';
-// import { response } from 'express';
-import { request, requestAuth } from '../utils/axiosConfig';
+import { requestAuth } from '../utils/axiosConfig';
 
 export type UserInfoItemTypes = {
   id: number;
@@ -50,10 +48,20 @@ export const handleNameUpdate = async (
     },
     { withCredentials: true },
   );
+  console.log('update success!', response);
+
+  if (response.status === 200) {
+    // console.log('updating token');
+    localStorage.setItem('token', response.data.Authorization);
+    localStorage.setItem('refresh', JSON.stringify(response.data.Refresh));
+  }
   if (response.status !== 200) {
     throw new Error(response.data.message);
   }
-  return response.data.message;
+
+  return response.data;
+  // return response.data;
+  // return response.data.message;
 };
 
 export const handlePasswordUpdate = async (

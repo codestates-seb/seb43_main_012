@@ -18,10 +18,10 @@ export const LoginView = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 330px;
+  min-height: 500px;
   margin-top: 2%;
   margin-bottom: 5%;
-  height: 60%;
+  height: 40%;
   width: 290px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff5de;
@@ -29,20 +29,34 @@ export const LoginView = styled.div`
 
 export const SignupLink = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
   width: 100%;
   padding: 16px;
+  font-size: 14px;
+
+  a {
+    margin-left: 5px;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    font-weight: 600;
+  }
 `;
 export const FormContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  padding: 24px 0;
+  padding: 0;
   background-color: #fff5de;
   border-radius: 5px;
   input {
-    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    min-width: 180px;
     text-align: center;
   }
 `;
@@ -52,3 +66,6 @@ export const ErrorMessage = styled.p`
   display: flex;
   align-items: center;
 `;
+
+export const SignupText = styled.p``;
+export const SignupLinkText = styled.a``;

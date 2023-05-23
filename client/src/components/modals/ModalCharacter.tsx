@@ -18,12 +18,16 @@ type ModalCharacterProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
+
+import { useAppDispatch } from '../../app/hooks';
+import { updateAvatar } from '../../features/member/loginInfoSlice';
 function ModalCharacter({
   isOpen,
   setIsOpen,
 }: ModalCharacterProps): ReactElement {
   // 로컬에 저장한 memberId를 가져와서 파라미터 사용
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const Id = localStorage.getItem('memberId');
   const [selectedCharacter, setSelectedCharacter] = useState<string>('');
   const [avatarLink, setAvatarLink] = useState<string>(''); // avatarLink 변수 정의
@@ -49,7 +53,8 @@ function ModalCharacter({
     try {
       const newAvatarLink = selectedCharacter;
       await handleUpdate(`user/${Id}`, newAvatarLink);
-      console.log(newAvatarLink);
+      dispatch(updateAvatar(newAvatarLink));
+      // console.log(newAvatarLink);
       setIsOpen(false);
     } catch (error) {
       console.error(error);
@@ -68,8 +73,8 @@ function ModalCharacter({
             <h2>Select Your Character</h2>
             <CharacterBox>
               <MainCharacter>
-                {avatarLink === username ? (
-                  avatarLink[0]
+                {selectedCharacter === username ? (
+                  username[0]?.toUpperCase()
                 ) : (
                   <img src={selectedCharacter} alt="" />
                 )}
@@ -124,7 +129,7 @@ function ModalCharacter({
                       selectedCharacter === avatarLink ? 'selected' : ''
                     }
                   >
-                    {username[0]}
+                    {username[0]?.toUpperCase()}
                   </Character>
                 </div>
               </section>

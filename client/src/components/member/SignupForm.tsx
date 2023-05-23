@@ -4,6 +4,7 @@ import SignupInput from '../member/SignupInput';
 import {
   ErrorMessage,
   FormBox,
+  Formform,
   PasswordText,
   SignButton,
 } from '../../styles/SignupStyle';
@@ -16,7 +17,6 @@ import {
 import useCheck from '../../utils/hooks/useCheck';
 import handleSignup from '../../api/signupApi';
 import { getRandomCharacter } from './RandomCharcter';
-import { AxiosResponse } from 'axios';
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
@@ -33,10 +33,6 @@ const SignupForm: React.FC = () => {
   const [isUserId, setIsUserId] = useState(true);
   const [ispassword, setIsPassword] = useState(true);
   const [isPasswordConfirm, setPassWordConfirm] = useState(false);
-
-  // useCheck(checkUsername, username, setIsUsername);
-  // useCheck(checkId, userId, setIsUserId);
-  // useCheck(checkPassword, password, setIsPassword);
 
   const DisplayErrorMessages = () => {
     useCheck(checkUsername, username, setIsUsername);
@@ -56,16 +52,6 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = async () => {
     const avatarLink = getRandomCharacter();
-
-    if (
-      !checkUsername(username) ||
-      !checkId(userId) ||
-      (!checkPassword(password) && !checkPassword(password2))
-    ) {
-      console.log('checking before submit');
-      // DisplayErrorMessages();
-      return;
-    }
 
     try {
       const res = await handleSignup({
@@ -87,7 +73,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <FormBox>
-      <form>
+      <Formform>
         <SignupInput
           labelName="Username"
           type="text"
@@ -116,11 +102,13 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {ispassword === true ? null : (
-          <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호를 조건을 확인해주세요.
+          </ErrorMessage>
         )}
         <PasswordText>
-          Passwords must contain at least eight characters, including at least 1
-          letter and 1 number.
+          <p>비밀번호는 8자 이상이어야 하며,</p>
+          <p>대소문자/숫자/특수문자를 모두 포함해야 합니다.</p>
         </PasswordText>
 
         <SignupInput
@@ -131,7 +119,9 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {isPasswordConfirm === true ? null : (
-          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호가 일치하지 않습니다.
+          </ErrorMessage>
         )}
         {isUserId &&
         isUsername &&
@@ -148,7 +138,7 @@ const SignupForm: React.FC = () => {
             </SignButton>
           </div>
         )}
-      </form>
+      </Formform>
     </FormBox>
   );
 };

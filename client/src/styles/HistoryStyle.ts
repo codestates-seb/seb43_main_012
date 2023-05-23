@@ -73,7 +73,6 @@ export const TimeBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  overflow-x: scroll;
   width: 100%;
   div {
     min-width: 250px;

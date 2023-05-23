@@ -12,18 +12,7 @@ export const handleLogin = async ({
   password,
   setErrors,
 }: LoginArgs) => {
-  // let key: string = '';
-  // if (!isValidEmail(userId)) {
-  //   // console.log('its displayname');
-  //   alert('올바른 이메일 주소를 입력해주세요.');
-
-  //   // key = 'username';
-  // } else {
-  //   console.log('its email');
-  //   key = 'userId';
-  // }
   const res = await request.post(`/api/login`, {
-    // [key]: userId,
     identifier: userId,
     password,
   });
@@ -33,9 +22,15 @@ export const handleLogin = async ({
     const sessionId = extractSessionIdFromCookies(cookies);
     sessionStorage.setItem('sessionId', sessionId);
   }
-
-  localStorage.setItem('token', res.data.authorization);
-  localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
+  // cannot access headers
+  // const token = res.headers['Authorization'];
+  // const headers = res.headers;
+  // console.log('JWT Token:', token);
+  // console.log('headers:', headers);
+  // console.log('body', res.data);
+  // console.log(headers['cache-control']);
+  localStorage.setItem('token', res.data.Authorization);
+  localStorage.setItem('refresh', res.data.Refresh);
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
 

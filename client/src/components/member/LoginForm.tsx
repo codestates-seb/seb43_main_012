@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormContainer } from '../../styles/LoginStyle';
 import SignupInput from '../member/SignupInput';
-import { ErrorMessage, SignButton } from '../../styles/SignupStyle';
+import { ErrorMessage, SignButton, Formform } from '../../styles/SignupStyle';
 import { handleLogin } from '../../api/loginApi';
 import { UserInfoItemTypes, handleUserInfo } from '../../api/MemberApi';
+import { containsAtSymbol, isValidEmail } from '../../utils/checkLogin';
 
 import { useAppDispatch } from '../../app/hooks';
 import {
@@ -16,22 +17,8 @@ type Props = {
   closeModal: () => void;
 };
 
-function containsAtSymbol(input: string): boolean {
-  const regex = /@/;
-  return regex.test(input);
-}
-
-function isValidEmail(email: string): boolean {
-  const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return regex.test(email);
-}
-
-function isValidPassword(password: string): boolean {
-  return /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password);
-}
-
 export function formatDateTime(arr: number[]) {
-  // Please note that JavaScript counts months from 0 (January) to 11 (December),
+  // JavaScript counts months from 0 (January) to 11 (December),
   // so we subtract 1 from the month.
   let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
   return date.toLocaleDateString('default', {
@@ -64,12 +51,6 @@ const LoginForm = ({ closeModal }: Props) => {
       return false;
     }
 
-    if (!isValidPassword(pw)) {
-      setErrors(
-        '비밀번호는 8자리 이상이어야 하며, 영문,숫자,특수문자 모두 포함해야 합니다',
-      );
-      return false;
-    }
     return true;
   };
 
@@ -80,6 +61,7 @@ const LoginForm = ({ closeModal }: Props) => {
 
     try {
       const res = await handleLogin({ userId, password, setErrors });
+      console.log('login response', res);
       if (res.status === 200) {
         console.log(localStorage.getItem('token'));
 
@@ -104,15 +86,16 @@ const LoginForm = ({ closeModal }: Props) => {
         closeModal();
         navigate('/');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      console.log('error status: ', error.response.status);
       setErrors('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
     }
   };
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit}>
+      <Formform onSubmit={handleSubmit}>
         <SignupInput
           labelName="Username / Email"
           value={userId}
@@ -126,12 +109,13 @@ const LoginForm = ({ closeModal }: Props) => {
           setValue={setPassword}
           type="password"
           setErrors={setErrors}
-          placeholder="영어+숫자+특수문자 8글자"
           inputType="pw"
         />
-        {errors.length !== 0 ? <ErrorMessage>{errors}</ErrorMessage> : null}
+        {errors.length !== 0 ? (
+          <ErrorMessage className="error">{errors}</ErrorMessage>
+        ) : null}
         <SignButton type="submit">Log in</SignButton>
-      </form>
+      </Formform>
     </FormContainer>
   );
 };

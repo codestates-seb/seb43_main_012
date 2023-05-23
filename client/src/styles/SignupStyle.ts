@@ -6,7 +6,7 @@ export const SignupWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin-top: 10vh;
   width: 100vw;
   overflow-y: scroll;
   background-color: #fff;
@@ -30,7 +30,9 @@ export const SignupBox = styled.div`
 
 //OAuth
 export const ButtonBox = styled.div`
+  display: flex;
   margin-bottom: 1.5%;
+  width: 100%;
   width: 200px;
   height: 37px;
   border: 1px solid #e5e5e5;
@@ -58,22 +60,48 @@ export const ButtonBox = styled.div`
 
 // 입력창, 가입버튼을 감싸는 박스
 export const FormBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   padding: 0 10% 0 10%;
   border-radius: 5px;
 `;
 
+export const Formform = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  & div {
+    display: flex;
+    justify-content: center;
+    min-width: 150px;
+    padding 0;
+    height: fit-content;
+  }
+`;
 //비밀번호 안내 문구
-export const PasswordText = styled.p`
-  text-align: left;
+export const PasswordText = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
   font-size: 11px;
   color: #727981;
+  word-break: keep-all;
 `;
 
 // 가입버튼
 export const SignButton = styled.button`
-  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
   height: 37px;
-  margin: 10% 0 10% 10%;
+  // margin: 10%;
+  margin-bottom: 10%;
   background: #c9ad6e;
   box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.25);
   border-radius: 20px;
@@ -89,7 +117,10 @@ export const SignButton = styled.button`
 export const InputBox = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin: 6% 0;
+  width: 100%;
+  max-width: 180px;
   label {
     text-align: center;
     margin: 0.5% 0;
@@ -97,6 +128,7 @@ export const InputBox = styled.div`
     font-weight: 600;
   }
   input {
+    text-align: center;
     background-color: #fff5de;
     margin: 0.5% 0;
     height: 30px;
@@ -135,12 +167,17 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ErrorMessage = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 11px;
   color: #913535;
   max-width: 200px;
   word-break: keep-all;
-  .error {
+  margin: 0;
+  padding: 0;
+  &.error {
     margin-bottom: 10px;
     margin-top: 0px;
   }

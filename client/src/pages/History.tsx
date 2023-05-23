@@ -11,9 +11,18 @@ import {
   TimeBox,
 } from '../styles/HistoryStyle';
 
-import HistoryData from '../components/member/HistoryData';
+import HistoryData from '../components/history/HistoryData';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 
+function scrollToLeft() {
+  console.log('scroll!');
+  const bins = document.querySelectorAll('[id^="history-bin-"]');
+
+  console.log(bins);
+  bins.forEach((el) => {
+    el.scrollLeft = 0;
+  });
+}
 function History(): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,6 +36,7 @@ function History(): ReactElement {
   };
 
   useEffect(() => {
+    scrollToLeft();
     console.log('changed!');
   }, [isOpen]);
 

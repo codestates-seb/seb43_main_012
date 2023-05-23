@@ -8,6 +8,7 @@ import { InputQBox, InputSubmitBtn } from '../../styles/InputStyle';
 import { ReactComponent as SubmitIcon } from '../../assets/icons/iconSubmit.svg';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Conversation } from '../../data/d';
+import { AxiosError, isAxiosError } from 'axios';
 
 //import api
 import {
@@ -44,6 +45,7 @@ const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
           updateQNum();
         } catch (error) {
           console.error('Error in continueConversation:', error);
+          setIsLoading(false);
         }
       })();
     } else if (localStorage.getItem('token')) {
@@ -65,6 +67,11 @@ const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
           // setCValue(res);
         } catch (error) {
           console.error('Error in ask first question:', error);
+          if (isAxiosError(error) && error.code === 'ECONNABORTED') {
+            console.log('request timed out');
+            alert('조금 있다가 다시 시도해주세요.');
+          }
+          setIsLoading(false);
         }
       })();
     }
