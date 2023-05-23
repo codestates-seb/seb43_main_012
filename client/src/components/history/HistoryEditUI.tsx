@@ -53,8 +53,13 @@ const ConfirmCancelBox = styled.div`
 type Props = {
   pinned: boolean;
   handlePinUpdate: (newPinValue: boolean) => void;
+  handleDeleteConv: () => void;
 };
-const HistoryEditUI = ({ pinned, handlePinUpdate }: Props) => {
+const HistoryEditUI = ({
+  pinned,
+  handlePinUpdate,
+  handleDeleteConv,
+}: Props) => {
   const [aboutToDelete, setAboutToDelete] = useState<boolean>(false);
   const [isPinned, setIsPinned] = useState<boolean>(pinned);
 
@@ -73,6 +78,7 @@ const HistoryEditUI = ({ pinned, handlePinUpdate }: Props) => {
   const handleConfirmClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    handleDeleteConv();
     setAboutToDelete(false);
   };
 

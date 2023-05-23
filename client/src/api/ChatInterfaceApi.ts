@@ -83,9 +83,9 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
   }
 }
 //conversationId
-export async function deleteConveration() {
+export async function deleteConversation(cId: number) {
   requestAuth
-    .delete<any>(`/conversations/`)
+    .delete<any>(`/conversations/${cId}`)
     .then((res) => {
       console.log(res);
       console.log(res.data);

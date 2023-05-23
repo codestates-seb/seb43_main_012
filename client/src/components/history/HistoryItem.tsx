@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { ConversationThumbType } from '../../data/d';
@@ -7,7 +7,8 @@ import HistoryEditUI from './HistoryEditUI';
 
 // import { useAppDispatch } from '../../app/hooks';
 // import { updatePinAsync } from '../../features/main/conversationSlice';
-import { updatePinState } from '../../api/ChatInterfaceApi';
+import { updatePinState, deleteConversation } from '../../api/ChatInterfaceApi';
+import { initializeConversation } from '../../features/main/conversationSlice';
 
 type Props = {
   conversation: ConversationThumbType;
@@ -107,6 +108,7 @@ const TagBox = styled.span`
 
 const HistoryItem = ({ conversation, handleClick }: Props) => {
   // const dispatch = useAppDispatch();
+  const [show, setShow] = useState(true);
 
   const handlePinUpdate = async (newPinValue: boolean) => {
     await updatePinState({
@@ -114,34 +116,45 @@ const HistoryItem = ({ conversation, handleClick }: Props) => {
       value: newPinValue,
     });
   };
+
+  const handleDeleteConv = async () => {
+    await deleteConversation(conversation.conversationId);
+    console.log('delete success!');
+    setShow(false);
+    // initializeConversation(-1);
+  };
+
   return (
-    <Content>
-      <div className="fixed">
-        <HistoryEditUI
-          pinned={conversation.pinned}
-          handlePinUpdate={handlePinUpdate}
-        />
-      </div>
-      <div className="header">
-        <h3
-          className="title"
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleClick(conversation.conversationId);
-          }}
-        >
-          {truncateTitle(conversation.title, 50)}
-        </h3>
-      </div>
-      {!!conversation.tags.length && (
-        <TagsBox>
-          {conversation.tags.map((tag: any) => (
-            <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
-          ))}
-        </TagsBox>
-      )}
-    </Content>
+    show && (
+      <Content>
+        <div className="fixed">
+          <HistoryEditUI
+            pinned={conversation.pinned}
+            handlePinUpdate={handlePinUpdate}
+            handleDeleteConv={handleDeleteConv}
+          />
+        </div>
+        <div className="header">
+          <h3
+            className="title"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClick(conversation.conversationId);
+            }}
+          >
+            {truncateTitle(conversation.title, 50)}
+          </h3>
+        </div>
+        {!!conversation.tags.length && (
+          <TagsBox>
+            {conversation.tags.map((tag: any) => (
+              <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
+            ))}
+          </TagsBox>
+        )}
+      </Content>
+    )
   );
 };
 
