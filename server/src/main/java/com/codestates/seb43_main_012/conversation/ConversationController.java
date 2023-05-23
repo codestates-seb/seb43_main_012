@@ -38,7 +38,9 @@ public class ConversationController {
 
         Conversation savedConversation = conversationService.createConversation(memberId, dto);
 
-        return new ResponseEntity<>(savedConversation, HttpStatus.CREATED);
+        ConversationDto.Response response = conversationService.getConversationAndCategoryList(savedConversation, memberId);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{conversation-id}")
@@ -56,7 +58,7 @@ public class ConversationController {
     {
         Long memberId = member.getId();
 
-        ConversationDto.Response response = conversationService.getConversationAndCategoryList(conversationId, memberId);
+        ConversationDto.Response response = conversationService.viewConversationAndCategoryList(conversationId, memberId);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }

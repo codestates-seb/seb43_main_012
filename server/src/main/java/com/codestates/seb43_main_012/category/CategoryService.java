@@ -31,7 +31,6 @@ public class CategoryService {
     {
         Optional<Category> optional = categoryRepository.findByMemberIdAndId(memberId, categoryId);
         Category category = optional.orElseThrow();
-        String before = category.getName();
         category.setName(categoryName);
 
 

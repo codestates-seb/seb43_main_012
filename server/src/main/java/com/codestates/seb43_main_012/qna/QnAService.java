@@ -4,6 +4,7 @@ import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationRepository;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class QnAService {
 
     @Value("${apikey}")
@@ -24,16 +26,6 @@ public class QnAService {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private final QnARepository qnaRepository;
     private final ConversationRepository conversationRepository;
-    //private final QnAMapper qnaMapper;
-
-    public QnAService(QnARepository qnaRepository,
-                      ConversationRepository conversationRepository,
-                      QnAMapper qnaMapper)
-    {
-        this.qnaRepository = qnaRepository;
-        this.conversationRepository = conversationRepository;
-        //this.qnaMapper = qnaMapper;
-    }
 
 
     public QnA saveQnA(QnA qna)
@@ -43,7 +35,6 @@ public class QnAService {
 
     public List<QnA> findQnAs(long conversationId)
     {
-        //List<QnA> QnAs = qnaRepository.findAllByConversationId(conversationId);
         List<QnA> QnAs = qnaRepository.findQnAsByConversationId(conversationId);
         return QnAs;
     }

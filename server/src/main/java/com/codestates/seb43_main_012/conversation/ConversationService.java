@@ -117,10 +117,17 @@ public class ConversationService {
     }
 
     @Transactional
-    public ConversationDto.Response getConversationAndCategoryList(long conversationId, long memberId)
+    public ConversationDto.Response viewConversationAndCategoryList(long conversationId, long memberId)
     {
         Conversation conversation = viewCountUp(conversationId);
 
+        ConversationDto.Response response = getConversationAndCategoryList(conversation, memberId);
+
+        return response;
+    }
+
+    public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)
+    {
         List<Long> conversationCategoryIDs = new ArrayList<>();
         conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
 
@@ -293,7 +300,8 @@ public class ConversationService {
 
     public void removeAll()
     {
-        //conversationRepository.updateAllDeleteStatusToTrue();
+        //bookmarkRepository.deleteAllByMemberId();
+        //conversationRepository.deleteAllByMemberId();
     }
 
     public void setSaveStatus(Conversation conversation)
@@ -314,71 +322,4 @@ public class ConversationService {
         findConversation.setModifiedAt(String.valueOf(time));
         return conversationRepository.save(findConversation);
     }
-
-//    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
-//    {
-//        // 북마크 생성
-//        // 카테고리 생성
-//
-//        Conversation conversation = findConversation(conversationId);
-//        conversation.setSaved(true);
-//
-//        Bookmark bookmark = new Bookmark();
-//        bookmark.setMemberId(MEMBER_ID);
-//        bookmark.addConversation(conversation);
-//        bookmarkRepository.save(bookmark);
-//
-//        conversationCategoryRepository.deleteAllByConversationConversationId(conversationId);
-//
-//        List<String> categories = dto.getBookmarks();
-//        categories.stream().forEach(category -> {
-//            //중복 조회
-//            Optional<Category> optional = categoryRepository.findByName(category);
-//            if(optional.isEmpty())
-//            {
-//                Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
-//                ConversationCategory conversationCategory = new ConversationCategory(conversation,savedCategory.getId(),category);
-//                conversationCategoryRepository.save(conversationCategory);
-//            }
-//            else
-//            {
-//                Category findCategory = optional.orElse(null);
-//                ConversationCategory conversationCategory = new ConversationCategory(conversation,findCategory.getId(),category);
-//                conversationCategoryRepository.save(conversationCategory);
-//            }
-//        });
-//
-//        //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
-//        //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
-//        //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
-//
-//        return conversationRepository.save(conversation);
-//    }
-//
-//    public Conversation createTag(long conversationId, TagDto.Post tagDto)
-//    {
-//        Conversation conversation = findConversation(conversationId);
-//        conversation.setSaved(true);
-//
-//        //conversationTagRepository.deleteAllByConversationId(conversationId);
-//
-//        List<String> tags = tagDto.getTags();
-//        tags.stream().forEach(tag-> {
-//            Optional<Tag> optional = tagRepository.findByTagName(tag);
-//            if(optional.isEmpty())
-//            {
-//                Tag savedTag = tagRepository.save(new Tag(tag));
-//                ConversationTag conversationTag = new ConversationTag(conversation,savedTag.getTagId(),tag);
-//                conversationTagRepository.save(conversationTag);
-//            }
-//            else
-//            {
-//                Tag findTag= optional.orElse(null);
-//                ConversationTag conversationTag = new ConversationTag(conversation,findTag.getTagId(),tag);
-//                conversationTagRepository.save(conversationTag);
-//            }
-//        });
-//        //conversation.addTag();
-//        return conversationRepository.save(conversation);
-//    }
 }
