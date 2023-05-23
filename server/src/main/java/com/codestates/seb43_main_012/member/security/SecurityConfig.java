@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/signup", "/api/login").permitAll()
+                .antMatchers("/api/signup", "/api/login","/**").permitAll()
                 //.antMatchers("/api/signup", "/api/login").permitAll()
                 .anyRequest().authenticated();
 
