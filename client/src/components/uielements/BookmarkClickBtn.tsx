@@ -31,7 +31,8 @@ const BookmarkClickBtn = ({
       trigger="click"
       visible={popoverOpen}
       onClick={(e) => {
-        e.preventDefault();
+        console.log('cpopover clicked');
+        // e.preventDefault();
         e.stopPropagation();
       }}
     >
