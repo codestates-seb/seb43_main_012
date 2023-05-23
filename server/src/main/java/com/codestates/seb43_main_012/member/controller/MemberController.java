@@ -29,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -194,11 +194,19 @@ public class MemberController {
         }
         if (updateFields.containsKey("username")) {
             String username = (String) updateFields.get("username");
+            boolean isDuplicateUsername = memberService.checkDuplicateUsername(username);
+            if (isDuplicateUsername) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "중복된 사용자 이름입니다.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
             memberDto.setUsername(username);
             memberService.updateMember(memberDto);
             String newAccessToken = jwtUtil.generateToken(username);
+            String newRefreshToken = jwtUtil.generateRefreshToken(username);
             String authorizationHeader = "Bearer " + newAccessToken;
             response.setHeader("Authorization", authorizationHeader);
+            response.setHeader("Refresh", newRefreshToken);
             Cookie cookie = new Cookie("jwt_token", newAccessToken);
             cookie.setPath("/");
             cookie.setSecure(true);
@@ -209,6 +217,7 @@ public class MemberController {
             Map<String, String> responseData = new HashMap<>();
             responseData.put("message", "'" + memberDto.getUsername() + "'님의 정보를 수정했습니다.");
             responseData.put("Authorization", authorizationHeader);
+            responseData.put("Refresh", newRefreshToken);
 
             return ResponseEntity.ok(responseData);
         }
