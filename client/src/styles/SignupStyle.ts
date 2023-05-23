@@ -7,9 +7,7 @@ export const SignupWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10vh;
-  // height: 100vh;
   width: 100vw;
-  // margin-bottom: 100px;
   overflow-y: scroll;
   background-color: #fff;
   h3 {
