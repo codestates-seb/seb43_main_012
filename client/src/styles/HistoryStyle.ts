@@ -42,11 +42,6 @@ export const FilterBox = styled.div`
   padding: 5px 20px;
 `;
 
-// 전체 히스토리 삭제 버튼
-export const DeleteButton = styled.button`
-  padding: 5px;
-`;
-
 //히스토리페이지의 아래부분(대화모음부분)
 export const HistoryBody = styled.div`
   display: flex;
@@ -80,4 +75,23 @@ export const DateContainer = styled.div`
   // display: flex;
   // flex-direction: column;
   // padding-top: 220px;
+`;
+
+// 전체 히스토리 삭제 버튼
+export const DeleteButton = styled.button`
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1.5px solid var(--color-default-yellow-darker);
+  background-color: var(--color-default-yellow-10);
+  // background-color: var(--color-default-yellow);
+  color: var(--color-default-yellow-darker);
+
+  &:hover {
+    cursor: pointer;
+    color: white;
+    background-color: var(--color-default-yellow);
+  }
 `;

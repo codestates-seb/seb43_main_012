@@ -8,7 +8,6 @@ import HistoryEditUI from './HistoryEditUI';
 // import { useAppDispatch } from '../../app/hooks';
 // import { updatePinAsync } from '../../features/main/conversationSlice';
 import { updatePinState, deleteConversation } from '../../api/ChatInterfaceApi';
-import { initializeConversation } from '../../features/main/conversationSlice';
 
 type Props = {
   conversation: ConversationThumbType;

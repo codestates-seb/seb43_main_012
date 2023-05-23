@@ -111,7 +111,7 @@ function ModalEdit({ isOpen, setIsOpen }: ModalEditProps): ReactElement {
           <EditView onClick={(e) => e.stopPropagation()}>
             <Character onClick={CharacterModal}>
               {avatarLink === username ? (
-                avatarLink[0]
+                avatarLink[0].toUpperCase()
               ) : (
                 <img src={avatarLink} alt="" />
               )}
