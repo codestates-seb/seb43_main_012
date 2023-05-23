@@ -194,6 +194,12 @@ public class MemberController {
         }
         if (updateFields.containsKey("username")) {
             String username = (String) updateFields.get("username");
+            boolean isDuplicateUsername = memberService.checkDuplicateUsername(username);
+            if (isDuplicateUsername) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "중복된 사용자 이름입니다.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
             memberDto.setUsername(username);
             memberService.updateMember(memberDto);
             String newAccessToken = jwtUtil.generateToken(username);

@@ -119,4 +119,8 @@ public class MemberService {
         }
     }
 
+    public boolean checkDuplicateUsername(String username){
+        return memberRepository.existsByUsername(username);
+    }
+
 }
