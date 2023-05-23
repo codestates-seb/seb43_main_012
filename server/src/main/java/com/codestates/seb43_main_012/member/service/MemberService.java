@@ -34,6 +34,9 @@ public class MemberService {
         if (isUserIdExists) {
             throw new DuplicateUserIdException("이미 사용 중인 사용자 ID입니다.");
         }
+        if (!memberDto.isPasswordValid()) {
+            throw new InvalidPasswordException("비밀번호는 최소한 하나의 영어 대문자, 하나의 영어 소문자, 하나의 숫자를 포함하고, 8자 이상이어야 합니다.");
+        }
 
     MemberEntity memberEntity = MemberEntity.builder()
             .username(memberDto.getUsername())
@@ -96,6 +99,9 @@ public class MemberService {
     }
 
     public void updateMember(MemberDto memberDto) {
+        if (memberDto.getPassword() != null && !memberDto.isPasswordValid()) {
+            throw new InvalidPasswordException("비밀번호는 최소한 하나의 영어 대문자, 하나의 영어 소문자, 하나의 숫자를 포함하고, 8자 이상이어야 합니다.");
+        }
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(memberDto.getId())
                 .username(memberDto.getUsername())

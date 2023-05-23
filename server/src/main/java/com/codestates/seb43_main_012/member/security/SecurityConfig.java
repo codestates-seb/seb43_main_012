@@ -42,13 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public FilterRegistrationBean<SimpleCORSFilter> corsFilter() {
-        FilterRegistrationBean<SimpleCORSFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new SimpleCORSFilter());
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
-    }
 
 
     @Override
@@ -73,19 +66,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // 모든 도메인에서 접근 가능하도록 설정
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 HTTP Method를 허용
-//        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 Header를 허용
-//        configuration.setAllowCredentials(true); // 쿠키 전송을 허용
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("ngrok-skip-browser-warning, Authorization, Cookie, Access-Control-Allow-Origin, Access-Control-Allow-Methods," +
+                "Access-Control-Max-Age,Access-Control-Allow-Credentials,Content-type,Refresh"));
+        configuration.setAllowCredentials(true); // 쿠키 전송을 허용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {

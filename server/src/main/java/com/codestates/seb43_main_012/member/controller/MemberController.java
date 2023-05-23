@@ -29,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -203,8 +203,10 @@ public class MemberController {
             memberDto.setUsername(username);
             memberService.updateMember(memberDto);
             String newAccessToken = jwtUtil.generateToken(username);
+            String newRefreshToken = jwtUtil.generateRefreshToken(username);
             String authorizationHeader = "Bearer " + newAccessToken;
             response.setHeader("Authorization", authorizationHeader);
+            response.setHeader("Refresh", newRefreshToken);
             Cookie cookie = new Cookie("jwt_token", newAccessToken);
             cookie.setPath("/");
             cookie.setSecure(true);

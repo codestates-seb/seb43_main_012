@@ -43,6 +43,11 @@ import java.util.Date;
                 .build();
     }
 
+    public boolean isPasswordValid() {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
+        return password.matches(passwordPattern);
+    }
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
