@@ -13,6 +13,7 @@ import {
 
 import HistoryData from '../components/history/HistoryData';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+import HistorySearch from '../components/history/HistorySearch';
 
 function scrollToLeft() {
   console.log('scroll!');
@@ -44,7 +45,8 @@ function History(): ReactElement {
     <>
       <HistoryBox>
         <HistoryHeader>
-          <SearchBox placeholder=" Search your history! tags (#node.js), title, content, date (3-15-2023, 3-2023)"></SearchBox>
+          <HistorySearch />
+          {/* <SearchBox placeholder=" Search your history! tags (#node.js), title, content, date (3-15-2023, 3-2023)"></SearchBox> */}
           <Filtering onClick={handleClick}>Newest</Filtering>
           <DeleteButton>Clear History</DeleteButton>
         </HistoryHeader>

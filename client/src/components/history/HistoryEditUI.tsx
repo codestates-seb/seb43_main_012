@@ -22,6 +22,9 @@ const EditUIBox = styled.div`
   }
   svg:hover {
     color: var(--color-default-yellow-darker);
+    path {
+      stroke-width: 2;
+    }
     // color: var(--color-default-green);
   }
 `;
