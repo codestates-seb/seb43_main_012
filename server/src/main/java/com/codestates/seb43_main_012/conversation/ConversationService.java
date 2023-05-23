@@ -87,6 +87,21 @@ public class ConversationService {
         return conversation;
     }
 
+    public List<Conversation> findConversationList(String sort, String query, long memberId)
+    {
+        if (query == null) query = "";
+        List<Long> IDs = qnaService.findConversationIDs(query, memberId);
+        Sort sortBy;
+        if (sort.equals("activityLevel"))
+            sortBy = Sort.by(Sort.Direction.DESC, "activityLevel", "modifiedAt");
+        else if (sort.equals("asc"))
+            sortBy = Sort.by(Sort.Direction.ASC, "modifiedAt");
+        else
+            sortBy = Sort.by(Sort.Direction.DESC, "modifiedAt");
+
+        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, sortBy);
+    }
+
     public Page<Conversation> findConversations(String sort, String query, long memberId, int page, int size) {
         if (query == null) query = "";
         List<Long> IDs = qnaService.findConversationIDs(query, memberId);
