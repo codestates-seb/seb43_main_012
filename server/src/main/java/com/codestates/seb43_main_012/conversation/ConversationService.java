@@ -301,6 +301,7 @@ public class ConversationService {
     public void removeAll()
     {
         //bookmarkRepository.deleteAllByMemberId();
+
         //conversationRepository.deleteAllByMemberId();
     }
 
