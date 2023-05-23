@@ -12,18 +12,7 @@ export const handleLogin = async ({
   password,
   setErrors,
 }: LoginArgs) => {
-  // let key: string = '';
-  // if (!isValidEmail(userId)) {
-  //   // console.log('its displayname');
-  //   alert('올바른 이메일 주소를 입력해주세요.');
-
-  //   // key = 'username';
-  // } else {
-  //   console.log('its email');
-  //   key = 'userId';
-  // }
   const res = await request.post(`/api/login`, {
-    // [key]: userId,
     identifier: userId,
     password,
   });

@@ -17,7 +17,6 @@ import {
 import useCheck from '../../utils/hooks/useCheck';
 import handleSignup from '../../api/signupApi';
 import { getRandomCharacter } from './RandomCharcter';
-import { AxiosResponse } from 'axios';
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
@@ -64,7 +63,7 @@ const SignupForm: React.FC = () => {
       });
       if (res?.status === 201) navigate('/login');
     } catch (error) {
-      // console.log('signup error', error);
+      console.log('signup error', error);
     }
   };
 
@@ -104,11 +103,11 @@ const SignupForm: React.FC = () => {
         />
         {ispassword === true ? null : (
           <ErrorMessage className="error">
-            비밀번호를 입력해주세요.
+            비밀번호를 조건을 확인해주세요.
           </ErrorMessage>
         )}
         <PasswordText>
-          <p>비밀번호는 최소 8자 이상이어야 하며,</p>
+          <p>비밀번호는 8자 이상이어야 하며,</p>
           <p>대소문자/숫자/특수문자를 모두 포함해야 합니다.</p>
         </PasswordText>
 
@@ -120,7 +119,9 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {isPasswordConfirm === true ? null : (
-          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호가 일치하지 않습니다.
+          </ErrorMessage>
         )}
         {isUserId &&
         isUsername &&

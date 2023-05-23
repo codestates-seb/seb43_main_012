@@ -180,6 +180,9 @@ export const ErrorMessage = styled.p`
   &.error {
     margin-bottom: 10px;
     margin-top: 0px;
-    // padding-bottom: 10px;
+  }
+
+  .margin-top {
+    margin-top: 10px;
   }
 `;

@@ -29,7 +29,7 @@ const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
   // };
 
   useEffect(() => {
-    console.log('update bookmarks!');
+    // console.log('update bookmarks!');
   }, [selectConversation]);
   //handle bookmark check/uncheck
   const handleBookmarkCheck = async ({

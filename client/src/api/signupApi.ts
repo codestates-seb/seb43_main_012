@@ -27,7 +27,14 @@ const handleSignup = async ({
     console.log(res);
     if (res) return res;
   } catch (error: any) {
-    alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
+    if (error.response.status === 400) {
+      alert('중복되는 유저네임입니다.');
+    } else if (error.response.status === 409) {
+      alert('이미 가입한 이메일입니다.');
+    } else {
+      alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
+    }
+
     console.log('signup error', error);
     console.log('error status', error?.response?.status);
     setErrors(error.message);
