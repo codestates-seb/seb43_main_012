@@ -34,7 +34,7 @@ public class Conversation {
     private String answerSummary;
     private String createdAt = String.valueOf(LocalDateTime.now());
     private String modifiedAt = String.valueOf(LocalDateTime.now());
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
     private List<QnA> qnaList = new ArrayList<>();
     private Boolean saved = false;
     private Boolean pinned = false;

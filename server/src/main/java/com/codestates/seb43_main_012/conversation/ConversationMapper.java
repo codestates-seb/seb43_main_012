@@ -2,6 +2,7 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
+import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.collection.CollectionDto;
@@ -21,6 +22,7 @@ public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
     private final TagRepository tagRepository;
+    private final CategoryRepository categoryRepository;
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {
