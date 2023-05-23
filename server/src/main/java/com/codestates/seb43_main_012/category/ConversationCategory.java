@@ -17,7 +17,6 @@ public class ConversationCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //나중에 연관관계 맺어줘야함
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")

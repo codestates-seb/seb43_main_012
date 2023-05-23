@@ -1,4 +1,4 @@
-package com.codestates.seb43_main_012.error;
+package com.codestates.seb43_main_012.response;
 
 
 import com.codestates.seb43_main_012.exception.ExceptionCode;

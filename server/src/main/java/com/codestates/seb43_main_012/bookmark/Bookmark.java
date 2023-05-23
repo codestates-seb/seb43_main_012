@@ -31,5 +31,4 @@ public class Bookmark {
     {
         this.conversation = conversation;
     }
-    //public void addMember(MemberEntity member) {this.member = member;}
 }

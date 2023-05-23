@@ -1,4 +1,4 @@
-package com.codestates.seb43_main_012.conversation;
+package com.codestates.seb43_main_012.response;
 
 import lombok.Getter;
 import org.springframework.data.domain.Page;

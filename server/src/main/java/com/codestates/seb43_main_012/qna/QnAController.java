@@ -6,6 +6,7 @@ import com.codestates.seb43_main_012.conversation.ConversationService;
 import com.codestates.seb43_main_012.exception.BusinessLogicException;
 import com.codestates.seb43_main_012.exception.ExceptionCode;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,28 +23,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/openai/question")
+@RequiredArgsConstructor
 public class QnAController {
-
-    @Value("${apikey}")
-    private String API_KEY;
-    private final int MAX_TOKENS = 500;
-    private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
     private final QnAService qnaService;
     private final QnAMapper qnaMapper;
-    private final ConversationService conversationService;
-    private final ConversationMapper conversationMapper;
-
-    public QnAController(QnAService qnaService,
-                         QnAMapper qnaMapper,
-                         ConversationService conversationService,
-                         ConversationMapper conversationMapper)
-    {
-        this.qnaService = qnaService;
-        this.qnaMapper = qnaMapper;
-        this.conversationService = conversationService;
-        this.conversationMapper = conversationMapper;
-    }
 
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QnADto.Post dto,

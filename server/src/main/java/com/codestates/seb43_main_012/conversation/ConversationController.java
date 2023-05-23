@@ -27,8 +27,6 @@ public class ConversationController {
 
     private final ConversationService conversationService;
     private final ConversationMapper mapper;
-    private final BookmarkRepository bookmarkRepository;
-    private final QnAService qnaService;
 
 
     @PostMapping

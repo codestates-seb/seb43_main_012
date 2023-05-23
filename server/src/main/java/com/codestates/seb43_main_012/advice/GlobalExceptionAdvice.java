@@ -1,6 +1,6 @@
 package com.codestates.seb43_main_012.advice;
 
-import com.codestates.seb43_main_012.error.ErrorResponse;
+import com.codestates.seb43_main_012.response.ErrorResponse;
 import com.codestates.seb43_main_012.exception.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
