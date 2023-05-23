@@ -51,7 +51,7 @@ export const handleNameUpdate = async (
   console.log('update success!', response);
 
   if (response.status === 200) {
-    console.log('updating token');
+    // console.log('updating token');
     localStorage.setItem('token', response.data.Authorization);
     localStorage.setItem('refresh', JSON.stringify(response.data.Refresh));
   }

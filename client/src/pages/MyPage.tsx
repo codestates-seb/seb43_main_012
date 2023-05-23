@@ -5,6 +5,12 @@ import { MyPageWrapper, MyData } from '../styles/MyPageStyle';
 import { MainCharacter } from '../styles/CharacterStyle';
 import { handleUserInfo, UserInfoItemTypes } from '../api/MemberApi';
 import { userDelete, logoutApi } from '../api/LogoutApi';
+import { useAppDispatch } from '../app/hooks';
+import {
+  changeLoginState,
+  initializeMemberState,
+} from '../features/member/loginInfoSlice';
+import { initializeConversation } from '../features/main/conversationSlice';
 
 function MyPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +19,7 @@ function MyPage() {
   const [userId, setUserId] = useState<string>('');
 
   const Id = localStorage.getItem('memberId');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -44,6 +51,9 @@ function MyPage() {
     try {
       await userDelete(`user/${Id}`);
       navigate(`/`);
+      dispatch(changeLoginState('OFF'));
+      dispatch(initializeMemberState);
+      dispatch(initializeConversation(-1));
       alert('회원 탈퇴 되었습니다. 다시 만나요!');
     } catch (error) {
       console.error(error);
@@ -55,6 +65,9 @@ function MyPage() {
     try {
       await logoutApi(`logout`);
       navigate(`/`);
+      dispatch(changeLoginState('OFF'));
+      dispatch(initializeMemberState);
+      dispatch(initializeConversation(-1));
       alert('로그아웃 되었습니다.');
     } catch (error) {
       console.error(error);

@@ -22,8 +22,6 @@ export const handleLogin = async ({
     const sessionId = extractSessionIdFromCookies(cookies);
     sessionStorage.setItem('sessionId', sessionId);
   }
-
-  // access refresh token
   // cannot access headers
   // const token = res.headers['Authorization'];
   // const headers = res.headers;
@@ -31,9 +29,8 @@ export const handleLogin = async ({
   // console.log('headers:', headers);
   // console.log('body', res.data);
   // console.log(headers['cache-control']);
-
-  localStorage.setItem('token', res.data.authorization);
-  localStorage.setItem('refresh', JSON.stringify(res.data.Refresh));
+  localStorage.setItem('token', res.data.Authorization);
+  localStorage.setItem('refresh', res.data.Refresh);
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
 

@@ -61,8 +61,9 @@ const LoginForm = ({ closeModal }: Props) => {
 
     try {
       const res = await handleLogin({ userId, password, setErrors });
+      console.log('login response', res);
       if (res.status === 200) {
-        // console.log(localStorage.getItem('token'));
+        console.log(localStorage.getItem('token'));
 
         //리덕스 state 업데이트
         if (localStorage.getItem('memberId')) {
@@ -85,8 +86,9 @@ const LoginForm = ({ closeModal }: Props) => {
         closeModal();
         navigate('/');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      console.log('error status: ', error.response.status);
       setErrors('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
     }
   };

@@ -2,11 +2,9 @@ import { requestAuth } from '../utils/axiosConfig';
 import { BookmarkType, Conversation } from '../data/d';
 import { request } from 'http';
 
-const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
-
 export async function getAllConversations() {
   try {
-    const response = await requestAuth.get<any>(`${BASE_URL}/conversations`);
+    const response = await requestAuth.get<any>(`/conversations`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -16,7 +14,7 @@ export async function getAllConversations() {
 
 export async function getSavedConversations() {
   try {
-    const response = await requestAuth.get<any>(`${BASE_URL}/collections`);
+    const response = await requestAuth.get<any>(`/collections`);
     return response.data.conversations;
   } catch (error) {
     console.error(error);
@@ -26,7 +24,7 @@ export async function getSavedConversations() {
 
 export async function getCollections() {
   try {
-    const response = await requestAuth.get<any>(`${BASE_URL}/collections`);
+    const response = await requestAuth.get<any>(`/collections`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -36,7 +34,7 @@ export async function getCollections() {
 
 export async function askFirstQuestion(question: string) {
   try {
-    const response = await requestAuth.post<any>(`${BASE_URL}/conversations`, {
+    const response = await requestAuth.post<any>(`/conversations`, {
       question,
     });
     console.log(response.data.qnaList[0].answer);
@@ -49,13 +47,10 @@ export async function askFirstQuestion(question: string) {
 
 export async function continueConversation(id: number, question: string) {
   try {
-    const response = await requestAuth.post<any>(
-      `${BASE_URL}/openai/question`,
-      {
-        conversationId: id,
-        question,
-      },
-    );
+    const response = await requestAuth.post<any>(`/openai/question`, {
+      conversationId: id,
+      question,
+    });
     console.log(response.data);
     return 'success';
   } catch (error) {
@@ -66,7 +61,7 @@ export async function continueConversation(id: number, question: string) {
 
 export async function getConversation(id: number): Promise<Conversation> {
   try {
-    const res = await requestAuth.get<any>(`${BASE_URL}/conversations/${id}`);
+    const res = await requestAuth.get<any>(`/conversations/${id}`);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -77,12 +72,9 @@ export async function getConversation(id: number): Promise<Conversation> {
 export async function editTitle({ id, title }: { id: number; title: string }) {
   // console.log('edit title api called!');
   try {
-    const response = await requestAuth.patch<any>(
-      `${BASE_URL}/conversations/${id}`,
-      {
-        title,
-      },
-    );
+    const response = await requestAuth.patch<any>(`/conversations/${id}`, {
+      title,
+    });
     // console.log(response.data);
     return response.data;
   } catch (error) {
@@ -93,7 +85,7 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
 //conversationId
 export async function deleteConveration() {
   requestAuth
-    .delete<any>(`${BASE_URL}/conversations/`)
+    .delete<any>(`/conversations/`)
     .then((res) => {
       console.log(res);
       console.log(res.data);
@@ -113,12 +105,9 @@ export async function saveBookmark({
   bName: string;
 }): Promise<BookmarkType> {
   try {
-    const response = await requestAuth.post(
-      `${BASE_URL}/conversations/${cId}/bookmarks`,
-      {
-        bookmarkName: bName,
-      },
-    );
+    const response = await requestAuth.post(`/conversations/${cId}/bookmarks`, {
+      bookmarkName: bName,
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -134,9 +123,7 @@ export async function deleteBookmark({
   bId: number;
 }) {
   try {
-    await requestAuth.delete(
-      `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
-    );
+    await requestAuth.delete(`/conversations/${cId}/bookmarks/${bId}`);
   } catch (error) {
     console.log(error);
     throw error;
@@ -151,7 +138,7 @@ export async function editBookmark({
   newName: string;
 }) {
   try {
-    await requestAuth.patch(`${BASE_URL}/bookmarks/${bId}`, {
+    await requestAuth.patch(`/bookmarks/${bId}`, {
       bookmarkName: newName,
     });
   } catch (error) {
@@ -162,12 +149,9 @@ export async function editBookmark({
 
 export async function addTag({ cId, tName }: { cId: number; tName: string }) {
   try {
-    const response = await requestAuth.post(
-      `${BASE_URL}/conversations/${cId}/tags`,
-      {
-        tagName: tName,
-      },
-    );
+    const response = await requestAuth.post(`/conversations/${cId}/tags`, {
+      tagName: tName,
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -177,7 +161,7 @@ export async function addTag({ cId, tName }: { cId: number; tName: string }) {
 
 export async function deleteTag({ cId, tId }: { cId: number; tId: number }) {
   try {
-    await requestAuth.delete(`${BASE_URL}/conversations/${cId}/tags/${tId}`);
+    await requestAuth.delete(`/conversations/${cId}/tags/${tId}`);
   } catch (error) {
     console.log(error);
     throw error;
@@ -192,7 +176,7 @@ export async function updatePinState({
   value: boolean;
 }) {
   try {
-    await requestAuth.patch(`${BASE_URL}/conversations/${cId}`, {
+    await requestAuth.patch(`/conversations/${cId}`, {
       pinned: value,
     });
   } catch (error) {

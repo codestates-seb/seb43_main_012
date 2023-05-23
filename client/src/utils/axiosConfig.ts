@@ -1,5 +1,12 @@
 //axios configurations
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from 'axios';
+import { logoutApi } from '../api/LogoutApi';
+import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -29,7 +36,7 @@ const axiosApi2 = (
       'Access-Control-Allow-Origin': 'http://localhost:3000',
       Authorization: token,
     },
-    timeout: 10000,
+    timeout: 20000,
     ...options,
   });
 
@@ -48,6 +55,7 @@ const axiosApi2 = (
     },
   );
 
+  // 응답 에러 처리 인터셉터
   instance.interceptors.response.use(
     (res) => {
       return res;
@@ -56,88 +64,69 @@ const axiosApi2 = (
       return Promise.reject(error);
     },
   );
+
+  // instance.interceptors.response.use(
+  //   (res: AxiosResponse) => {
+  //     console.log('axios response', res);
+  //     return res;
+  //   },
+  //   async (err) => {
+  //     console.log('refresh intercept');
+  //     const _err = err as unknown as AxiosError;
+  //     const { response } = _err;
+  //     const originalRequestConfig = _err?.config;
+
+  //     if (response && response.status === 401) {
+  //       const refresh = localStorage.getItem('refresh');
+  //       if (!refresh) {
+  //         throw new Error('리프레시 토큰 삭제 또는 만료됨');
+  //         // localStorage.clear();
+  //       } else {
+  //         console.log('refresh token 새로 발급받기');
+  //         try {
+  //           await refreshAccessToken();
+  //           if (originalRequestConfig) {
+  //             originalRequestConfig.headers.Authorization =
+  //               localStorage.getItem('token');
+  //             return await requestAuth.request(originalRequestConfig);
+  //           }
+  //         } catch (err) {
+  //           const _err = err as unknown as AxiosError;
+  //           console.log(_err?.config?.data);
+  //         }
+  //       }
+  //     }
+  //     return Promise.reject(err);
+  //   },
+  // );
+
   return instance;
 };
 
 export const request = axiosApi(BASE_URL);
 export const requestAuth = axiosApi2(BASE_URL);
 
-// requestAuth.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem('token');
+async function refreshAccessToken() {
+  const navigate = useNavigate();
+  try {
+    const response = await request.post(`/refresh`, {
+      refreshToken: localStorage.getItem('refresh'),
+    });
 
-//     if (!!token) {
-//       config.headers.Authorization = token;
-//     }
+    console.log(response.data);
+    // Update the access token with the new one
+    const accessToken = response.data.Authorization;
 
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
-// 응답 에러 처리 인터셉터
-// requestAuth.interceptors.response.use(
-//   (res) => {
-//     return res;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
-// requestAuth.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("token");
-
-//     if (!!token) {
-//       config.headers.Authorization = token;
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// requestAuth.interceptors.response.use(
-//   (res: AxiosResponse) => {
-//     return res;
-//   },
-//   async (err) => {
-//     const _err = err as unknown as AxiosError;
-//     const { response } = _err;
-//     const originalConfig = _err?.config;
-
-//     if (response && response.status === 401) {
-//       const userId = sessionStorage.getItem('user');
-//       const refresh = sessionStorage.getItem('refresh');
-//       if (!!refresh === false) {
-//         throw new Error('리프레시 토큰 삭제 또는 만료됨');
-//       } else {
-//         if (!!userId) {
-//           try {
-//             const userIdaddr = JSON.parse(userId);
-//             const data = await request.get(`/api/login`, {
-//               headers: {
-//                 RefreshToken: refresh,
-//                 userId: userIdaddr['userId'],
-//               },
-//             });
-//             if (data && originalConfig) {
-//               localStorage.setItem('token', data.headers['authorization']);
-//               sessionStorage.setItem('refresh', data.headers['refresh']);
-//               return await requestAuth.request(originalConfig);
-//             }
-//           } catch (err) {
-//             const _err = err as unknown as AxiosError;
-//             console.log(_err?.config?.data);
-//           }
-//         }
-//       }
-//     }
-//     return Promise.reject(err);
-//   },
-// );
+    // Update the Authorization header in the Axios instance
+    requestAuth.defaults.headers['Authorization'] = accessToken;
+    localStorage.setItem('token', accessToken);
+    return Promise.resolve();
+  } catch (error: any) {
+    // Handle the refresh token request error
+    console.log('Error refreshing access token:', error.message);
+    // Perform logout or other error handling actions
+    await logoutApi(`logout`);
+    navigate(`/`);
+    alert('로그아웃 되었습니다.');
+  }
+}

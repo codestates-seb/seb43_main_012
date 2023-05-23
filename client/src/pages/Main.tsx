@@ -83,13 +83,13 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      (async function () {
-        const conversations = await getAllConversations();
-        if (conversations) {
-          // console.log('fetched data!');
-          // console.log(conversations.bookmarkList);
-        }
-      })();
+      // (async function () {
+      //   const conversations = await getAllConversations();
+      //   if (conversations) {
+      //     // console.log('fetched data!');
+      //     // console.log(conversations.bookmarkList);
+      //   }
+      // })();
       //edit bookmark test
       (async function () {
         // await loadConv(3);
@@ -133,7 +133,6 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
           conversation?.conversationId,
         );
         if (newConversation) {
-          // console.log('continuing new session!');
           dispatch(setConversation(newConversation));
           setCurrentCId(newConversation.conversationId);
         }

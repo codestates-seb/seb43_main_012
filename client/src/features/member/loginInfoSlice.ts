@@ -49,10 +49,15 @@ const memberSlice = createSlice({
       //   console.log(action.payload);
       state.memberInfo = action.payload;
     },
+    initializeMemberState: (state, action) => {
+      console.log('clearing member info');
+      state = initialState;
+    },
   },
 });
 
 export const selectLoginState = (state: RootState) => state.member.loginState;
 export const selectMemberInfo = (state: RootState) => state.member.memberInfo;
-export const { changeLoginState, updateMemberInfo } = memberSlice.actions;
+export const { changeLoginState, updateMemberInfo, initializeMemberState } =
+  memberSlice.actions;
 export default memberSlice.reducer;
