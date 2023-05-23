@@ -30,6 +30,15 @@ align-content; flex-start;
   height: 100%;
 `;
 
+const ContentContainer = styled.div`
+  border: none;
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 20px 0;
+  overflow-x: scroll;
+  height: 100%;
+`;
+
 export type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];
 };
@@ -100,11 +109,15 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
             <TimeBox>
               <Main>
                 <ContentWrapper>
-                  <HistoryItem
-                    uniqueId={key}
-                    conversations={conversations}
-                    handleClick={handleThumbnailClick}
-                  />
+                  <ContentContainer id={`history-bin-${key}`}>
+                    {conversations.map((conversation) => (
+                      <HistoryItem
+                        key={conversation.conversationId}
+                        conversation={conversation}
+                        handleClick={handleThumbnailClick}
+                      />
+                    ))}
+                  </ContentContainer>
                 </ContentWrapper>
               </Main>
             </TimeBox>

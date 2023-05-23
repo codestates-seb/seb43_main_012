@@ -5,19 +5,14 @@ import { ConversationThumbType } from '../../data/d';
 import { truncateTitle } from '../../utils/ContentFunctions';
 import HistoryEditUI from './HistoryEditUI';
 
+// import { useAppDispatch } from '../../app/hooks';
+// import { updatePinAsync } from '../../features/main/conversationSlice';
+import { updatePinState } from '../../api/ChatInterfaceApi';
+
 type Props = {
-  uniqueId: string;
-  conversations: ConversationThumbType[];
+  conversation: ConversationThumbType;
   handleClick: (cId: number) => void;
 };
-const ContentContainer = styled.div`
-  border: none;
-  display: flex;
-  flex-direction: row;
-  padding: 0 0 20px 0;
-  overflow-x: scroll;
-  height: 100%;
-`;
 
 const Content = styled.div`
   display: flex;
@@ -110,36 +105,43 @@ const TagBox = styled.span`
   padding: 0 5px;
 `;
 
-const HistoryItem = ({ uniqueId, conversations, handleClick }: Props) => {
+const HistoryItem = ({ conversation, handleClick }: Props) => {
+  // const dispatch = useAppDispatch();
+
+  const handlePinUpdate = async (newPinValue: boolean) => {
+    await updatePinState({
+      cId: conversation.conversationId,
+      value: newPinValue,
+    });
+  };
   return (
-    <ContentContainer id={`history-bin-${uniqueId}`}>
-      {conversations.map((conversation) => (
-        <Content key={conversation.conversationId}>
-          <div className="fixed">
-            <HistoryEditUI pinned={conversation.pinned} />
-          </div>
-          <div className="header">
-            <h3
-              className="title"
-              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleClick(conversation.conversationId);
-              }}
-            >
-              {truncateTitle(conversation.title, 50)}
-            </h3>
-          </div>
-          {!!conversation.tags.length && (
-            <TagsBox>
-              {conversation.tags.map((tag: any) => (
-                <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
-              ))}
-            </TagsBox>
-          )}
-        </Content>
-      ))}
-    </ContentContainer>
+    <Content>
+      <div className="fixed">
+        <HistoryEditUI
+          pinned={conversation.pinned}
+          handlePinUpdate={handlePinUpdate}
+        />
+      </div>
+      <div className="header">
+        <h3
+          className="title"
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleClick(conversation.conversationId);
+          }}
+        >
+          {truncateTitle(conversation.title, 50)}
+        </h3>
+      </div>
+      {!!conversation.tags.length && (
+        <TagsBox>
+          {conversation.tags.map((tag: any) => (
+            <TagBox key={tag.tagId}>#{tag.tagName} </TagBox>
+          ))}
+        </TagsBox>
+      )}
+    </Content>
   );
 };
 

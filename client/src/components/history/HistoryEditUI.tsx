@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as DeleteIcon } from '../../assets/icons/history/iconDelete.svg';
@@ -28,11 +28,25 @@ const EditUIBox = styled.div`
 
 type Props = {
   pinned: boolean;
+  handlePinUpdate: (newPinValue: boolean) => void;
 };
-const HistoryEditUI = ({ pinned }: Props) => {
+const HistoryEditUI = ({ pinned, handlePinUpdate }: Props) => {
+  const [isPinned, setIsPinned] = useState(pinned);
+
+  const handlePinClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsPinned(!isPinned);
+    handlePinUpdate(!isPinned);
+  };
+
   return (
     <EditUIBox>
-      {pinned ? <PinnedIcon /> : <PinIcon />}
+      {isPinned ? (
+        <PinnedIcon onClick={handlePinClick} />
+      ) : (
+        <PinIcon onClick={handlePinClick} />
+      )}
       <DeleteIcon />
     </EditUIBox>
   );
