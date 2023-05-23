@@ -108,6 +108,7 @@ const TopNav = ({
     );
     dispatch(changeLoginState('ON'));
   };
+
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
   useEffect(() => {
     if (location.pathname === '/') {
@@ -140,6 +141,11 @@ const TopNav = ({
     });
     setIsLoggedIn(_loginState);
   }, [_loginState]);
+
+  useEffect(() => {
+    console.log('memberinfo update');
+    setMemberInfo({ ...memberInfo, avatarLink: _memberInfo.avatarLink });
+  }, [_memberInfo]);
 
   // const fetchUserInfo = async () => {
   //   // if (!memberInfo.userId) return;

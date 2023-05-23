@@ -49,6 +49,11 @@ const memberSlice = createSlice({
       //   console.log(action.payload);
       state.memberInfo = action.payload;
     },
+
+    updateAvatar: (state, action: { payload: string }) => {
+      state.memberInfo.avatarLink = action.payload;
+    },
+
     initializeMemberState: (state, action) => {
       console.log('clearing member info');
       state = initialState;
@@ -58,6 +63,10 @@ const memberSlice = createSlice({
 
 export const selectLoginState = (state: RootState) => state.member.loginState;
 export const selectMemberInfo = (state: RootState) => state.member.memberInfo;
-export const { changeLoginState, updateMemberInfo, initializeMemberState } =
-  memberSlice.actions;
+export const {
+  changeLoginState,
+  updateMemberInfo,
+  updateAvatar,
+  initializeMemberState,
+} = memberSlice.actions;
 export default memberSlice.reducer;
