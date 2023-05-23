@@ -3,7 +3,7 @@ apikey: ${API_KEY}
 
 jwt:
   secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
-  expiration: 86400
+  expiration: 10
 
 spring:
   h2:
