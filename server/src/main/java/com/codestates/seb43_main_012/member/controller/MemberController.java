@@ -102,7 +102,7 @@ public class MemberController {
         responseData.put("memberId", customUserDetails.getId());
         responseData.put("username", customUserDetails.getUsername());
         responseData.put("userid", customUserDetails.getUserId());
-        responseData.put("authorization", authorizationHeader);
+        responseData.put("Authorization", authorizationHeader);
         responseData.put("Refresh", refreshToken);
 
 

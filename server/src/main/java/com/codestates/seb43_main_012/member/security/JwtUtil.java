@@ -26,7 +26,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration*1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
@@ -34,7 +34,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ (expiration*12)))
+                .setExpiration(new Date(System.currentTimeMillis()+ (expiration*12*1000)))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
