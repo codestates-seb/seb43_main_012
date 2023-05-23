@@ -18,10 +18,10 @@ export const LoginView = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 330px;
+  min-height: 500px;
   margin-top: 2%;
   margin-bottom: 5%;
-  height: 60%;
+  height: 40%;
   width: 290px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff5de;

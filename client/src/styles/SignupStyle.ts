@@ -6,8 +6,10 @@ export const SignupWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin-top: 10vh;
+  // height: 100vh;
   width: 100vw;
+  // margin-bottom: 100px;
   overflow-y: scroll;
   background-color: #fff;
   h3 {
@@ -180,9 +182,5 @@ export const ErrorMessage = styled.p`
   &.error {
     margin-bottom: 10px;
     margin-top: 0px;
-  }
-
-  .margin-top {
-    margin-top: 10px;
   }
 `;

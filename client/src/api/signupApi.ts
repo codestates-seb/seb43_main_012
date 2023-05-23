@@ -34,9 +34,6 @@ const handleSignup = async ({
     } else {
       alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
     }
-
-    console.log('signup error', error);
-    console.log('error status', error?.response?.status);
     setErrors(error.message);
     throw error;
   }
