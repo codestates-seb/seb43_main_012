@@ -40,9 +40,9 @@ public class Conversation {
     private Boolean pinned = false;
     private Boolean published = false;
 
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
     private List<ConversationCategory> bookmarks = new ArrayList<>();
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
     private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;
     private int activityLevel;

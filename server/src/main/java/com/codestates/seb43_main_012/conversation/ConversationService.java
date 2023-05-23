@@ -300,7 +300,8 @@ public class ConversationService {
 
     public void removeAll()
     {
-        conversationRepository.deleteAll();
+        //bookmarkRepository.deleteAllByMemberId();
+        //conversationRepository.deleteAllByMemberId();
     }
 
     public void setSaveStatus(Conversation conversation)
