@@ -14,14 +14,9 @@ const MyPage = lazy(() => import('./pages/MyPage'));
 const Signup = lazy(() => import('./pages/Signup'));
 const Login = lazy(() => import('./pages/Login'));
 const Main = lazy(() => import('./pages/Main'));
-const CounterExample = lazy(() => import('./pages/CounterExample'));
 const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
-
-const CollectionPins = lazy(
-  () => import('./components/overlay/CollectionPins'),
-);
 const DialogBoxUserIcon = lazy(
   () => import('./components/dialogbox/DialogBoxUserIcon'),
 );
@@ -63,7 +58,6 @@ function App() {
               <Route path="/history" element={<History />} />
               <Route path="/collection" element={<Collections />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/counter" element={<CounterExample />} />
               <Route
                 path="/login"
                 element={

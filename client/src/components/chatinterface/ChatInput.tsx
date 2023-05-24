@@ -34,7 +34,7 @@ const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
 
   const handleInput = () => {
     //to determine if it's a new vs continued conversation
-    if (cId !== -1) {
+    if (cId > 0) {
       (async function () {
         try {
           setIsLoading(true);

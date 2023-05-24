@@ -2,9 +2,12 @@ import { requestAuth } from '../utils/axiosConfig';
 import { BookmarkType, Conversation } from '../data/d';
 import { request } from 'http';
 
-export async function getAllConversations() {
+export async function getAllConversations(queries?: string) {
   try {
-    const response = await requestAuth.get<any>(`/conversations`);
+    console.log(queries);
+    let url = `/conversations`;
+    if (queries) url = `/conversations?${queries}`;
+    const response = await requestAuth.get<any>(url);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -82,15 +85,27 @@ export async function editTitle({ id, title }: { id: number; title: string }) {
     throw error;
   }
 }
-//conversationId
-export async function deleteConveration() {
+
+export async function deleteConversation(cId: number) {
   requestAuth
-    .delete<any>(`/conversations/`)
+    .delete<any>(`/conversations/${cId}`)
     .then((res) => {
       console.log(res);
       console.log(res.data);
     })
     .catch((err) => console.log(err));
+}
+
+//searchTagResults
+export async function getTaggedConversations(tagId: number | string) {
+  try {
+    const res = await requestAuth.get(`/conversations/tags/${tagId}`);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
 
 export async function saveQnA() {}

@@ -7,7 +7,10 @@ export type DateFilter =
   | 'Past 30 Days'
   | string;
 
-export function filterConvsByDate(conversations: ConversationThumbType[]): {
+export function filterConvsByDate(
+  conversations: ConversationThumbType[],
+  type: 'old' | 'new' | string,
+): {
   [key in DateFilter]: ConversationThumbType[];
 } {
   const today = new Date();
@@ -40,6 +43,20 @@ export function filterConvsByDate(conversations: ConversationThumbType[]): {
     }
   });
 
+  if (type === 'old') {
+    const orderedKeys: DateFilter[] = [
+      'Past 30 Days',
+      'Past 7 Days',
+      'Recent',
+      'Today',
+    ];
+    const reorderedResult = Object.assign(
+      {},
+      ...orderedKeys.map((key) => ({ [key]: result[key] })),
+    );
+
+    return reorderedResult;
+  }
   return result;
 }
 

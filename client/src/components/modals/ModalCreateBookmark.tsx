@@ -1,6 +1,5 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import {
-  CButton,
   CModal,
   CModalBody,
   CModalHeader,

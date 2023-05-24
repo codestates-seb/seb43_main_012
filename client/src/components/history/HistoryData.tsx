@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-import { getAllConversations } from '../../api/ChatInterfaceApi';
 import styled from 'styled-components';
 import { TimeLine, TimeBox } from '../../styles/HistoryStyle';
 
-import { DateFilter, filterConvsByDate } from '../../utils/DateFiltering';
+import HistoryItem from './HistoryItem';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getConversation } from '../../api/ChatInterfaceApi';
+import {
+  getConversation,
+  getTaggedConversations,
+} from '../../api/ChatInterfaceApi';
 import {
   setConversation,
   initializeConversation,
   selectConversation,
 } from '../../features/main/conversationSlice';
 
+import { BinnedConvType } from '../../pages/History';
 import { TagType, ConversationThumbType } from '../../data/d';
-import HistoryItem from './HistoryItem';
 const Main = styled.main`
   min-width: 270px;
   max-width: 1080px;
@@ -28,50 +29,37 @@ align-content; flex-start;
   border: none;
   width: 100%;
   height: 100%;
-  overflow-y: hidden;
 `;
 
-export type BinnedConvType = {
-  [key in DateFilter]: ConversationThumbType[];
-};
+const ContentContainer = styled.div`
+  border: none;
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 20px 0;
+  overflow-x: scroll;
+  height: 100%;
+`;
 
 type HistoryProps = {
+  binnedConv: BinnedConvType;
   handleClick: () => void;
+  TagSearch: (parameter: number | string) => void;
 };
 
-// ...rest of your code remains same...
-
-const HistoryData = ({ handleClick }: HistoryProps) => {
-  const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
+const HistoryData = ({ binnedConv, handleClick, TagSearch }: HistoryProps) => {
   const dispatch = useAppDispatch();
-  const conv = useAppSelector(selectConversation);
-  // 데이터 GET
-  useEffect(() => {
-    (async function () {
-      try {
-        const conversations = await getAllConversations();
-        console.log(filterConvsByDate(conversations));
-        setBinnedConv(filterConvsByDate(conversations));
-      } catch (err) {
-        console.log(err);
-        throw err;
-      }
-    })();
-  }, []);
 
-  useEffect(() => {
-    console.log('update history data');
-    (async function () {
-      try {
-        const conversations = await getAllConversations();
-        console.log(filterConvsByDate(conversations));
-        setBinnedConv(filterConvsByDate(conversations));
-      } catch (err) {
-        console.log(err);
-        throw err;
-      }
-    })();
-  }, [conv]);
+  const handleThumbnailClick = async (cId: number) => {
+    // console.log('thumbnail clicked!, ', cId);
+    await loadConv(cId);
+    handleClick();
+  };
+
+  const handleTagClick = async (tId: number | string) => {
+    // console.log('tag clicked!');
+    await TagSearch(tId);
+    // console.log('tag loading success');
+  };
 
   const loadConv = async (cId: number) => {
     const conversation = await getConversation(cId);
@@ -79,11 +67,6 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
       dispatch(setConversation(conversation));
     }
     return;
-  };
-  const handleThumbnailClick = async (cId: number) => {
-    console.log('thumbnail clicked!, ', cId);
-    await loadConv(cId);
-    handleClick();
   };
 
   return (
@@ -98,11 +81,16 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
             <TimeBox>
               <Main>
                 <ContentWrapper>
-                  <HistoryItem
-                    uniqueId={key}
-                    conversations={conversations}
-                    handleClick={handleThumbnailClick}
-                  />
+                  <ContentContainer id={`history-bin-${key}`}>
+                    {conversations.map((conversation) => (
+                      <HistoryItem
+                        key={conversation.conversationId}
+                        conversation={conversation}
+                        handleClick={handleThumbnailClick}
+                        handleTagClick={handleTagClick}
+                      />
+                    ))}
+                  </ContentContainer>
                 </ContentWrapper>
               </Main>
             </TimeBox>
