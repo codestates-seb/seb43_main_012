@@ -10,9 +10,7 @@ type Props = {
   inputExists?: boolean;
   handleInput:
     | (() => void)
-    | ((
-        e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>,
-      ) => Promise<void>);
+    | ((e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => void);
   SVGStyledComponent?: StyledComponent<any, any, any, any>;
   SubmitSVGButton?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 };

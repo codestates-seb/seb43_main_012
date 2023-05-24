@@ -7,23 +7,47 @@ import { ReactComponent as SearchIcon } from '../../assets/icons/history/iconSea
 import Input from '../chatinterface/Input';
 import { useInput } from '../../utils/hooks/useInput';
 
-const SearchBox = styled(InputQBox)`
+const SearchBox = styled(InputQBox)<ButtonProps>`
   min-width: 50vw;
   input {
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1);
   }
+
+  button svg {
+    fill: black;
+  }
 `;
 
-const HistorySearch = () => {
+type ButtonProps = {
+  isInput: boolean;
+};
+
+type Props = {
+  handleSearch: (value: string) => void;
+  handleReload: () => void;
+};
+
+const HistorySearch = ({ handleSearch, handleReload }: Props) => {
   const [value, setValue] = useState('');
 
-  const handleInput = () => {};
+  const handleInput = (
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
+  ) => {
+    console.log('search input!');
+    e.preventDefault();
+    e.stopPropagation();
+    if (!value) {
+      handleReload();
+      return;
+    }
+    handleSearch(value);
+  };
 
   const searchInputProps = useInput({
     inputType: 'text',
     value,
     setValue,
-    placeholder: 'Search questions, answers, tags...',
+    placeholder: 'Search questions, answers, tags... (add # for tags)',
     handleInput,
     id: 'historySearchInput',
   });
