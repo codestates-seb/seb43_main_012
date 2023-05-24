@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000", "http://chatcrawlbucket.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("ngrok-skip-browser-warning, Authorization, Cookie, Access-Control-Allow-Origin, Access-Control-Allow-Methods," +
                 "Access-Control-Max-Age,Access-Control-Allow-Credentials,Content-type,Refresh"));
