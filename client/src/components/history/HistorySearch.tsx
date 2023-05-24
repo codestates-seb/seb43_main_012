@@ -33,6 +33,7 @@ const HistorySearch = ({ handleSearch, handleReload }: Props) => {
   const handleInput = (
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
   ) => {
+    console.log('search input!');
     e.preventDefault();
     e.stopPropagation();
     if (!value) {
@@ -46,7 +47,7 @@ const HistorySearch = ({ handleSearch, handleReload }: Props) => {
     inputType: 'text',
     value,
     setValue,
-    placeholder: 'Search questions, answers, tags...',
+    placeholder: 'Search questions, answers, tags... (add # for tags)',
     handleInput,
     id: 'historySearchInput',
   });

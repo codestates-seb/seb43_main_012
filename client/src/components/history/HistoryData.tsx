@@ -50,15 +50,12 @@ const HistoryData = ({ binnedConv, handleClick, TagSearch }: HistoryProps) => {
   const dispatch = useAppDispatch();
 
   const handleThumbnailClick = async (cId: number) => {
-    // console.log('thumbnail clicked!, ', cId);
     await loadConv(cId);
     handleClick();
   };
 
   const handleTagClick = async (tId: number | string) => {
-    // console.log('tag clicked!');
     await TagSearch(tId);
-    // console.log('tag loading success');
   };
 
   const loadConv = async (cId: number) => {

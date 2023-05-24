@@ -44,6 +44,11 @@ function checkNewOld(queries: string) {
   return 'new';
 }
 
+function getTagname(input: string): string {
+  // return input.split(' ')[0].slice(1);
+  return input.slice(1);
+}
+
 function History(): ReactElement {
   const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
   const [queries, setQueries] = useState<string>('sort=desc');
@@ -62,6 +67,12 @@ function History(): ReactElement {
   };
 
   const handleTextSearch = async (value: string) => {
+    //tag search
+    if (value[0] === '#') {
+      TagSearch(getTagname(value));
+      return;
+    }
+
     const newValue = `${value}&${queries}`;
     (async function () {
       try {
@@ -126,10 +137,11 @@ function History(): ReactElement {
         res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
           b.pinned ? 1 : a.pinned ? -1 : 0,
         );
-        setIsNone(false);
+        if (isNone) setIsNone(false);
         setBinnedConv(filterConvsByDate(res, 'new'));
       }
     } catch (err) {
+      setIsNone(true);
       console.log(err);
       throw err;
     }
