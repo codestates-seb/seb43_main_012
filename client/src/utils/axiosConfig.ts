@@ -36,7 +36,7 @@ const axiosApi2 = (
       'Access-Control-Allow-Origin': 'http://localhost:3000',
       Authorization: token,
     },
-    timeout: 20000,
+    timeout: 30000,
     ...options,
   });
 

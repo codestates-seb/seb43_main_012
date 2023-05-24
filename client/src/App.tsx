@@ -17,10 +17,6 @@ const Main = lazy(() => import('./pages/Main'));
 const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
-
-const CollectionPins = lazy(
-  () => import('./components/overlay/CollectionPins'),
-);
 const DialogBoxUserIcon = lazy(
   () => import('./components/dialogbox/DialogBoxUserIcon'),
 );
