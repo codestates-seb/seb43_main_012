@@ -143,9 +143,11 @@ const TopNav = ({
   useEffect(() => {
     console.log('topnav update');
     // console.log('memberavatar', _memberInfo.avatarLink);
-    if (isLoggedIn !== _loginState) {
+    if (
+      isLoggedIn !== _loginState ||
+      memberInfo.avatarLink !== _memberInfo.avatarLink
+    ) {
       setIsLoggedIn(_loginState);
-    } else {
       setMemberInfo({
         userId: _memberInfo.userId,
         username: _memberInfo.username,

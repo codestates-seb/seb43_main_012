@@ -39,22 +39,9 @@ function scrollToLeft() {
   });
 }
 
-// function replaceSpacesWithPlus(input: string): string {
-//   return input.replace(/ /g, '+');
-// }
-
 function checkNewOld(queries: string) {
   if (queries === `sort=asc`) return 'old';
   return 'new';
-}
-
-function isEmpty(obj: { [key: string]: any[] }): boolean {
-  for (let key in obj) {
-    if (obj[key].length !== 0) {
-      return false;
-    }
-  }
-  return true;
 }
 
 function History(): ReactElement {
@@ -76,7 +63,6 @@ function History(): ReactElement {
 
   const handleTextSearch = async (value: string) => {
     const newValue = `${value}&${queries}`;
-    // const newValue = `${replaceSpacesWithPlus(value)}&${queries}`;
     (async function () {
       try {
         const conversations = await getSearchResults(newValue);
