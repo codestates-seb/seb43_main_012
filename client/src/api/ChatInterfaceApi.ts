@@ -2,9 +2,12 @@ import { requestAuth } from '../utils/axiosConfig';
 import { BookmarkType, Conversation } from '../data/d';
 import { request } from 'http';
 
-export async function getAllConversations() {
+export async function getAllConversations(queries?: string) {
   try {
-    const response = await requestAuth.get<any>(`/conversations`);
+    console.log(queries);
+    let url = `/conversations`;
+    if (queries) url = `/conversations?${queries}`;
+    const response = await requestAuth.get<any>(url);
     return response.data;
   } catch (error) {
     console.error(error);

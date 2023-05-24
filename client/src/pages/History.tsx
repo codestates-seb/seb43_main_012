@@ -28,10 +28,10 @@ import {
 } from '../api/ChatInterfaceApi';
 
 function scrollToLeft() {
-  console.log('scroll!');
+  // console.log('scroll!');
   const bins = document.querySelectorAll('[id^="history-bin-"]');
 
-  console.log(bins);
+  // console.log(bins);
   bins.forEach((el) => {
     el.scrollLeft = 0;
   });
@@ -43,7 +43,7 @@ export type BinnedConvType = {
 
 function History(): ReactElement {
   const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
-
+  const [queries, setQueries] = useState<string>('sort=desc');
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const conv = useAppSelector(selectConversation);
@@ -70,13 +70,22 @@ function History(): ReactElement {
     loadAllConv();
   }, []);
 
-  const loadAllConv = async () => {
+  useEffect(() => {
+    console.log('update history data');
+    loadAllConv();
+  }, [conv, queries]);
+
+  const loadAllConv = async (q: string = queries) => {
     try {
-      const conversations: ConversationThumbType[] =
-        await getAllConversations();
+      const conversations: ConversationThumbType[] = await getAllConversations(
+        queries,
+      );
       // console.log(filterConvsByDate(conversations));
       conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
-      setBinnedConv(filterConvsByDate(conversations));
+      let type = '';
+      if (queries === (`sort=desc` || `sort=activityLevel`)) type = 'new';
+      else if (queries === `sort=asc`) type = 'old';
+      setBinnedConv(filterConvsByDate(conversations, type));
     } catch (err) {
       console.log(err);
       throw err;
@@ -91,18 +100,13 @@ function History(): ReactElement {
         res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
           b.pinned ? 1 : a.pinned ? -1 : 0,
         );
-        setBinnedConv(filterConvsByDate(res));
+        setBinnedConv(filterConvsByDate(res, 'new'));
       }
     } catch (err) {
       console.log(err);
       throw err;
     }
   };
-
-  useEffect(() => {
-    console.log('update history data');
-    loadAllConv();
-  }, [conv]);
 
   return (
     <>
@@ -114,7 +118,7 @@ function History(): ReactElement {
           {/* <DeleteButton>Reload</DeleteButton> */}
           <HistorySearch />
           <FilterBox>
-            <HistoryFilter />
+            <HistoryFilter queries={queries} setQueries={setQueries} />
           </FilterBox>
           <DeleteButton>Clear History</DeleteButton>
         </HistoryHeader>
