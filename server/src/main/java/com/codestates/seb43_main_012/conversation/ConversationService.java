@@ -298,11 +298,24 @@ public class ConversationService {
         conversationRepository.save(findConversation);
     }
 
-    public void removeAll()
+    public void removeAll(String value, long memberId)
     {
-        //bookmarkRepository.deleteAllByMemberId();
-
-        //conversationRepository.deleteAllByMemberId();
+        if(value.equals("true"))
+        {
+            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndDeleteStatus(memberId, false);
+            conversations.stream().forEach(conv -> {
+                conv.setDeleteStatus(true);
+            });
+            conversationRepository.saveAll(conversations);
+        }
+        else
+        {
+            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, false,false);
+            conversations.stream().forEach(conv -> {
+                conv.setDeleteStatus(true);
+            });
+            conversationRepository.saveAll(conversations);
+        }
     }
 
     public void setSaveStatus(Conversation conversation)

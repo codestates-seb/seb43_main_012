@@ -167,9 +167,13 @@ public class ConversationController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteConversations()
+    public ResponseEntity deleteConversations(@RequestParam(value = "all", required = false) String value,
+                                              @AuthenticationPrincipal MemberEntity member)
     {
-        conversationService.removeAll();
+        long memberId = member.getId();
+        if(value == null) value = "false";
+
+        conversationService.removeAll(value, memberId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
