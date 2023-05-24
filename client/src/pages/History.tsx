@@ -1,12 +1,12 @@
 import { ReactElement, useState, useEffect } from 'react';
 import {
-  SearchBox,
   HistoryBox,
   HistoryHeader,
   FilterBox,
   DeleteButton,
   HistoryBody,
   ReloadBox,
+  NoResultsBox,
 } from '../styles/HistoryStyle';
 import { ReactComponent as ReloadBtn } from '../assets/icons/history/iconReload.svg';
 
@@ -15,9 +15,6 @@ import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 import HistorySearch from '../components/history/HistorySearch';
 import HistoryFilter from '../components/history/HistoryFilter';
 
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
 import { useAppSelector } from '../app/hooks';
 import { selectConversation } from '../features/main/conversationSlice';
 import { ConversationThumbType } from '../data/d';
@@ -25,30 +22,50 @@ import { DateFilter, filterConvsByDate } from '../utils/DateFiltering';
 import {
   getAllConversations,
   getTaggedConversations,
+  getSearchResults,
 } from '../api/ChatInterfaceApi';
-
-function scrollToLeft() {
-  // console.log('scroll!');
-  const bins = document.querySelectorAll('[id^="history-bin-"]');
-
-  // console.log(bins);
-  bins.forEach((el) => {
-    el.scrollLeft = 0;
-  });
-}
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../app/hooks';
+import { initializeMemberState } from '../features/member/loginInfoSlice';
 
 export type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];
 };
 
+function scrollToLeft() {
+  const bins = document.querySelectorAll('[id^="history-bin-"]');
+  bins.forEach((el) => {
+    el.scrollLeft = 0;
+  });
+}
+
+// function replaceSpacesWithPlus(input: string): string {
+//   return input.replace(/ /g, '+');
+// }
+
+function checkNewOld(queries: string) {
+  if (queries === `sort=asc`) return 'old';
+  return 'new';
+}
+
+function isEmpty(obj: { [key: string]: any[] }): boolean {
+  for (let key in obj) {
+    if (obj[key].length !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function History(): ReactElement {
   const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
   const [queries, setQueries] = useState<string>('sort=desc');
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isNone, setIsNone] = useState(false);
   const conv = useAppSelector(selectConversation);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  // 클릭하면 열리는 모달 혹은 페이지가 필요할 경우 사용
   const handleClick = () => {
     // e.stopPropagation();
     // e.preventDefault();
@@ -57,13 +74,32 @@ function History(): ReactElement {
     setIsOpen(!isOpen);
   };
 
+  const handleTextSearch = async (value: string) => {
+    const newValue = `${value}&${queries}`;
+    // const newValue = `${replaceSpacesWithPlus(value)}&${queries}`;
+    (async function () {
+      try {
+        const conversations = await getSearchResults(newValue);
+        if (!conversations.length) {
+          setIsNone(true);
+          return;
+        }
+        conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
+        const type = checkNewOld(queries);
+        setBinnedConv(filterConvsByDate(conversations, type));
+        setIsNone(false);
+      } catch (err) {
+        throw err;
+      }
+    })();
+  };
+
   const handleReloadClick = () => {
     loadAllConv();
   };
 
   useEffect(() => {
     scrollToLeft();
-    console.log('changed!');
   }, [isOpen]);
 
   useEffect(() => {
@@ -71,23 +107,23 @@ function History(): ReactElement {
   }, []);
 
   useEffect(() => {
-    console.log('update history data');
     loadAllConv();
   }, [conv, queries]);
 
   const loadAllConv = async (q: string = queries) => {
     try {
+      setIsNone(false);
+      console.log('load all conv');
       const conversations: ConversationThumbType[] = await getAllConversations(
         queries,
       );
-      // console.log(filterConvsByDate(conversations));
       conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
-      let type = '';
-      if (queries === (`sort=desc` || `sort=activityLevel`)) type = 'new';
-      else if (queries === `sort=asc`) type = 'old';
+      const type = checkNewOld(queries);
       setBinnedConv(filterConvsByDate(conversations, type));
     } catch (err) {
-      console.log(err);
+      localStorage.clear();
+      dispatch(initializeMemberState);
+      navigate('/');
       throw err;
     }
   };
@@ -96,10 +132,15 @@ function History(): ReactElement {
     try {
       const res = await getTaggedConversations(tagId);
       if (res) {
+        if (!res.length) {
+          setIsNone(true);
+          return;
+        }
         console.log('loading tagged results!');
         res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
           b.pinned ? 1 : a.pinned ? -1 : 0,
         );
+        setIsNone(false);
         setBinnedConv(filterConvsByDate(res, 'new'));
       }
     } catch (err) {
@@ -115,20 +156,28 @@ function History(): ReactElement {
           <ReloadBox onClick={handleReloadClick}>
             <ReloadBtn />
           </ReloadBox>
-          {/* <DeleteButton>Reload</DeleteButton> */}
-          <HistorySearch />
+          <HistorySearch
+            handleSearch={handleTextSearch}
+            handleReload={handleReloadClick}
+          />
           <FilterBox>
             <HistoryFilter queries={queries} setQueries={setQueries} />
           </FilterBox>
           <DeleteButton>Clear History</DeleteButton>
         </HistoryHeader>
-        <HistoryBody>
-          <HistoryData
-            handleClick={handleClick}
-            binnedConv={binnedConv}
-            TagSearch={TagSearch}
-          />
-        </HistoryBody>
+        {
+          <HistoryBody>
+            {!isNone ? (
+              <HistoryData
+                handleClick={handleClick}
+                binnedConv={binnedConv}
+                TagSearch={TagSearch}
+              />
+            ) : (
+              <NoResultsBox>검색 결과가 없습니다.</NoResultsBox>
+            )}
+          </HistoryBody>
+        }
       </HistoryBox>
       {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
     </>

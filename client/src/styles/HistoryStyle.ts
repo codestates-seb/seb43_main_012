@@ -110,3 +110,8 @@ export const ReloadBox = styled.div`
 
   margin-right: 10px;
 `;
+
+export const NoResultsBox = styled.div`
+  margin-top: 50px;
+  color: black;
+`;

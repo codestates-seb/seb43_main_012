@@ -12,13 +12,9 @@ import * as TN from '../styles/TopNavStyle';
 import { Character } from '../styles/CharacterStyle';
 
 //import icons
-// @ts-ignore
 import { ReactComponent as HistoryIcon } from '../assets/icons/topnav/iconHistory.svg';
-// @ts-ignore
 import { ReactComponent as ChatIcon } from '../assets/icons/topnav/iconNewChat.svg';
-// @ts-ignore
 import { ReactComponent as CollectionIcon } from '../assets/icons/topnav/iconCollectionsNew.svg';
-// @ts-ignore
 import { ReactComponent as AnonymousIcon } from '../assets/icons/topnav/iconNonMember.svg';
 
 //import redux/api
@@ -27,12 +23,14 @@ import {
   UserInfo,
   selectMemberInfo,
   selectLoginState,
+  initializeMemberState,
 } from '../features/member/loginInfoSlice';
 import { initializeConversation } from '../features/main/conversationSlice';
 import {
   updateMemberInfo,
   changeLoginState,
 } from '../features/member/loginInfoSlice';
+import { logoutApi } from '../api/LogoutApi';
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
   box-shadow: none;
@@ -92,21 +90,31 @@ const TopNav = ({
     avatarLink: _memberInfo.avatarLink,
   });
 
+  const navigate = useNavigate();
+
   const fetchUserInfo = async () => {
     const mId = localStorage.getItem('memberId');
-    const userData: UserInfoItemTypes = await handleUserInfo(`user/${mId}`);
+    try {
+      const userData: UserInfoItemTypes = await handleUserInfo(`user/${mId}`);
+      const date: number[] = userData.createdAt;
+      dispatch(
+        updateMemberInfo({
+          userId: userData.id,
+          userEmail: userData.userId,
+          username: userData.username,
+          avatarLink: userData.avatarLink,
+          createdDate: formatDateTime(userData.createdAt),
+        }),
+      );
+      dispatch(changeLoginState('ON'));
+    } catch (err) {
+      console.log('fetch user error');
+      localStorage.clear();
+      dispatch(initializeMemberState);
+      navigate('/');
+      throw err;
+    }
     // console.log(userData);
-    const date: number[] = userData.createdAt;
-    dispatch(
-      updateMemberInfo({
-        userId: userData.id,
-        userEmail: userData.userId,
-        username: userData.username,
-        avatarLink: userData.avatarLink,
-        createdDate: formatDateTime(userData.createdAt),
-      }),
-    );
-    dispatch(changeLoginState('ON'));
   };
 
   //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
@@ -122,7 +130,7 @@ const TopNav = ({
   }, [location]);
 
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
+    if (!!localStorage.getItem('isLoggedIn')) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -135,14 +143,15 @@ const TopNav = ({
   useEffect(() => {
     console.log('topnav update');
     // console.log('memberavatar', _memberInfo.avatarLink);
-
-    setMemberInfo({
-      userId: _memberInfo.userId,
-      username: _memberInfo.username,
-      avatarLink: _memberInfo.avatarLink,
-    });
-
-    if (isLoggedIn !== _loginState) setIsLoggedIn(_loginState);
+    if (isLoggedIn !== _loginState) {
+      setIsLoggedIn(_loginState);
+    } else {
+      setMemberInfo({
+        userId: _memberInfo.userId,
+        username: _memberInfo.username,
+        avatarLink: _memberInfo.avatarLink,
+      });
+    }
   }, [_loginState, _memberInfo.avatarLink]);
 
   // useEffect(() => {

@@ -1,10 +1,10 @@
 import { requestAuth } from '../utils/axiosConfig';
-import { BookmarkType, Conversation } from '../data/d';
+import { BookmarkType, Conversation, ConversationThumbType } from '../data/d';
 import { request } from 'http';
 
 export async function getAllConversations(queries?: string) {
   try {
-    console.log(queries);
+    // console.log(queries);
     let url = `/conversations`;
     if (queries) url = `/conversations?${queries}`;
     const response = await requestAuth.get<any>(url);
@@ -72,13 +72,22 @@ export async function getConversation(id: number): Promise<Conversation> {
   }
 }
 
+export async function getSearchResults(
+  text: string,
+): Promise<ConversationThumbType[]> {
+  try {
+    const res = await requestAuth.get(`/conversations?q=${text}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function editTitle({ id, title }: { id: number; title: string }) {
-  // console.log('edit title api called!');
   try {
     const response = await requestAuth.patch<any>(`/conversations/${id}`, {
       title,
     });
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -96,6 +105,9 @@ export async function deleteConversation(cId: number) {
     .catch((err) => console.log(err));
 }
 
+export async function deleteAllConversations() {}
+
+export async function deleteUnsavedConversations() {}
 //searchTagResults
 export async function getTaggedConversations(tagId: number | string) {
   try {
