@@ -34,9 +34,9 @@ const axiosApi2 = (
     baseURL: url,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': import.meta.env.VITE_LOCALHOST,
+      // 'Access-Control-Allow-Origin': import.meta.env.VITE_LOCALHOST,
 
-      // 'Access-Control-Allow-Origin': APP_URL,
+      'Access-Control-Allow-Origin': APP_URL,
       Authorization: token,
     },
     timeout: 30000,
