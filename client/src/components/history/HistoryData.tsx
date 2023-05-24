@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-import { getAllConversations } from '../../api/ChatInterfaceApi';
 import styled from 'styled-components';
 import { TimeLine, TimeBox } from '../../styles/HistoryStyle';
 
-import { DateFilter, filterConvsByDate } from '../../utils/DateFiltering';
+import HistoryItem from './HistoryItem';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   getConversation,
@@ -16,8 +14,8 @@ import {
   selectConversation,
 } from '../../features/main/conversationSlice';
 
+import { BinnedConvType } from '../../pages/History';
 import { TagType, ConversationThumbType } from '../../data/d';
-import HistoryItem from './HistoryItem';
 const Main = styled.main`
   min-width: 270px;
   max-width: 1080px;
@@ -42,51 +40,25 @@ const ContentContainer = styled.div`
   height: 100%;
 `;
 
-export type BinnedConvType = {
-  [key in DateFilter]: ConversationThumbType[];
-};
-
 type HistoryProps = {
+  binnedConv: BinnedConvType;
   handleClick: () => void;
+  TagSearch: (parameter: number | string) => void;
 };
 
-const HistoryData = ({ handleClick }: HistoryProps) => {
-  const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
+const HistoryData = ({ binnedConv, handleClick, TagSearch }: HistoryProps) => {
   const dispatch = useAppDispatch();
-  const conv = useAppSelector(selectConversation);
-  // 데이터 GET
-  useEffect(() => {
-    loadAllConv();
-  }, []);
-
-  useEffect(() => {
-    console.log('update history data');
-    loadAllConv();
-  }, [conv]);
 
   const handleThumbnailClick = async (cId: number) => {
-    console.log('thumbnail clicked!, ', cId);
+    // console.log('thumbnail clicked!, ', cId);
     await loadConv(cId);
     handleClick();
   };
 
   const handleTagClick = async (tId: number | string) => {
-    console.log('tag clicked!');
+    // console.log('tag clicked!');
     await TagSearch(tId);
-    console.log('tag loading success');
-  };
-
-  const loadAllConv = async () => {
-    try {
-      const conversations: ConversationThumbType[] =
-        await getAllConversations();
-      console.log(filterConvsByDate(conversations));
-      conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
-      setBinnedConv(filterConvsByDate(conversations));
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
+    // console.log('tag loading success');
   };
 
   const loadConv = async (cId: number) => {
@@ -95,22 +67,6 @@ const HistoryData = ({ handleClick }: HistoryProps) => {
       dispatch(setConversation(conversation));
     }
     return;
-  };
-
-  const TagSearch = async (tagId: number | string) => {
-    try {
-      const res = await getTaggedConversations(tagId);
-      if (res) {
-        console.log('loading tagged results!');
-        res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
-          b.pinned ? 1 : a.pinned ? -1 : 0,
-        );
-        setBinnedConv(filterConvsByDate(res));
-      }
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
   };
 
   return (
