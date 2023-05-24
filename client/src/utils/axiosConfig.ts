@@ -9,6 +9,7 @@ import { logoutApi } from '../api/LogoutApi';
 import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const APP_URL = import.meta.env.VITE_APP_URL;
 
 let token = localStorage.getItem('token');
 axios.defaults.withCredentials = true;
@@ -33,7 +34,7 @@ const axiosApi2 = (
     baseURL: url,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': APP_URL,
       Authorization: token,
     },
     timeout: 30000,
