@@ -76,6 +76,8 @@
 | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="SpringSecurity" src ="https://github.com/mslock/TodoApps/assets/60218122/b0c96710-b788-45fd-b2ef-8efa421de703" width="65" height="65" /> |
 <br/>
 
+![undefined (new)](https://github.com/codestates-seb/seb43_main_012/assets/114928363/a8d6d014-0b61-4f01-aceb-ea454edac6eb)
+
 ## 🌲 Git
 ### Branch
 `dev` : 배포 가능한 상태 관리 브랜치 (`be-dev` + `fe-dev` ) 
@@ -89,7 +91,6 @@
 `fe-feat/[feature-name]` : FE 기능 개발 브랜치
 
 `hotfix` : 출시 버전에서 발생하는 버그 수정 브랜치 (긴급 수정용)
-
 
 ### Commit Convention
 - `Feat` : 새로운 기능 추가
