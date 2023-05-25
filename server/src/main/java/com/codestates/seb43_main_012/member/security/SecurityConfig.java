@@ -41,13 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//    @Bean
-//    public FilterRegistrationBean<SimpleCORSFilter> corsFilter() {
-//        FilterRegistrationBean<SimpleCORSFilter> bean = new FilterRegistrationBean<>();
-//        bean.setFilter(new SimpleCORSFilter());
-//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//        return bean;
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -65,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/signup", "/api/login", "/**").permitAll()
+                .antMatchers("/api/signup", "/api/login", "/api/refresh", "/**").permitAll()
                 //.antMatchers("/api/signup", "/api/login").permitAll()
                 .anyRequest().authenticated();
 
