@@ -28,8 +28,6 @@ import java.util.*;
 @Transactional
 public class ConversationService {
 
-    private final Long MEMBER_ID = 1L;
-
     private final ConversationRepository conversationRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
@@ -41,10 +39,6 @@ public class ConversationService {
     private final ConversationMapper conversationMapper;
     private final CategoryRepository categoryRepository;
 
-    public Conversation saveConversation(Conversation conversation)
-    {
-        return conversationRepository.save(conversation);
-    }
 
     @Transactional
     public Conversation createConversation(long memberId, QnADto.Post dto)
@@ -66,15 +60,6 @@ public class ConversationService {
 
         Optional.ofNullable(dto.getTitle()).ifPresent(title -> findConversation.setTitle(title));
         Optional.ofNullable(dto.getPinned()).ifPresent(pinned -> findConversation.setPinned(pinned));
-
-        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
-        return conversationRepository.save(findConversation);
-    }
-
-    public Conversation updateTimeConversation(long conversationId)
-    {
-        Optional<Conversation> optional = conversationRepository.findById(conversationId);
-        Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
 
         findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         return conversationRepository.save(findConversation);

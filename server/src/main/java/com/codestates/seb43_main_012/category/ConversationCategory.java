@@ -29,12 +29,6 @@ public class ConversationCategory {
     @Setter
     private String bookmarkName;
 
-//    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
-//    {
-//        this.conversation = conversation;
-//        this.bookmarkId = bookmarkId;
-//        this.bookmarkName = bookmarkName;
-//    }
     public ConversationCategory(Conversation conversation, Category category)
     {
         this.conversation = conversation;

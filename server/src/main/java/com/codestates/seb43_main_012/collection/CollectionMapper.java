@@ -22,7 +22,7 @@ public class CollectionMapper {
     {
         this.conversationMapper = conversationMapper;
     }
-    public CollectionPageDto responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories, List<ConversationTag> tags)
+    public CollectionDto.Page responseForGetCollectionPage(List<Conversation> conversations, List<Category> categories, List<ConversationTag> tags)
     {
         List<BookmarkDto.Response> bookmarks = new ArrayList<>();
         categories.stream().forEach(category -> bookmarks.add(categoryToBookmarkResponseDto(category)));
@@ -36,7 +36,7 @@ public class CollectionMapper {
             }
         });
 
-        var response = new CollectionPageDto(
+        var response = new CollectionDto.Page(
                 bookmarks,
                 tagResponses,
                 conversationMapper.conversationsToConversationResponseDtos(conversations)
@@ -62,14 +62,4 @@ public class CollectionMapper {
         return response;
     }
 
-    private List<String> stringToList(String str)
-    {
-        List<String> list = new ArrayList<>();
-        if(str == null || str.equals("[]")) return list;
-
-        Arrays.stream(str.substring(1,str.length()-1).split(","))
-                .forEach(subStr -> list.add(subStr.replace("\"","")));
-
-        return list;
-    }
 }

@@ -14,10 +14,6 @@ public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bookmarkId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private MemberEntity member;
     @Setter
     private long memberId;
 

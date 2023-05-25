@@ -8,10 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- * conversation과 관계를 맺을 필요가 있을까 고민
- *
- */
+
 @Getter
 @NoArgsConstructor
 @Entity

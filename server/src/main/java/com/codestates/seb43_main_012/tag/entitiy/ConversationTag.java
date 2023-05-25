@@ -22,7 +22,7 @@ public class ConversationTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
-    //private long conversationId;
+
     private long tagId;
     private String tagName;
     public ConversationTag(Conversation conversation, long tagId, String tagName)
@@ -31,18 +31,5 @@ public class ConversationTag {
         this.tagId = tagId;
         this.tagName = tagName;
     }
-
-
-
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "TAG_ID")
-//    private Tag tag;
-//
-//    public ConversationTag(Conversation conversation, Tag tag)
-//    {
-//        this.conversation = conversation;
-//        this.tag = tag;
-//    }
 
 }
