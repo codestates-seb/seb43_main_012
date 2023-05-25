@@ -125,6 +125,7 @@ const TopNav = ({
     Id = 0;
   }
   
+  
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -139,7 +140,12 @@ const TopNav = ({
   
     fetchUserInfo();
   }, );
+  
 
+
+  const handleChatBtnClick = () => {
+    dispatch(initializeConversation(-1));
+  };
 
   return (
     <TN.TopNavBox>
