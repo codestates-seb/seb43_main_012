@@ -27,7 +27,7 @@
 
 | 순정원<br>(BE, 팀장) | 김민수<br>(BE) | 한재영<br>(BE) |
 | :---: | :---: | :---: |
-| <img alt="순정원" src="https://github.com/mslock/TodoApps/assets/60218122/d1c65792-dbb1-4aaa-b112-185582e07517" height="100" width="100"> | <img alt="김민수" src="https://github.com/mslock/TodoApps/assets/60218122/119cac45-9682-4abe-b956-c600ad040a59" height="100" width="100"> | <img alt="한재영" src="https://github.com/mslock/TodoApps/assets/60218122/c6a4ffb8-91a6-481b-b7c9-88379ce11f70" height="100" width="100"> |
+| ![bug small](https://github.com/codestates-seb/seb43_main_012/assets/114928363/aee3987f-3549-4c08-92d5-f95fb3d2754b)| <img alt="김민수" src="https://github.com/mslock/TodoApps/assets/60218122/119cac45-9682-4abe-b956-c600ad040a59" height="100" width="100"> | <img alt="한재영" src="https://github.com/mslock/TodoApps/assets/60218122/c6a4ffb8-91a6-481b-b7c9-88379ce11f70" height="100" width="100"> |
 | [@sundae95](https://github.com/sundae95) | [@mslock](https://github.com/mslock) | [@splo-sh](https://github.com/splo-sh) |
 | <p align="left">- AWS(EC2,RDS) 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원 가입, 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 <br/>- 북마크, 태그, 고정핀<br/>- 대화 세션 </p>|
 
