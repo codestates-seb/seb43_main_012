@@ -17,18 +17,10 @@ import {
   selectCId,
 } from '../features/main/conversationSlice';
 //import api
-import {
-  getConversation,
-  getAllConversations,
-  getSavedConversations,
-  getCollections,
-  editBookmark,
-} from '../api/ChatInterfaceApi';
+import { getConversation } from '../api/ChatInterfaceApi';
 
 //import data
-import { initialState } from '../features/main/conversationSlice';
-import { Conversation, initialConvData } from '../data/d';
-import { toggleModal } from '../features/collection/collectionSlice';
+import { Conversation } from '../data/d';
 
 type MainProps = {
   isOpen?: boolean;

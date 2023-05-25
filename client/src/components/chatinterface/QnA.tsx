@@ -36,7 +36,6 @@ const QnA = ({ qnaItem }: qnaProps) => {
   const [showAnswer, setShowAnswer] = useState<boolean>(isToggled);
 
   const dispatch = useAppDispatch();
-  dispatch(toggleModal(true));
 
   const handleCheck = ({ id, newCheckValue }: CheckProps) => {
     dispatch(changeQnASaveStatus({ id: qnaItem.qnaId, newCheckValue }));

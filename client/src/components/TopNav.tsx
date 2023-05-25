@@ -26,6 +26,7 @@ import {
   initializeMemberState,
 } from '../features/member/loginInfoSlice';
 import { initializeConversation } from '../features/main/conversationSlice';
+import { toggleModal } from '../features/collection/collectionSlice';
 import {
   updateMemberInfo,
   changeLoginState,
@@ -81,6 +82,8 @@ const TopNav = ({
 }: TopNavProps) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const _memberInfo = useAppSelector(selectMemberInfo);
   const _loginState = useAppSelector(selectLoginState);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(_loginState);
@@ -89,8 +92,6 @@ const TopNav = ({
     username: _memberInfo.username,
     avatarLink: _memberInfo.avatarLink,
   });
-
-  const navigate = useNavigate();
 
   const fetchUserInfo = async () => {
     const mId = localStorage.getItem('memberId');
@@ -126,6 +127,9 @@ const TopNav = ({
       if (element) {
         element.focus();
       }
+      dispatch(toggleModal(true));
+    } else if (location.pathname === '/collection') {
+      dispatch(toggleModal(false));
     }
   }, [location]);
 
@@ -229,13 +233,11 @@ const TopNav = ({
   const [username, setUsername] = useState<string>('');
 
   let Id: any = 0;
-  if (localStorage.getItem("memberId")) {
-    Id = localStorage.getItem("memberId");
+  if (localStorage.getItem('memberId')) {
+    Id = localStorage.getItem('memberId');
   } else {
     Id = 0;
   }
-  
-  
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -247,11 +249,9 @@ const TopNav = ({
         console.error(error);
       }
     };
-  
-    fetchUserInfo();
-  }, );
-  
 
+    fetchUserInfo();
+  });
 
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));

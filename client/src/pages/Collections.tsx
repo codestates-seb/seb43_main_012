@@ -121,7 +121,7 @@ const TagContainer = styled.div`
   margin: 10px 0 0 0;
 `;
 
-const Tag = styled.a`
+const Tag = styled.div`
   background-color: #f0f0f0;
   border-radius: 20px;
   margin: 0 5px 5px 0;
@@ -170,13 +170,17 @@ const Collections = () => {
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
-  const { content, selectedBookmark, selectedTag } = useSelector(
-    (state: RootState) => state.collection,
-  );
+  const [content, setContent] = useState<any>({});
+  const [selectedBookmark, setSelectedBookmark] = useState('All');
+  const [selectedTag, setSelectedTag] = useState('');
+  // const { content, selectedBookmark, selectedTag } = useSelector(
+  //   (state: RootState) => state.collection,
+  // );
   useEffect(() => {
     requestAuth.get(`/collections`).then((response) => {
       console.log('loaded collections');
-      dispatch(setContent(response.data));
+      setContent(response.data);
+      // dispatch(setContent(response.data));
     });
   }, []);
 
@@ -194,18 +198,19 @@ const Collections = () => {
   };
 
   const handleBookmarkClick = (bookmark: string) => {
-    dispatch(setSelectedBookmark(bookmark));
+    setSelectedBookmark(bookmark);
+    // dispatch(setSelectedBookmark(bookmark));
   };
 
   const handleTagClick = (tag: string) => {
-    dispatch(setSelectedTag(tag));
+    setSelectedTag(tag);
+    // dispatch(setSelectedTag(tag));
   };
 
   const handleContentUpdate = (newContent: any) => {
-    dispatch(setContent(newContent));
+    // dispatch(setContent(newContent));
+    setContent(newContent);
   };
-
-  dispatch(toggleModal(false));
 
   const handleContentClick = (conversation: Conversation) => {
     requestAuth
@@ -219,7 +224,7 @@ const Collections = () => {
   };
 
   return (
-    content.conversations && (
+    content?.conversations && (
       <Main>
         {selectedConversation && (
           <ModalContent
@@ -237,7 +242,9 @@ const Collections = () => {
                     className="title"
                     key={conversation.conversationId}
                     href="#"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
                       handleThumbnailClick(conversation.conversationId);
                     }}
                     // onClick={() => handleContentClick(conversation)}
