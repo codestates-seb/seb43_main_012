@@ -140,8 +140,12 @@ const ModalContent: React.FC<ModalContentProps> = ({
                         const answerDiv = document.getElementById(
                           `answer-${qna.qnaId}`,
                         );
-                        answerDiv.style.display =
-                          answerDiv.style.display === 'none' ? 'block' : 'none';
+                        if (answerDiv) {
+                          answerDiv.style.display =
+                            answerDiv.style.display === 'none'
+                              ? 'block'
+                              : 'none';
+                        }
                       }}
                     >
                       {qna.question}

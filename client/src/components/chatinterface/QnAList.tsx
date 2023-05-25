@@ -4,7 +4,7 @@ import { QnAType } from '../../data/d';
 import { QnAListBox, LoadingBox } from '../../styles/MainStyle';
 // import Loading from '../chatinterface/Loading';
 
-import loadingGif from '../../assets/gifs/typing_colorful.gif';
+import loadingGif from '../../assets/gifs/typing_final.gif';
 import styled from 'styled-components';
 
 const LoadingWrap = styled(LoadingBox)`

@@ -55,31 +55,40 @@ export const MyEditData = styled.div`
   margin: 5%;
 `;
 
-export const EditView = styled.div`
-padding-top: 3%;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-min-height: 330px;
-min-width: 430px;
-margin-bottom: 5%;
-height: 70%;
-width: 90%;
-max-width: 290px;
-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-background-color: #fff;
+export const EditCharacterText = styled.p`
+  font-size: 13px;
+  color: #e7cc8f;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+  font-style: italic;
+`;
 
-button{
+export const EditView = styled.div`
+  padding-top: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 330px;
+  min-width: 430px;
+  margin-bottom: 5%;
+  height: 70%;
+  width: 90%;
+  max-width: 290px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+
+  button {
     height: 30px;
     width: 10rem;
     margin: 50px;
-}
-div{
-  display: flex;
-  flex-direction: column;
-  margin: 15px 0px;
-}
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+  }
 `;
 
 export const EditForm = styled.div`
@@ -89,14 +98,14 @@ export const EditForm = styled.div`
   width: 100%;
   margin-top: 3%;
 
-  input{
+  input {
     border: 2px solid #e7cc8f;
     border-radius: 5px;
     box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
     &:focus {
-        outline: none;
-        border: 2px solid #77ad69;
-        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
-      }
+      outline: none;
+      border: 2px solid #77ad69;
+      box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+    }
   }
 `;

@@ -8,11 +8,13 @@ import { InputQBox, InputSubmitBtn } from '../../styles/InputStyle';
 import { ReactComponent as SubmitIcon } from '../../assets/icons/iconSubmit.svg';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Conversation } from '../../data/d';
+import { AxiosError, isAxiosError } from 'axios';
 
 //import api
 import {
   askFirstQuestion,
   continueConversation,
+  getConversation,
 } from '../../api/ChatInterfaceApi';
 
 //import redux
@@ -23,15 +25,16 @@ import { setConversation } from '../../features/main/conversationSlice';
 type ChatProps = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   updateQNum: () => void;
+  isMax?: boolean;
 };
-const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
+const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
   const cId = useAppSelector(selectCId);
   const dispatch = useAppDispatch();
 
   const handleInput = () => {
     //to determine if it's a new vs continued conversation
-    if (cId !== -1) {
+    if (cId > 0) {
       (async function () {
         try {
           setIsLoading(true);
@@ -42,18 +45,33 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
           updateQNum();
         } catch (error) {
           console.error('Error in continueConversation:', error);
+          setIsLoading(false);
         }
       })();
-    } else {
+    } else if (localStorage.getItem('token')) {
       (async function () {
         try {
+          setIsLoading(true);
           const res = await askFirstQuestion(qValue);
           console.log('asked first Question: ', res);
+          setIsLoading(false);
           setQValue('');
-          dispatch(setConversation(res));
+
+          //for now.. because there's no bookmarkList
+          if (!res.bookmarkList) {
+            const res2 = await getConversation(res.conversationId);
+            dispatch(setConversation(res2));
+          } else {
+            dispatch(setConversation(res));
+          }
           // setCValue(res);
         } catch (error) {
           console.error('Error in ask first question:', error);
+          if (isAxiosError(error) && error.code === 'ECONNABORTED') {
+            console.log('request timed out');
+            alert('조금 있다가 다시 시도해주세요.');
+          }
+          setIsLoading(false);
         }
       })();
     }
@@ -75,10 +93,6 @@ const ChatInput = ({ setIsLoading, updateQNum }: ChatProps) => {
     SVGStyledComponent: InputSubmitBtn,
     SubmitSVGButton: SubmitIcon,
   });
-
-  // useEffect(() => {
-  //   console.log("qvalue: ", Boolean(qValue));
-  // }, [qValue]);
 
   return questionInput;
 };

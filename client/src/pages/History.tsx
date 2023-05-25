@@ -1,96 +1,184 @@
 import { ReactElement, useState, useEffect } from 'react';
 import {
-  SearchBox,
   HistoryBox,
   HistoryHeader,
-  Filtering,
+  FilterBox,
   DeleteButton,
-  TimeLine,
   HistoryBody,
-  DateContainer,
-  TimeBox,
+  ReloadBox,
+  NoResultsBox,
 } from '../styles/HistoryStyle';
+import { ReactComponent as ReloadBtn } from '../assets/icons/history/iconReload.svg';
 
-import ContentData from '../components/member/ContentData';
+import HistoryData from '../components/history/HistoryData';
+import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+import HistorySearch from '../components/history/HistorySearch';
+import HistoryFilter from '../components/history/HistoryFilter';
+
+import { useAppSelector } from '../app/hooks';
+import { selectConversation } from '../features/main/conversationSlice';
+import { ConversationThumbType } from '../data/d';
+import { DateFilter, filterConvsByDate } from '../utils/DateFiltering';
+import {
+  getAllConversations,
+  getTaggedConversations,
+  getSearchResults,
+} from '../api/ChatInterfaceApi';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../app/hooks';
+import { initializeMemberState } from '../features/member/loginInfoSlice';
+
+export type BinnedConvType = {
+  [key in DateFilter]: ConversationThumbType[];
+};
+
+function scrollToLeft() {
+  const bins = document.querySelectorAll('[id^="history-bin-"]');
+  bins.forEach((el) => {
+    el.scrollLeft = 0;
+  });
+}
+
+function checkNewOld(queries: string) {
+  if (queries === `sort=asc`) return 'old';
+  return 'new';
+}
+
+function getTagname(input: string): string {
+  // return input.split(' ')[0].slice(1);
+  return input.slice(1);
+}
 
 function History(): ReactElement {
+  const [binnedConv, setBinnedConv] = useState<BinnedConvType>({});
+  const [queries, setQueries] = useState<string>('sort=desc');
   const [isOpen, setIsOpen] = useState(false);
+  const [isNone, setIsNone] = useState(false);
+  const conv = useAppSelector(selectConversation);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  // 클릭하면 열리는 모달 혹은 페이지가 필요할 경우 사용
   const handleClick = () => {
+    // e.stopPropagation();
+    // e.preventDefault();
+    console.log('modal!');
+    console.log(isOpen);
     setIsOpen(!isOpen);
   };
 
+  const handleTextSearch = async (value: string) => {
+    //tag search
+    if (value[0] === '#') {
+      TagSearch(getTagname(value));
+      return;
+    }
 
-  // 현재 월을 기준으로 2개의 월을 확인할 수 있는 버튼
-  // 현: 5월 >> 버튼: 4월 3월
-  // 개수 줄이고 싶으면 length 줄이세요.
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [months, setMonths] = useState<string[]>([]);
-
-  useEffect(() => {
-    const currentMonth = new Date().getMonth();
-    const availableMonths = Array.from(
-      { length: 2 },
-      (_, index) => currentMonth - index,
-    ).map((month) => {
-      const adjustedMonth = month < 1 ? month + 12 : month;
-      const monthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ];
-      return monthNames[adjustedMonth - 1];
-    });
-    setMonths(availableMonths);
-  }, []);
-
-  const handleMonthButtonClick = (month: any) => {
-    setSelectedMonth(month);
+    const newValue = `${value}&${queries}`;
+    (async function () {
+      try {
+        const conversations = await getSearchResults(newValue);
+        if (!conversations.length) {
+          setIsNone(true);
+          return;
+        }
+        conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
+        const type = checkNewOld(queries);
+        setBinnedConv(filterConvsByDate(conversations, type));
+        setIsNone(false);
+      } catch (err) {
+        throw err;
+      }
+    })();
   };
 
-  
+  const handleReloadClick = () => {
+    loadAllConv();
+  };
+
+  useEffect(() => {
+    scrollToLeft();
+  }, [isOpen]);
+
+  useEffect(() => {
+    loadAllConv();
+  }, []);
+
+  useEffect(() => {
+    loadAllConv();
+  }, [conv, queries]);
+
+  const loadAllConv = async (q: string = queries) => {
+    try {
+      setIsNone(false);
+      console.log('load all conv');
+      const conversations: ConversationThumbType[] = await getAllConversations(
+        queries,
+      );
+      conversations.sort((a, b) => (b.pinned ? 1 : a.pinned ? -1 : 0));
+      const type = checkNewOld(queries);
+      setBinnedConv(filterConvsByDate(conversations, type));
+    } catch (err) {
+      localStorage.clear();
+      dispatch(initializeMemberState);
+      navigate('/');
+      throw err;
+    }
+  };
+
+  const TagSearch = async (tagId: number | string) => {
+    try {
+      const res = await getTaggedConversations(tagId);
+      if (res) {
+        if (!res.length) {
+          setIsNone(true);
+          return;
+        }
+        console.log('loading tagged results!');
+        res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
+          b.pinned ? 1 : a.pinned ? -1 : 0,
+        );
+        if (isNone) setIsNone(false);
+        setBinnedConv(filterConvsByDate(res, 'new'));
+      }
+    } catch (err) {
+      setIsNone(true);
+      console.log(err);
+      throw err;
+    }
+  };
+
   return (
-    <HistoryBox>
-      <HistoryHeader>
-        <SearchBox placeholder=" Search your history! tags (#node.js), title, content, date (3-15-2023, 3-2023)"></SearchBox>
-        <Filtering>Neweast</Filtering>
-        <DeleteButton>Clear History</DeleteButton>
-      </HistoryHeader>
-      <HistoryBody>
-        <DateContainer>
-          <TimeLine>Today</TimeLine>
-          <TimeBox>
-           <ContentData></ContentData>
-          </TimeBox>
-          <TimeLine>7Days</TimeLine>
-          <TimeBox>
-          <ContentData></ContentData>
-          </TimeBox>
-          <TimeLine>30Days</TimeLine>
-          <TimeBox>
-          <ContentData></ContentData>
-          </TimeBox>
-          {months.map((month, index) => (
-            <TimeLine
-              key={index}
-              onClick={() => handleMonthButtonClick(selectedMonth - index)}
-            >
-              {month}
-            </TimeLine>
-          ))}
-        </DateContainer>
-      </HistoryBody>
-    </HistoryBox>
+    <>
+      <HistoryBox>
+        <HistoryHeader>
+          <ReloadBox onClick={handleReloadClick}>
+            <ReloadBtn />
+          </ReloadBox>
+          <HistorySearch
+            handleSearch={handleTextSearch}
+            handleReload={handleReloadClick}
+          />
+          <FilterBox>
+            <HistoryFilter queries={queries} setQueries={setQueries} />
+          </FilterBox>
+          <DeleteButton>Clear History</DeleteButton>
+        </HistoryHeader>
+        {
+          <HistoryBody>
+            {!isNone ? (
+              <HistoryData
+                handleClick={handleClick}
+                binnedConv={binnedConv}
+                TagSearch={TagSearch}
+              />
+            ) : (
+              <NoResultsBox>검색 결과가 없습니다.</NoResultsBox>
+            )}
+          </HistoryBody>
+        }
+      </HistoryBox>
+      {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
+    </>
   );
 }
 

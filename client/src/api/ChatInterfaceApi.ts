@@ -1,11 +1,33 @@
-import { axiosDefault } from '../utils/axiosConfig';
-import { Conversation } from '../data/d';
+import { requestAuth } from '../utils/axiosConfig';
+import { BookmarkType, Conversation, ConversationThumbType } from '../data/d';
+import { request } from 'http';
 
-const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
-
-export async function getAllConversations() {
+export async function getAllConversations(queries?: string) {
   try {
-    const response = await axiosDefault.get<any>(`${BASE_URL}/conversations`);
+    // console.log(queries);
+    let url = `/conversations`;
+    if (queries) url = `/conversations?${queries}`;
+    const response = await requestAuth.get<any>(url);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getSavedConversations() {
+  try {
+    const response = await requestAuth.get<any>(`/collections`);
+    return response.data.conversations;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getCollections() {
+  try {
+    const response = await requestAuth.get<any>(`/collections`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -15,10 +37,10 @@ export async function getAllConversations() {
 
 export async function askFirstQuestion(question: string) {
   try {
-    const response = await axiosDefault.post<any>(`${BASE_URL}/conversations`, {
+    const response = await requestAuth.post<any>(`/conversations`, {
       question,
     });
-    // console.log(response.data);
+    console.log(response.data.qnaList[0].answer);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -26,27 +48,12 @@ export async function askFirstQuestion(question: string) {
   }
 }
 
-export async function askFirstQuestionOpenAI(question: string) {
-  axiosDefault
-    .post<any>(`${BASE_URL}/openai/question`, {
-      question,
-    })
-    .then((res) => {
-      // console.log(res);
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
-
 export async function continueConversation(id: number, question: string) {
   try {
-    const response = await axiosDefault.post<any>(
-      `${BASE_URL}/openai/question`,
-      {
-        conversationId: id,
-        question,
-      },
-    );
+    const response = await requestAuth.post<any>(`/openai/question`, {
+      conversationId: id,
+      question,
+    });
     console.log(response.data);
     return 'success';
   } catch (error) {
@@ -54,23 +61,10 @@ export async function continueConversation(id: number, question: string) {
     throw error;
   }
 }
-// export async function continueConversation(id: number, question: string) {
-//   axiosDefault
-//     .post<any>(`${BASE_URL}/openai/question`, {
-//       conversationId: 11,
-//       question,
-//     })
-//     .then((res) => {
-//       // console.log(res);
-//       console.log(res.data);
-//       return 'success'!;
-//     })
-//     .catch((err) => console.log(err));
-// }
 
 export async function getConversation(id: number): Promise<Conversation> {
   try {
-    const res = await axiosDefault.get<any>(`${BASE_URL}/conversations/${id}`);
+    const res = await requestAuth.get<any>(`/conversations/${id}`);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -78,32 +72,52 @@ export async function getConversation(id: number): Promise<Conversation> {
   }
 }
 
-export async function editTitle({ id, title }: { id: number; title: string }) {
-  console.log('edit title api called!');
+export async function getSearchResults(
+  text: string,
+): Promise<ConversationThumbType[]> {
   try {
-    const response = await axiosDefault.patch<any>(
-      `${BASE_URL}/conversations/${id}`,
-      {
-        title,
-        // pinned: true,
-      },
-    );
-    console.log(response.data);
+    const res = await requestAuth.get(`/conversations?q=${text}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function editTitle({ id, title }: { id: number; title: string }) {
+  try {
+    const response = await requestAuth.patch<any>(`/conversations/${id}`, {
+      title,
+    });
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
-//conversationId
-export async function deleteConveration() {
-  axiosDefault
-    .delete<any>(`${BASE_URL}/conversations/`)
+
+export async function deleteConversation(cId: number) {
+  requestAuth
+    .delete<any>(`/conversations/${cId}`)
     .then((res) => {
       console.log(res);
       console.log(res.data);
     })
     .catch((err) => console.log(err));
+}
+
+export async function deleteAllConversations() {}
+
+export async function deleteUnsavedConversations() {}
+//searchTagResults
+export async function getTaggedConversations(tagId: number | string) {
+  try {
+    const res = await requestAuth.get(`/conversations/tags/${tagId}`);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
 
 export async function saveQnA() {}
@@ -116,40 +130,17 @@ export async function saveBookmark({
 }: {
   cId: number;
   bName: string;
-}): Promise<string> {
+}): Promise<BookmarkType> {
   try {
-    console.log('sending bookmark create request');
-    const response = await axiosDefault.post(
-      `${BASE_URL}/conversations/${cId}/bookmarks`,
-      {
-        bookmarkName: bName,
-      },
-    );
-    console.log('success in creating bookmark!', response.data);
-    return response.data.message;
+    const response = await requestAuth.post(`/conversations/${cId}/bookmarks`, {
+      bookmarkName: bName,
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 }
-
-// export async function saveBookmark({
-//   cId,
-//   bookmarks,
-// }: {
-//   cId: number;
-//   bookmarks: string[];
-// }) {
-//   axiosDefault
-//     .post(`${BASE_URL}/conversations/${cId}/bookmarks`, {
-//       bookmarks,
-//     })
-//     .then((res) => {
-//       // console.log(res);
-//       console.log(res.data);
-//     })
-//     .catch((err) => console.log(err));
-// }
 
 export async function deleteBookmark({
   cId,
@@ -159,12 +150,62 @@ export async function deleteBookmark({
   bId: number;
 }) {
   try {
-    await axiosDefault.delete(
-      `${BASE_URL}/conversations/${cId}/bookmarks/${bId}`,
-    );
-    // console.log(response.data);
-    // return response.data.message;
-    // Handle any further operations with the response if needed
+    await requestAuth.delete(`/conversations/${cId}/bookmarks/${bId}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function editBookmark({
+  bId,
+  newName,
+}: {
+  bId: number;
+  newName: string;
+}) {
+  try {
+    await requestAuth.patch(`/bookmarks/${bId}`, {
+      bookmarkName: newName,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function addTag({ cId, tName }: { cId: number; tName: string }) {
+  try {
+    const response = await requestAuth.post(`/conversations/${cId}/tags`, {
+      tagName: tName,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteTag({ cId, tId }: { cId: number; tId: number }) {
+  try {
+    await requestAuth.delete(`/conversations/${cId}/tags/${tId}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function updatePinState({
+  cId,
+  value,
+}: {
+  cId: number;
+  value: boolean;
+}) {
+  try {
+    await requestAuth.patch(`/conversations/${cId}`, {
+      pinned: value,
+    });
   } catch (error) {
     console.log(error);
     throw error;

@@ -10,7 +10,7 @@ type InitProps = {
   inputType: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  handleInput: () => void;
+  handleInput: any;
   placeholder?: string;
   id?: string;
   maxlength?: number;
@@ -41,8 +41,7 @@ export function useInput({
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      // console.log("enter key pressed!");
-      handleInput();
+      handleInput(e);
     }
   };
 
@@ -56,5 +55,3 @@ export function useInput({
     maxLength: maxlength,
   };
 }
-
-// export default useInput;

@@ -8,9 +8,6 @@ import EditableTitle from '../components/chatinterface/EditableTitle';
 import EditSaveUI from '../components/chatinterface/EditSaveUI';
 import QnAList from '../components/chatinterface/QnAList';
 import Loading from '../components/chatinterface/Loading';
-//import files
-import loadingGif from '../assets/gifs/dot-anim1_sm.gif';
-
 //import redux
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
@@ -22,8 +19,10 @@ import {
 //import api
 import {
   getConversation,
-  saveBookmark,
   getAllConversations,
+  getSavedConversations,
+  getCollections,
+  editBookmark,
 } from '../api/ChatInterfaceApi';
 
 //import data
@@ -31,8 +30,10 @@ import { initialState } from '../features/main/conversationSlice';
 import { Conversation, initialConvData } from '../data/d';
 
 type MainProps = {
-  isOpen: boolean;
+  isOpen?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  isMax?: boolean;
+  newCId?: number;
 };
 
 //to fix current width, would have to measure the box width!
@@ -48,10 +49,10 @@ function scrollToLastQ() {
   if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
 
-const Main = ({ isOpen, setIsOpen }: MainProps) => {
+const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const dispatch = useAppDispatch();
 
-  const conversation = useAppSelector(selectConversation);
+  const conversation: Conversation = useAppSelector(selectConversation);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [qNum, setQNum] = useState<number>(0);
   const [currentCId, setCurrentCId] = useState<number>(
@@ -62,7 +63,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
 
   const updateQNum = () => {
-    console.log('updating question number!');
+    // console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
 
@@ -70,43 +71,43 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
     if (cId !== -1) {
       const conversation = await getConversation(cId);
       if (conversation) {
-        console.log('started new session!');
-        console.log('response: ', conversation);
+        // console.log('started new session!');
+        console.log(conversation);
         dispatch(setConversation(conversation));
       }
     } else {
       dispatch(initializeConversation(-1));
-      //go back to default, clear the conversation!
     }
     return;
   };
 
   useEffect(() => {
-    loadConv(13);
+    if (localStorage.getItem('token')) {
+      // (async function () {
+      //   const conversations = await getAllConversations();
+      //   if (conversations) {
+      //     // console.log('fetched data!');
+      //     // console.log(conversations.bookmarkList);
+      //   }
+      // })();
+      //edit bookmark test
+      (async function () {
+        // await loadConv(3);
+        // const res = await editBookmark({
+        //   bId: 33,
+        //   newName: 'WorldHist',
+        // });
+        // console.log(res);
+      })();
+    }
+
     // (async function () {
-    //   const conversation = await getConversation(13);
-    //   if (conversation) {
-    //     console.log('started new session!');
-    //     console.log('response: ', conversation);
-    //     dispatch(setConversation(conversation));
-    //   }
-    // })();
-    // (async function () {
-    //   const conversations = await getAllConversations();
+    //   const conversations = await getCollections();
     //   if (conversations) {
-    //     console.log('fetched data!');
+    //     // console.log('fetched data!');
     //     console.log(conversations);
     //   }
     // })();
-    // saveBookmark({ cId: 3, bName: '기본폴더2' });
-    // getAllConversations();
-    // askFirstQuestion();
-    // editTitle({ id: 11, title: '405 HTTP Response Code Error' });
-    // askFirstQuestionOpenAI();
-    // deleteConv();
-    // getConversation(11);
-    // continueConversation(10, 'how long has it took openai to launch you?');
-    // console.log(conversation);
   }, []);
 
   // useEffect(() => {
@@ -118,7 +119,7 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
   }, [conversation.title, conversation.qnaList.length]);
 
   useEffect(() => {
-    console.log('loading status changed');
+    // console.log('loading status changed');
   }, [isLoading]);
 
   useEffect(() => {
@@ -132,7 +133,6 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           conversation?.conversationId,
         );
         if (newConversation) {
-          console.log('continuing new session!');
           dispatch(setConversation(newConversation));
           setCurrentCId(newConversation.conversationId);
         }
@@ -142,9 +142,13 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
 
   return (
     <MainBox isOpen={isOpen}>
-      <M.MainBackdrop />
-      <M.FixedTopBox>
-        <ChatInput setIsLoading={setIsLoading} updateQNum={updateQNum} />
+      <M.MainBackdrop isMax={isMax} />
+      <M.FixedTopBox isMax={isMax}>
+        <ChatInput
+          setIsLoading={setIsLoading}
+          updateQNum={updateQNum}
+          isMax={isMax}
+        />
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle
@@ -160,12 +164,14 @@ const Main = ({ isOpen, setIsOpen }: MainProps) => {
           </M.TitleBox>
         )}
       </M.FixedTopBox>
-      {conversation.title ? (
+      {Boolean(conversation.conversationId) ? (
         <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
       ) : (
-        <M.LoadingBox>
-          <Loading loadingGif={loadingGif} />
-        </M.LoadingBox>
+        isLoading && (
+          <M.LoadingBox>
+            <Loading />
+          </M.LoadingBox>
+        )
       )}
     </MainBox>
   );

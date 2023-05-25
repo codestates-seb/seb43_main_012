@@ -8,7 +8,9 @@ type Props = {
     [key: string]: any;
   };
   inputExists?: boolean;
-  handleInput: () => void;
+  handleInput:
+    | (() => void)
+    | ((e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>) => void);
   SVGStyledComponent?: StyledComponent<any, any, any, any>;
   SubmitSVGButton?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 };
@@ -31,15 +33,20 @@ function Input({
     }
   }, []);
 
+  const handleThis = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleInput(e);
+  };
+
   return (
     <StyledComponent>
       {Boolean(inputName) && <label>{inputName}</label>}
       <input {...inputProps} ref={inputRef} />
       {SVGStyledComponent && SubmitSVGButton && (
         <button
-          onClick={handleInput}
-          {...(inputExists ? {} : { disabled: true })} // and if you're logged in, if not, open an error
-          //"you need to login first!"
+          onClick={handleThis}
+          {...(inputExists ? {} : { disabled: true })}
         >
           <SubmitSVGButton />
         </button>

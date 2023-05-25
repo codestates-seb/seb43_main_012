@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import data from '../../data/data.json';
+// import data from '../../data/data.json';
+import { Conversation } from '../../data/d';
 
 const collectionSlice = createSlice({
   name: 'collection',
   initialState: {
-    content: data,
+    content: {} as any,
     selectedBookmark: 'All',
     selectedTag: '',
   },

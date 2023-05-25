@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { request, requestAuth } from './request';
-
+import { request } from '../utils/axiosConfig';
+import { left } from '@popperjs/core';
 interface LoginArgs {
   userId: string;
   password: string;
@@ -13,19 +13,27 @@ export const handleLogin = async ({
   setErrors,
 }: LoginArgs) => {
   const res = await request.post(`/api/login`, {
-    userId,
+    identifier: userId,
     password,
   });
   if (res.status !== 200) throw new Error(res.data.message);
   const cookies = res.headers['set-cookie'];
-    if (cookies) {
-      const sessionId = extractSessionIdFromCookies(cookies);
-      sessionStorage.setItem('sessionId', sessionId);
-    }
-  localStorage.setItem('token',res.data.authorization);
-  localStorage.setItem('refresh', JSON.stringify(res.data.refresh));
+  if (cookies) {
+    const sessionId = extractSessionIdFromCookies(cookies);
+    sessionStorage.setItem('sessionId', sessionId);
+  }
+  // cannot access headers
+  // const token = res.headers['Authorization'];
+  // const headers = res.headers;
+  // console.log('JWT Token:', token);
+  // console.log('headers:', headers);
+  // console.log('body', res.data);
+  // console.log(headers['cache-control']);
+  localStorage.setItem('token', res.data.Authorization);
+  localStorage.setItem('refresh', res.data.Refresh);
   localStorage.setItem('memberId', JSON.stringify(res.data.memberId));
   localStorage.setItem('isLoggedIn', 'true');
+
   return res;
 };
 
@@ -38,4 +46,3 @@ const extractSessionIdFromCookies = (cookies: string[]) => {
   }
   return '';
 };
-

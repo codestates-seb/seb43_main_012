@@ -8,10 +8,17 @@ import {
   SignOutFooter,
   SignoutItem,
 } from '../../styles/TopNavStyle';
+
 //import components
 import GenericCheckbox from '../generic/GenericCheckbox';
+
 //import data
 import { BookmarkType } from '../../data/d';
+
+//import redux / api
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { selectConversation } from '../../features/main/conversationSlice';
+import { updatePinAsync } from '../../features/main/conversationSlice';
 
 type ListProp = {
   // isModalOpen: boolean;
@@ -79,51 +86,74 @@ const BookmarkList = ({
   handleCheck,
   setIsModalOpen,
 }: ListProp) => {
-  const handleModalOpen = () => {
-    console.log('save bookmark modal open!');
+  const dispatch = useAppDispatch();
+  const pinned = useAppSelector(selectConversation).pinned;
+  const handleModalOpen = (e: React.MouseEvent<HTMLLIElement>) => {
+    // console.log('save bookmark modal open!');
+    e.preventDefault();
+    e.stopPropagation();
     setIsModalOpen(true);
+  };
+
+  const handlePinCheck = async ({
+    id,
+    newCheckValue,
+  }: {
+    id?: number;
+    newCheckValue: boolean;
+  }) => {
+    await dispatch(updatePinAsync({ value: newCheckValue }));
+    console.log('updated pin');
   };
 
   useEffect(() => {
     console.log('bookmarkList loaded');
-    console.log(list);
   }, [list, uncheckedList]);
 
   return (
     <>
-      <BookmarkItems>
-        {Boolean(list.length) &&
-          list.map((bookmark: BookmarkType) => (
-            <BookmarkItem
-              key={bookmark.bookmarkId}
-              bookmark={bookmark}
-              checkStatus={true}
-              handleCheck={handleCheck}
-            />
-          ))}
-        {Boolean(uncheckedList.length) &&
-          uncheckedList.map((bookmark: BookmarkType) => (
-            <BookmarkItem
-              key={bookmark.bookmarkId}
-              bookmark={bookmark}
-              checkStatus={false}
-              handleCheck={handleCheck}
-            />
-          ))}
-      </BookmarkItems>
+      {((Boolean(list) && Boolean(list.length)) ||
+        (Boolean(uncheckedList) && Boolean(uncheckedList.length))) && (
+        <BookmarkItems>
+          {Boolean(list) &&
+            Boolean(list.length) &&
+            list.map((bookmark: BookmarkType) => (
+              <BookmarkItem
+                key={bookmark.bookmarkId}
+                bookmark={bookmark}
+                checkStatus={true}
+                handleCheck={handleCheck}
+              />
+            ))}
+          {Boolean(uncheckedList) &&
+            Boolean(uncheckedList.length) &&
+            uncheckedList.map((bookmark: BookmarkType) => (
+              <BookmarkItem
+                key={bookmark.bookmarkId}
+                bookmark={bookmark}
+                checkStatus={false}
+                handleCheck={handleCheck}
+              />
+            ))}
+        </BookmarkItems>
+      )}
 
       <Footer>
         {Boolean(list.length) && (
           <Options>
             <Option>
               <BookmarkCheckbox>
-                <GenericCheckbox size="small" />
+                <GenericCheckbox
+                  size="small"
+                  handleCheck={handlePinCheck}
+                  checked={pinned}
+                />
               </BookmarkCheckbox>
               <div>Pin</div>
             </Option>
             <Option>
               <BookmarkCheckbox>
-                <GenericCheckbox size="small" />
+                <GenericCheckbox size="small" disabled={true} />
               </BookmarkCheckbox>
               <div>Publish</div>
             </Option>

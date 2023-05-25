@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { requestAuth } from '../utils/axiosConfig';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setContent,
   setSelectedBookmark,
   setSelectedTag,
 } from '../features/collection/collectionSlice';
+import { getConversation } from '../api/ChatInterfaceApi';
+import { setConversation } from '../features/main/conversationSlice';
 import { RootState } from '../app/store';
 import styled from 'styled-components';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
 import ModalContent from '../components/modals/ModalContent';
-
+import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 const Main = styled.main`
   width: 1080px;
   padding: 0 40px 0 40px;
@@ -20,13 +23,18 @@ const Main = styled.main`
 
 const ContentWraper = styled.div`
   width: 100%;
+  // overflow: scroll;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
+  align-content: flex-start;
   padding: 5px;
+  overflow: scroll;
+  height: 700px;
 `;
 
 const Title = styled.a`
@@ -41,6 +49,8 @@ const Content = styled.a`
   border-color: #c9ad6e;
   border-radius: 10px;
   margin: 0 1% 1% 0;
+  height: 200px;
+  overflow: hidden;
   p {
     max-height: 7rem;
     text-align: left;
@@ -79,8 +89,9 @@ const FixedContent = styled(Content)`
 
 const FixedContentContainer = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   background-color: #faf7f1;
+  overflow-x: scroll;
 `;
 
 const BookmarkContainer = styled.div`
@@ -153,6 +164,7 @@ type Content = {
 
 const Collections = () => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
@@ -161,14 +173,28 @@ const Collections = () => {
     (state: RootState) => state.collection,
   );
   useEffect(() => {
-    axios
+    requestAuth
       .get(
         'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
       )
       .then((response) => {
+        console.log('loaded collections');
         dispatch(setContent(response.data));
       });
-  }, [dispatch]);
+  }, []);
+
+  const loadConv = async (cId: number) => {
+    const conversation = await getConversation(cId);
+    if (conversation) {
+      dispatch(setConversation(conversation));
+    }
+    return;
+  };
+
+  const handleThumbnailClick = async (cId: number) => {
+    await loadConv(cId);
+    setIsOpen(!isOpen);
+  };
 
   const handleBookmarkClick = (bookmark: string) => {
     dispatch(setSelectedBookmark(bookmark));
@@ -183,7 +209,7 @@ const Collections = () => {
   };
 
   const handleContentClick = (conversation: Conversation) => {
-    axios
+    requestAuth
       .get(
         `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
       )
@@ -196,122 +222,133 @@ const Collections = () => {
   };
 
   return (
-    <Main>
-      {selectedConversation && (
-        <ModalContent
-          conversation={selectedConversation}
-          onClose={handleCloseModal}
-        />
-      )}
-      <FixedContentContainer>
-        {content.conversations
-          .filter((item) => item.pinned)
-          .map((conversation) => (
-            <FixedContent>
-              <div className="header">
-                <Title
-                  className="title"
-                  key={conversation.conversationId}
-                  href="#"
-                  onClick={() => handleContentClick(conversation)}
-                ></Title>
-                <span className="buttons">
-                  <PinButton /> <BookmarkButton />
+    content.conversations && (
+      <Main>
+        {selectedConversation && (
+          <ModalContent
+            conversation={selectedConversation}
+            onClose={handleCloseModal}
+          />
+        )}
+        <FixedContentContainer>
+          {content.conversations
+            .filter((item: any) => item.pinned)
+            .map((conversation: Conversation) => (
+              <FixedContent>
+                <div className="header">
+                  <Title
+                    className="title"
+                    key={conversation.conversationId}
+                    href="#"
+                    onClick={() => {
+                      handleThumbnailClick(conversation.conversationId);
+                    }}
+                    // onClick={() => handleContentClick(conversation)}
+                  >
+                    {conversation.title}
+                  </Title>
+                  <span className="buttons">
+                    <PinButton /> <BookmarkButton />
+                  </span>
+                </div>
+                <p>{conversation.answerSummary}</p>
+                <span className="bookmark">
+                  {conversation.bookmarks[0]?.bookmarkName}
                 </span>
-              </div>
-              <p>{conversation.answerSummary}</p>
-              <span className="bookmark">
-                {conversation.bookmarks[0].bookmarkName}
-              </span>
 
-              <div className="tag">
-                {conversation.tags.map((tag: TagType) => (
-                  <span key={tag.tagId}>#{tag.tagName} </span>
-                ))}
-              </div>
-            </FixedContent>
-          ))}
-      </FixedContentContainer>
+                <div className="tag">
+                  {conversation.tags.map((tag: TagType) => (
+                    <span key={tag.tagId}>#{tag.tagName} </span>
+                  ))}
+                </div>
+              </FixedContent>
+            ))}
+        </FixedContentContainer>
 
-      <BookmarkTagContent>
-        <div>
-          <BookmarkContainer>
-            <Bookmark
-              href="#"
-              key={'All'}
-              onClick={() => handleBookmarkClick('All')}
-            >
-              All
-            </Bookmark>
-            {content.bookmarks.map((bookmark) => (
+        <BookmarkTagContent>
+          <div>
+            <BookmarkContainer>
               <Bookmark
                 href="#"
-                key={bookmark.bookmarkName}
-                onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
+                key={'All'}
+                onClick={() => handleBookmarkClick('All')}
               >
-                {bookmark.bookmarkName}
+                All
               </Bookmark>
-            ))}
-          </BookmarkContainer>
-          <BookmarkAdd>+New Collection</BookmarkAdd>
-          <TagContainer>
-            {content.tags.map((tag: TagType) => (
-              <Tag
-                key={tag.tagName}
-                onClick={() => handleTagClick(tag.tagName)}
-              >
-                {tag.tagName}
-              </Tag>
-            ))}
-          </TagContainer>
-        </div>
-        <ContentWraper>
-          <ContentContainer>
-            {content.conversations
-              .filter(
-                (conversation) =>
-                  selectedBookmark === 'All' ||
-                  conversation.bookmarks
-                    .map((b) => b.bookmarkName)
-                    .includes(selectedBookmark),
-              )
-              .map((conversation) => (
-                <Content>
-                  <div className="header">
-                    <Title
-                      className="title"
-                      key={conversation.conversationId}
-                      href="#"
-                      onClick={() => handleContentClick(conversation)}
-                    >
-                      {conversation.title}
-                    </Title>
-                    <span className="buttons">
-                      <PinButton /> <BookmarkButton />
-                    </span>
-                  </div>
-                  <p>{conversation.answerSummary}</p>
-                  <div className="bookmark">
-                    {conversation.bookmarks.map((bookmark) => (
-                      <span key={bookmark.bookmarkId}>
-                        {bookmark.bookmarkName}
-                        {' || '}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="tag">
-                    {conversation.tags.map((tag: TagType) => (
-                      <span key={tag.tagId}>#{tag.tagName} </span>
-                    ))}
-                  </div>
-                </Content>
+              {content.bookmarks.map((bookmark: BookmarkType) => (
+                <Bookmark
+                  href="#"
+                  key={bookmark.bookmarkName}
+                  onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
+                >
+                  {bookmark.bookmarkName}
+                </Bookmark>
               ))}
-          </ContentContainer>
-        </ContentWraper>
+            </BookmarkContainer>
+            <BookmarkAdd>+New Collection</BookmarkAdd>
+            <TagContainer>
+              {content.tags.map((tag: TagType) => (
+                <Tag
+                  key={tag.tagId}
+                  onClick={() => handleTagClick(tag.tagName)}
+                >
+                  {tag.tagName}
+                </Tag>
+              ))}
+            </TagContainer>
+          </div>
+          <ContentWraper>
+            <ContentContainer>
+              {content.conversations
+                .filter(
+                  (conversation: Conversation) =>
+                    selectedBookmark === 'All' ||
+                    conversation.bookmarks
+                      .map((b) => b.bookmarkName)
+                      .includes(selectedBookmark),
+                )
+                .map((conversation: Conversation) => (
+                  <Content>
+                    <div className="header">
+                      <Title
+                        className="title"
+                        key={conversation.conversationId}
+                        href="#"
+                        onClick={() => {
+                          handleThumbnailClick(conversation.conversationId);
+                        }}
+                        // onClick={() => handleContentClick(conversation)}
+                      >
+                        {conversation.title}
+                      </Title>
+                      <span className="buttons">
+                        <PinButton /> <BookmarkButton />
+                      </span>
+                    </div>
+                    <p>{conversation.answerSummary}</p>
+                    <div className="bookmark">
+                      {conversation.bookmarks.map((bookmark) => (
+                        <span key={bookmark.bookmarkId}>
+                          {bookmark.bookmarkName}
+                          {' || '}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="tag">
+                      {conversation.tags.map((tag: TagType) => (
+                        <span key={tag.tagId}>#{tag.tagName} </span>
+                      ))}
+                    </div>
+                  </Content>
+                ))}
+            </ContentContainer>
+          </ContentWraper>
 
-        <div></div>
-      </BookmarkTagContent>
-    </Main>
+          <div></div>
+        </BookmarkTagContent>
+        {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
+      </Main>
+    )
   );
 };
 

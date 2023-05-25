@@ -4,12 +4,9 @@ import styled from 'styled-components';
 import { ModalBackdrop } from '../../styles/CharacterStyle';
 //import components
 import BookmarkList from '../bookmarks/BookmarkList';
-//import data
-import { BookmarkType, DefaultBookmarks } from '../../data/d';
 //import redux
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-  selectCId,
   selectConversation,
   addBookmarkAsync,
   deleteBookmarkAsync,
@@ -24,13 +21,16 @@ type Props = {
 
 const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
   const dispatch = useAppDispatch();
-  let bookmarks = useAppSelector(selectConversation).bookmarks;
-  let uncheckedBookmarks = useAppSelector(selectConversation).bookmarkList;
+  const bookmarks = useAppSelector(selectConversation).bookmarks;
+  const uncheckedBookmarks = useAppSelector(selectConversation).bookmarkList;
 
   // const handleModalBackdropClick = () => {
   //   if (setIsOpen) setIsOpen(false);
   // };
 
+  useEffect(() => {
+    // console.log('update bookmarks!');
+  }, [selectConversation]);
   //handle bookmark check/uncheck
   const handleBookmarkCheck = async ({
     id,
@@ -51,7 +51,6 @@ const DialogBoxSaveBookmark = ({ setIsModalOpen }: Props) => {
         await dispatch(deleteBookmarkAsync({ bId: id }));
       }
     } catch (error) {
-      // Handle the error if needed
       console.error('Error occurred:', error);
     }
   };

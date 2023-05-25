@@ -1,11 +1,9 @@
+export type MyGenericFunctionType<T> = (...args: T[]) => void;
+
 export type ContentType = {
   conversations: Conversation[];
   tags: TagType[];
   bookmarks: BookmarkType[];
-};
-
-export type GetNewQnAResponse = {
-  data: QnAType;
 };
 
 export type QnAType = {
@@ -33,7 +31,7 @@ export type Conversation = {
     avatarLink: string;
   };
   answerSummary: string;
-  createdAt: string;
+  // createdAt: string;
   modifiedAt: string;
 
   qnaList: QnAType[];
@@ -46,6 +44,8 @@ export type Conversation = {
   viewCount: number;
   activityLevel: number;
 };
+
+export type ConversationThumbType = Omit<Conversation, 'qnaList'>;
 
 export const initialConvData = {
   conversationId: -1,
@@ -61,12 +61,7 @@ export const initialConvData = {
   saved: false,
   pinned: false,
   published: false,
-  bookmarks: [
-    {
-      bookmarkId: -1,
-      bookmarkName: 'Default',
-    },
-  ] as BookmarkType[],
+  bookmarks: [] as BookmarkType[],
   bookmarkList: [] as BookmarkType[],
   tags: [] as TagType[],
   viewCount: 0,

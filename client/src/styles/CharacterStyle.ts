@@ -100,14 +100,14 @@ export const CharacterBox = styled.div`
   justify-content: center;
   margin-top: 0px;
   width: 1000px;
-  .characterdiv{
+  .characterdiv {
     display: flex;
     flex-direction: row;
     width: 100px;
     justify-content: center;
     align-items: center;
   }
-  .charactersection{
+  .charactersection {
     display: flex;
     flex-direction: column;
     height: 250px;

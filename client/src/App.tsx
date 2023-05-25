@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { LightTheme } from './styles/theme/LightTheme';
+import './styles/sass/custom_popover_modal.scss';
+
 //Lazy-loaded pages & components
 
 const TopNav = lazy(() => import('./components/TopNav'));
@@ -12,22 +14,15 @@ const MyPage = lazy(() => import('./pages/MyPage'));
 const Signup = lazy(() => import('./pages/Signup'));
 const Login = lazy(() => import('./pages/Login'));
 const Main = lazy(() => import('./pages/Main'));
-const CounterExample = lazy(() => import('./pages/CounterExample'));
 const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
-
-import loadingGif from './assets/gifs/dot-anim1_sm.gif';
-const CollectionPins = lazy(
-  () => import('./components/overlay/CollectionPins'),
-);
 const DialogBoxUserIcon = lazy(
   () => import('./components/dialogbox/DialogBoxUserIcon'),
 );
 
 function App() {
   //login state, modalOpen dialogOpen State
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState<boolean>(false);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const [isModalLoginOpen, setIsModalLoginOpen] = useState<boolean>(false);
@@ -39,7 +34,6 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Router>
             <TopNav
-              isLoggedIn={isLoggedIn}
               isUserDialogOpen={isUserDialogOpen}
               setIsUserDialogOpen={setIsUserDialogOpen}
               setIsModalLoginOpen={setIsModalLoginOpen}
@@ -49,14 +43,12 @@ function App() {
               <ModalLogin
                 isOpen={isModalLoginOpen}
                 setIsOpen={setIsModalLoginOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {isUserDialogOpen && (
               <DialogBoxUserIcon
                 dialogPosition={dialogPosition}
                 setIsUserDialogOpen={setIsUserDialogOpen}
-                setIsLoggedIn={setIsLoggedIn}
               />
             )}
             {/* {showHistory && <History />}
@@ -66,14 +58,12 @@ function App() {
               <Route path="/history" element={<History />} />
               <Route path="/collection" element={<Collections />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/counter" element={<CounterExample />} />
               <Route
                 path="/login"
                 element={
                   <Login
                     isOpen={isModalLoginOpen}
                     setIsOpen={setIsModalLoginOpen}
-                    setIsLoggedIn={setIsLoggedIn}
                   />
                 }
               />

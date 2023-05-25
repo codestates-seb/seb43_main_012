@@ -1,8 +1,7 @@
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-
+import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 // 구글 오어스 연결 부분, 연결 다 되어있음
 // 리디렉션 URI가 http://localhost:3000으로 되어있음 >> 호스팅하고 그 URI로 변경해야함
@@ -13,7 +12,7 @@ const GoogleLoginButton = () => {
   const navigate = useNavigate();
 
   // 성공하면 메인화면으로 들어감 >> 여기에 서버에게 보낼 Post 요청 필요, request.tsx or signupApi.ts 사용
-  const handleSuccess = (res:any) => {
+  const handleSuccess = (res: any) => {
     console.log(res);
     const userInfo = jwtDecode(res.credential);
     console.log(userInfo);
@@ -21,11 +20,10 @@ const GoogleLoginButton = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId} >
+    <GoogleOAuthProvider clientId={clientId}>
       <GoogleLogin onSuccess={handleSuccess} />
     </GoogleOAuthProvider>
   );
 };
 
 export default GoogleLoginButton;
-

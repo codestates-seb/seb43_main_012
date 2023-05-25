@@ -13,14 +13,9 @@ import { ModalBackdrop } from '../../styles/CharacterStyle';
 type ModalLoginProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ModalLogin({
-  isOpen,
-  setIsOpen,
-  setIsLoggedIn,
-}: ModalLoginProps): ReactElement {
+function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
   const closeModalHandler = () => {
     setIsOpen(false);
   };
@@ -36,22 +31,14 @@ function ModalLogin({
                 buttonText="Log in with KakaoTalk"
                 brand="kakaotalk"
               />
-              <LoginForm
-                setIsLoggedIn={setIsLoggedIn}
-                closeModal={closeModalHandler}
-              />
+              <LoginForm closeModal={closeModalHandler} />
               <SignupLink>
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation;
-                    setIsLoggedIn(true);
-                  }}
-                >
+                <span>
                   아직 회원이 아니신가요?
+                  <Link to="/signup" onClick={closeModalHandler}>
+                    회원가입
+                  </Link>
                 </span>
-                <Link to="/signup" onClick={closeModalHandler}>
-                  Sign up
-                </Link>
               </SignupLink>
             </LoginView>
           </ModalBackdrop>

@@ -4,6 +4,7 @@ import SignupInput from '../member/SignupInput';
 import {
   ErrorMessage,
   FormBox,
+  Formform,
   PasswordText,
   SignButton,
 } from '../../styles/SignupStyle';
@@ -13,7 +14,7 @@ import {
   checkUsername,
   confirmPassword,
 } from '../../utils/checkSignup';
-import useCheck from '../../hooks/useCheck';
+import useCheck from '../../utils/hooks/useCheck';
 import handleSignup from '../../api/signupApi';
 import { getRandomCharacter } from './RandomCharcter';
 
@@ -28,14 +29,18 @@ const SignupForm: React.FC = () => {
   const [password2, setPassword2] = useState('');
   const [error, setErrors] = useState('');
 
-  const [isUsername, setIsUsername] = useState(false);
-  const [isUserId, setIsUserId] = useState(false);
-  const [ispassword, setIsPassword] = useState(false);
+  const [isUsername, setIsUsername] = useState(true);
+  const [isUserId, setIsUserId] = useState(true);
+  const [ispassword, setIsPassword] = useState(true);
   const [isPasswordConfirm, setPassWordConfirm] = useState(false);
 
-  useCheck(checkUsername, username, setIsUsername);
-  useCheck(checkId, userId, setIsUserId);
-  useCheck(checkPassword, password, setIsPassword);
+  const DisplayErrorMessages = () => {
+    useCheck(checkUsername, username, setIsUsername);
+    useCheck(checkId, userId, setIsUserId);
+    useCheck(checkPassword, password, setIsPassword);
+  };
+
+  DisplayErrorMessages();
 
   useEffect(() => {
     if (confirmPassword(password, password2) === false) {
@@ -49,45 +54,45 @@ const SignupForm: React.FC = () => {
     const avatarLink = getRandomCharacter();
 
     try {
-      await handleSignup({
+      const res = await handleSignup({
         username,
         userId,
         password,
         avatarLink,
         setErrors,
       });
-      navigate('/login');
+      if (res?.status === 201) navigate('/login');
     } catch (error) {
-      console.log(error);
+      console.log('signup error', error);
     }
   };
 
-  const handleAlert = () =>{
-    alert('각각의 양식의 맞춰 작성해주세요.')
-  }
+  const handleAlert = () => {
+    alert('각각의 양식의 맞춰 작성해주세요.');
+  };
 
   return (
     <FormBox>
-      <form>
+      <Formform>
         <SignupInput
-          labelName="Display name"
+          labelName="Username"
           type="text"
           value={username}
           setValue={setUsername}
           setErrors={setErrors}
         />
         {isUsername === true ? null : (
-          <ErrorMessage>디스플레이 네임을 입력해주세요.</ErrorMessage>
+          <ErrorMessage>Username을 입력해주세요.</ErrorMessage>
         )}
         <SignupInput
-          labelName="ID (email)"
+          labelName="E-mail"
           type="text"
           value={userId}
           setValue={setUserId}
           setErrors={setErrors}
         />
         {isUserId === true ? null : (
-          <ErrorMessage>아이디를 입력해주세요.</ErrorMessage>
+          <ErrorMessage>이메일을 입력해주세요.</ErrorMessage>
         )}
         <SignupInput
           labelName="Password"
@@ -97,11 +102,13 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {ispassword === true ? null : (
-          <ErrorMessage>비밀번호를 입력해주세요.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호를 조건을 확인해주세요.
+          </ErrorMessage>
         )}
         <PasswordText>
-          Passwords must contain at least eight characters, including at least 1
-          letter and 1 number.
+          <p>비밀번호는 8자 이상이어야 하며,</p>
+          <p>대소문자/숫자/특수문자를 모두 포함해야 합니다.</p>
         </PasswordText>
 
         <SignupInput
@@ -112,7 +119,9 @@ const SignupForm: React.FC = () => {
           setErrors={setErrors}
         />
         {isPasswordConfirm === true ? null : (
-          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          <ErrorMessage className="error">
+            비밀번호가 일치하지 않습니다.
+          </ErrorMessage>
         )}
         {isUserId &&
         isUsername &&
@@ -124,12 +133,13 @@ const SignupForm: React.FC = () => {
           </SignButton>
         ) : (
           <div>
-            <SignButton type="button" onClick={handleAlert}>Sign up</SignButton>
+            <SignButton type="button" onClick={handleAlert}>
+              Sign up
+            </SignButton>
           </div>
         )}
-      </form>
+      </Formform>
     </FormBox>
   );
 };
-
 export default SignupForm;

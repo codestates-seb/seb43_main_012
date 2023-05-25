@@ -18,14 +18,18 @@ type ModalCharacterProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
+
+import { useAppDispatch } from '../../app/hooks';
+import { updateAvatar } from '../../features/member/loginInfoSlice';
 function ModalCharacter({
   isOpen,
   setIsOpen,
 }: ModalCharacterProps): ReactElement {
   // 로컬에 저장한 memberId를 가져와서 파라미터 사용
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const Id = localStorage.getItem('memberId');
-  const [selectedCharacter, setSelectedCharacter] = useState<string>("");
+  const [selectedCharacter, setSelectedCharacter] = useState<string>('');
   const [avatarLink, setAvatarLink] = useState<string>(''); // avatarLink 변수 정의
   const [username, setUsername] = useState<string>('');
   // 유저 정보 get 그중 avatarLink 가져오기, Id가 변동될 때마다 진행
@@ -49,7 +53,8 @@ function ModalCharacter({
     try {
       const newAvatarLink = selectedCharacter;
       await handleUpdate(`user/${Id}`, newAvatarLink);
-      console.log(newAvatarLink);
+      dispatch(updateAvatar(newAvatarLink));
+      // console.log(newAvatarLink);
       setIsOpen(false);
     } catch (error) {
       console.error(error);
@@ -68,14 +73,14 @@ function ModalCharacter({
             <h2>Select Your Character</h2>
             <CharacterBox>
               <MainCharacter>
-                {avatarLink === username ? (
-                  avatarLink[0]
+                {selectedCharacter === username ? (
+                  username[0]?.toUpperCase()
                 ) : (
                   <img src={selectedCharacter} alt="" />
                 )}
               </MainCharacter>
-              <section className='charactersection'>
-                <div className='characterdiv'>
+              <section className="charactersection">
+                <div className="characterdiv">
                   <Character
                     onClick={() => selectCharacterHandler('/character1.png')}
                     className={
@@ -101,7 +106,7 @@ function ModalCharacter({
                     <img src="/character3.png" alt="Character C" />
                   </Character>
                 </div>
-                <div className='characterdiv'>
+                <div className="characterdiv">
                   <Character
                     onClick={() => selectCharacterHandler('/character4.png')}
                     className={
@@ -124,7 +129,7 @@ function ModalCharacter({
                       selectedCharacter === avatarLink ? 'selected' : ''
                     }
                   >
-                    {username[0]}
+                    {username[0]?.toUpperCase()}
                   </Character>
                 </div>
               </section>
