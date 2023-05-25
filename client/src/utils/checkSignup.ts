@@ -1,5 +1,5 @@
 export function checkId(userId: string) {
-  let idReg = /^[a-zA-Z0-9-_.]{2,20}/g;
+  let idReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   return idReg.test(userId);
 }
 

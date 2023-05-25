@@ -98,7 +98,7 @@ const DialogBoxUserIcon = ({
           </DialogItems>
           <SignOutFooter>
             <DialogSelectItem onClick={handleDialogItemClick}>
-              Start Guide
+              <Link to="/serviceIntro">Start Guide</Link>
             </DialogSelectItem>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             {Boolean(mInfo.userId) && <EmailItem>{mInfo.userEmail}</EmailItem>}

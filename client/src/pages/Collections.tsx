@@ -6,6 +6,7 @@ import {
   setContent,
   setSelectedBookmark,
   setSelectedTag,
+  toggleModal,
 } from '../features/collection/collectionSlice';
 import { getConversation } from '../api/ChatInterfaceApi';
 import { setConversation } from '../features/main/conversationSlice';
@@ -207,6 +208,8 @@ const Collections = () => {
   const handleContentUpdate = (newContent: any) => {
     dispatch(setContent(newContent));
   };
+
+  dispatch(toggleModal(false));
 
   const handleContentClick = (conversation: Conversation) => {
     requestAuth
