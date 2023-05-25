@@ -4,15 +4,20 @@ import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationRepository;
 import com.codestates.seb43_main_012.conversation.ConversationService;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class QnAService {
 
     @Value("${apikey}")
@@ -21,16 +26,6 @@ public class QnAService {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private final QnARepository qnaRepository;
     private final ConversationRepository conversationRepository;
-    //private final QnAMapper qnaMapper;
-
-    public QnAService(QnARepository qnaRepository,
-                      ConversationRepository conversationRepository,
-                      QnAMapper qnaMapper)
-    {
-        this.qnaRepository = qnaRepository;
-        this.conversationRepository = conversationRepository;
-        //this.qnaMapper = qnaMapper;
-    }
 
 
     public QnA saveQnA(QnA qna)
@@ -40,7 +35,6 @@ public class QnAService {
 
     public List<QnA> findQnAs(long conversationId)
     {
-        //List<QnA> QnAs = qnaRepository.findAllByConversationId(conversationId);
         List<QnA> QnAs = qnaRepository.findQnAsByConversationId(conversationId);
         return QnAs;
     }
@@ -66,17 +60,21 @@ public class QnAService {
         return messages;
     }
 
-    public List<Long> findConversationIDs(String query)
+    public List<Long> findConversationIDs(String query, long memberId)
     {
         List<QnA> qnaList = qnaRepository.findAllByQuestionContainingOrAnswerContaining(query,query);
 
         List<Long> IDs = new ArrayList<>();
 
-        qnaList.stream().forEach(qna -> IDs.add(qna.getConversation().getConversationId()));
+        qnaList.stream().forEach(qna -> {
+                if(qna.getConversation().getMember().getId() == memberId)
+                    IDs.add(qna.getConversation().getConversationId());
+        });
 
         return IDs;
     }
 
+    @Transactional
     public QnA requestAnswer(QnADto.Post dto)
     {
         // set header
@@ -104,8 +102,11 @@ public class QnAService {
 
         // 답변 생성
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
+        //RestTemplate restTemplate = new RestTemplate();
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        //ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(API_ENDPOINT, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {});
 
         // 이전 대화 저장
         List<Object> a = (List<Object>) response.getBody().get("choices");
@@ -122,8 +123,10 @@ public class QnAService {
         }
         qna.setConversation(conversation);
 
+        conversation.setActivityLevel(conversation.getActivityLevel()+1);
         conversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(conversation);
+
         QnA savedQnA = saveQnA(qna);
         conversation.addQnA(savedQnA);
 

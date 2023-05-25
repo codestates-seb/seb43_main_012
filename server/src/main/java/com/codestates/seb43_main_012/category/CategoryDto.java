@@ -14,6 +14,12 @@ public class CategoryDto {
         private String bookmarkName;
     }
 
+    @NoArgsConstructor
+    @Getter
+    public static class Patch
+    {
+        private String bookmarkName;
+    }
 
     @NoArgsConstructor
     @AllArgsConstructor

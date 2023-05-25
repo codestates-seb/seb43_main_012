@@ -1,9 +1,12 @@
 package com.codestates.seb43_main_012.advice;
 
-import com.codestates.seb43_main_012.error.ErrorResponse;
+import com.codestates.seb43_main_012.member.service.InvalidPasswordException;
+import com.codestates.seb43_main_012.response.ErrorResponse;
 import com.codestates.seb43_main_012.exception.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.nio.charset.Charset;
 
 @Slf4j
 @RestControllerAdvice
@@ -56,5 +60,14 @@ public class GlobalExceptionAdvice {
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
         return response;
+    }
+
+    @ExceptionHandler (InvalidPasswordException.class)
+    public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException ex){
+        String errorMessage = ex.getMessage();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        return new ResponseEntity<>(errorMessage, headers, HttpStatus.BAD_REQUEST);
     }
 }

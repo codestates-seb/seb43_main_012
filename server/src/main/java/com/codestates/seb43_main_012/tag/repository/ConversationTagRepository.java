@@ -16,6 +16,7 @@ public interface ConversationTagRepository extends JpaRepository<ConversationTag
 
     void deleteByConversationConversationIdAndTagId(long conversationId, long tagId);
     List<ConversationTag> findAllByConversationConversationId(long conversationId);
+    List<ConversationTag> findAllByConversationConversationIdIn(List<Long> conversationIDs);
     Optional<ConversationTag> findByConversationConversationIdAndTagName(long conversationId, String tagName);
     List<ConversationTag> findAllByTagName(String tagName);
 }

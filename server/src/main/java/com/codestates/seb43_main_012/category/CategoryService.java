@@ -27,9 +27,26 @@ public class CategoryService {
     }
 
     @Transactional
+    public Category updateCategory(long memberId, long categoryId, String categoryName)
+    {
+        Optional<Category> optional = categoryRepository.findByMemberIdAndId(memberId, categoryId);
+        Category category = optional.orElseThrow();
+        category.setName(categoryName);
+
+
+        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByCategoryId(categoryId);
+        conversationCategories.stream().forEach(conversationCategory -> {
+            conversationCategory.setBookmarkName(categoryName);
+            conversationCategoryRepository.save(conversationCategory);
+        });
+
+        return categoryRepository.save(category);
+    }
+
+    @Transactional
     public void removeCategory(long memberId, long categoryId)
     {
-        List<ConversationCategory> conversationCategoryList = conversationCategoryRepository.findAllByBookmarkId(categoryId);
+        List<ConversationCategory> conversationCategoryList = conversationCategoryRepository.findAllByCategoryId(categoryId);
         if(!conversationCategoryList.isEmpty()) throw new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_EMPTY);
 
         categoryRepository.deleteByMemberIdAndId(memberId, categoryId);

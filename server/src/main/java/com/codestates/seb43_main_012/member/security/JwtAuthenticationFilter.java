@@ -98,10 +98,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService customUserDetailsService, AuthenticationManager authenticationManager) {
         this.jwtUtil = jwtUtil;
         this.customUserDetailsService = customUserDetailsService;
+        this.authenticationManager = authenticationManager;
     }
 
 

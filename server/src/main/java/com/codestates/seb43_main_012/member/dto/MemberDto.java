@@ -6,28 +6,29 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class MemberDto {
-    private Long id;
-    private String username;
-    private String userId;
-    private String password;
-    private LocalDateTime createdAt;
-    private String avatarLink;
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class MemberDto {
+        private String identifier;
+        private Long id;
+        private String username;
+        private String userId;
+        private String password;
+        private LocalDateTime createdAt;
+        private String avatarLink;
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    public void setAvatarLink(String avatarLink) {
-        this.avatarLink = avatarLink;
-    }
+        public void setCreatedAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
+        public void setAvatarLink(String avatarLink) {
+            this.avatarLink = avatarLink;
+        }
 
 
     public static MemberDto from(MemberEntity memberEntity) {
@@ -40,6 +41,11 @@ public class MemberDto {
                 .createdAt(memberEntity.getCreatedAt())
                 .avatarLink(memberEntity.getAvatarLink())
                 .build();
+    }
+
+    public boolean isPasswordValid() {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
+        return password.matches(passwordPattern);
     }
 
     @AllArgsConstructor

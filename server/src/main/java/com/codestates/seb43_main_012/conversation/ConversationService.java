@@ -13,14 +13,15 @@ import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
 import com.codestates.seb43_main_012.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,8 @@ public class ConversationService {
     private final TagRepository tagRepository;
     private final ConversationTagRepository conversationTagRepository;
     private final QnAService qnaService;
+    private final ConversationMapper conversationMapper;
+    private final CategoryRepository categoryRepository;
 
     public Conversation saveConversation(Conversation conversation)
     {
@@ -84,43 +87,99 @@ public class ConversationService {
         return conversation;
     }
 
-    public List<Conversation> findConversations(String sort, String query)
+    public List<Conversation> findConversationList(String sort, String query, long memberId)
     {
-        if(query == null) query = "";
-        List<Long> IDs = qnaService.findConversationIDs(query);
-
-        if(sort.equals("desc"))
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.DESC, "modifiedAt"));
+        if (query == null) query = "";
+        List<Long> IDs = qnaService.findConversationIDs(query, memberId);
+        Sort sortBy;
+        if (sort.equals("activityLevel"))
+            sortBy = Sort.by(Sort.Direction.DESC, "activityLevel", "modifiedAt");
+        else if (sort.equals("asc"))
+            sortBy = Sort.by(Sort.Direction.ASC, "modifiedAt");
         else
-            return conversationRepository.findAllByDeleteStatusAndSavedAndConversationIdIn(false, false, IDs, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+            sortBy = Sort.by(Sort.Direction.DESC, "modifiedAt");
+
+        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, sortBy);
     }
 
+    public Page<Conversation> findConversations(String sort, String query, long memberId, int page, int size) {
+        if (query == null) query = "";
+        List<Long> IDs = qnaService.findConversationIDs(query, memberId);
+        PageRequest pageRequest;
+        if (sort.equals("activityLevel"))
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "activityLevel", "modifiedAt"));
+        else if (sort.equals("asc"))
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "modifiedAt"));
+        else
+            pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "modifiedAt"));
 
+        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, pageRequest);
+    }
 
     @Transactional
-    public List<Conversation> findBookmarkedConversations(String categoryName)
+    public ConversationDto.Response viewConversationAndCategoryList(long conversationId, long memberId)
+    {
+        Conversation conversation = viewCountUp(conversationId);
+
+        ConversationDto.Response response = getConversationAndCategoryList(conversation, memberId);
+
+        return response;
+    }
+
+    public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)
+    {
+        List<Long> conversationCategoryIDs = new ArrayList<>();
+        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
+
+        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
+
+        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
+
+        ConversationDto.Response response = conversationMapper.responseForGetOneConversation(conversation, categories);
+
+        return response;
+    }
+
+    @Transactional
+    public List<Conversation> findBookmarkedConversations(String categoryName, long memberId)
     {
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByBookmarkName(categoryName);
         List<Conversation> conversations = new ArrayList<>();
         conversationRepository.findAll();
 
         conversationCategories.stream().forEach(conversationCategory -> {
-            if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationCategory.getConversation().isDeleteStatus() == false && conversationCategory.getConversation().getMember().getId() == memberId)
                 conversations.add(conversationCategory.getConversation());
+        });
+
+        List<Conversation> sortedConversations = sortConversationByModifiedAt(conversations);
+
+        return sortedConversations;
+    }
+
+    private List<Conversation> sortConversationByModifiedAt(List<Conversation> conversations)
+    {
+        Collections.sort(conversations, new Comparator<Conversation>() {
+            @Override
+            public int compare(Conversation o1, Conversation o2) {
+                LocalDateTime dateTime1 = LocalDateTime.parse(o1.getModifiedAt(), DateTimeFormatter.ISO_DATE_TIME);
+                LocalDateTime dateTime2 = LocalDateTime.parse(o2.getModifiedAt(), DateTimeFormatter.ISO_DATE_TIME);
+                return dateTime2.compareTo(dateTime1);
+            }
         });
 
         return conversations;
     }
 
     @Transactional
-    public List<Conversation> findTaggedConversations(String tagName)
+    public List<Conversation> findTaggedConversations(String tagName, long memberId)
     {
         List<ConversationTag> conversationTags = conversationTagRepository.findAllByTagName(tagName);
         List<Conversation> conversations = new ArrayList<>();
         conversationRepository.findAll();
 
         conversationTags.stream().forEach(conversationTag -> {
-            if(conversationTag.getConversation().isDeleteStatus() == false && conversationTag.getConversation().getMember().getId() == MEMBER_ID)
+            if(conversationTag.getConversation().isDeleteStatus() == false && conversationTag.getConversation().getMember().getId() == memberId)
                 conversations.add(conversationTag.getConversation());
         });
 
@@ -128,21 +187,21 @@ public class ConversationService {
     }
 
     @Transactional
-    public long createBookmark(long conversationId, BookmarkDto.Post dto)
+    public long createBookmark(long conversationId, BookmarkDto.Post dto, long memberId)
     {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setSaved(true);
         findConversation.setBookmarked(true);
 
-        if(bookmarkRepository.findByMemberIdAndConversationConversationId(MEMBER_ID,conversationId).isEmpty())
+        if(bookmarkRepository.findByMemberIdAndConversationConversationId(memberId,conversationId).isEmpty())
         {
             Bookmark bookmark = new Bookmark();
-            bookmark.setMemberId(MEMBER_ID);
+            bookmark.setMemberId(memberId);
             bookmark.addConversation(findConversation);
             bookmarkRepository.save(bookmark);
         }
 
-        Category category = categoryService.createCategory(MEMBER_ID, dto.getBookmarkName());
+        Category category = categoryService.createCategory(memberId, dto.getBookmarkName());
 
         Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationConversationIdAndBookmarkName(conversationId, dto.getBookmarkName());
 
@@ -150,26 +209,26 @@ public class ConversationService {
         {
             ConversationCategory conversationCategory = new ConversationCategory(
                     findConversation,
-                    category.getId(),
-                    category.getName()
+                    category
             );
             conversationCategoryRepository.save(conversationCategory);
         }
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(findConversation);
 
         return category.getId();
     }
 
     @Transactional
-    public Conversation cancelBookmark(long conversationId, long bookmarkId)
+    public Conversation cancelBookmark(long conversationId, long bookmarkId, long memberId)
     {
         Conversation findConversation = findConversation(conversationId);
 
-        conversationCategoryRepository.deleteByConversationConversationIdAndBookmarkId(conversationId, bookmarkId);
+        conversationCategoryRepository.deleteByConversationConversationIdAndCategoryId(conversationId, bookmarkId);
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
         if(conversationCategories.isEmpty())
         {
-            bookmarkRepository.deleteByMemberIdAndConversationConversationId(MEMBER_ID,conversationId);
+            bookmarkRepository.deleteByMemberIdAndConversationConversationId(memberId,conversationId);
             findConversation.setBookmarked(false);
         }
 
@@ -198,7 +257,7 @@ public class ConversationService {
             );
             conversationTagRepository.save(conversationTag);
         }
-
+        findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(findConversation);
 
         return tag.getTagId();
@@ -223,12 +282,13 @@ public class ConversationService {
     {
         Conversation conversation = findConversation(conversationId);
         conversation.setViewCount(conversation.getViewCount()+1);
+        conversation.setActivityLevel(conversation.getActivityLevel()+1);
         return conversationRepository.save(conversation);
     }
 
-    public List<Conversation> getSavedConversation(boolean isSaved)
+    public List<Conversation> getSavedConversation(long memberId, boolean isSaved)
     {
-        return conversationRepository.findAllBySavedAndDeleteStatus(isSaved, false);
+        return conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, isSaved, false, Sort.by(Sort.Direction.DESC, "modifiedAt"));
     }
 
     public void removeConversation(long conversationId)
@@ -236,6 +296,26 @@ public class ConversationService {
         Conversation findConversation = findConversation(conversationId);
         findConversation.setDeleteStatus(true);
         conversationRepository.save(findConversation);
+    }
+
+    public void removeAll(String value, long memberId)
+    {
+        if(value.equals("true"))
+        {
+            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndDeleteStatus(memberId, false);
+            conversations.stream().forEach(conv -> {
+                conv.setDeleteStatus(true);
+            });
+            conversationRepository.saveAll(conversations);
+        }
+        else
+        {
+            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, false,false);
+            conversations.stream().forEach(conv -> {
+                conv.setDeleteStatus(true);
+            });
+            conversationRepository.saveAll(conversations);
+        }
     }
 
     public void setSaveStatus(Conversation conversation)
@@ -246,70 +326,14 @@ public class ConversationService {
         conversationRepository.save(conversation);
     }
 
-//    public Conversation createBookmark(long conversationId, BookmarkDto.Post dto)
-//    {
-//        // 북마크 생성
-//        // 카테고리 생성
-//
-//        Conversation conversation = findConversation(conversationId);
-//        conversation.setSaved(true);
-//
-//        Bookmark bookmark = new Bookmark();
-//        bookmark.setMemberId(MEMBER_ID);
-//        bookmark.addConversation(conversation);
-//        bookmarkRepository.save(bookmark);
-//
-//        conversationCategoryRepository.deleteAllByConversationConversationId(conversationId);
-//
-//        List<String> categories = dto.getBookmarks();
-//        categories.stream().forEach(category -> {
-//            //중복 조회
-//            Optional<Category> optional = categoryRepository.findByName(category);
-//            if(optional.isEmpty())
-//            {
-//                Category savedCategory = categoryRepository.save(new Category(MEMBER_ID, category));
-//                ConversationCategory conversationCategory = new ConversationCategory(conversation,savedCategory.getId(),category);
-//                conversationCategoryRepository.save(conversationCategory);
-//            }
-//            else
-//            {
-//                Category findCategory = optional.orElse(null);
-//                ConversationCategory conversationCategory = new ConversationCategory(conversation,findCategory.getId(),category);
-//                conversationCategoryRepository.save(conversationCategory);
-//            }
-//        });
-//
-//        //Optional.ofNullable(collection.getPinned()).ifPresent(pin -> conversation.setPinned(pin));
-//        //Optional.ofNullable(collection.getPublished()).ifPresent(publish -> conversation.setPublished(publish));
-//        //Optional.ofNullable(collection.getTitle()).ifPresent(title -> conversation.setTitle(title));
-//
-//        return conversationRepository.save(conversation);
-//    }
-//
-//    public Conversation createTag(long conversationId, TagDto.Post tagDto)
-//    {
-//        Conversation conversation = findConversation(conversationId);
-//        conversation.setSaved(true);
-//
-//        //conversationTagRepository.deleteAllByConversationId(conversationId);
-//
-//        List<String> tags = tagDto.getTags();
-//        tags.stream().forEach(tag-> {
-//            Optional<Tag> optional = tagRepository.findByTagName(tag);
-//            if(optional.isEmpty())
-//            {
-//                Tag savedTag = tagRepository.save(new Tag(tag));
-//                ConversationTag conversationTag = new ConversationTag(conversation,savedTag.getTagId(),tag);
-//                conversationTagRepository.save(conversationTag);
-//            }
-//            else
-//            {
-//                Tag findTag= optional.orElse(null);
-//                ConversationTag conversationTag = new ConversationTag(conversation,findTag.getTagId(),tag);
-//                conversationTagRepository.save(conversationTag);
-//            }
-//        });
-//        //conversation.addTag();
-//        return conversationRepository.save(conversation);
-//    }
+    public Conversation setModifiedAtCustom(long conversationId, ConversationDto.ModifiedAt m)
+    {
+        Optional<Conversation> optional = conversationRepository.findById(conversationId);
+        Conversation findConversation = optional.orElseThrow(()->new RuntimeException());
+
+        LocalDateTime time = LocalDateTime.of(m.getYear(),m.getMonth(),m.getDay(),m.getHour(),m.getMinute(),m.getSecond(),m.getNano());
+
+        findConversation.setModifiedAt(String.valueOf(time));
+        return conversationRepository.save(findConversation);
+    }
 }

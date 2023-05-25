@@ -18,12 +18,23 @@ public class JwtUtil {
 
     @Value("${jwt.expiration}")
     private long expiration;
+    public String getSecretKey() {
+        return secret;
+    }
 
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration*1000))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+ (expiration*24*1000)))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }

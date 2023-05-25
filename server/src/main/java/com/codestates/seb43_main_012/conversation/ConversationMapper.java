@@ -2,6 +2,7 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
+import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.collection.CollectionDto;
@@ -21,10 +22,7 @@ public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
     private final TagRepository tagRepository;
-//    public ConversationMapper(QnAMapper qnaMapper)
-//    {
-//        this.qnaMapper = qnaMapper;
-//    }
+    private final CategoryRepository categoryRepository;
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {
@@ -43,7 +41,7 @@ public class ConversationMapper {
                 new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 conversation.getTitle(),
                 qnaResponseList,
-                conversation.getBookmarks(),
+                conversationCategoriesToCategoryResponseDtos(conversation.getBookmarks()),
                 categoriesToCategoryResponseDtos(categories),
                 tags,
                 conversation.getSaved(),
@@ -80,8 +78,8 @@ public class ConversationMapper {
     private ConversationCategoryDto conversationCategoryToCategoryResponseDto(ConversationCategory conversationCategory)
     {
         ConversationCategoryDto response = new ConversationCategoryDto(
-                conversationCategory.getBookmarkId(),
-                conversationCategory.getBookmarkName()
+                conversationCategory.getCategory().getId(),
+                conversationCategory.getCategory().getName()
         );
 
         return response;
@@ -117,7 +115,7 @@ public class ConversationMapper {
                         conv.getTitle(),
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
-                        conv.getBookmarks(),
+                        conversationCategoriesToCategoryResponseDtos(conv.getBookmarks()),
                         tags,
                         conv.getSaved(),
                         conv.getPinned(),

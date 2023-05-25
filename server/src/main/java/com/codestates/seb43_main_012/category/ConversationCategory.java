@@ -4,6 +4,7 @@ import com.codestates.seb43_main_012.conversation.Conversation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -16,19 +17,28 @@ public class ConversationCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //나중에 연관관계 맺어줘야함
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 
-    private long bookmarkId;
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
+    @Setter
     private String bookmarkName;
 
-    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
+//    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
+//    {
+//        this.conversation = conversation;
+//        this.bookmarkId = bookmarkId;
+//        this.bookmarkName = bookmarkName;
+//    }
+    public ConversationCategory(Conversation conversation, Category category)
     {
         this.conversation = conversation;
-        this.bookmarkId = bookmarkId;
-        this.bookmarkName = bookmarkName;
+        this.category = category;
+        this.bookmarkName = category.getName();
     }
 }
