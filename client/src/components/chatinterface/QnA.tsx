@@ -32,12 +32,20 @@ const QnA = ({ qnaItem }: qnaProps) => {
   );
 
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [isChecked, setIsChecked] = useState<boolean>(isToggled);
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [showAnswer, setShowAnswer] = useState<boolean>(true);
 
   const dispatch = useAppDispatch();
+  dispatch(toggleModal(true));
 
   const handleCheck = ({ id, newCheckValue }: CheckProps) => {
     dispatch(changeQnASaveStatus({ id: qnaItem.qnaId, newCheckValue }));
+  };
+
+  const handleShowAnswer = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowAnswer(!showAnswer);
   };
 
   return (
@@ -56,13 +64,11 @@ const QnA = ({ qnaItem }: qnaProps) => {
         </QnACheckbox>
         <Center>
           {/* 추가된 부분 */}
-          <QnATitle onClick={() => setIsChecked(!isChecked)}>
-            {qnaItem.question}
-          </QnATitle>
+          <QnATitle onClick={handleShowAnswer}>{qnaItem.question}</QnATitle>
         </Center>
       </QnAItem>
       {/* 추가된 부분 */}
-      {isChecked && (
+      {showAnswer && (
         <QnAItem>
           <QnACheckbox>
             <Checkbox

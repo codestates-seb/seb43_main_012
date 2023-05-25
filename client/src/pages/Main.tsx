@@ -28,6 +28,7 @@ import {
 //import data
 import { initialState } from '../features/main/conversationSlice';
 import { Conversation, initialConvData } from '../data/d';
+import { toggleModal } from '../features/collection/collectionSlice';
 
 type MainProps = {
   isOpen?: boolean;
@@ -118,12 +119,10 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
     scrollToLastQ();
   }, [conversation.title, conversation.qnaList.length]);
 
-  useEffect(() => {
-    // console.log('loading status changed');
-  }, [isLoading]);
+  useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
-    console.log('store conversation UPDATED');
+    // console.log('store conversation UPDATED');
   }, [conversation]);
 
   useEffect(() => {

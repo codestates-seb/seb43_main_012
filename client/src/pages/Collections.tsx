@@ -174,14 +174,10 @@ const Collections = () => {
     (state: RootState) => state.collection,
   );
   useEffect(() => {
-    requestAuth
-      .get(
-        'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
-      )
-      .then((response) => {
-        console.log('loaded collections');
-        dispatch(setContent(response.data));
-      });
+    requestAuth.get(`/collections`).then((response) => {
+      console.log('loaded collections');
+      dispatch(setContent(response.data));
+    });
   }, []);
 
   const loadConv = async (cId: number) => {
@@ -213,9 +209,7 @@ const Collections = () => {
 
   const handleContentClick = (conversation: Conversation) => {
     requestAuth
-      .get(
-        `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
-      )
+      .get(`/conversations/${conversation.conversationId}`)
       .then((response) => {
         setSelectedConversation(response.data);
       });
