@@ -17,6 +17,7 @@ const Main = lazy(() => import('./pages/Main'));
 const ModalLogin = lazy(() => import('./components/modals/ModalLogin'));
 const History = lazy(() => import('./pages/History'));
 const Loading = lazy(() => import('./components/chatinterface/Loading'));
+const ServiceIntro = lazy(() => import('./pages/ServiceIntro'));
 const DialogBoxUserIcon = lazy(
   () => import('./components/dialogbox/DialogBoxUserIcon'),
 );
@@ -57,6 +58,7 @@ function App() {
               <Route path="/" element={<Main isOpen={isModalLoginOpen} />} />
               <Route path="/history" element={<History />} />
               <Route path="/collection" element={<Collections />} />
+              <Route path="/serviceIntro" element={<ServiceIntro />} />
               <Route path="/signup" element={<Signup />} />
               <Route
                 path="/login"
