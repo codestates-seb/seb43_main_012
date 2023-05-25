@@ -17,6 +17,7 @@ import HistoryFilter from '../components/history/HistoryFilter';
 
 import { useAppSelector } from '../app/hooks';
 import { selectConversation } from '../features/main/conversationSlice';
+import { toggleModal } from '../features/collection/collectionSlice';
 import { ConversationThumbType } from '../data/d';
 import { DateFilter, filterConvsByDate } from '../utils/DateFiltering';
 import {
@@ -57,6 +58,8 @@ function History(): ReactElement {
   const conv = useAppSelector(selectConversation);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  dispatch(toggleModal(true));
 
   const handleClick = () => {
     // e.stopPropagation();

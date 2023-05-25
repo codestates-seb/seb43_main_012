@@ -8,6 +8,7 @@ const collectionSlice = createSlice({
     content: {} as any,
     selectedBookmark: 'All',
     selectedTag: '',
+    isToggled: false,
   },
   reducers: {
     setSelectedBookmark: (state, action) => {
@@ -19,10 +20,13 @@ const collectionSlice = createSlice({
     setContent: (state, action) => {
       state.content = action.payload;
     },
+    toggleModal: (state, action) => {
+      state.isToggled = action.payload;
+    },
   },
 });
 
-export const { setSelectedBookmark, setContent, setSelectedTag } =
+export const { setSelectedBookmark, setContent, setSelectedTag, toggleModal } =
   collectionSlice.actions;
 
 export const collectionReducer = collectionSlice.reducer;
