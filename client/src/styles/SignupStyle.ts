@@ -6,7 +6,7 @@ export const SignupWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 15px;
   width: 100vw;
   overflow-y: scroll;
   background-color: #fff;
@@ -21,7 +21,7 @@ export const SignupBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 10px;
   margin-bottom: 5%;
   width: 290px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);

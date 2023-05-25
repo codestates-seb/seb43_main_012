@@ -203,6 +203,56 @@ const TopNav = ({
     }
   };
 
+  //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
+  // let isLoggedIn = false;
+  // if (localStorage.getItem("isLoggedIn") === "true") {
+  //   isLoggedIn = true;
+  // } else {
+  //   isLoggedIn = false;
+  // }
+  // const isLoggedIn = true;
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      const element = document.getElementById(
+        'questionInput',
+      ) as HTMLInputElement | null;
+      if (element) {
+        console.log('element found!');
+        element.focus();
+      }
+      // navigate(0);
+    }
+  }, [location]);
+
+  const [avatarLink, setAvatarLink] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+
+  let Id: any = 0;
+  if (localStorage.getItem("memberId")) {
+    Id = localStorage.getItem("memberId");
+  } else {
+    Id = 0;
+  }
+  
+  
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
+        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
+        setUsername(userData.username); // username 값 설정
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchUserInfo();
+  }, );
+  
+
+
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));
   };
