@@ -33,7 +33,7 @@ const QnA = ({ qnaItem }: qnaProps) => {
 
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [showAnswer, setShowAnswer] = useState<boolean>(true);
+  const [showAnswer, setShowAnswer] = useState<boolean>(isToggled);
 
   const dispatch = useAppDispatch();
   dispatch(toggleModal(true));
