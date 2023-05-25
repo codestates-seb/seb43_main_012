@@ -23,7 +23,7 @@
 | :---: | :---: | :---: |
 | <img alt="장성아" src="https://github.com/mslock/TodoApps/assets/60218122/4c49c779-c4c5-4546-a21d-cfb3df263543" height="100" width="100"> | <img alt="맹승주" src="https://i.ibb.co/JCZT2JG/image.png" height="100" width="100"> | <img alt="박지원" src="https://github.com/mslock/TodoApps/assets/60218122/94d7ba68-b298-4a16-9957-7b2ac817eeac" height="100" width="100"> | 
 | [@splazt](https://github.com/splazt) |    [@mmmkb1](https://github.com/mmmkb1) | [@zi0ne](https://github.com/zi0ne) | 
-|<p align="left">- 전체 UI 디자인 Lead<br/>- 톱 네비게이션<br/>- 메인 + 히스토리 페이지<br/>- 북마크/ 태그/ 고정핀 팝업창<br/>- 전 대화 계속하기 모달<br/>- 대화 세션, 로그인 상태 관리<br/>- 에러 핸들링/유효성 검사 강화<br/>- 배포 <br/> </p>|<p align="left">- ![Uploading image.png…]() <br/>- 콜렉션 조회 페이지 <br/>- 북마크/태그별 조회 <br/>- 저장된 대화창 모달 <br/>- 질문/답변 토글 기능 </p>|<p align="left">- 로그인 + 회원가입<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 로그인 인증 처리<br/>- 소개 페이지<br/></p>|
+|<p align="left">- 전체 UI 디자인 Lead<br/>- 톱 네비게이션<br/>- 메인 + 히스토리 페이지<br/>- 북마크/ 태그/ 고정핀 팝업창<br/>- 전 대화 계속하기 모달<br/>- 대화 세션, 로그인 상태 관리<br/>- 에러 핸들링/유효성 검사 강화<br/>- 배포 <br/> </p>|<p align="left">- 콜렉션 조회 페이지 <br/>- 북마크/태그별 조회 <br/>- 저장된 대화창 모달 <br/>- 질문/답변 토글 기능 </p>|<p align="left">- 로그인 + 회원가입<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 로그인 인증 처리<br/>- 소개 페이지<br/></p>|
 
 | 순정원<br>(BE, 팀장) | 김민수<br>(BE) | 한재영<br>(BE) |
 | :---: | :---: | :---: |
