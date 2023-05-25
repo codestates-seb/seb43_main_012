@@ -32,7 +32,8 @@
 | <p align="left">- AWS(EC2,RDS) 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원 가입, 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 <br/>- 북마크, 태그, 고정핀<br/>- 대화 세션 </p>|
 
 ## 📺 Demo
-![summary](url)
+| ![summary](url) |
+| :---: |
 
 
 ## ✨ Pages & Features
@@ -48,11 +49,14 @@
 |**페이지명**|**페이지명**|
 |<img width="100%" src="url"/>|<img width="100%" src="url"/>|
 
-## ➡️ User flow
-<img width="2800" src="url">
+## ➡️ User flow & Figma
+| User flow |
+| :---: |
+| <img width="2800" src="url"> |
 
-## Figma
-<img width="2800" src="url">
+| Figma |
+| :---: |
+| <img width="2800" src="url"> |
 
 ## 🔧 Skills
 ![Skills](url)
