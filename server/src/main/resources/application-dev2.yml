@@ -1,15 +1,17 @@
+
+
 apikey: ${API_KEY}
 
 jwt:
   secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
-  expiration: 8640000
+  expiration: 864000
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database-2.ct2wnch2pzz5.ap-northeast-2.rds.amazonaws.com:13306/test?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://database-1.ce54ty66p4fy.ap-northeast-2.rds.amazonaws.com:13306/chatcrawl?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
-    password: dHGkRE9PxcC5fw2BbnWm
+    password: 12345678
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
