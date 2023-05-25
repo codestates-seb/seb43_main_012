@@ -8,7 +8,7 @@ const SLIDE_IDS = [
     return {
       content: <div className="heroimage" />,
       style: {
-        backgroundImage: `url("/${el}.png")`, 
+        backgroundImage: `url("/${el}.gif")`, 
       },
     };
   });
