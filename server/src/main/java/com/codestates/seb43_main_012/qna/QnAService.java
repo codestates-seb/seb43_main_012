@@ -26,6 +26,7 @@ public class QnAService {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private final QnARepository qnaRepository;
     private final ConversationRepository conversationRepository;
+    private final QnARepositoryImpl qnaRepositoryImpl;
 
 
     public QnA saveQnA(QnA qna)
@@ -62,7 +63,7 @@ public class QnAService {
 
     public List<Long> findConversationIDs(String query, long memberId)
     {
-        List<QnA> qnaList = qnaRepository.findAllByQuestionContainingOrAnswerContaining(query,query);
+        List<QnA> qnaList = qnaRepositoryImpl.findByKeyword(query);
 
         List<Long> IDs = new ArrayList<>();
 
