@@ -59,7 +59,8 @@
 | <img width="2800" src="url"> |
 
 ## 🔧 Skills
-![기술스택](files/기술스택.png)
+<img src="./files/기술스택.png" width="800" height=auto>
+     
 
 ### Tools
 | Git | Github | Discord |
