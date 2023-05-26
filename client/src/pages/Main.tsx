@@ -158,6 +158,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
       <M.MainBackdrop isMax={isMax} />
       <M.FixedTopBox isMax={isMax}>
         <ChatInput
+          isLoading={isLoading}
           setIsLoading={setIsLoading}
           updateQNum={updateQNum}
           isMax={isMax}

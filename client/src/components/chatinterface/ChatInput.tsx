@@ -24,12 +24,14 @@ import { selectLoginState } from '../../features/member/loginInfoSlice';
 import { setConversation } from '../../features/main/conversationSlice';
 
 type ChatProps = {
+  isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   updateQNum: () => void;
   isMax?: boolean;
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
 };
 const ChatInput = ({
+  isLoading,
   setIsLoading,
   updateQNum,
   isMax,
@@ -42,14 +44,14 @@ const ChatInput = ({
 
   const handleInput = () => {
     //to determine if it's a new vs continued conversation
-    if (cId > 0) {
+    if (cId > 0 && !isLoading) {
       (async function () {
         try {
           setIsLoading(true);
           const msg = await continueConversation(cId, qValue);
           console.log('continued conversation: ', msg);
-          setIsLoading(false);
           setQValue('');
+          setIsLoading(false);
           updateQNum();
         } catch (error) {
           console.error('Error in continueConversation:', error);
