@@ -59,7 +59,7 @@
 | <img width="2800" src="url"> |
 
 ## 🔧 Skills
-<img src="./files/기술스택.png" width="800" height=auto>
+<img src="/files/기술스택.png" width="800" height=auto>
      
 
 ### Tools
