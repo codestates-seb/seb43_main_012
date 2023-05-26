@@ -31,12 +31,12 @@
 | [@sundae95](https://github.com/sundae95) | [@mslock](https://github.com/mslock) | [@splo-sh](https://github.com/splo-sh) |
 | <p align="left">- AWS(EC2,RDS) 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원 가입, 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 <br/>- 북마크, 태그, 고정핀<br/>- 대화 세션 </p>|
 
-## 📺 Demo
+## 📺 Demo - 업데이트 예정 
 | ![summary](url) |
 | :---: |
 
 
-## ✨ Pages & Features
+## ✨ Pages & Features - 업데이트 예정
 |메인 페이지|로그인 / 회원가입 페이지|
 |:---:|:---:|
 |<img width="100%" alt="summary1" src="url"/>|<img width="100%" alt="summary2" src="url"/>|
