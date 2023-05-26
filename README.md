@@ -59,7 +59,7 @@
 | <img width="2800" src="url"> |
 
 ## 🔧 Skills
-![Skills](url)
+![기술스택]('./files/기술스택.png')
 
 ### Tools
 | Git | Github | Discord |
