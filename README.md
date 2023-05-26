@@ -56,13 +56,13 @@
 
 | Figma |
 | :---: |
-| <img width="2800" src="url"> |
-
-## 🔧 Skills
+| <img width="1000" src="/files/figma1.png"> |
+| <img width="1000" src="/files/figma2.png"> | 
+| <img width="1000" src="/files/figma3.png"> | 
      
 
-### Tech Stack & Tools
-<img src="/files/기술스택.png" width="800" height=auto>
+## 🔧 Tech Stack & Tools
+<img src="/files/기술스택.png" width="1000" height=auto>
 
 | Git | Github | Discord |
 | :---: | :---: | :---: |
