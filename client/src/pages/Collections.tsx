@@ -24,7 +24,21 @@ const Main = styled.main`
 
 const ContentWraper = styled.div`
   width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
   // overflow: scroll;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+  margin-left: 50px;
 `;
 
 const ContentContainer = styled.div`
@@ -173,6 +187,7 @@ const Collections = () => {
   const [content, setContent] = useState<any>({});
   const [selectedBookmark, setSelectedBookmark] = useState('All');
   const [selectedTag, setSelectedTag] = useState('');
+
   // const { content, selectedBookmark, selectedTag } = useSelector(
   //   (state: RootState) => state.collection,
   // );
@@ -290,7 +305,7 @@ const Collections = () => {
               ))}
             </BookmarkContainer>
             <BookmarkAdd>+New Collection</BookmarkAdd>
-            <TagContainer>
+            {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
                 <Tag
                   key={tag.tagId}
@@ -299,7 +314,7 @@ const Collections = () => {
                   {tag.tagName}
                 </Tag>
               ))}
-            </TagContainer>
+            </TagContainer> */}
           </div>
           <ContentWraper>
             <ContentContainer>
@@ -326,7 +341,7 @@ const Collections = () => {
                         {conversation.title}
                       </Title>
                       <span className="buttons">
-                        <PinButton /> <BookmarkButton />
+                        {/* <PinButton /> <BookmarkButton /> */}
                       </span>
                     </div>
                     <p>{conversation.answerSummary}</p>
@@ -345,10 +360,14 @@ const Collections = () => {
                     </div>
                   </Content>
                 ))}
+              {!content.conversations.length && (
+                <EmptyContainer>
+                  저장된 내역이 없습니다. 새대화, 이전대화에 북마크를
+                  달아보세요!
+                </EmptyContainer>
+              )}
             </ContentContainer>
           </ContentWraper>
-
-          <div></div>
         </BookmarkTagContent>
         {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
       </Main>

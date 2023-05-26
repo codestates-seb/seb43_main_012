@@ -18,6 +18,8 @@ import {
 } from '../features/main/conversationSlice';
 //import api
 import { getConversation } from '../api/ChatInterfaceApi';
+import { Link } from 'react-router-dom';
+import { selectLoginState } from '../features/member/loginInfoSlice';
 
 //import data
 import { Conversation } from '../data/d';
@@ -29,8 +31,12 @@ type MainProps = {
   newCId?: number;
 };
 
+type BoxProps = {
+  isOpen?: boolean;
+};
+
 //to fix current width, would have to measure the box width!
-const MainBox = styled(M.MainBox)<MainProps>`
+const MainBox = styled(M.MainBox)<BoxProps>`
   max-width: ${(props) =>
     props.isOpen
       ? 'var(--size-minwidth-pc-main)'
@@ -41,6 +47,21 @@ function scrollToLastQ() {
   const lastQnA = document.getElementById('qnaList')?.lastChild as HTMLElement;
   if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
 }
+
+const StartBox = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  color: var(--color-default-yellow);
+  font-weight: 500;
+  // text-transform: uppercase;
+  div:hover {
+    color: var(--color-default-yellow-darker);
+  }
+`;
 
 const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const dispatch = useAppDispatch();
@@ -54,6 +75,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
+  const loggedIn = useAppSelector(selectLoginState);
 
   const updateQNum = () => {
     // console.log('updating question number!');
@@ -115,7 +137,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   useEffect(() => {
     // console.log('store conversation UPDATED');
-  }, [conversation]);
+  }, [conversation, selectLoginState]);
 
   useEffect(() => {
     if (conversation.title) {
@@ -136,10 +158,32 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
       <M.MainBackdrop isMax={isMax} />
       <M.FixedTopBox isMax={isMax}>
         <ChatInput
+          isLoading={isLoading}
           setIsLoading={setIsLoading}
           updateQNum={updateQNum}
           isMax={isMax}
+          setIsOpen={setIsOpen}
         />
+
+        {!conversation.title && !isLoading && (
+          <StartBox>
+            <Link to="/serviceIntro">
+              <div> Click here for an intro to Chatcrawl!</div>
+            </Link>
+            {!loggedIn && (
+              <>
+                <br /> <br />
+                <br />
+                로그인을 해야만 모든 서비스 이용 가능합니다.
+                <br />
+                <br />
+                테스트계정: test@test.com, Test123!
+                <br /> <br />
+                <br />{' '}
+              </>
+            )}
+          </StartBox>
+        )}
         {Boolean(conversation.title) && (
           <M.TitleBox>
             <EditableTitle

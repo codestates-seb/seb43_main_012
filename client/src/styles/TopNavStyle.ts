@@ -158,7 +158,7 @@ export const DialogItems = styled.ul`
   flex-direction: column;
   align-items: center;
   color: var(--color-default-gray);
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   max-height: 130px;
   overflow-y: scroll;
   text-decoration: none;
@@ -202,7 +202,7 @@ export const EmailItem = styled(DialogSelectItem)`
 export const SignOutFooter = styled(DialogItems)`
   display: flex;
   border-top: 1px solid #f3efef;
-  padding: 15px 0 5px 0;
+  padding: 5px 0 5px 0;
   font-size: 18px;
   height: auto;
 `;
