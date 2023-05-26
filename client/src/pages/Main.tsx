@@ -164,7 +164,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
           setIsOpen={setIsOpen}
         />
 
-        {!conversation.title && (
+        {!conversation.title && !isLoading && (
           <StartBox>
             <Link to="/serviceIntro">
               <div> Click here for an intro to Chatcrawl!</div>
