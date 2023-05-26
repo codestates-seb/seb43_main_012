@@ -17,17 +17,10 @@ import {
   selectCId,
 } from '../features/main/conversationSlice';
 //import api
-import {
-  getConversation,
-  getAllConversations,
-  getSavedConversations,
-  getCollections,
-  editBookmark,
-} from '../api/ChatInterfaceApi';
+import { getConversation } from '../api/ChatInterfaceApi';
 
 //import data
-import { initialState } from '../features/main/conversationSlice';
-import { Conversation, initialConvData } from '../data/d';
+import { Conversation } from '../data/d';
 
 type MainProps = {
   isOpen?: boolean;
@@ -118,12 +111,10 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
     scrollToLastQ();
   }, [conversation.title, conversation.qnaList.length]);
 
-  useEffect(() => {
-    // console.log('loading status changed');
-  }, [isLoading]);
+  useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
-    console.log('store conversation UPDATED');
+    // console.log('store conversation UPDATED');
   }, [conversation]);
 
   useEffect(() => {

@@ -39,7 +39,7 @@ const axiosApi2 = (
       'Access-Control-Allow-Origin': APP_URL,
       Authorization: token,
     },
-    timeout: 30000,
+    timeout: 70000,
     ...options,
   });
 
