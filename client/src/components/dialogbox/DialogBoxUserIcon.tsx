@@ -91,15 +91,12 @@ const DialogBoxUserIcon = ({
             <DialogSelectItem onClick={handleDialogItemClick}>
               <Link to="/mypage">Profile</Link>
             </DialogSelectItem>
-            <DialogSelectItem onClick={handleDialogItemClick}>
-              <Link to="/collection">Library</Link>
-            </DialogSelectItem>
-            <DialogSelectItem>Public Chats</DialogSelectItem>
-          </DialogItems>
-          <SignOutFooter>
+            {/* <SignOutFooter> */}
             <DialogSelectItem onClick={handleDialogItemClick}>
               <Link to="/serviceIntro">Start Guide</Link>
             </DialogSelectItem>
+          </DialogItems>
+          <SignOutFooter>
             <SignoutItem onClick={handleLogout}>Sign Out</SignoutItem>
             {Boolean(mInfo.userId) && <EmailItem>{mInfo.userEmail}</EmailItem>}
           </SignOutFooter>
