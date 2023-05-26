@@ -59,10 +59,10 @@
 | <img width="2800" src="url"> |
 
 ## 🔧 Skills
-<img src="/files/기술스택.png" width="800" height=auto>
      
 
-### Tools
+### Tech Stack & Tools
+<img src="/files/기술스택.png" width="800" height=auto>
 | Git | Github | Discord |
 | :---: | :---: | :---: |
 | <img alt="git logo" src="https://git-scm.com/images/logos/logomark-orange@2x.png" width="65" height="65" > | <img alt="github logo" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |
