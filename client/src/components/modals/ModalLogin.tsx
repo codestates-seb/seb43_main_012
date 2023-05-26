@@ -39,6 +39,11 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
                     회원가입
                   </Link>
                 </span>
+                <br />
+                <span>
+                  기존계정 구경: <br />
+                  test@test.com, (비번) Test123!
+                </span>
               </SignupLink>
             </LoginView>
           </ModalBackdrop>
