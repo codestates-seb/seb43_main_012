@@ -20,17 +20,25 @@ import {
 //import redux
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectCId } from '../../features/main/conversationSlice';
+import { selectLoginState } from '../../features/member/loginInfoSlice';
 import { setConversation } from '../../features/main/conversationSlice';
 
 type ChatProps = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   updateQNum: () => void;
   isMax?: boolean;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
 };
-const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
+const ChatInput = ({
+  setIsLoading,
+  updateQNum,
+  isMax,
+  setIsOpen,
+}: ChatProps) => {
   const [qValue, setQValue] = useState<string>('');
   const cId = useAppSelector(selectCId);
   const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector(selectLoginState);
 
   const handleInput = () => {
     //to determine if it's a new vs continued conversation
@@ -74,6 +82,8 @@ const ChatInput = ({ setIsLoading, updateQNum, isMax }: ChatProps) => {
           setIsLoading(false);
         }
       })();
+    } else if (!loggedIn) {
+      if (!!setIsOpen) setIsOpen(true);
     }
   };
 

@@ -27,6 +27,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import { initializeMemberState } from '../features/member/loginInfoSlice';
+import { toggleModal } from '../features/collection/collectionSlice';
 
 export type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];
@@ -133,7 +134,7 @@ function History(): ReactElement {
           setIsNone(true);
           return;
         }
-        console.log('loading tagged results!');
+        // console.log('loading tagged results!');
         res.sort((a: ConversationThumbType, b: ConversationThumbType) =>
           b.pinned ? 1 : a.pinned ? -1 : 0,
         );

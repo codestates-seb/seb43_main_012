@@ -130,6 +130,9 @@ const TopNav = ({
       dispatch(toggleModal(true));
     } else if (location.pathname === '/collection') {
       dispatch(toggleModal(false));
+    } else if (location.pathname === '/history') {
+      console.log('toggle item');
+      dispatch(toggleModal(true));
     }
   }, [location]);
 

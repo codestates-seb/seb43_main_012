@@ -19,6 +19,7 @@ import {
 //import api
 import { getConversation } from '../api/ChatInterfaceApi';
 import { Link } from 'react-router-dom';
+import { selectLoginState } from '../features/member/loginInfoSlice';
 
 //import data
 import { Conversation } from '../data/d';
@@ -30,8 +31,12 @@ type MainProps = {
   newCId?: number;
 };
 
+type BoxProps = {
+  isOpen?: boolean;
+};
+
 //to fix current width, would have to measure the box width!
-const MainBox = styled(M.MainBox)<MainProps>`
+const MainBox = styled(M.MainBox)<BoxProps>`
   max-width: ${(props) =>
     props.isOpen
       ? 'var(--size-minwidth-pc-main)'
@@ -70,6 +75,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
+  const loggedIn = useAppSelector(selectLoginState);
 
   const updateQNum = () => {
     // console.log('updating question number!');
@@ -131,7 +137,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   useEffect(() => {
     // console.log('store conversation UPDATED');
-  }, [conversation]);
+  }, [conversation, selectLoginState]);
 
   useEffect(() => {
     if (conversation.title) {
@@ -155,21 +161,26 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
           setIsLoading={setIsLoading}
           updateQNum={updateQNum}
           isMax={isMax}
+          setIsOpen={setIsOpen}
         />
 
         {!conversation.title && (
           <StartBox>
             <Link to="/serviceIntro">
-              <div> Click Here for an intro to getting started!</div>
+              <div> Click here for an intro to Chatcrawl!</div>
             </Link>
-            <br /> <br />
-            <br />
-            로그인을 해야만 모든 서비스 이용 가능합니다.
-            <br />
-            <br />
-            테스트계정: test@test.com, Test123!
-            <br /> <br />
-            <br />{' '}
+            {!loggedIn && (
+              <>
+                <br /> <br />
+                <br />
+                로그인을 해야만 모든 서비스 이용 가능합니다.
+                <br />
+                <br />
+                테스트계정: test@test.com, Test123!
+                <br /> <br />
+                <br />{' '}
+              </>
+            )}
           </StartBox>
         )}
         {Boolean(conversation.title) && (

@@ -55,7 +55,15 @@ function App() {
             {/* {showHistory && <History />}
           {showPinnedItems && <CollectionPins />} */}
             <Routes>
-              <Route path="/" element={<Main isOpen={isModalLoginOpen} />} />
+              <Route
+                path="/"
+                element={
+                  <Main
+                    isOpen={isModalLoginOpen}
+                    setIsOpen={setIsModalLoginOpen}
+                  />
+                }
+              />
               <Route path="/history" element={<History />} />
               <Route path="/collection" element={<Collections />} />
               <Route path="/serviceIntro" element={<ServiceIntro />} />
