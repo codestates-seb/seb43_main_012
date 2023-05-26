@@ -39,20 +39,19 @@
 ## ✨ Pages & Features - 업데이트 예정
 |메인 페이지|로그인 / 회원가입 페이지|
 |:---:|:---:|
-|<img width="100%" alt="summary1" src="url"/>|<img width="100%" alt="summary2" src="url"/>|
+|<img width="100%" alt="summary1" src="url"/>|<img width="100%" alt="summary2" src="./image/sign.png"/>|
 |**페이지명**|**페이지명**|
 |<img width="100%" alt="summary3" src="url"/>|<img width="100%" src="url"/>|
+|마이 페이지|정보 변경 모달|
+|<img width="100%" src="./image/member.png"/>|<img width="100%" src="./image/edit.png"/>|
+|소개 페이지|**페이지명**|
+|<img width="100%" src="./image/info1.gif"/>|<img width="100%" src="url"/>|
 |**페이지명**|**페이지명**|
 |<img width="100%" src="url"/>|<img width="100%" src="url"/>|
-|**페이지명**|**페이지명**|
-|<img width="100%" src="url"/>|<img width="100%" src="url"/>|
-|**페이지명**|**페이지명**|
-|<img width="100%" src="url"/>|<img width="100%" src="url"/>|
-
 ## ➡️ User flow & Figma
 | User flow |
 | :---: |
-| <img width="2800" src="url"> |
+| <img width="1000" src="./image/userflow.png"> |
 
 | Figma |
 | :---: |
