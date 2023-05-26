@@ -35,6 +35,7 @@ const MovingDialogBox = styled(DialogBox)<StyleProps>`
   left: ${(p) => p.posX - 250}px;
   top: ${(p) => p.posY}px;
   background: white;
+  overflow: hidden;
 `;
 
 const BoxBackdrop = styled(ModalBackdrop)`
