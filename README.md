@@ -4,8 +4,8 @@
 
 - **팀 명 :**  Bug Fetish
 - **프로젝트 명 :** ChatCrawl
-- **한줄 소개 :** ChatGPT 기록 검색/북마킹/공유 서비스
-- **팀원 :** 장성아(FE 팀장), 맹승주(FE), 박지원(FE), 순정원(BE 팀장), 김민수, 한재영
+- **한줄 소개 :** ChatGPT 대화 기록 검색, 북마킹 서비스
+- **팀원 :** 장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영
 - **발표 문서 :** [URL](https://www.notion.so/codestates/Fetish-670116b8d21a405fabaa7fc41d077ce9)
 - **배포 링크 :** [URL](http://chatcrawl.live)
 
