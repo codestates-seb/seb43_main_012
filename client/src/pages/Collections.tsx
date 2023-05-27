@@ -2,21 +2,29 @@ import { useEffect, useState } from 'react';
 // import axios from 'axios';
 import { requestAuth } from '../utils/axiosConfig';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from '../app/store';
+import styled from 'styled-components';
+import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/history/iconPinned.svg';
+import ModalContent from '../components/modals/ModalContent';
+import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
 import {
   setContent,
   setSelectedBookmark,
   setSelectedTag,
   toggleModal,
 } from '../features/collection/collectionSlice';
-import { getConversation } from '../api/ChatInterfaceApi';
+
+import {
+  getConversation,
+  updatePinState,
+  deleteConversation,
+} from '../api/ChatInterfaceApi';
 import { setConversation } from '../features/main/conversationSlice';
-import { RootState } from '../app/store';
-import styled from 'styled-components';
-import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
-import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
-import ModalContent from '../components/modals/ModalContent';
-import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
 const Main = styled.main`
   width: 1080px;
   padding: 0 40px 0 40px;
@@ -79,6 +87,7 @@ const Content = styled.div`
   }
 
   .header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
   }
@@ -87,10 +96,15 @@ const Content = styled.div`
   }
   .buttons {
     display: flex;
-    justify-content: flex-end;
+    color: var(--color-default-yellow);
     align-items: flex-start;
     position: relative;
     top: -5px;
+    svg {
+      width: 24px;
+      height: 24px;
+      color: var(--color-default-yellow);
+    }
   }
   .bookmark {
     color: #c9ad6e;
@@ -244,6 +258,20 @@ const Collections = () => {
   const handleCloseModal = () => {
     setSelectedConversation(null);
   };
+
+  // const handlePinUpdate = async (newPinValue: boolean, cId: number) => {
+  //   await updatePinState({
+  //     cId: conversation.conversationId,
+  //     value: newPinValue,
+  //   });
+  // };
+
+  // const handleDeleteConv = async (cId) => {
+  //   await deleteConversation(conversation.conversationId);
+  //   console.log('delete success!');
+  //   setShow(false);
+  //   // initializeConversation(-1);
+  // };
 
   return (
     content?.conversations && (
