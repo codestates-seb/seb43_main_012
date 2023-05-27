@@ -15,7 +15,7 @@ type Props = {
   handleTagClick: (tId: number | string) => void;
 };
 
-const Content = styled.div`
+export const HistContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -131,7 +131,7 @@ const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
   return (
     <>
       {show && (
-        <Content>
+        <HistContent>
           <div className="fixed">
             <HistoryEditUI
               pinned={conversation.pinned}
@@ -164,7 +164,7 @@ const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
               ))}
             </TagsBox>
           )}
-        </Content>
+        </HistContent>
       )}
     </>
   );

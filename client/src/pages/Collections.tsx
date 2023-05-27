@@ -52,12 +52,15 @@ const ContentContainer = styled.div`
   height: 700px;
 `;
 
-const Title = styled.a`
+const Title = styled.div`
   margin-bottom: 1rem;
   font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
-const Content = styled.a`
+const Content = styled.div`
   flex-basis: 16rem;
   padding: 5px;
   border: solid;
@@ -65,6 +68,7 @@ const Content = styled.a`
   border-radius: 10px;
   margin: 0 1% 1% 0;
   height: 200px;
+  min-width: 100px;
   overflow: hidden;
   p {
     max-height: 7rem;
@@ -99,6 +103,7 @@ const Content = styled.a`
 const FixedContent = styled(Content)`
   display: flex;
   flex-direction: column;
+  min-width: 230px;
   align-items: flex-start;
 `;
 
@@ -107,6 +112,8 @@ const FixedContentContainer = styled.div`
   justify-content: flex-start;
   background-color: #faf7f1;
   overflow-x: scroll;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 const BookmarkContainer = styled.div`
@@ -256,7 +263,6 @@ const Collections = () => {
                   <Title
                     className="title"
                     key={conversation.conversationId}
-                    href="#"
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
@@ -267,7 +273,7 @@ const Collections = () => {
                     {conversation.title}
                   </Title>
                   <span className="buttons">
-                    <PinButton /> <BookmarkButton />
+                    <PinButton />
                   </span>
                 </div>
                 <p>{conversation.answerSummary}</p>
@@ -332,7 +338,6 @@ const Collections = () => {
                       <Title
                         className="title"
                         key={conversation.conversationId}
-                        href="#"
                         onClick={() => {
                           handleThumbnailClick(conversation.conversationId);
                         }}
