@@ -21,7 +21,6 @@ const collectionSlice = createSlice({
       state.content = action.payload;
     },
     toggleModal: (state, action) => {
-      console.log('toggle modal');
       state.isToggled = action.payload;
     },
   },
