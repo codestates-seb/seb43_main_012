@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fe-dev
+      - dev
 
 jobs:
   build:
