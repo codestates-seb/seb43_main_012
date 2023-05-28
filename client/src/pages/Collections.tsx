@@ -310,7 +310,7 @@ const Collections = () => {
                     }}
                     // onClick={() => handleContentClick(conversation)}
                   >
-                    {truncateTitle(conversation.title, 10)}
+                    {truncateTitle(conversation.title, 50)}
                   </Title>
                   <span className="buttons">
                     <PinButton />
