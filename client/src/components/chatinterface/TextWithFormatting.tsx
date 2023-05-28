@@ -7,10 +7,15 @@ const ParagraphBox = styled.div`
   width: 100%;
   overflow-x: hidden;
   word-wrap: break-word;
+  word-break: keep-all;
   white-space: pre-wrap;
   p {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
+
+  // p:first-child {
+  //   margin-bottom: 0px;
+  // }
 
   p:last-child,
   p:only-child {
@@ -19,6 +24,7 @@ const ParagraphBox = styled.div`
 
   ol {
     margin-left: 18px;
+    margin-bottom: 16px;
   }
 
   ol li::marker {
@@ -55,6 +61,7 @@ const CodeBlock = styled.pre`
   white-space: pre-wrap;
   max-width: 100%;
   margin-bottom: 18px;
+  margin-top: 18px;
   font-size: 16px;
 
   &::-webkit-scrollbar {
@@ -79,7 +86,7 @@ function extractSentences(text: string): string[] {
   const codeBlockRegex = /```[\s\S]*?```/g;
 
   while (remainingText.length > 0) {
-    console.log('there is remaining text,', remainingText);
+    // console.log('there is remaining text,', remainingText);
 
     const codeBlocks =
       ((remainingText.startsWith('```') &&
@@ -87,8 +94,8 @@ function extractSentences(text: string): string[] {
         [])[0] || '';
 
     if (codeBlocks.length > 0) {
-      console.log('blocks', codeBlocks);
-      extractedPieces.push(...codeBlocks);
+      // console.log('blocks', codeBlocks);
+      extractedPieces.push(codeBlocks);
       remainingText = remainingText
         .replace(codeBlocks, '')
         .replace(/^\n\n/, '');
@@ -96,14 +103,14 @@ function extractSentences(text: string): string[] {
       continue;
     }
 
-    const paragraph = remainingText.split('\n\n')[0] || '';
+    const paragraph = remainingText.split('\n\n')[0].trim() || '';
     if (paragraph.length > 0) {
-      console.log('blocks:', paragraph);
+      // console.log('blocks:', paragraph);
 
       extractedPieces.push(paragraph);
       remainingText = remainingText.replace(paragraph + '\n\n', '');
       remainingText = remainingText.replace(paragraph, '');
-      console.log('remainder: ', remainingText);
+      // console.log('remainder: ', remainingText);
       continue;
     }
 
@@ -117,28 +124,28 @@ const TextWithFormatting = (text: string) => {
   const sections = text.split('\n\n\n');
 
   const renderSections = sections.map((section, sectionIndex) => {
-    const paragraphs = section.split('\n\n');
-    // const paragraphs = extractSentences(section);
+    // const paragraphs = section.split('\n\n');
+    const paragraphs = extractSentences(section);
 
     const renderParagraphs = paragraphs.map((paragraph, index) => {
       const lines = paragraph.split('\n');
 
-      if (lines.length === 1 && !lines[0].startsWith('```')) {
-        return <p key={index}>{lines[0]}</p>;
-      }
+      // if (lines.length === 1 && !lines[0].startsWith('```')) {
+      //   return <p key={index}>{lines[0].trim()}</p>;
+      // }
 
-      const isNumberedList = lines.every((line, lineIndex) =>
-        line.trim().startsWith(`${lineIndex + 1}. `),
-      );
+      // const isNumberedList = lines.every((line, lineIndex) =>
+      //   line.trim().startsWith(`${lineIndex + 1}. `),
+      // );
 
-      if (isNumberedList) {
-        const listItems = lines.map((line, lineIndex) => {
-          const listItem = line.replace(`${lineIndex + 1}. `, '');
-          return <li key={lineIndex}>{listItem}</li>;
-        });
+      // if (isNumberedList) {
+      //   const listItems = lines.map((line, lineIndex) => {
+      //     const listItem = line.replace(`${lineIndex + 1}. `, '');
+      //     return <li key={lineIndex}>{listItem}</li>;
+      //   });
 
-        return <ol key={index}>{listItems}</ol>;
-      }
+      //   return <ol key={index}>{listItems}</ol>;
+      // }
 
       if (
         lines[0].startsWith('```') &&
@@ -163,10 +170,27 @@ const TextWithFormatting = (text: string) => {
           );
         }
 
+        // console.log(
+        //   'lineidx: ',
+        //   lineIndex,
+        //   'content: ',
+        //   line,
+        //   'linelength',
+        //   line.length,
+        // );
+        if (
+          (line.length === (0 || 1) && lineIndex === 0) ||
+          (line.length === 0 && lineIndex === 1)
+        ) {
+          // console.log('filtered', lineIndex);
+          // console.log('filteredline', line);
+          return;
+        }
+
         return (
           <React.Fragment key={lineIndex}>
-            {line}
-            <br />
+            {lineIndex !== 1 ? `${line.trim()}` : ''}
+            {lineIndex !== 1 ? <br /> : ''}
           </React.Fragment>
         );
       });
@@ -174,12 +198,7 @@ const TextWithFormatting = (text: string) => {
       return <p key={index}>{renderLines}</p>;
     });
 
-    return (
-      <div key={sectionIndex}>
-        {renderParagraphs}
-        {/* {sectionIndex < sections.length - 1 && <br />} */}
-      </div>
-    );
+    return <div key={sectionIndex}>{renderParagraphs}</div>;
   });
 
   return <ParagraphBox>{renderSections}</ParagraphBox>;
