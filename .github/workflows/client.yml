@@ -32,4 +32,4 @@ jobs:
             --region ap-northeast-2 \
             build s3://chatcrawl.live \
             --delete
-        working-directory: /client
+        working-directory: ./client
