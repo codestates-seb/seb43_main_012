@@ -198,6 +198,17 @@ type Content = {
   bookmarks: BookmarkType[];
 };
 
+function getFirstSentence(paragraph: string): string {
+  const punctuationRegex = /[.!?]/;
+  const matches = paragraph.match(punctuationRegex);
+  if (matches && matches.length > 0) {
+    const firstPunctuationIndex = paragraph.indexOf(matches[0]);
+    const firstSentence = paragraph.slice(0, firstPunctuationIndex + 1).trim();
+    return firstSentence;
+  }
+  return '';
+}
+
 const Collections = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -304,9 +315,7 @@ const Collections = () => {
                     <PinButton />
                   </span>
                 </div>
-                <p>
-                  {conversation.answerSummary.trim().split(/[.!?]/)[0].trim()}
-                </p>
+                <p>{getFirstSentence(conversation.answerSummary)}</p>
                 <span className="bookmark">
                   {conversation.bookmarks[0]?.bookmarkName}
                 </span>
