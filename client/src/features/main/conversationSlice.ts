@@ -227,6 +227,13 @@ const conversationSlice = createSlice({
           return;
       }
     },
+    scrollToLast: () => {
+      console.log('scroll to last');
+      const lastQnA = document.getElementById('qnaList');
+      if (lastQnA) {
+        lastQnA.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -299,6 +306,7 @@ export const {
   changeTitle,
   updateBookmarks,
   updateTags,
+  scrollToLast,
 } = conversationSlice.actions;
 
 export default conversationSlice.reducer;

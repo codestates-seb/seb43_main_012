@@ -131,7 +131,7 @@ const TopNav = ({
     } else if (location.pathname === '/collection') {
       dispatch(toggleModal(false));
     } else if (location.pathname === '/history') {
-      dispatch(toggleModal(true));
+      dispatch(toggleModal(false));
     }
   }, [location]);
 

@@ -62,7 +62,6 @@ function History(): ReactElement {
   const handleClick = () => {
     // e.stopPropagation();
     // e.preventDefault();
-    console.log('history modal open');
     setIsOpen(!isOpen);
   };
 
