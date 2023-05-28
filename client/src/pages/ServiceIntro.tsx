@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Intro from '../components/Intro';
@@ -6,7 +7,9 @@ const MainPage = () => {
   return (
     <div>
       <Body>
+        <Link to="/">
         <Intro />
+        </Link>
       </Body>
     </div>
   );

@@ -2,21 +2,29 @@ import { useEffect, useState } from 'react';
 // import axios from 'axios';
 import { requestAuth } from '../utils/axiosConfig';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from '../app/store';
+import styled from 'styled-components';
+import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
+import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+import { ReactComponent as ThumbtackSolid } from '../assets/icons/history/iconPinned.svg';
+import ModalContent from '../components/modals/ModalContent';
+import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
 import {
   setContent,
   setSelectedBookmark,
   setSelectedTag,
   toggleModal,
 } from '../features/collection/collectionSlice';
-import { getConversation } from '../api/ChatInterfaceApi';
+
+import {
+  getConversation,
+  updatePinState,
+  deleteConversation,
+} from '../api/ChatInterfaceApi';
 import { setConversation } from '../features/main/conversationSlice';
-import { RootState } from '../app/store';
-import styled from 'styled-components';
-import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
-import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/thumbtack-solid.svg';
-import ModalContent from '../components/modals/ModalContent';
-import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
 const Main = styled.main`
   width: 1080px;
   padding: 0 40px 0 40px;
@@ -24,7 +32,21 @@ const Main = styled.main`
 
 const ContentWraper = styled.div`
   width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
   // overflow: scroll;
+`;
+
+const EmptyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+  margin-left: 50px;
 `;
 
 const ContentContainer = styled.div`
@@ -38,12 +60,15 @@ const ContentContainer = styled.div`
   height: 700px;
 `;
 
-const Title = styled.a`
+const Title = styled.div`
   margin-bottom: 1rem;
   font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
-const Content = styled.a`
+const Content = styled.div`
   flex-basis: 16rem;
   padding: 5px;
   border: solid;
@@ -51,6 +76,7 @@ const Content = styled.a`
   border-radius: 10px;
   margin: 0 1% 1% 0;
   height: 200px;
+  min-width: 100px;
   overflow: hidden;
   p {
     max-height: 7rem;
@@ -61,6 +87,7 @@ const Content = styled.a`
   }
 
   .header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
   }
@@ -69,10 +96,15 @@ const Content = styled.a`
   }
   .buttons {
     display: flex;
-    justify-content: flex-end;
+    color: var(--color-default-yellow);
     align-items: flex-start;
     position: relative;
     top: -5px;
+    svg {
+      width: 24px;
+      height: 24px;
+      color: var(--color-default-yellow);
+    }
   }
   .bookmark {
     color: #c9ad6e;
@@ -85,6 +117,7 @@ const Content = styled.a`
 const FixedContent = styled(Content)`
   display: flex;
   flex-direction: column;
+  min-width: 230px;
   align-items: flex-start;
 `;
 
@@ -93,6 +126,8 @@ const FixedContentContainer = styled.div`
   justify-content: flex-start;
   background-color: #faf7f1;
   overflow-x: scroll;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 const BookmarkContainer = styled.div`
@@ -121,7 +156,7 @@ const TagContainer = styled.div`
   margin: 10px 0 0 0;
 `;
 
-const Tag = styled.a`
+const Tag = styled.div`
   background-color: #f0f0f0;
   border-radius: 20px;
   margin: 0 5px 5px 0;
@@ -170,18 +205,19 @@ const Collections = () => {
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
-  const { content, selectedBookmark, selectedTag } = useSelector(
-    (state: RootState) => state.collection,
-  );
+  const [content, setContent] = useState<any>({});
+  const [selectedBookmark, setSelectedBookmark] = useState('All');
+  const [selectedTag, setSelectedTag] = useState('');
+
+  // const { content, selectedBookmark, selectedTag } = useSelector(
+  //   (state: RootState) => state.collection,
+  // );
   useEffect(() => {
-    requestAuth
-      .get(
-        'http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/collections/',
-      )
-      .then((response) => {
-        console.log('loaded collections');
-        dispatch(setContent(response.data));
-      });
+    requestAuth.get(`/collections`).then((response) => {
+      console.log('loaded collections');
+      setContent(response.data);
+      // dispatch(setContent(response.data));
+    });
   }, []);
 
   const loadConv = async (cId: number) => {
@@ -198,24 +234,23 @@ const Collections = () => {
   };
 
   const handleBookmarkClick = (bookmark: string) => {
-    dispatch(setSelectedBookmark(bookmark));
+    setSelectedBookmark(bookmark);
+    // dispatch(setSelectedBookmark(bookmark));
   };
 
   const handleTagClick = (tag: string) => {
-    dispatch(setSelectedTag(tag));
+    setSelectedTag(tag);
+    // dispatch(setSelectedTag(tag));
   };
 
   const handleContentUpdate = (newContent: any) => {
-    dispatch(setContent(newContent));
+    // dispatch(setContent(newContent));
+    setContent(newContent);
   };
-
-  dispatch(toggleModal(false));
 
   const handleContentClick = (conversation: Conversation) => {
     requestAuth
-      .get(
-        `http://ec2-3-35-18-213.ap-northeast-2.compute.amazonaws.com:8080/conversations/${conversation.conversationId}`,
-      )
+      .get(`/conversations/${conversation.conversationId}`)
       .then((response) => {
         setSelectedConversation(response.data);
       });
@@ -224,8 +259,22 @@ const Collections = () => {
     setSelectedConversation(null);
   };
 
+  // const handlePinUpdate = async (newPinValue: boolean, cId: number) => {
+  //   await updatePinState({
+  //     cId: conversation.conversationId,
+  //     value: newPinValue,
+  //   });
+  // };
+
+  // const handleDeleteConv = async (cId) => {
+  //   await deleteConversation(conversation.conversationId);
+  //   console.log('delete success!');
+  //   setShow(false);
+  //   // initializeConversation(-1);
+  // };
+
   return (
-    content.conversations && (
+    content?.conversations && (
       <Main>
         {selectedConversation && (
           <ModalContent
@@ -242,8 +291,9 @@ const Collections = () => {
                   <Title
                     className="title"
                     key={conversation.conversationId}
-                    href="#"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
                       handleThumbnailClick(conversation.conversationId);
                     }}
                     // onClick={() => handleContentClick(conversation)}
@@ -251,7 +301,7 @@ const Collections = () => {
                     {conversation.title}
                   </Title>
                   <span className="buttons">
-                    <PinButton /> <BookmarkButton />
+                    <PinButton />
                   </span>
                 </div>
                 <p>{conversation.answerSummary}</p>
@@ -289,7 +339,7 @@ const Collections = () => {
               ))}
             </BookmarkContainer>
             <BookmarkAdd>+New Collection</BookmarkAdd>
-            <TagContainer>
+            {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
                 <Tag
                   key={tag.tagId}
@@ -298,7 +348,7 @@ const Collections = () => {
                   {tag.tagName}
                 </Tag>
               ))}
-            </TagContainer>
+            </TagContainer> */}
           </div>
           <ContentWraper>
             <ContentContainer>
@@ -316,7 +366,6 @@ const Collections = () => {
                       <Title
                         className="title"
                         key={conversation.conversationId}
-                        href="#"
                         onClick={() => {
                           handleThumbnailClick(conversation.conversationId);
                         }}
@@ -325,7 +374,7 @@ const Collections = () => {
                         {conversation.title}
                       </Title>
                       <span className="buttons">
-                        <PinButton /> <BookmarkButton />
+                        {/* <PinButton /> <BookmarkButton /> */}
                       </span>
                     </div>
                     <p>{conversation.answerSummary}</p>
@@ -344,10 +393,14 @@ const Collections = () => {
                     </div>
                   </Content>
                 ))}
+              {!content.conversations.length && (
+                <EmptyContainer>
+                  저장된 내역이 없습니다. 새대화, 이전대화에 북마크를
+                  달아보세요!
+                </EmptyContainer>
+              )}
             </ContentContainer>
           </ContentWraper>
-
-          <div></div>
         </BookmarkTagContent>
         {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
       </Main>

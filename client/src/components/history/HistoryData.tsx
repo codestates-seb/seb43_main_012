@@ -38,6 +38,8 @@ const ContentContainer = styled.div`
   padding: 0 0 20px 0;
   overflow-x: scroll;
   height: 100%;
+  width: 100%;
+  min-width: 300px;
 `;
 
 type HistoryProps = {
