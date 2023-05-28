@@ -40,7 +40,7 @@ export async function askFirstQuestion(question: string) {
     const response = await requestAuth.post<any>(`/conversations`, {
       question,
     });
-    console.log(response.data.qnaList[0].answer);
+    // console.log(response.data.qnaList[0].answer);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -54,7 +54,7 @@ export async function continueConversation(id: number, question: string) {
       conversationId: id,
       question,
     });
-    console.log(response.data);
+    // console.log(response.data);
     return 'success';
   } catch (error) {
     console.error(error);
@@ -65,7 +65,7 @@ export async function continueConversation(id: number, question: string) {
 export async function getConversation(id: number): Promise<Conversation> {
   try {
     const res = await requestAuth.get<any>(`/conversations/${id}`);
-    console.log('conversation: ', res.data.qnaList[0].answer);
+    // console.log('conversation: ', res.data.qnaList[0].answer);
     return res.data;
   } catch (err) {
     console.log(err);
