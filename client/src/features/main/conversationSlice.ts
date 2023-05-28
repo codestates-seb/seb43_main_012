@@ -165,7 +165,6 @@ const conversationSlice = createSlice({
     },
 
     changeTitle: (state, action: { payload: string }) => {
-      // console.log('reducer: edit title');
       state.content.title = action.payload;
       state.cTitle = action.payload;
     },
@@ -176,8 +175,6 @@ const conversationSlice = createSlice({
       action: { payload: { bId: number; bName: string } },
     ) => {
       const { bId, bName } = action.payload;
-      // console.log('reducer: update bookmark');
-
       const allBookmarks = [
         ...state.content.bookmarks.map((b) => b.bookmarkName),
         ...state.content.bookmarkList.map((b) => b.bookmarkName),

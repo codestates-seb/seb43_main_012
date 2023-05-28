@@ -49,10 +49,14 @@ type HistoryProps = {
 };
 
 const HistoryData = ({ binnedConv, handleClick, TagSearch }: HistoryProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const handleThumbnailClick = async (cId: number) => {
+    console.log('thumbnail click!');
+    // setIsLoading(true);
     await loadConv(cId);
+    console.log('loaded conv');
     handleClick();
   };
 

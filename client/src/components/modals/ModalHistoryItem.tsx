@@ -26,7 +26,6 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
       visible={visible}
       onClose={() => {
         setVisible(false);
-        //   console.log('modal history item closing!');
         dispatch(initializeConversation(-1));
       }}
     >

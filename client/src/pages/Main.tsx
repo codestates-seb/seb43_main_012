@@ -78,7 +78,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const loggedIn = useAppSelector(selectLoginState);
 
   const updateQNum = () => {
-    // console.log('updating question number!');
+    console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
 
@@ -86,7 +86,6 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
     if (cId !== -1) {
       const conversation = await getConversation(cId);
       if (conversation) {
-        // console.log('started new session!');
         console.log(conversation);
         dispatch(setConversation(conversation));
       }
@@ -97,37 +96,8 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      // (async function () {
-      //   const conversations = await getAllConversations();
-      //   if (conversations) {
-      //     // console.log('fetched data!');
-      //     // console.log(conversations.bookmarkList);
-      //   }
-      // })();
-      //edit bookmark test
-      (async function () {
-        // await loadConv(3);
-        // const res = await editBookmark({
-        //   bId: 33,
-        //   newName: 'WorldHist',
-        // });
-        // console.log(res);
-      })();
-    }
-
-    // (async function () {
-    //   const conversations = await getCollections();
-    //   if (conversations) {
-    //     // console.log('fetched data!');
-    //     console.log(conversations);
-    //   }
-    // })();
+    scrollToLastQ();
   }, []);
-
-  // useEffect(() => {
-  //   loadConv(currentCId);
-  // }, [conversation.conversationId]);
 
   useEffect(() => {
     scrollToLastQ();
@@ -136,10 +106,11 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
-    // console.log('store conversation UPDATED');
+    console.log('store conversation UPDATED');
   }, [conversation, selectLoginState]);
 
   useEffect(() => {
+    console.log('updated qnum');
     if (conversation.title) {
       (async function () {
         const newConversation = await getConversation(
