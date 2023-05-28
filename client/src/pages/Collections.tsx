@@ -304,7 +304,9 @@ const Collections = () => {
                     <PinButton />
                   </span>
                 </div>
-                <p>{conversation.answerSummary}</p>
+                <p>
+                  {conversation.answerSummary.trim().split(/[.!?]/)[0].trim()}
+                </p>
                 <span className="bookmark">
                   {conversation.bookmarks[0]?.bookmarkName}
                 </span>
