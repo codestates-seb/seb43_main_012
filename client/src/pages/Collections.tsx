@@ -10,6 +10,7 @@ import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/history/iconPinned.svg';
 import ModalContent from '../components/modals/ModalContent';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+import { truncateTitle } from '../utils/ContentFunctions';
 
 import {
   setContent,
@@ -309,7 +310,7 @@ const Collections = () => {
                     }}
                     // onClick={() => handleContentClick(conversation)}
                   >
-                    {conversation.title}
+                    {truncateTitle(conversation.title, 10)}
                   </Title>
                   <span className="buttons">
                     <PinButton />
@@ -382,7 +383,7 @@ const Collections = () => {
                         }}
                         // onClick={() => handleContentClick(conversation)}
                       >
-                        {conversation.title}
+                        {truncateTitle(conversation.title, 50)}
                       </Title>
                       <span className="buttons">
                         {/* <PinButton /> <BookmarkButton /> */}
