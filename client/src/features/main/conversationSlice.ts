@@ -138,7 +138,7 @@ const conversationSlice = createSlice({
     },
 
     setConversation: (state, action) => {
-      console.log('reducer: set conversation');
+      // console.log('reducer: set conversation');
       state.content = action.payload;
       state.cId = action.payload.conversationId;
       state.cTitle = action.payload.title;
@@ -148,7 +148,7 @@ const conversationSlice = createSlice({
       state,
       action: { payload: { id: number; newCheckValue: boolean } },
     ) => {
-      console.log('reducer: change qna save status');
+      // console.log('reducer: change qna save status');
       const { id, newCheckValue } = action.payload;
       const qnaList = state.content.qnaList;
 
@@ -165,7 +165,7 @@ const conversationSlice = createSlice({
     },
 
     changeTitle: (state, action: { payload: string }) => {
-      console.log('reducer: edit title');
+      // console.log('reducer: edit title');
       state.content.title = action.payload;
       state.cTitle = action.payload;
     },
