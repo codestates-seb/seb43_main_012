@@ -308,7 +308,6 @@ const Collections = () => {
                       e.preventDefault();
                       handleThumbnailClick(conversation.conversationId);
                     }}
-                    // onClick={() => handleContentClick(conversation)}
                   >
                     {truncateTitle(conversation.title, 50)}
                   </Title>
@@ -381,7 +380,6 @@ const Collections = () => {
                         onClick={() => {
                           handleThumbnailClick(conversation.conversationId);
                         }}
-                        // onClick={() => handleContentClick(conversation)}
                       >
                         {truncateTitle(conversation.title, 50)}
                       </Title>
