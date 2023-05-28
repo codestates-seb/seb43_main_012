@@ -72,11 +72,53 @@ const CodeBlock = styled.pre`
   }
 `;
 
+function extractSentences(text: string): string[] {
+  console.log('extract sentences');
+  let remainingText = text;
+  const extractedPieces: string[] = [];
+  const codeBlockRegex = /```[\s\S]*?```/g;
+
+  while (remainingText.length > 0) {
+    console.log('there is remaining text,', remainingText);
+
+    const codeBlocks =
+      ((remainingText.startsWith('```') &&
+        remainingText.match(codeBlockRegex)) ||
+        [])[0] || '';
+
+    if (codeBlocks.length > 0) {
+      console.log('blocks', codeBlocks);
+      extractedPieces.push(...codeBlocks);
+      remainingText = remainingText
+        .replace(codeBlocks, '')
+        .replace(/^\n\n/, '');
+
+      continue;
+    }
+
+    const paragraph = remainingText.split('\n\n')[0] || '';
+    if (paragraph.length > 0) {
+      console.log('blocks:', paragraph);
+
+      extractedPieces.push(paragraph);
+      remainingText = remainingText.replace(paragraph + '\n\n', '');
+      remainingText = remainingText.replace(paragraph, '');
+      console.log('remainder: ', remainingText);
+      continue;
+    }
+
+    extractedPieces.push(remainingText);
+    break;
+  }
+  return extractedPieces;
+}
+
 const TextWithFormatting = (text: string) => {
   const sections = text.split('\n\n\n');
 
   const renderSections = sections.map((section, sectionIndex) => {
     const paragraphs = section.split('\n\n');
+    // const paragraphs = extractSentences(section);
 
     const renderParagraphs = paragraphs.map((paragraph, index) => {
       const lines = paragraph.split('\n');

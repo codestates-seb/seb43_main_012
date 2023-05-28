@@ -10,7 +10,10 @@ import {
 import Main from '../../pages/Main';
 
 import { useAppDispatch } from '../../app/hooks';
-import { initializeConversation } from '../../features/main/conversationSlice';
+import {
+  initializeConversation,
+  scrollToLast,
+} from '../../features/main/conversationSlice';
 
 type Props = {
   visible: boolean;
@@ -21,12 +24,12 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
 
   return (
     <CModal
+      id="modal-convItem"
       className="modal_bookmark modal_chatbox"
       alignment="top"
       visible={visible}
       onClose={() => {
         setVisible(false);
-        //   console.log('modal history item closing!');
         dispatch(initializeConversation(-1));
       }}
     >

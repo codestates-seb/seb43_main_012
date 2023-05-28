@@ -62,8 +62,6 @@ function History(): ReactElement {
   const handleClick = () => {
     // e.stopPropagation();
     // e.preventDefault();
-    console.log('modal!');
-    console.log(isOpen);
     setIsOpen(!isOpen);
   };
 
@@ -111,7 +109,7 @@ function History(): ReactElement {
   const loadAllConv = async (q: string = queries) => {
     try {
       setIsNone(false);
-      console.log('load all conv');
+      // console.log('load all conv');
       const conversations: ConversationThumbType[] = await getAllConversations(
         queries,
       );

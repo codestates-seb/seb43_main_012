@@ -138,7 +138,7 @@ const conversationSlice = createSlice({
     },
 
     setConversation: (state, action) => {
-      console.log('reducer: set conversation');
+      // console.log('reducer: set conversation');
       state.content = action.payload;
       state.cId = action.payload.conversationId;
       state.cTitle = action.payload.title;
@@ -148,7 +148,7 @@ const conversationSlice = createSlice({
       state,
       action: { payload: { id: number; newCheckValue: boolean } },
     ) => {
-      console.log('reducer: change qna save status');
+      // console.log('reducer: change qna save status');
       const { id, newCheckValue } = action.payload;
       const qnaList = state.content.qnaList;
 
@@ -165,7 +165,6 @@ const conversationSlice = createSlice({
     },
 
     changeTitle: (state, action: { payload: string }) => {
-      console.log('reducer: edit title');
       state.content.title = action.payload;
       state.cTitle = action.payload;
     },
@@ -176,8 +175,6 @@ const conversationSlice = createSlice({
       action: { payload: { bId: number; bName: string } },
     ) => {
       const { bId, bName } = action.payload;
-      // console.log('reducer: update bookmark');
-
       const allBookmarks = [
         ...state.content.bookmarks.map((b) => b.bookmarkName),
         ...state.content.bookmarkList.map((b) => b.bookmarkName),
@@ -228,6 +225,13 @@ const conversationSlice = createSlice({
         }
         default:
           return;
+      }
+    },
+    scrollToLast: () => {
+      console.log('scroll to last');
+      const lastQnA = document.getElementById('qnaList');
+      if (lastQnA) {
+        lastQnA.scrollIntoView({ behavior: 'smooth' });
       }
     },
   },
@@ -302,6 +306,7 @@ export const {
   changeTitle,
   updateBookmarks,
   updateTags,
+  scrollToLast,
 } = conversationSlice.actions;
 
 export default conversationSlice.reducer;
