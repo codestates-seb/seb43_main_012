@@ -44,8 +44,23 @@ const MainBox = styled(M.MainBox)<BoxProps>`
 `;
 
 function scrollToLastQ() {
-  const lastQnA = document.getElementById('qnaList')?.lastChild as HTMLElement;
-  if (lastQnA) lastQnA.scrollIntoView({ behavior: 'smooth' });
+  // console.log('scroll function invoked');
+  const modal = document.getElementById('modal-convItem');
+
+  if (modal) {
+    const lastQnA = modal?.querySelector(
+      '#qnaList > :last-child',
+    ) as HTMLElement;
+    if (lastQnA) {
+      lastQnA.scrollIntoView({ behavior: 'smooth' });
+    }
+  } else {
+    const lastQnA = document.getElementById('qnaList')
+      ?.lastChild as HTMLElement;
+    if (lastQnA) {
+      lastQnA.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
 
 const StartBox = styled.div`
@@ -68,17 +83,19 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
 
   const conversation: Conversation = useAppSelector(selectConversation);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [qNum, setQNum] = useState<number>(0);
+  const [qNum, setQNum] = useState<number>(
+    useAppSelector(selectConversation).qnaList.length,
+  );
   const [currentCId, setCurrentCId] = useState<number>(
     useAppSelector(selectCId),
   );
 
   const [editTitleState, setEditTitleState] = useState<boolean>(false);
   const [editConfirm, setEditConfirm] = useState<boolean>(false);
-  const loggedIn = useAppSelector(selectLoginState);
+  let loggedIn = useAppSelector(selectLoginState);
 
   const updateQNum = () => {
-    // console.log('updating question number!');
+    console.log('updating question number!');
     setQNum((prev) => prev + 1);
   };
 
@@ -86,7 +103,6 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
     if (cId !== -1) {
       const conversation = await getConversation(cId);
       if (conversation) {
-        // console.log('started new session!');
         console.log(conversation);
         dispatch(setConversation(conversation));
       }
@@ -97,50 +113,16 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      // (async function () {
-      //   const conversations = await getAllConversations();
-      //   if (conversations) {
-      //     // console.log('fetched data!');
-      //     // console.log(conversations.bookmarkList);
-      //   }
-      // })();
-      //edit bookmark test
-      (async function () {
-        // await loadConv(3);
-        // const res = await editBookmark({
-        //   bId: 33,
-        //   newName: 'WorldHist',
-        // });
-        // console.log(res);
-      })();
-    }
-
-    // (async function () {
-    //   const conversations = await getCollections();
-    //   if (conversations) {
-    //     // console.log('fetched data!');
-    //     console.log(conversations);
-    //   }
-    // })();
-  }, []);
-
-  // useEffect(() => {
-  //   loadConv(currentCId);
-  // }, [conversation.conversationId]);
-
-  useEffect(() => {
+    if (qNum !== conversation.qnaList.length)
+      setQNum(conversation.qnaList.length);
     scrollToLastQ();
   }, [conversation.title, conversation.qnaList.length]);
 
   useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
-    // console.log('store conversation UPDATED');
-  }, [conversation, selectLoginState]);
-
-  useEffect(() => {
-    if (conversation.title) {
+    // console.log('updated qnum: ', qNum);
+    if (conversation.title && qNum !== conversation.qnaList.length) {
       (async function () {
         const newConversation = await getConversation(
           conversation?.conversationId,
@@ -151,6 +133,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
         }
       })();
     }
+    scrollToLastQ();
   }, [qNum]);
 
   return (

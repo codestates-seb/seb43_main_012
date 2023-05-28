@@ -131,8 +131,7 @@ const TopNav = ({
     } else if (location.pathname === '/collection') {
       dispatch(toggleModal(false));
     } else if (location.pathname === '/history') {
-      console.log('toggle item');
-      dispatch(toggleModal(true));
+      dispatch(toggleModal(false));
     }
   }, [location]);
 
@@ -148,7 +147,7 @@ const TopNav = ({
   }, []);
 
   useEffect(() => {
-    console.log('topnav update');
+    // console.log('topnav update');
     // console.log('memberavatar', _memberInfo.avatarLink);
     if (
       isLoggedIn !== _loginState ||
