@@ -60,6 +60,10 @@ function ModalCharacter({
       console.error(error);
     }
   };
+
+  const closeModalHandler2 = () => {
+    setIsOpen(false);
+  };
   // 아바타 지정 핸들러 (아바타 클릭시 해당 url이 저장)
   const selectCharacterHandler = (character: string) => {
     setSelectedCharacter(character);
@@ -68,7 +72,7 @@ function ModalCharacter({
   return (
     <CharacterWrapper>
       {isOpen && (
-        <ModalBackdrop>
+        <ModalBackdrop onClick={closeModalHandler2}>
           <ModalView onClick={(e) => e.stopPropagation()}>
             <h2>Select Your Character</h2>
             <CharacterBox>
