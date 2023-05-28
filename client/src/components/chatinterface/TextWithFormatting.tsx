@@ -79,8 +79,12 @@ function extractSentences(text: string): string[] {
   const codeBlockRegex = /```[\s\S]*?```/g;
 
   while (remainingText.length > 0) {
-    const codeBlocks = (remainingText.match(codeBlockRegex) || [])[0] || '';
-    // console.log('there is remaining text,', remainingText);
+    console.log('there is remaining text,', remainingText);
+
+    const codeBlocks =
+      ((remainingText.startsWith('```') &&
+        remainingText.match(codeBlockRegex)) ||
+        [])[0] || '';
 
     if (codeBlocks.length > 0) {
       console.log('blocks', codeBlocks);
@@ -94,14 +98,17 @@ function extractSentences(text: string): string[] {
 
     const paragraph = remainingText.split('\n\n')[0] || '';
     if (paragraph.length > 0) {
-      console.log('blocks', paragraph);
+      console.log('blocks:', paragraph);
 
       extractedPieces.push(paragraph);
+      remainingText = remainingText.replace(paragraph + '\n\n', '');
       remainingText = remainingText.replace(paragraph, '');
-
-      break;
+      console.log('remainder: ', remainingText);
+      continue;
     }
-    // if ()
+
+    extractedPieces.push(remainingText);
+    break;
   }
   return extractedPieces;
 }
