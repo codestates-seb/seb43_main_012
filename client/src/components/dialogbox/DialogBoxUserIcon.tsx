@@ -54,7 +54,6 @@ const DialogBoxUserIcon = ({
   ) => {
     //close modal
     e.stopPropagation();
-    console.log('dialog item clicked!');
     if (setIsUserDialogOpen) setIsUserDialogOpen(false);
   };
 
