@@ -2,7 +2,7 @@ name: client
 on:
   push:
     branches:
-      - dev
+      - fe-dev
 
 jobs:
   build:
