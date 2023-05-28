@@ -61,17 +61,13 @@ const LoginForm = ({ closeModal }: Props) => {
 
     try {
       const res = await handleLogin({ userId, password, setErrors });
-      console.log('login response', res);
       if (res.status === 200) {
-        console.log(localStorage.getItem('token'));
-
         //리덕스 state 업데이트
         if (localStorage.getItem('memberId')) {
           const mId = localStorage.getItem('memberId');
           const userData: UserInfoItemTypes = await handleUserInfo(
             `user/${mId}`,
           );
-          console.log(formatDateTime(userData.createdAt));
           dispatch(
             updateMemberInfo({
               userId: userData.id,

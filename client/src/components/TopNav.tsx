@@ -201,7 +201,7 @@ const TopNav = ({
     if (!isLoggedIn) setIsModalLoginOpen(true);
     if (isLoggedIn && !isUserDialogOpen) {
       setIsUserDialogOpen(true);
-      console.log(`x: ${e.clientX}, y: ${e.clientY}`);
+      // console.log(`x: ${e.clientX}, y: ${e.clientY}`);
       setDialogPosition({ x: e.clientX, y: e.clientY + 10 });
     }
     if (isLoggedIn && isUserDialogOpen) {
@@ -224,10 +224,9 @@ const TopNav = ({
         'questionInput',
       ) as HTMLInputElement | null;
       if (element) {
-        console.log('element found!');
+        // console.log('element found!');
         element.focus();
       }
-      // navigate(0);
     }
   }, [location]);
 
@@ -240,20 +239,6 @@ const TopNav = ({
   } else {
     Id = 0;
   }
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userData: UserInfoItemTypes = await handleUserInfo(`user/${Id}`);
-        setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
-        setUsername(userData.username); // username 값 설정
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUserInfo();
-  });
 
   const handleChatBtnClick = () => {
     dispatch(initializeConversation(-1));

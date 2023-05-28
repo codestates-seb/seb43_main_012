@@ -48,7 +48,7 @@ export const handleNameUpdate = async (
     },
     { withCredentials: true },
   );
-  console.log('update success!', response);
+  // console.log('update success!', response);
 
   if (response.status === 200) {
     // console.log('updating token');
