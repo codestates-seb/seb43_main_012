@@ -1,0 +1,35 @@
+name: client
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install 
+        working-directory: ./chatcrawl-client
+      - name: Build
+        run: npm run build
+        env: 
+          VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
+          VITE_BASE_URL:  ${{ secrets.VITE_BASE_URL }}
+          VITE_ClientID:  ${{ secrets.VITE_ClientId }}
+        working-directory: ./chatcrawl-client
+      - name: SHOW AWS CLI VERSION
+        run: aws --version
+      - name: Sync Bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
+        run: |
+          aws s3 <?> \
+            --region ap-northeast-2 \
+            build s3://chatcrawl.live \
+            --delete
+        working-directory: ./chatcrawl-client
