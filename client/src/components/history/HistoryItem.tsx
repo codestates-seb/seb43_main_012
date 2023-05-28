@@ -61,6 +61,7 @@ export const HistContent = styled.div`
     align-items: center;
     text-overflow: ellipsis;
     height: fit-content;
+    word-break: keep-all;
 
     font-size: 18px;
     line-height: 1.5rem;
