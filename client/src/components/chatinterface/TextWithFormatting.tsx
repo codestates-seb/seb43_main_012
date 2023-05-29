@@ -23,30 +23,34 @@ const ParagraphBox = styled.div`
   }
 
   ol {
-    margin-left: 18px;
+    margin-left: 30px;
     margin-bottom: 16px;
   }
 
   ol li::marker {
-    margin-right: 5px;
+    display: block !important;
+    text-align: left;
+    padding: 5px;
+    // color: red;
   }
 
   ol li {
     position: relative;
     padding-left: 10px;
+    width: 100%;
+    margin-bottom: 3px;
   }
   ol li::before {
-    li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 5px;
-      height: 5px;
-      background-color: red;
-      border-radius: 50%;
-    }
+    width: 30px;
+    // content: '';
+    // position: absolute;
+    // left: 0;
+    // top: 50%;
+    // transform: translateY(-50%);
+    // width: 10px;
+    // height: 5px;
+    // background-color: red;
+    // border-radius: 50%;
   }
 `;
 
@@ -80,10 +84,13 @@ const CodeBlock = styled.pre`
 `;
 
 function extractSentences(text: string): string[] {
-  console.log('extract sentences');
+  // console.log('extract sentences');
   let remainingText = text;
   const extractedPieces: string[] = [];
   const codeBlockRegex = /```[\s\S]*?```/g;
+  const codeBlockRegexIncomplete = /```[\s\S]*?/g;
+  const listBlockRegex =
+    /^(\d+\..*?|(?:\n-[\s\S]*)+)([\s\S]*?)($(?!\s*[-*\d]))/gm;
 
   while (remainingText.length > 0) {
     // console.log('there is remaining text,', remainingText);
@@ -103,12 +110,43 @@ function extractSentences(text: string): string[] {
       continue;
     }
 
+    // const codeBlocksIncomplete =
+    //   ((remainingText.startsWith('```') &&
+    //     remainingText.match(codeBlockRegexIncomplete)) ||
+    //     [])[0] || '';
+
+    // if (codeBlocksIncomplete.length > 0) {
+    //   console.log('blocks', codeBlocksIncomplete);
+    //   extractedPieces.push(codeBlocksIncomplete);
+    //   remainingText = remainingText
+    //     .replace(codeBlocksIncomplete, '')
+    //     .replace(/^\n\n/, '');
+
+    //   continue;
+    // }
+
+    const listItems =
+      (remainingText.startsWith('1.' || '-' || '*' || '•') &&
+        remainingText.match(listBlockRegex)) ||
+      '';
+
+    if (listItems.length > 0) {
+      // console.log('list:', listItems);
+      extractedPieces.push(listItems[0]);
+      remainingText = remainingText.replace(listItems[0], '');
+
+      continue;
+    }
+
     const paragraph = remainingText.split('\n\n')[0].trim() || '';
+    // console.log('paragraphs:', paragraph);
+
     if (paragraph.length > 0) {
-      // console.log('blocks:', paragraph);
+      // console.log('paragraph blocks:', paragraph);
 
       extractedPieces.push(paragraph);
       remainingText = remainingText.replace(paragraph + '\n\n', '');
+      remainingText = remainingText.replace(paragraph + ' \n\n', '');
       remainingText = remainingText.replace(paragraph, '');
       // console.log('remainder: ', remainingText);
       continue;
@@ -128,24 +166,28 @@ const TextWithFormatting = (text: string) => {
     const paragraphs = extractSentences(section);
 
     const renderParagraphs = paragraphs.map((paragraph, index) => {
+      const bulletPattern = /^(\d|-|\u2022)..*/;
+      const matchList =
+        paragraph.startsWith('1.' || '-' || '*' || '•') &&
+        paragraph.match(bulletPattern);
+
+      if (matchList) {
+        console.log('matched list!');
+        const bulletItemsPattern =
+          /^(\d+\..*?(?:\s+-[\s\S]*)?)([\s\S]+?)(?=(?!\s*[-])$)/gm;
+        const listItems = paragraph
+          .match(bulletItemsPattern)
+          ?.map((item, itemIdx) => {
+            // if (item.includes('\n')) item = item.replaceAll('\n', '<br>');
+            if (item.match(/^\d+\.\s*/)) console.log('matched!');
+            item = item.replace(/^\d+\.\s*/, '').trim();
+            return <li key={itemIdx}>{item}</li>;
+          });
+
+        return <ol key={index}>{listItems}</ol>;
+      }
+
       const lines = paragraph.split('\n');
-
-      // if (lines.length === 1 && !lines[0].startsWith('```')) {
-      //   return <p key={index}>{lines[0].trim()}</p>;
-      // }
-
-      // const isNumberedList = lines.every((line, lineIndex) =>
-      //   line.trim().startsWith(`${lineIndex + 1}. `),
-      // );
-
-      // if (isNumberedList) {
-      //   const listItems = lines.map((line, lineIndex) => {
-      //     const listItem = line.replace(`${lineIndex + 1}. `, '');
-      //     return <li key={lineIndex}>{listItem}</li>;
-      //   });
-
-      //   return <ol key={index}>{listItems}</ol>;
-      // }
 
       if (
         lines[0].startsWith('```') &&
@@ -161,15 +203,6 @@ const TextWithFormatting = (text: string) => {
       }
 
       const renderLines = lines.map((line, lineIndex) => {
-        if (line.startsWith('```')) {
-          const code = line.slice(3);
-          return (
-            <CodeBlock key={lineIndex}>
-              <code>{code}</code>
-            </CodeBlock>
-          );
-        }
-
         // console.log(
         //   'lineidx: ',
         //   lineIndex,
@@ -179,11 +212,12 @@ const TextWithFormatting = (text: string) => {
         //   line.length,
         // );
         if (
-          (line.length === (0 || 1) && lineIndex === 0) ||
-          (line.length === 0 && lineIndex === 1)
+          (line.length === 0 && lineIndex === 0) ||
+          (line.length === 0 && lineIndex === 1) ||
+          (line.length === 1 && lineIndex === 0)
         ) {
-          // console.log('filtered', lineIndex);
-          // console.log('filteredline', line);
+          console.log('filtered', lineIndex);
+          console.log('filteredline', line);
           return;
         }
 

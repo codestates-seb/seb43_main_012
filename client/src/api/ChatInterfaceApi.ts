@@ -67,7 +67,7 @@ export async function getConversation(id: number): Promise<Conversation> {
     const res = await requestAuth.get<any>(`/conversations/${id}`);
     // console.log('conversation: ', res.data.qnaList[0].answer);
     // for (let i = 0; i < res.data.qnaList.length; i++) {
-    //   console.log('answer:', res.data.qnaList[i].answer);
+    //   console.log('answer:', res.data.qnaList);
     // }
     return res.data;
   } catch (err) {
