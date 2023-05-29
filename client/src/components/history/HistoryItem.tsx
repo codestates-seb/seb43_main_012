@@ -68,7 +68,7 @@ export const HistContent = styled.div<StyleProps>`
     height: fit-content;
     word-break: keep-all;
 
-    font-size: 18px;
+    font-size: ${(props) => (props.hovering ? '19.2px' : '18px')};
     line-height: 1.5rem;
     font-weight: 500;
     font-stretch: condensed;
@@ -77,6 +77,7 @@ export const HistContent = styled.div<StyleProps>`
     max-width: 230px;
     max-height: 80px;
     padding: 10px;
+    transition: font-size 0.3s ease;
 
     background: url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=fcfc88);
     margin: -6px -6px;

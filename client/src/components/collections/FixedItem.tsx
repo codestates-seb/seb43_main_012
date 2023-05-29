@@ -155,13 +155,13 @@ const FixedContent = styled(Content)`
   }
 `;
 
-const FixedTitle = styled.div`
+const FixedTitle = styled.div<StyledProps>`
   display: flex;
   justify-content: center;
   text-align: center;
   // margin-top: 2rem;
   width: 100%;
-  font-size: 1.1rem;
+  font-size: ${(props) => (props.hovering ? '1.2rem' : '1.1rem')};
   font-weight: 500;
   font-stretch: condensed;
   line-height: 1.5rem;
@@ -169,6 +169,7 @@ const FixedTitle = styled.div`
   &:hover {
     cursor: pointer;
   }
+  transition: font-size 0.5s ease-in-out;
 `;
 
 const SvgButton = styled.button`
@@ -205,6 +206,7 @@ const FixedItem = ({ conversation, handleContentClick }: Props) => {
         onClick={handleTitleClick}
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
+        hovering={hovering}
       >
         {truncateTitle(conversation.title, 30)}
       </FixedTitle>
