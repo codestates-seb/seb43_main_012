@@ -4,12 +4,14 @@ import { requestAuth } from '../utils/axiosConfig';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../app/store';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
 import { ReactComponent as ThumbtackSolid } from '../assets/icons/history/iconPinned.svg';
 import ModalContent from '../components/modals/ModalContent';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
+import FixedBookmarks from '../components/collections/FixedBookmarks';
 import { truncateTitle } from '../utils/ContentFunctions';
 
 import {
@@ -72,7 +74,7 @@ const Title = styled.div`
   }
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 16rem;
@@ -152,88 +154,8 @@ const Content = styled.div`
   }
   .tag {
     color: #7bb06e;
-    font-weight: 600;
-  }
-`;
-
-const FixedContent = styled(Content)`
-  display: flex;
-  flex-direction: column;
-  min-width: 240px;
-  max-height: 150px;
-  justify-content: space-between;
-  align-items: center;
-  background: #c0d9b9;
-  border: 1.5px solid #8dad84;
-  // background: var(--color-thumbnail-bg);
-  // border: 1.5px solid var(--color-default-yellow);
-
-  .fixedUI {
-    display: flex;
-    width: 100%;
-    height: 30px;
-    color: #8dad84;
-    // color: var(--color-default-yellow);
-    justify-content: flex-end;
-    align-items: flex-end;
-    svg {
-      width: 24px;
-      height: 24px;
-      color: #8dad84;
-      // color: var(--color-default-yellow);
-    }
-  }
-
-  .title {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    // margin-top: 2rem;
-    width: 100%;
-    font-size: 1.1rem;
     font-weight: 500;
-    font-stretch: condensed;
-    line-height: 1.5rem;
-    background: url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=DFFAD6);
-    &:hover {
-      cursor: pointer;
-    }
   }
-
-  .links {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-bottom: 5px;
-    font-weight: 500;
-    font-size: 14px;
-    div {
-      padding: 2.5px 0;
-    }
-  }
-
-  .bookmark {
-    font-weight: 600;
-    color: #18977b;
-    // color: #DFFAD6;
-  }
-
-  .tag {
-    color: #648061;
-  }
-`;
-
-const FixedContentContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  background-color: #faf7f1;
-  overflow-x: scroll;
-  margin-top: 30px;
-  margin-bottom: 30px;
 `;
 
 const BookmarkContainer = styled.div`
@@ -277,7 +199,7 @@ const BookmarkTagContent = styled.div`
 const SvgButton = styled.button`
   width: 20px;
   border: none;
-  margin: 20% 5% 0 5%;
+  margin: 0%;
   background-color: transparent;
   cursor: pointer;
 `;
@@ -288,14 +210,6 @@ const BookmarkButton = () => {
   return (
     <SvgButton>
       <BookmarkSolid />
-    </SvgButton>
-  );
-};
-
-const PinButton = () => {
-  return (
-    <SvgButton>
-      <ThumbtackSolid />
     </SvgButton>
   );
 };
@@ -338,6 +252,7 @@ const Collections = () => {
   // const { content, selectedBookmark, selectedTag } = useSelector(
   //   (state: RootState) => state.collection,
   // );
+
   useEffect(() => {
     requestAuth.get(`/collections`).then((response) => {
       console.log('loaded collections');
@@ -392,20 +307,6 @@ const Collections = () => {
     setSelectedConversation(null);
   };
 
-  // const handlePinUpdate = async (newPinValue: boolean, cId: number) => {
-  //   await updatePinState({
-  //     cId: conversation.conversationId,
-  //     value: newPinValue,
-  //   });
-  // };
-
-  // const handleDeleteConv = async (cId) => {
-  //   await deleteConversation(conversation.conversationId);
-  //   console.log('delete success!');
-  //   setShow(false);
-  //   // initializeConversation(-1);
-  // };
-
   return (
     content?.conversations && (
       <Main>
@@ -415,41 +316,10 @@ const Collections = () => {
             onClose={handleCloseModal}
           />
         )}
-        <FixedContentContainer>
-          {content.conversations
-            .filter((item: any) => item.pinned)
-            .map((conversation: Conversation) => (
-              <FixedContent>
-                <div className="fixedUI">
-                  <PinButton />
-                </div>
-                <div
-                  className="title"
-                  key={conversation.conversationId}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    handleThumbnailClick(conversation.conversationId);
-                  }}
-                >
-                  {truncateTitle(conversation.title, 30)}
-                </div>
-                {/* <p>{getFirstSentence(conversation.answerSummary)}</p> */}
-
-                <div className="links">
-                  <div className="bookmark">
-                    {conversation.bookmarks[0]?.bookmarkName}
-                  </div>
-                  <div className="tag">
-                    {conversation.tags.map((tag: TagType) => (
-                      <span key={tag.tagId}>#{tag.tagName} </span>
-                    ))}
-                  </div>
-                </div>
-              </FixedContent>
-            ))}
-        </FixedContentContainer>
-
+        <FixedBookmarks
+          conversations={content.conversations}
+          handleContentClick={handleThumbnailClick}
+        />
         <BookmarkTagContent>
           <div>
             <BookmarkContainer>
@@ -502,7 +372,7 @@ const Collections = () => {
                           handleThumbnailClick(conversation.conversationId);
                         }}
                       >
-                        {truncateTitle(conversation.title, 30)}
+                        {truncateTitle(conversation.title, 35)}
                       </Title>
                     </div>
                     <div

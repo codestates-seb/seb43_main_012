@@ -7,25 +7,36 @@ import { ReactComponent as PinIcon } from '../../assets/icons/history/iconPinOff
 import { ReactComponent as ConfirmIcon } from '../../assets/icons/history/iconCheckAlternative.svg';
 import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
 
-const EditUIBox = styled.div`
-  color: var(--color-default-yellow);
+type StyleProps = {
+  hovering: boolean;
+};
+
+const EditUIBox = styled.div<StyleProps>`
+  color: ${(props) =>
+    props.hovering
+      ? 'var(--color-default-yellow-darker)'
+      : 'var(--color-default-yellow)'};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   align-self: flex-end;
+  transition: color 0.3s ease-in-out;
 
+  div {
+    display: flex;
+    flex-direction: row;
+  }
   svg {
     width: 24px;
     height: 24px;
     display: flex;
   }
   svg:hover {
-    color: var(--color-default-yellow-darker);
+    color: #fcfc88;
     path {
       stroke-width: 2;
     }
-    // color: var(--color-default-green);
   }
 `;
 
@@ -37,12 +48,6 @@ const ConfirmCancelBox = styled.div`
   color: var(--color-error);
   font-size: 14px;
   font-weight: 600;
-
-  //   svg {
-  //     path {
-  //       stroke-width: 3;
-  //     }
-  //   }
 
   svg:hover {
     path {
@@ -57,11 +62,15 @@ type Props = {
   pinned: boolean;
   handlePinUpdate: (newPinValue: boolean) => void;
   handleDeleteConv: () => void;
+  hovering: boolean;
+  setHovering: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const HistoryEditUI = ({
   pinned,
   handlePinUpdate,
   handleDeleteConv,
+  hovering,
+  setHovering,
 }: Props) => {
   const [aboutToDelete, setAboutToDelete] = useState<boolean>(false);
   const [isPinned, setIsPinned] = useState<boolean>(pinned);
@@ -92,7 +101,7 @@ const HistoryEditUI = ({
   };
 
   return (
-    <EditUIBox>
+    <EditUIBox hovering={hovering}>
       {aboutToDelete ? (
         <ConfirmCancelBox>
           <div>{`DELETE ?`}</div>
@@ -102,14 +111,17 @@ const HistoryEditUI = ({
           </>
         </ConfirmCancelBox>
       ) : (
-        <>
+        <div
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+        >
           {isPinned ? (
             <PinnedIcon onClick={handlePinClick} />
           ) : (
             <PinIcon onClick={handlePinClick} />
           )}
           <DeleteIcon onClick={handleDeleteClick} />
-        </>
+        </div>
       )}
     </EditUIBox>
   );
