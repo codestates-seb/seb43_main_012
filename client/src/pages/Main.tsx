@@ -155,14 +155,8 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
             </Link>
             {!loggedIn && (
               <>
-                <br /> <br />
                 <br />
                 로그인을 해야만 모든 서비스 이용 가능합니다.
-                <br />
-                <br />
-                테스트계정: test@test.com, Test123!
-                <br /> <br />
-                <br />{' '}
               </>
             )}
           </StartBox>

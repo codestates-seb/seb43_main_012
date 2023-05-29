@@ -224,14 +224,10 @@ const TopNav = ({
         'questionInput',
       ) as HTMLInputElement | null;
       if (element) {
-        // console.log('element found!');
         element.focus();
       }
     }
   }, [location]);
-
-  const [avatarLink, setAvatarLink] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
 
   let Id: any = 0;
   if (localStorage.getItem('memberId')) {
