@@ -54,7 +54,8 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  margin-left: 20px;
+  justify-content: flex-start;
   align-content: flex-start;
   padding: 5px;
   overflow: scroll;
@@ -164,11 +165,31 @@ const BookmarkContainer = styled.div`
   width: 10.5rem;
 `;
 
-const Bookmark = styled.a`
+const Bookmark = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   background-color: #f0f0f0;
   border-radius: 20px;
   margin: 0 5px 5px 0;
   padding: 5px;
+  width: 100%;
+
+  span {
+    padding: 0 5px;
+  }
+
+  span.name {
+    width: 100%;
+    flex-basis: 3;
+    // width: 80%:
+  }
+
+  span.dots {
+    flex-basis: 1;
+    color: gray;
+  }
 `;
 
 const BookmarkAdd = styled.button`
@@ -323,20 +344,17 @@ const Collections = () => {
         <BookmarkTagContent>
           <div>
             <BookmarkContainer>
-              <Bookmark
-                href="#"
-                key={'All'}
-                onClick={() => handleBookmarkClick('All')}
-              >
-                All
+              <Bookmark key="All" onClick={() => handleBookmarkClick('All')}>
+                <span className="name">All</span>
+                <span className="dots">···</span>
               </Bookmark>
               {content.bookmarks.map((bookmark: BookmarkType) => (
                 <Bookmark
-                  href="#"
-                  key={bookmark.bookmarkName}
+                  key={bookmark.bookmarkId}
                   onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
                 >
-                  {bookmark.bookmarkName}
+                  <span className="name">{bookmark.bookmarkName}</span>
+                  <span className="dots">···</span>
                 </Bookmark>
               ))}
             </BookmarkContainer>
