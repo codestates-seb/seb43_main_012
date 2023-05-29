@@ -42,7 +42,7 @@ function ModalLogin({ isOpen, setIsOpen }: ModalLoginProps): ReactElement {
                 <br />
                 <span>
                   기존계정 구경: <br />
-                  test@test.com, (비번) Test123!
+                  (id) guest, (비번) Guest123!
                 </span>
               </SignupLink>
             </LoginView>

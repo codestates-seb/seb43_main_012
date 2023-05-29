@@ -15,7 +15,7 @@ export function filterConvsByDate(
 } {
   const today = new Date();
   //   console.log(today);
-  const result: { [key in DateFilter]: ConversationThumbType[] } = {
+  let result: { [key in DateFilter]: ConversationThumbType[] } = {
     Today: [],
     Recent: [],
     'Past 7 Days': [],
@@ -42,6 +42,43 @@ export function filterConvsByDate(
       result[monthKey].push(conv);
     }
   });
+
+  // Rearrange the month keys in descending order
+  const monthKeys = Object.keys(result).filter(
+    (key) =>
+      key !== 'Today' &&
+      key !== 'Recent' &&
+      key !== 'Past 7 Days' &&
+      key !== 'Past 30 Days',
+  );
+  // monthKeys.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+
+  monthKeys.sort((a, b) => {
+    const dateA = new Date(a);
+    const dateB = new Date(b);
+
+    const differenceA = Math.abs(today.getTime() - dateA.getTime());
+    const differenceB = Math.abs(today.getTime() - dateB.getTime());
+
+    return differenceB - differenceA;
+  });
+  console.log(monthKeys);
+
+  // Create a new object with the rearranged month keys
+  const rearrangedResult: { [key: string]: ConversationThumbType[] } = {
+    Today: result['Today'],
+    Recent: result['Recent'],
+    'Past 7 Days': result['Past 7 Days'],
+    'Past 30 Days': result['Past 30 Days'],
+  };
+
+  monthKeys.forEach((key) => {
+    rearrangedResult[key] = result[key];
+  });
+
+  // The rearranged result object will have the most recent month on top
+  result = rearrangedResult;
+  console.log(rearrangedResult);
 
   if (type === 'old') {
     const orderedKeys: DateFilter[] = [
