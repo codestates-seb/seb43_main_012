@@ -163,6 +163,8 @@ const BookmarkContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 10.5rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Bookmark = styled.div`
@@ -170,7 +172,7 @@ const Bookmark = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   border-radius: 20px;
   margin: 0 5px 5px 0;
   padding: 5px;
@@ -190,11 +192,23 @@ const Bookmark = styled.div`
     flex-basis: 1;
     color: gray;
   }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+  }
 `;
 
 const BookmarkAdd = styled.button`
-  flex-basis: 10rem;
+  display: flex;
+  justify-content: center;
+  // width: 100%;
   margin: 5px;
+  padding: 5px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TagContainer = styled.div`
@@ -358,7 +372,8 @@ const Collections = () => {
                 </Bookmark>
               ))}
             </BookmarkContainer>
-            <BookmarkAdd>+New Collection</BookmarkAdd>
+            <BookmarkAdd>+ New List</BookmarkAdd>
+
             {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
                 <Tag
