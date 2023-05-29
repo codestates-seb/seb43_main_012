@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormContainer } from '../../styles/LoginStyle';
 import SignupInput from '../member/SignupInput';
@@ -12,6 +13,15 @@ import {
   changeLoginState,
   updateMemberInfo,
 } from '../../features/member/loginInfoSlice';
+
+const GuestButton = styled(SignButton)`
+  background: var(--color-default-green);
+  min-width: 120px;
+
+  &:hover {
+    background: var(--color-default-darkgreen);
+  }
+`;
 
 type Props = {
   closeModal: () => void;
@@ -52,6 +62,42 @@ const LoginForm = ({ closeModal }: Props) => {
     }
 
     return true;
+  };
+
+  const guestLogin = async (event: any) => {
+    event.preventDefault();
+    try {
+      const res = await handleLogin({
+        userId: 'guest',
+        password: 'Guest123!',
+        setErrors,
+      });
+      if (res.status === 200) {
+        //리덕스 state 업데이트
+        if (localStorage.getItem('memberId')) {
+          const mId = localStorage.getItem('memberId');
+          const userData: UserInfoItemTypes = await handleUserInfo(
+            `user/${mId}`,
+          );
+          dispatch(
+            updateMemberInfo({
+              userId: userData.id,
+              userEmail: userData.userId,
+              username: userData.username,
+              avatarLink: userData.avatarLink,
+              createdDate: formatDateTime(userData.createdAt),
+            }),
+          );
+          dispatch(changeLoginState('ON'));
+        }
+        closeModal();
+        navigate('/');
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log('error status: ', error.response.status);
+      setErrors('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -111,6 +157,7 @@ const LoginForm = ({ closeModal }: Props) => {
           <ErrorMessage className="error">{errors}</ErrorMessage>
         ) : null}
         <SignButton type="submit">Log in</SignButton>
+        <GuestButton onClick={guestLogin}>게스트계정 구경</GuestButton>
       </Formform>
     </FormContainer>
   );
