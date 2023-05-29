@@ -78,6 +78,11 @@ const StartBox = styled.div`
   }
 `;
 
+const StartText = styled.div`
+  font-size: 18px;
+  color: var(--color-default-yellow-darker);
+`;
+
 const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   const dispatch = useAppDispatch();
 
@@ -154,10 +159,14 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
               <div> Click here for an intro to Chatcrawl!</div>
             </Link>
             {!loggedIn && (
-              <>
+              <StartText>
+                <br />
                 <br />
                 로그인을 해야만 모든 서비스 이용 가능합니다.
-              </>
+                <br />
+                <br />
+                업데이트 중입니다. 데모데이에 또 들려주세요~
+              </StartText>
             )}
           </StartBox>
         )}
