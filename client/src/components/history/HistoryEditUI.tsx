@@ -7,13 +7,19 @@ import { ReactComponent as PinIcon } from '../../assets/icons/history/iconPinOff
 import { ReactComponent as ConfirmIcon } from '../../assets/icons/history/iconCheckAlternative.svg';
 import { ReactComponent as CancelIcon } from '../../assets/icons/main_qna/iconCancel.svg';
 
-const EditUIBox = styled.div`
-  color: var(--color-default-yellow);
+type StyleProps = {
+  hovering: boolean;
+};
+
+const EditUIBox = styled.div<StyleProps>`
+  color: ${(props) =>
+    props.hovering ? '#fcfc88' : 'var(--color-default-yellow)'};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   align-self: flex-end;
+  transition: color 0.3s ease-in-out;
 
   svg {
     width: 24px;
@@ -38,12 +44,6 @@ const ConfirmCancelBox = styled.div`
   font-size: 14px;
   font-weight: 600;
 
-  //   svg {
-  //     path {
-  //       stroke-width: 3;
-  //     }
-  //   }
-
   svg:hover {
     path {
       color: var(--color-error);
@@ -57,11 +57,13 @@ type Props = {
   pinned: boolean;
   handlePinUpdate: (newPinValue: boolean) => void;
   handleDeleteConv: () => void;
+  hovering: boolean;
 };
 const HistoryEditUI = ({
   pinned,
   handlePinUpdate,
   handleDeleteConv,
+  hovering,
 }: Props) => {
   const [aboutToDelete, setAboutToDelete] = useState<boolean>(false);
   const [isPinned, setIsPinned] = useState<boolean>(pinned);
@@ -92,7 +94,7 @@ const HistoryEditUI = ({
   };
 
   return (
-    <EditUIBox>
+    <EditUIBox hovering={hovering}>
       {aboutToDelete ? (
         <ConfirmCancelBox>
           <div>{`DELETE ?`}</div>

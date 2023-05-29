@@ -15,23 +15,30 @@ type Props = {
   handleTagClick: (tId: number | string) => void;
 };
 
-export const HistContent = styled.div`
+type StyleProps = {
+  hovering: boolean;
+};
+
+export const HistContent = styled.div<StyleProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 40px 5px 5px 5px;
   border: 1.5px solid var(--color-default-yellow);
-  background-color: var(--color-thumbnail-bg);
+  background-color: ${(props) =>
+    props.hovering
+      ? 'var(--color-default-yellow)'
+      : 'var(--color-thumbnail-bg)'};
   border-radius: 10px;
   margin: 0 0.5%;
-  // margin-bottom: 10px;
   position: relative;
 
   min-width: 270px;
   min-height: 150px;
   max-height: 170px;
   overflow-y: hidden;
+  transition: background-color 0.3s ease;
 
   p {
     max-height: 7rem;
@@ -51,8 +58,6 @@ export const HistContent = styled.div`
     align-content: center;
     height: 75px;
     flex-wrap: wrap;
-    // background-color: green;
-    // background-color: var(--color-thumbnail-bg);
   }
 
   .title {
@@ -104,8 +109,8 @@ const TagBox = styled.span`
 `;
 
 const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
-  // const dispatch = useAppDispatch();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState<boolean>(true);
+  const [hovering, setHovering] = useState<boolean>(false);
 
   const handlePinUpdate = async (newPinValue: boolean) => {
     await updatePinState({
@@ -132,12 +137,13 @@ const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
   return (
     <>
       {show && (
-        <HistContent>
+        <HistContent hovering={hovering}>
           <div className="fixed">
             <HistoryEditUI
               pinned={conversation.pinned}
               handlePinUpdate={handlePinUpdate}
               handleDeleteConv={handleDeleteConv}
+              hovering={hovering}
             />
           </div>
           <div className="header">
@@ -148,6 +154,8 @@ const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
                 e.stopPropagation();
                 handleClick(conversation.conversationId);
               }}
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
             >
               {truncateTitle(conversation.title, 50)}
             </h3>
