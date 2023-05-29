@@ -69,6 +69,8 @@ export async function getConversation(id: number): Promise<Conversation> {
     // for (let i = 0; i < res.data.qnaList.length; i++) {
     //   console.log('answer:', res.data.qnaList);
     // }
+
+    console.log('cId:', res.data.conversationId);
     return res.data;
   } catch (err) {
     console.log(err);

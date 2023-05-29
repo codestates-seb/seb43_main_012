@@ -22,6 +22,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectCId } from '../../features/main/conversationSlice';
 import { selectLoginState } from '../../features/member/loginInfoSlice';
 import { setConversation } from '../../features/main/conversationSlice';
+import { toggleModal } from '../../features/collection/collectionSlice';
 
 type ChatProps = {
   isLoading: boolean;
@@ -49,7 +50,8 @@ const ChatInput = ({
         try {
           setIsLoading(true);
           const msg = await continueConversation(cId, qValue);
-          console.log('continued conversation: ', msg);
+          // console.log('continued conversation: ', msg);
+          dispatch(toggleModal(true));
           setQValue('');
           setIsLoading(false);
           updateQNum();
@@ -58,7 +60,7 @@ const ChatInput = ({
           setIsLoading(false);
         }
       })();
-    } else if (localStorage.getItem('token')) {
+    } else if (localStorage.getItem('token') && !isLoading) {
       (async function () {
         try {
           setIsLoading(true);
