@@ -144,6 +144,7 @@ const HistoryItem = ({ conversation, handleClick, handleTagClick }: Props) => {
               handlePinUpdate={handlePinUpdate}
               handleDeleteConv={handleDeleteConv}
               hovering={hovering}
+              setHovering={setHovering}
             />
           </div>
           <div className="header">
