@@ -172,14 +172,12 @@ const TextWithFormatting = (text: string) => {
         paragraph.match(bulletPattern);
 
       if (matchList) {
-        console.log('matched list!');
         const bulletItemsPattern =
           /^(\d+\..*?(?:\s+-[\s\S]*)?)([\s\S]+?)(?=(?!\s*[-])$)/gm;
         const listItems = paragraph
           .match(bulletItemsPattern)
           ?.map((item, itemIdx) => {
             // if (item.includes('\n')) item = item.replaceAll('\n', '<br>');
-            if (item.match(/^\d+\.\s*/)) console.log('matched!');
             item = item.replace(/^\d+\.\s*/, '').trim();
             return <li key={itemIdx}>{item}</li>;
           });
@@ -216,8 +214,8 @@ const TextWithFormatting = (text: string) => {
           (line.length === 0 && lineIndex === 1) ||
           (line.length === 1 && lineIndex === 0)
         ) {
-          console.log('filtered', lineIndex);
-          console.log('filteredline', line);
+          // console.log('filtered', lineIndex);
+          // console.log('filteredline', line);
           return;
         }
 

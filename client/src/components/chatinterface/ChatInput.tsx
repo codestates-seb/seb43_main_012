@@ -58,7 +58,7 @@ const ChatInput = ({
           setIsLoading(false);
         }
       })();
-    } else if (localStorage.getItem('token')) {
+    } else if (localStorage.getItem('token') && !isLoading) {
       (async function () {
         try {
           setIsLoading(true);

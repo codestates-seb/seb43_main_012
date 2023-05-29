@@ -138,7 +138,7 @@ const conversationSlice = createSlice({
     },
 
     setConversation: (state, action) => {
-      // console.log('reducer: set conversation');
+      console.log('reducer: set conversation: ', action.payload.conversationId);
       state.content = action.payload;
       state.cId = action.payload.conversationId;
       state.cTitle = action.payload.title;
