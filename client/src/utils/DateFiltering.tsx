@@ -62,7 +62,7 @@ export function filterConvsByDate(
 
     return differenceB - differenceA;
   });
-  console.log(monthKeys);
+  // console.log(monthKeys);
 
   // Create a new object with the rearranged month keys
   const rearrangedResult: { [key: string]: ConversationThumbType[] } = {
@@ -78,7 +78,7 @@ export function filterConvsByDate(
 
   // The rearranged result object will have the most recent month on top
   result = rearrangedResult;
-  console.log(rearrangedResult);
+  // console.log(rearrangedResult);
 
   if (type === 'old') {
     const orderedKeys: DateFilter[] = [

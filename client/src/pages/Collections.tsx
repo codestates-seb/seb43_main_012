@@ -37,8 +37,6 @@ const ContentWraper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
-  // overflow: scroll;
 `;
 
 const EmptyContainer = styled.div`
@@ -54,46 +52,66 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-content: flex-start;
   padding: 5px;
   overflow: scroll;
   height: 700px;
+  padding-bottom: 20px;
+  width: 100%;
 `;
 
 const Title = styled.div`
   margin-bottom: 1rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  font-stretch: condensed;
   &:hover {
     cursor: pointer;
   }
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-basis: 16rem;
   padding: 5px;
-  border: solid;
-  border-color: #c9ad6e;
+  border 1px solid #8dad84;
   border-radius: 10px;
-  margin: 0 1% 1% 0;
+  margin: 0 1.2% 1.2% 0;
   height: 200px;
   min-width: 100px;
   overflow: hidden;
-  p {
-    max-height: 7rem;
-    text-align: left;
-    word-break: break-all;
+  justify-content: space-between;
+  font-stretch: condensed;
+  text-align: center;
+  word-break: keep-all;
+  background: #f7fefa;
+
+  .content {
+    max-height: 8rem;
     overflow: hidden;
+    line-height: 1.3rem;
+    font-size: 0.9rem;
+    &:hover{
+      cursor: pointer;
+    }
     /* text-overflow: ellipsis; */
   }
 
   .header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    text-align: center;
+    justify-content: center;
+    margin: 20px 0;
   }
   .title {
-    /* word-break: break-all; */
+    background:  url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=C9FFE0);
+    margin: -6px -6px;
+    padding: 2px 6px;
+    // background:  url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=DFFAD6);
   }
   .buttons {
     display: flex;
@@ -107,19 +125,106 @@ const Content = styled.div`
       color: var(--color-default-yellow);
     }
   }
+
+  .links {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    div {
+      padding: 2px 0;
+    }
+  }
   .bookmark {
-    color: #c9ad6e;
+    color: #18977b;
+    font-weight: 600;
+    font-size: 15px;
+
+    span {
+      padding-right: 10px;
+    }
   }
   .tag {
     color: #7bb06e;
+    font-weight: 600;
   }
 `;
 
 const FixedContent = styled(Content)`
   display: flex;
   flex-direction: column;
-  min-width: 230px;
-  align-items: flex-start;
+  min-width: 240px;
+  max-height: 150px;
+  justify-content: space-between;
+  align-items: center;
+  background: #c0d9b9;
+  border: 1.5px solid #8dad84;
+  // background: var(--color-thumbnail-bg);
+  // border: 1.5px solid var(--color-default-yellow);
+
+  .fixedUI {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    color: #8dad84;
+    // color: var(--color-default-yellow);
+    justify-content: flex-end;
+    align-items: flex-end;
+    svg {
+      width: 24px;
+      height: 24px;
+      color: #8dad84;
+      // color: var(--color-default-yellow);
+    }
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    // margin-top: 2rem;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-stretch: condensed;
+    line-height: 1.5rem;
+    background: url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=DFFAD6);
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .links {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    div {
+      padding: 2.5px 0;
+    }
+  }
+
+  .bookmark {
+    font-weight: 600;
+    color: #18977b;
+    // color: #DFFAD6;
+  }
+
+  .tag {
+    color: #648061;
+  }
 `;
 
 const FixedContentContainer = styled.div`
@@ -177,6 +282,8 @@ const SvgButton = styled.button`
   cursor: pointer;
 `;
 
+const ConvContent = styled.div``;
+
 const BookmarkButton = () => {
   return (
     <SvgButton>
@@ -205,7 +312,14 @@ function getFirstSentence(paragraph: string): string {
   if (matches && matches.length > 0) {
     const firstPunctuationIndex = paragraph.indexOf(matches[0]);
     const firstSentence = paragraph.slice(0, firstPunctuationIndex + 1).trim();
-    return firstSentence;
+    if (
+      firstSentence.length < truncateTitle(paragraph, 30).length ||
+      firstSentence.length > 50
+    ) {
+      return truncateTitle(paragraph, 45);
+    } else {
+      return firstSentence;
+    }
   }
   return '';
 }
@@ -306,31 +420,31 @@ const Collections = () => {
             .filter((item: any) => item.pinned)
             .map((conversation: Conversation) => (
               <FixedContent>
-                <div className="header">
-                  <Title
-                    className="title"
-                    key={conversation.conversationId}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      handleThumbnailClick(conversation.conversationId);
-                    }}
-                  >
-                    {truncateTitle(conversation.title, 50)}
-                  </Title>
-                  <span className="buttons">
-                    <PinButton />
-                  </span>
+                <div className="fixedUI">
+                  <PinButton />
                 </div>
-                <p>{getFirstSentence(conversation.answerSummary)}</p>
-                <span className="bookmark">
-                  {conversation.bookmarks[0]?.bookmarkName}
-                </span>
+                <div
+                  className="title"
+                  key={conversation.conversationId}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    handleThumbnailClick(conversation.conversationId);
+                  }}
+                >
+                  {truncateTitle(conversation.title, 30)}
+                </div>
+                {/* <p>{getFirstSentence(conversation.answerSummary)}</p> */}
 
-                <div className="tag">
-                  {conversation.tags.map((tag: TagType) => (
-                    <span key={tag.tagId}>#{tag.tagName} </span>
-                  ))}
+                <div className="links">
+                  <div className="bookmark">
+                    {conversation.bookmarks[0]?.bookmarkName}
+                  </div>
+                  <div className="tag">
+                    {conversation.tags.map((tag: TagType) => (
+                      <span key={tag.tagId}>#{tag.tagName} </span>
+                    ))}
+                  </div>
                 </div>
               </FixedContent>
             ))}
@@ -388,25 +502,30 @@ const Collections = () => {
                           handleThumbnailClick(conversation.conversationId);
                         }}
                       >
-                        {truncateTitle(conversation.title, 50)}
+                        {truncateTitle(conversation.title, 30)}
                       </Title>
-                      <span className="buttons">
-                        {/* <PinButton /> <BookmarkButton /> */}
-                      </span>
                     </div>
-                    <p>{conversation.answerSummary}</p>
-                    <div className="bookmark">
-                      {conversation.bookmarks.map((bookmark) => (
-                        <span key={bookmark.bookmarkId}>
-                          {bookmark.bookmarkName}
-                          {' || '}
-                        </span>
-                      ))}
+                    <div
+                      className="content"
+                      onClick={() => {
+                        handleThumbnailClick(conversation.conversationId);
+                      }}
+                    >
+                      {getFirstSentence(conversation.answerSummary)}
                     </div>
-                    <div className="tag">
-                      {conversation.tags.map((tag: TagType) => (
-                        <span key={tag.tagId}>#{tag.tagName} </span>
-                      ))}
+                    <div className="links">
+                      <div className="bookmark">
+                        {conversation.bookmarks.map((bookmark) => (
+                          <span key={bookmark.bookmarkId}>
+                            {bookmark.bookmarkName}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="tag">
+                        {conversation.tags.map((tag: TagType) => (
+                          <span key={tag.tagId}>#{tag.tagName} </span>
+                        ))}
+                      </div>
                     </div>
                   </Content>
                 ))}
