@@ -102,6 +102,7 @@ function History(): ReactElement {
   }, []);
 
   useEffect(() => {
+    console.log('reload history');
     loadAllConv();
   }, [conv, queries]);
 

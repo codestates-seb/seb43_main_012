@@ -39,6 +39,7 @@ const collectionSlice = createSlice({
       state.collectionContent = action.payload;
     },
     toggleModal: (state, action) => {
+      // console.log('toggled show answer status');
       state.isToggled = action.payload;
     },
     setStatus: (state, action) => {

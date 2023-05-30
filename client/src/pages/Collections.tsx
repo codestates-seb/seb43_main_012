@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ModalContent from '../components/modals/ModalContent';
-import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 import FixedBookmarks from '../components/collections/FixedBookmarks';
 import BookmarkSidebar from '../components/collections/BookmarkSidebar';
+import CollectionItemList from '../components/collections/CollectionItemList';
+import ModalHistoryItem from '../components/modals/ModalHistoryItem';
+
 import Loading from '../components/chatinterface/Loading';
 import { truncateTitle } from '../utils/ContentFunctions';
 
@@ -35,132 +37,6 @@ import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 const Main = styled.main`
   width: 1080px;
   padding: 0 40px 0 40px;
-`;
-
-const ContentWraper = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const EmptyContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 20px;
-  margin-left: 50px;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-left: 20px;
-  justify-content: flex-start;
-  align-content: flex-start;
-  padding: 5px;
-  overflow: scroll;
-  height: 700px;
-  padding-bottom: 20px;
-  width: 100%;
-`;
-
-const Title = styled.div`
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  line-height: 1.5rem;
-  font-weight: 500;
-  font-stretch: condensed;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 16rem;
-  padding: 5px;
-  border 1px solid #8dad84;
-  border-radius: 10px;
-  margin: 0 1.2% 1.2% 0;
-  height: 200px;
-  min-width: 100px;
-  overflow: hidden;
-  justify-content: space-between;
-  font-stretch: condensed;
-  text-align: center;
-  word-break: keep-all;
-  background: #f7fefa;
-
-  .content {
-    max-height: 8rem;
-    overflow: hidden;
-    line-height: 1.3rem;
-    font-size: 0.9rem;
-    &:hover{
-      cursor: pointer;
-    }
-    /* text-overflow: ellipsis; */
-  }
-
-  .header {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  .title {
-    background:  url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=C9FFE0);
-    margin: -6px -6px;
-    padding: 2px 6px;
-    // background:  url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=DFFAD6);
-  }
-  .buttons {
-    display: flex;
-    color: var(--color-default-yellow);
-    align-items: flex-start;
-    position: relative;
-    top: -5px;
-    svg {
-      width: 24px;
-      height: 24px;
-      color: var(--color-default-yellow);
-    }
-  }
-
-  .links {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-bottom: 5px;
-    font-weight: 500;
-    font-size: 14px;
-    div {
-      padding: 2px 0;
-    }
-  }
-  .bookmark {
-    color: #18977b;
-    font-weight: 600;
-    font-size: 15px;
-
-    span {
-      padding-right: 10px;
-    }
-  }
-  .tag {
-    color: #7bb06e;
-    font-weight: 500;
-  }
 `;
 
 const TagContainer = styled.div`
@@ -199,24 +75,6 @@ type Content = {
   bookmarks: BookmarkType[];
 };
 
-function getFirstSentence(paragraph: string): string {
-  const punctuationRegex = /[.!?]/;
-  const matches = paragraph.match(punctuationRegex);
-  if (matches && matches.length > 0) {
-    const firstPunctuationIndex = paragraph.indexOf(matches[0]);
-    const firstSentence = paragraph.slice(0, firstPunctuationIndex + 1).trim();
-    if (
-      firstSentence.length < truncateTitle(paragraph, 30).length ||
-      firstSentence.length > 50
-    ) {
-      return truncateTitle(paragraph, 45);
-    } else {
-      return firstSentence;
-    }
-  }
-  return '';
-}
-
 const Collections = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -238,7 +96,7 @@ const Collections = () => {
   }, []);
 
   useEffect(() => {
-    // console.log('load again');
+    console.log('reload collections');
     (async function () {
       await loadCollection();
     })();
@@ -254,43 +112,27 @@ const Collections = () => {
   }, [selectedBookmark]);
 
   const loadCollection = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const collection = await getCollection();
     if (collection) {
-      setIsLoading(false);
       // console.log('loaded collection');
       dispatch(setCollectionContent(collection));
       const bookmarkNameList = collection.bookmarks.map(
         (b: BookmarkType) => b.bookmarkName,
       );
       setBookmarkNames(bookmarkNameList);
+      // setIsLoading(false);
     }
     return;
-  };
-
-  const loadConv = async (cId: number) => {
-    const conversation = await getConversation(cId);
-    if (conversation) {
-      //질문응답이 하나면 펼쳐서 보여주고, 여러개면 collapse해서 보여주기
-      // if (conversation.qnaList.length <= 1) {
-      //   dispatch(toggleModal(true));
-      // } else {
-      //   dispatch(toggleModal(false));
-      // }
-      dispatch(setConversation(conversation));
-    }
-
-    return;
-  };
-
-  const handleThumbnailClick = async (cId: number) => {
-    await loadConv(cId);
-    setIsOpen(!isOpen);
   };
 
   const handleBookmarkClick = (bookmark: BookmarkType) => {
     console.log('bId:', bookmark.bookmarkId);
     dispatch(setCollectionBookmark(bookmark.bookmarkName));
+  };
+
+  const handleModalOpen = () => {
+    setIsOpen(!isOpen);
   };
 
   const handleTagClick = (tag: string) => {
@@ -301,13 +143,6 @@ const Collections = () => {
     dispatch(setCollectionContent(newContent));
   };
 
-  const handleContentClick = (conversation: Conversation) => {
-    requestAuth
-      .get(`/conversations/${conversation.conversationId}`)
-      .then((response) => {
-        setSelectedConversation(response.data);
-      });
-  };
   const handleCloseModal = () => {
     setSelectedConversation(null);
   };
@@ -322,13 +157,18 @@ const Collections = () => {
       )}
       <FixedBookmarks
         conversations={content.conversations}
-        handleContentClick={handleThumbnailClick}
+        handleModalOpen={handleModalOpen}
       />
 
       <FilteringContent>
         <BookmarkSidebar
           handleClick={handleBookmarkClick}
           bookmarks={content.bookmarks}
+        />
+        <CollectionItemList
+          conversations={content.conversations}
+          selectedBookmark={selectedBookmark}
+          handleModalOpen={handleModalOpen}
         />
         {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
@@ -340,60 +180,6 @@ const Collections = () => {
                 </Tag>
               ))}
             </TagContainer> */}
-        <ContentWraper>
-          <ContentContainer>
-            {content.conversations
-              .filter(
-                (conversation: Conversation) =>
-                  selectedBookmark === 'All' ||
-                  conversation.bookmarks
-                    .map((b) => b.bookmarkName)
-                    .includes(selectedBookmark),
-              )
-              .map((conversation: Conversation) => (
-                <Content>
-                  <div className="header">
-                    <Title
-                      className="title"
-                      key={conversation.conversationId}
-                      onClick={() => {
-                        handleThumbnailClick(conversation.conversationId);
-                      }}
-                    >
-                      {truncateTitle(conversation.title, 35)}
-                    </Title>
-                  </div>
-                  <div
-                    className="content"
-                    onClick={() => {
-                      handleThumbnailClick(conversation.conversationId);
-                    }}
-                  >
-                    {getFirstSentence(conversation.answerSummary)}
-                  </div>
-                  <div className="links">
-                    <div className="bookmark">
-                      {conversation.bookmarks.map((bookmark) => (
-                        <span key={bookmark.bookmarkId}>
-                          {bookmark.bookmarkName}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="tag">
-                      {conversation.tags.map((tag: TagType) => (
-                        <span key={tag.tagId}>#{tag.tagName} </span>
-                      ))}
-                    </div>
-                  </div>
-                </Content>
-              ))}
-            {!content.conversations.length && (
-              <EmptyContainer>
-                저장된 내역이 없습니다. 새대화, 이전대화에 북마크를 달아보세요!
-              </EmptyContainer>
-            )}
-          </ContentContainer>
-        </ContentWraper>
       </FilteringContent>
       {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
     </Main>
