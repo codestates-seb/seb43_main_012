@@ -31,7 +31,8 @@ import {
   updateMemberInfo,
   changeLoginState,
 } from '../features/member/loginInfoSlice';
-import { logoutApi } from '../api/LogoutApi';
+import { setCollectionBookmark } from '../features/collection/collectionSlice';
+
 const AvatarIcon = styled(Character)`
   background-color: var(--color-default-green-opacity);
   box-shadow: none;
@@ -130,6 +131,7 @@ const TopNav = ({
       dispatch(toggleModal(true));
     } else if (location.pathname === '/collection') {
       dispatch(toggleModal(false));
+      dispatch(setCollectionBookmark('All'));
     } else if (location.pathname === '/history') {
       dispatch(toggleModal(false));
     }
@@ -162,26 +164,6 @@ const TopNav = ({
     }
   }, [_loginState, _memberInfo.avatarLink]);
 
-  // useEffect(() => {
-  //   console.log('memberinfo update');
-  //   setMemberInfo({ ...memberInfo, avatarLink: _memberInfo.avatarLink });
-  // }, [_memberInfo.avatarLink]);
-
-  // const fetchUserInfo = async () => {
-  //   // if (!memberInfo.userId) return;
-  //   setMemberInfo({...memberInfo, avatarLink: })
-  //   try {
-  //     // const userData: UserInfoItemTypes = await handleUserInfo(`user/${id}`);
-  //     // console.log(userData);
-
-  //     setMemberInfo({ ...memberInfo, avatarLink: userData.avatarLink });
-  //     setAvatarLink(userData.avatarLink); // avatarLink에 값 설정
-  //     setUsername(userData.username); // username 값 설정
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleAnonymousClick = (
     e:
       | React.MouseEvent<SVGSVGElement, MouseEvent>
@@ -197,26 +179,15 @@ const TopNav = ({
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    // if(!isLoggedIn) openLoginModal
     if (!isLoggedIn) setIsModalLoginOpen(true);
     if (isLoggedIn && !isUserDialogOpen) {
       setIsUserDialogOpen(true);
-      // console.log(`x: ${e.clientX}, y: ${e.clientY}`);
       setDialogPosition({ x: e.clientX, y: e.clientY + 10 });
     }
     if (isLoggedIn && isUserDialogOpen) {
       setIsUserDialogOpen(false);
     }
   };
-
-  //홈 버튼 누를때나 새채팅창 누를때, autofocus 키기
-  // let isLoggedIn = false;
-  // if (localStorage.getItem("isLoggedIn") === "true") {
-  //   isLoggedIn = true;
-  // } else {
-  //   isLoggedIn = false;
-  // }
-  // const isLoggedIn = true;
 
   useEffect(() => {
     if (location.pathname === '/') {
