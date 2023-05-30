@@ -44,7 +44,7 @@
 |:---:|:---:|
 |<img max-width="500" alt="소개페이지" src="./files/gifs/소개페이지_cropped.gif"/>|<img max-width="500" alt="회원가입" src="./files/gifs/login_cropped.gif"/>|
 |AI와의 기본 대화 |제목 수정|
-|<img max-width="500" alt="대화하기" src="./files/gifs/대화하기_rev2.gif"/>|<img max-width="400" alt="제목수정" src="./files/gifs/제목수정하기_rev1.gif"/>|
+|<img max-width="500" alt="대화하기" src="./files/gifs/대화하기_rev2.gif"/>|<img max-width="400" alt="제목수정" src="./files/gifs/제목수정하기_rev1.gif"/>|
 |대화 북마킹 & 태깅|대화 내용 및 태그 검색|
 |<img max-width="500" alt="북마킹태깅" src="./files/gifs/북마킹태깅.gif"/>|<img max-width="500" alt="검색" src="./files/gifs/내용태그검색_5-30.gif"/>|
 |히스토리 정렬 |원하는 대화 고정, 삭제|
