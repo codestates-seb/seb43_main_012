@@ -17,26 +17,27 @@
 <p align="center">- 북마크 시 대화세션을 카테고리별로 구분 가능</p>
 
 <br>
+<br>
 
-## 👨‍👩‍👧‍👦 Team
-| 장성아<br>(FE, 팀장) | 맹승주<br>(FE) | 박지원<br>(FE) |
-| :---: | :---: | :---: |
-| <img alt="장성아" src="https://github.com/mslock/TodoApps/assets/60218122/4c49c779-c4c5-4546-a21d-cfb3df263543" height="100" width="100"> | <img alt="맹승주" src="https://i.ibb.co/JCZT2JG/image.png" height="100" width="100"> | <img alt="박지원" src="https://github.com/mslock/TodoApps/assets/60218122/94d7ba68-b298-4a16-9957-7b2ac817eeac" height="100" width="100"> | 
-| [@splazt](https://github.com/splazt) |    [@mmmkb1](https://github.com/mmmkb1) | [@zi0ne](https://github.com/zi0ne) | 
-|<p align="left">- 전체 UI 디자인 Lead<br/>- 톱 네비게이션<br/>- 메인 + 히스토리 페이지<br/>- 북마크/ 태그/ 고정핀 팝업창<br/>- 전 대화 계속하기 모달<br/>- 대화 세션, 로그인 상태 관리<br/>- 에러 핸들링/유효성 검사 강화<br/>- 배포 <br/> </p>|<p align="left">- 콜렉션 조회 페이지 <br/>- 북마크/태그별 조회 <br/>- 저장된 대화창 모달 <br/>- 질문/답변 토글 기능 </p>|<p align="left">- 로그인 + 회원가입<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 로그인 인증 처리<br/>- 소개 페이지<br/></p>|
+<h2 align='center'>Team Bug Fetish</h2>
 
-| 순정원<br>(BE, 팀장) | 김민수<br>(BE) | 한재영<br>(BE) |
-| :---: | :---: | :---: |
-| ![bug small](https://github.com/codestates-seb/seb43_main_012/assets/114928363/aee3987f-3549-4c08-92d5-f95fb3d2754b)| <img alt="김민수" src="https://github.com/mslock/TodoApps/assets/60218122/119cac45-9682-4abe-b956-c600ad040a59" height="100" width="100"> | <img alt="한재영" src="https://github.com/mslock/TodoApps/assets/60218122/c6a4ffb8-91a6-481b-b7c9-88379ce11f70" height="100" width="100"> |
-| [@sundae95](https://github.com/sundae95) | [@mslock](https://github.com/mslock) | [@splo-sh](https://github.com/splo-sh) |
-| <p align="left">- AWS(EC2,RDS) 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원 가입, 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 <br/>- 북마크, 태그, 고정핀<br/>- 대화 세션 </p>|
+| 장성아<br>(FE 팀장) | 박지원<br>(FE) | 맹승주<br>(FE) | 순정원<br>(BE 팀장) | 김민수<br>(BE) | 한재영<br>(BE) |
+| :---: | :---: | :---: | :---: |  :---: | :---: |
+| <img alt="장성아" src="https://github.com/mslock/TodoApps/assets/60218122/4c49c779-c4c5-4546-a21d-cfb3df263543" height="100" width="100">  | <img alt="박지원" src="https://github.com/mslock/TodoApps/assets/60218122/94d7ba68-b298-4a16-9957-7b2ac817eeac" height="100" width="100"> |<img alt="맹승주" src="https://i.ibb.co/JCZT2JG/image.png" height="100" width="100"> | ![bug small](https://github.com/codestates-seb/seb43_main_012/assets/114928363/aee3987f-3549-4c08-92d5-f95fb3d2754b)| <img alt="김민수" src="https://github.com/mslock/TodoApps/assets/60218122/119cac45-9682-4abe-b956-c600ad040a59" height="100" width="100"> | <img alt="한재영" src="https://github.com/mslock/TodoApps/assets/60218122/c6a4ffb8-91a6-481b-b7c9-88379ce11f70" height="100" width="100"> |
+| [@splazt](https://github.com/splazt) |    [@mmmkb1](https://github.com/mmmkb1) | [@zi0ne](https://github.com/zi0ne) | [@sundae95](https://github.com/sundae95) | [@mslock](https://github.com/mslock) | [@splo-sh](https://github.com/splo-sh) |
+|<p align="left">- 전체 디자인 Lead<br/>- 상단 네비게이션<br/>- 메인 + 히스토리 페이지<br/> - 북마크, 태그, 고정 기능<br/>- 전 대화 계속하기 모달<br/> - 컬렉션 페이지 <br/>- 통합 상태 관리<br/>- 유효성 검사 강화<br/>- AWS 배포 <br/> </p>|<p align="left">- 로그인 + 회원가입<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 로그인 인증 처리<br/>- 소개 페이지<br/></p>|<p align="left">- 컬렉션 조회 페이지 <br/>- 북마크별 조회 <br/>- 질문/답변 토글 기능 </p>| <p align="left">- AWS 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원 가입, 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 조회, 검색 <br/>- 북마크, 태그별 조회 <br/>- 북마크, 태그 전기능<br/>- 고정 기능<br/>- 대화세션 생성/지속 </p>|
 
-## 📺 Demo - 업데이트 예정 
+<br/>
+<br/>
+
+<h2 align='center'>Live Demo -업데이트 예정 </h2>
+
 | ![summary](url) |
 | :---: |
 
 
-## ✨ Pages & Features - 업데이트 예정
+<h2 align='center'>  Core Features - 업데이트 예정</h2>
+
 |소개페이지|회원가입 / 로그인|
 |:---:|:---:|
 |<img width="400" alt="소개페이지" src="url"/>|<img width="400" alt="회원가입" src="url"/>|
@@ -50,7 +51,10 @@
 |<img width="400" src="url"/>|<img width="400" src="url"/>|
 |대화 계속하기 | 캐릭터, 아이디 변경 |
 |<img width="400" src="url"/>|<img width="400" src="url"/>|
-## ➡️ User flow & Figma
+
+
+<h2 align='center'> UI Design & User Flow </h2>
+
 | User flow |
 | :---: |
 | <img width="1000" src="./files/userflow.png"> |
@@ -62,7 +66,8 @@
 | <img width="1000" src="/files/figma3.png"> | 
      
 
-## 🔧 Tech Stack & Tools
+<h2 align='center'> Tech Stack & Tools</h2>
+
 <img src="/files/기술스택.png" width="1000" height=auto>
 
 | Git | Github | Discord |
@@ -79,27 +84,30 @@
 | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="SpringSecurity" src ="https://github.com/mslock/TodoApps/assets/60218122/b0c96710-b788-45fd-b2ef-8efa421de703" width="65" height="65" /> |
 <br/>
 
-## 🌲 Git
-### Branch
-`dev` : 배포 가능한 상태 관리 브랜치 (`be-dev` + `fe-dev` ) 
+<h2 align='center'>  Git Convention </h2>
 
-`be-dev` : BE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) 
+<h3 align='center'>Branch</h3>
 
-`fe-dev` : FE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) 
+<p align='center'><code>dev</code> : 배포 가능한 상태 관리 브랜치 (<code>be-dev</code> + <code>fe-dev</code> ) </p>
 
-`be-feat/[feature-name]` : BE 기능 개발 브랜치
+<p align='center'><code>be-dev</code> : BE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) </p>
 
-`fe-feat/[feature-name]` : FE 기능 개발 브랜치
+<p align='center'><code>fe-dev</code> : FE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) </p>
 
-`hotfix` : 출시 버전에서 발생하는 버그 수정 브랜치 (긴급 수정용)
+<p align='center'><code>be-feat/[feature-name]</code>  : BE 기능 개발 브랜치</p>
 
-### Commit Convention
-- `Feat` : 새로운 기능 추가
-- `Fix` : 버그 수정
-- `Docs` : 문서 수정
-- `Style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
-- `Refactor` : 코드 리펙토링
-- `Test` : 테스트 코드, 리펙토링 테스트 코드 추가
-- `Remove` : 불필요한 파일/폴더 삭제
-- `Rename` : 파일, 폴더명 수정
-- `Chore` : 빌드 업무 수정, 패키지 매니저 수정
+<p align='center'><code>fe-feat/[feature-name]</code> : FE 기능 개발 브랜치</p>
+
+<p align='center'><code>hotfix</code> : 출시 버전에서 발생하는 버그 수정 브랜치 (긴급 수정용)</p>
+
+<h3 align='center'> Commit Convention </h3>
+
+<p align='center'>- <code>Feat</code> : 새로운 기능 추가 </p>
+ <p align='center'>- <code>Fix</code> : 버그 수정 </p>
+ <p align='center'>- <code>Docs</code> : 문서 수정 </p>
+<p align='center'>- <code>Style</code> : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우 </p>
+<p align='center'>- <code>Refactor</code> : 코드 리펙토링 </p>
+<p align='center'>- <code>Test</code> : 테스트 코드, 리펙토링 테스트 코드 추가 </p>
+<p align='center'>- <code>Remove </code>: 불필요한 파일/폴더 삭제 </p>
+<p align='center'>- <code>Rename</code>: 파일, 폴더명 수정 </p>
+<p align='center'>- <code>Chore</code>: 빌드 업무 수정, 패키지 매니저 수정 </p>
