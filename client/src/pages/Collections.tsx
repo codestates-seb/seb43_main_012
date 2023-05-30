@@ -271,13 +271,13 @@ const Collections = () => {
   const loadConv = async (cId: number) => {
     const conversation = await getConversation(cId);
     if (conversation) {
-      dispatch(setConversation(conversation));
       //질문응답이 하나면 펼쳐서 보여주고, 여러개면 collapse해서 보여주기
-      if (conversation.qnaList.length <= 1) {
-        dispatch(toggleModal(true));
-      } else {
-        dispatch(toggleModal(false));
-      }
+      // if (conversation.qnaList.length <= 1) {
+      //   dispatch(toggleModal(true));
+      // } else {
+      //   dispatch(toggleModal(false));
+      // }
+      dispatch(setConversation(conversation));
     }
 
     return;
