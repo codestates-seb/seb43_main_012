@@ -65,7 +65,7 @@ const SelectedBookmark = styled(Bookmark)`
 type Props = {
   bookmark: BookmarkType;
   selected: boolean;
-  setBookmark: React.Dispatch<React.SetStateAction<string>>;
+  setBookmark: (bName: string) => void;
   handleClick: ({
     bookmarkId,
     bookmarkName,
