@@ -11,14 +11,6 @@ jobs:
     steps:
       - name: Checkout source code.
         uses: actions/checkout@v3
-      - name: Check if folder was updated
-        id: check_folder
-        run: |
-          if git diff-tree --name-only HEAD^ HEAD | grep -q '^client/'; then
-            echo "::set-output name=folder_updated::true"
-          else
-            echo "::set-output name=folder_updated::false"
-          fi
       - name: Install dependencies
         run: npm install 
         working-directory: ./client
@@ -37,12 +29,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
         run: |
-          if [[ ${{ steps.check_folder.outputs.folder_updated }} == 'true' ]]; then
-            aws s3 sync \
-              --region ap-northeast-2 \
-              build s3://chatcrawl.live \
-              --delete
-          else
-            echo "No changes in the 'client' folder. Skipping sync."
-          fi
+          aws s3 sync \
+            --region ap-northeast-2 \
+            build s3://chatcrawl.live \
+            --delete
         working-directory: ./client
