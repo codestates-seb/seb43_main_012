@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //import styles
@@ -12,8 +12,9 @@ import ModalCreateBookmark from '../modals/ModalCreateBookmark';
 import { BookmarkType } from '../../data/d';
 
 //import api
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectedCollectionBookmark } from '../../features/collection/collectionSlice';
+import { setCollectionBookmark } from '../../features/collection/collectionSlice';
 
 const BookmarkContainer = styled.div`
   display: flex;
@@ -47,10 +48,18 @@ type Props = {
 };
 
 const BookmarkSidebar = ({ bookmarks, handleClick }: Props) => {
-  const [selectedBookmark, setSelectedBookmark] = useState(
-    useAppSelector(selectedCollectionBookmark),
-  );
+  const dispatch = useAppDispatch();
+  const selectedBookmark = useAppSelector(selectedCollectionBookmark);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const setSelectedBookmark = (bName: string) => {
+    dispatch(setCollectionBookmark(bName));
+  };
+
+  useEffect(() => {
+    // console.log('bookmark reloaded');
+    // console.log('selected bookmark: ', selectedBookmark);
+  }, [bookmarks]);
 
   const handleCreateBtnClick = (e: React.MouseEvent) => {
     e.stopPropagation();
