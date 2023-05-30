@@ -14,7 +14,6 @@ import {
 import { useAppDispatch } from '../../app/hooks';
 import { changeQnASaveStatus } from '../../features/main/conversationSlice';
 import TextWithFormatting from './TextWithFormatting';
-import { toggleModal } from '../../features/collection/collectionSlice';
 import { RootState } from '../../app/store';
 
 type qnaProps = {

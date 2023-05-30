@@ -14,6 +14,7 @@ import {
   initializeConversation,
   scrollToLast,
 } from '../../features/main/conversationSlice';
+import { toggleModal } from '../../features/collection/collectionSlice';
 
 type Props = {
   visible: boolean;
@@ -31,6 +32,7 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
       onClose={() => {
         setVisible(false);
         dispatch(initializeConversation(-1));
+        dispatch(toggleModal(false));
       }}
     >
       <CModalBody className="modal_bookmark2">
