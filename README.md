@@ -42,7 +42,7 @@
 
 |소개페이지|회원가입 / 로그인|
 |:---:|:---:|
-|<img max-width="500" alt="소개페이지" src="./files/gifs/소개페이지_5-30.gif"/>|<img max-width="500" alt="회원가입" src="./files/gifs/로그인화면_5-30.gif"/>|
+|<img max-width="500" alt="소개페이지" src="./files/gifs/소개페이지_cropped.gif"/>|<img max-width="500" alt="회원가입" src="./files/gifs/login_cropped.gif"/>|
 |AI와의 기본 대화 |제목 수정|
 |<img max-width="500" alt="대화하기" src="./files/gifs/대화하기2_5-30.gif"/>|<img max-width="400" alt="제목수정" src="./files/gifs/제목수정_5-30.gif"/>|
 |대화 북마킹 & 태깅|대화 내용 및 태그 검색|
