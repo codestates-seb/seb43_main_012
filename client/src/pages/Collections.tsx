@@ -7,7 +7,6 @@ import { RootState } from '../app/store';
 import styled, { StyledComponent } from 'styled-components';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
-import { ReactComponent as ThumbtackSolid } from '../assets/icons/history/iconPinned.svg';
 import ModalContent from '../components/modals/ModalContent';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 
@@ -15,9 +14,12 @@ import FixedBookmarks from '../components/collections/FixedBookmarks';
 import { truncateTitle } from '../utils/ContentFunctions';
 
 import {
-  setContent,
-  setSelectedBookmark,
-  setSelectedTag,
+  selectCollectionContent,
+  selectedCollectionBookmark,
+  selectedCollectionTag,
+  setCollectionContent,
+  setCollectionBookmark,
+  setCollectionTag,
   toggleModal,
 } from '../features/collection/collectionSlice';
 
@@ -27,6 +29,7 @@ import {
   deleteConversation,
 } from '../api/ChatInterfaceApi';
 import { setConversation } from '../features/main/conversationSlice';
+import { useAppSelector } from '../app/hooks';
 
 const Main = styled.main`
   width: 1080px;
@@ -280,19 +283,15 @@ const Collections = () => {
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
-  const [content, setContent] = useState<any>({});
-  const [selectedBookmark, setSelectedBookmark] = useState('All');
-  const [selectedTag, setSelectedTag] = useState('');
-
-  // const { content, selectedBookmark, selectedTag } = useSelector(
-  //   (state: RootState) => state.collection,
-  // );
+  const content = useAppSelector(selectCollectionContent);
+  const selectedBookmark = useAppSelector(selectedCollectionBookmark);
+  const selectedTag = useAppSelector(selectedCollectionTag);
 
   useEffect(() => {
     requestAuth.get(`/collections`).then((response) => {
       console.log('loaded collections');
-      setContent(response.data);
-      // dispatch(setContent(response.data));
+      // setContent(response.data);
+      dispatch(setCollectionContent(response.data));
     });
   }, []);
 
@@ -316,19 +315,19 @@ const Collections = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleBookmarkClick = (bookmark: string) => {
-    setSelectedBookmark(bookmark);
-    // dispatch(setSelectedBookmark(bookmark));
+  const handleBookmarkClick = (bookmark: BookmarkType) => {
+    console.log('bId:', bookmark.bookmarkId);
+    dispatch(setCollectionBookmark(bookmark.bookmarkName));
   };
 
   const handleTagClick = (tag: string) => {
-    setSelectedTag(tag);
-    // dispatch(setSelectedTag(tag));
+    // setSelectedTag(tag);
+    dispatch(setCollectionTag(tag));
   };
 
   const handleContentUpdate = (newContent: any) => {
-    // dispatch(setContent(newContent));
-    setContent(newContent);
+    dispatch(setCollectionContent(newContent));
+    // setContent(newContent);
   };
 
   const handleContentClick = (conversation: Conversation) => {
@@ -358,14 +357,19 @@ const Collections = () => {
         <BookmarkTagContent>
           <div>
             <BookmarkContainer>
-              <Bookmark key="All" onClick={() => handleBookmarkClick('All')}>
+              <Bookmark
+                key="All"
+                onClick={() =>
+                  handleBookmarkClick({ bookmarkId: 0, bookmarkName: 'All' })
+                }
+              >
                 <span className="name">All</span>
                 <span className="dots">···</span>
               </Bookmark>
               {content.bookmarks.map((bookmark: BookmarkType) => (
                 <Bookmark
                   key={bookmark.bookmarkId}
-                  onClick={() => handleBookmarkClick(bookmark.bookmarkName)}
+                  onClick={() => handleBookmarkClick(bookmark)}
                 >
                   <span className="name">{bookmark.bookmarkName}</span>
                   <span className="dots">···</span>
