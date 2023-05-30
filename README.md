@@ -10,11 +10,11 @@
  <br>
 <h2 align='center'>핵심 기능</h2>
 
-<p align="center">- ChatGPT 처럼 대화세션을 생성하여 원하는 질문 할 수 있음</p>
-<p align="center">- 생성된 대화세션은 히스토리페이지에서 전부 조회할 수 있으며 최신순, 활동량순으로 정렬 가능</p>
- <p align="center">→ 내가 어떤 부분에 관심을 많이 가지는지 통계적으로 확인 가능</p>
-<p align="center">- 대화세션을 저장하고 싶다면 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리</p>
-<p align="center">- 북마크 시 대화세션을 카테고리별로 구분 가능</p>
+<p align="center">- ChatGPT 처럼 대화세션을 생성하여 질문을 이어서 할 수 있음</p>
+<p align="center">- 생성된 대화세션은 히스토리페이지에서 최신활동순, 활동량순, 오래된순으로 전부 조회 가능</p>
+ <p align="center">→ 원하는 대화만 페이지 상단에 고정, 즉시 조회</p>
+ <p align="center">→ 질문답변 내용, 태그 검색으로 빠르게 필요한 대화 찾기</p>
+<p align="center">- 원하는 대화만 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리</p>
 
 <br>
 <br>
@@ -43,7 +43,7 @@
 |<img max-width="500" alt="소개페이지" src="./files/gifs/소개페이지_5-30.gif"/>|<img max-width="500" alt="회원가입" src="./files/gifs/로그인화면_5-30.gif"/>|
 |AI와의 기본 대화 |제목 수정|
 |<img max-width="500" alt="대화하기" src="./files/gifs/대화하기2_5-30.gif"/>|<img max-width="400" alt="제목수정" src="./files/gifs/제목수정_5-30.gif"/>|
-|대화 북마킹, 태깅|대화 내용 및 태그 검색|
+|대화 북마킹 & 태깅|대화 내용 및 태그 검색|
 |<img max-width="500" src=""/>|<img max-width="500" src="url"/>|
 |히스토리 정렬 |특정 대화 고정, 삭제|
 |<img max-width="500" alt="히스토리정렬" src="./files/gifs/히스토리정렬_5-30.gif"/>|<img max-width="500" alt="대화고정삭제" src="./files/gifs/대화고정삭제_5-30.gif"/>|
