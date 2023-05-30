@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import BookmarkSidebarItem from './BookmarkSidebarItem';
+//import styles
+import { DeleteButton } from '../../styles/HistoryStyle';
 
+//import components
+import BookmarkSidebarItem from './BookmarkSidebarItem';
+import ModalCreateBookmark from '../modals/ModalCreateBookmark';
+
+//import data
 import { BookmarkType } from '../../data/d';
 
+//import api
 import { useAppSelector } from '../../app/hooks';
 import { selectedCollectionBookmark } from '../../features/collection/collectionSlice';
 
@@ -16,15 +23,15 @@ const BookmarkContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const BookmarkAdd = styled.button`
-  display: flex;
-  justify-content: center;
-  // width: 100%;
-  margin: 5px;
-  padding: 5px;
+const BookmarkAddBtn = styled(DeleteButton)`
+  margin-top: 10px;
+  padding: 10px 25px;
+  border: 1.5px solid var(--color-default-darkgreen);
+  background-color: var(--color-default-green-10);
+  color: var(--color-default-darkgreen);
 
   &:hover {
-    cursor: pointer;
+    background-color: var(--color-default-green-70);
   }
 `;
 
@@ -43,6 +50,13 @@ const BookmarkSidebar = ({ bookmarks, handleClick }: Props) => {
   const [selectedBookmark, setSelectedBookmark] = useState(
     useAppSelector(selectedCollectionBookmark),
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCreateBtnClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
 
   return (
     <BookmarkContainer>
@@ -80,7 +94,14 @@ const BookmarkSidebar = ({ bookmarks, handleClick }: Props) => {
           />
         ),
       )}
-      <BookmarkAdd>+ New List</BookmarkAdd>
+      <BookmarkAddBtn onClick={handleCreateBtnClick}>+ New List</BookmarkAddBtn>
+      {isModalOpen && (
+        <ModalCreateBookmark
+          visible={isModalOpen}
+          setVisible={setIsModalOpen}
+          mode="addEmpty"
+        />
+      )}
     </BookmarkContainer>
   );
 };

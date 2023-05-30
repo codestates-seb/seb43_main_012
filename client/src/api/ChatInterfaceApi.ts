@@ -163,6 +163,17 @@ export async function deleteBookmark({
   }
 }
 
+export async function createBookmark({ bName }: { bName: string }) {
+  try {
+    await requestAuth.post('/bookmarks', {
+      bookmarkName: bName,
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 export async function editBookmark({
   bId,
   newName,

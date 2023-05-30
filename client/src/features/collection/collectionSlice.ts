@@ -1,6 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Conversation } from '../../data/d';
+import { createBookmark } from '../../api/ChatInterfaceApi';
+
+export const createEmptyBookmarkAsync = createAsyncThunk(
+  'collection/createBookmark',
+  async ({ bName }: { bName: string }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+
+    if (state.collection.status === 'idle') {
+      thunkApi.dispatch(collectionSlice.actions.setStatus('loading'));
+      const res = await createBookmark({ bName });
+      thunkApi.dispatch(collectionSlice.actions.setStatus('idle'));
+      return res;
+    }
+  },
+);
 
 const collectionSlice = createSlice({
   name: 'collection',
@@ -9,9 +24,11 @@ const collectionSlice = createSlice({
     selectedBookmark: 'All',
     selectedTag: '',
     isToggled: false,
+    status: 'idle',
   },
   reducers: {
     setCollectionBookmark: (state, action) => {
+      // console.log('Collection Bookmark');
       state.selectedBookmark = action.payload;
     },
     setCollectionTag: (state, action) => {
@@ -23,6 +40,9 @@ const collectionSlice = createSlice({
     toggleModal: (state, action) => {
       state.isToggled = action.payload;
     },
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
   },
 });
 
@@ -31,6 +51,7 @@ export const {
   setCollectionContent,
   setCollectionTag,
   toggleModal,
+  setStatus,
 } = collectionSlice.actions;
 
 export const selectCollectionContent = (state: RootState) =>

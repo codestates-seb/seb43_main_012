@@ -20,6 +20,10 @@ import {
   createBookmarkAsync,
   updateBookmarks,
 } from '../../features/main/conversationSlice';
+import {
+  createEmptyBookmarkAsync,
+  setCollectionBookmark,
+} from '../../features/collection/collectionSlice';
 
 type ButtonProps = {
   inputExists: boolean;
@@ -80,9 +84,10 @@ const ErrorMsg = styled.div`
 type Props = {
   visible: boolean;
   setVisible: (isOpen: boolean) => void;
+  mode: 'addEmpty' | 'addConversation';
 };
 
-const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
+const ModalCreateBookmark = ({ visible, setVisible, mode }: Props) => {
   const [value, setValue] = useState<string>('');
 
   const dispatch = useAppDispatch();
@@ -90,22 +95,33 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
   const handleCreateClick = async (
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>,
   ) => {
-    // console.log('create bookmark btn clicked!');
-
     e.preventDefault();
     e.stopPropagation();
     if (value) {
-      // console.log('create bookmark btn clicked2!');
-
-      const res = await dispatch(createBookmarkAsync({ bName: value }));
-      if (res.payload) {
-        // console.log('unique bookmark name');
-        const payload = res.payload as {
-          bookmarkId: number;
-          bookmarkName: string;
-        };
-        dispatch(updateBookmarks({ bId: payload.bookmarkId, bName: value }));
+      if (mode === 'addConversation') {
+        const res = await dispatch(createBookmarkAsync({ bName: value }));
+        if (res.payload) {
+          const payload = res.payload as {
+            bookmarkId: number;
+            bookmarkName: string;
+          };
+          dispatch(updateBookmarks({ bId: payload.bookmarkId, bName: value }));
+          alert('북마크가 성공적으로 생성되었습니다');
+        }
+      } else if (mode === 'addEmpty') {
+        const res = await dispatch(createEmptyBookmarkAsync({ bName: value }));
+        console.log('res: ', res);
+        // if (res.payload) {
+        //   const payload = res.payload as {
+        //     bookmarkId: number;
+        //     bookmarkName: string;
+        //   };
+        //   dispatch(setCollectionBookmark(payload.bookmarkName));
+        dispatch(setCollectionBookmark(value));
+        if (res.meta.requestStatus === 'fulfilled')
+          alert('북마크가 성공적으로 생성되었습니다');
       }
+
       setVisible(false);
       setValue('');
     }
@@ -149,7 +165,6 @@ const ModalCreateBookmark = ({ visible, setVisible }: Props) => {
       </CModalHeader>
       <CModalBody
         onClick={(e) => {
-          // console.log('clicked cmodal body');
           e.preventDefault();
           e.stopPropagation();
         }}

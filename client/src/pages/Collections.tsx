@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
-// import axios from 'axios';
-import { requestAuth } from '../utils/axiosConfig';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { RootState } from '../app/store';
-import styled, { StyledComponent } from 'styled-components';
-import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
+import styled from 'styled-components';
 
 import ModalContent from '../components/modals/ModalContent';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
 import FixedBookmarks from '../components/collections/FixedBookmarks';
 import BookmarkSidebar from '../components/collections/BookmarkSidebar';
+import Loading from '../components/chatinterface/Loading';
 import { truncateTitle } from '../utils/ContentFunctions';
 
 import {
@@ -33,7 +28,9 @@ import {
   selectConversation,
   setConversation,
 } from '../features/main/conversationSlice';
-import { useAppSelector } from '../app/hooks';
+import { requestAuth } from '../utils/axiosConfig';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 
 const Main = styled.main`
   width: 1080px;
@@ -221,7 +218,7 @@ function getFirstSentence(paragraph: string): string {
 }
 
 const Collections = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -240,15 +237,17 @@ const Collections = () => {
   }, []);
 
   useEffect(() => {
-    console.log('load again');
+    // console.log('load again');
     (async function () {
       await loadCollection();
     })();
-  }, [currentConv]);
+  }, [currentConv, selectedBookmark]);
 
   const loadCollection = async () => {
+    setIsLoading(true);
     const collection = await getCollection();
     if (collection) {
+      setIsLoading(false);
       console.log('loaded collection');
       dispatch(setCollectionContent(collection));
     }
@@ -299,26 +298,25 @@ const Collections = () => {
     setSelectedConversation(null);
   };
 
-  return (
-    content?.conversations && (
-      <Main>
-        {selectedConversation && (
-          <ModalContent
-            conversation={selectedConversation}
-            onClose={handleCloseModal}
-          />
-        )}
-        <FixedBookmarks
-          conversations={content.conversations}
-          handleContentClick={handleThumbnailClick}
+  return content?.conversations && !isLoading ? (
+    <Main>
+      {selectedConversation && (
+        <ModalContent
+          conversation={selectedConversation}
+          onClose={handleCloseModal}
         />
+      )}
+      <FixedBookmarks
+        conversations={content.conversations}
+        handleContentClick={handleThumbnailClick}
+      />
 
-        <FilteringContent>
-          <BookmarkSidebar
-            handleClick={handleBookmarkClick}
-            bookmarks={content.bookmarks}
-          />
-          {/* <TagContainer>
+      <FilteringContent>
+        <BookmarkSidebar
+          handleClick={handleBookmarkClick}
+          bookmarks={content.bookmarks}
+        />
+        {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
                 <Tag
                   key={tag.tagId}
@@ -328,65 +326,65 @@ const Collections = () => {
                 </Tag>
               ))}
             </TagContainer> */}
-          <ContentWraper>
-            <ContentContainer>
-              {content.conversations
-                .filter(
-                  (conversation: Conversation) =>
-                    selectedBookmark === 'All' ||
-                    conversation.bookmarks
-                      .map((b) => b.bookmarkName)
-                      .includes(selectedBookmark),
-                )
-                .map((conversation: Conversation) => (
-                  <Content>
-                    <div className="header">
-                      <Title
-                        className="title"
-                        key={conversation.conversationId}
-                        onClick={() => {
-                          handleThumbnailClick(conversation.conversationId);
-                        }}
-                      >
-                        {truncateTitle(conversation.title, 35)}
-                      </Title>
-                    </div>
-                    <div
-                      className="content"
+        <ContentWraper>
+          <ContentContainer>
+            {content.conversations
+              .filter(
+                (conversation: Conversation) =>
+                  selectedBookmark === 'All' ||
+                  conversation.bookmarks
+                    .map((b) => b.bookmarkName)
+                    .includes(selectedBookmark),
+              )
+              .map((conversation: Conversation) => (
+                <Content>
+                  <div className="header">
+                    <Title
+                      className="title"
+                      key={conversation.conversationId}
                       onClick={() => {
                         handleThumbnailClick(conversation.conversationId);
                       }}
                     >
-                      {getFirstSentence(conversation.answerSummary)}
+                      {truncateTitle(conversation.title, 35)}
+                    </Title>
+                  </div>
+                  <div
+                    className="content"
+                    onClick={() => {
+                      handleThumbnailClick(conversation.conversationId);
+                    }}
+                  >
+                    {getFirstSentence(conversation.answerSummary)}
+                  </div>
+                  <div className="links">
+                    <div className="bookmark">
+                      {conversation.bookmarks.map((bookmark) => (
+                        <span key={bookmark.bookmarkId}>
+                          {bookmark.bookmarkName}
+                        </span>
+                      ))}
                     </div>
-                    <div className="links">
-                      <div className="bookmark">
-                        {conversation.bookmarks.map((bookmark) => (
-                          <span key={bookmark.bookmarkId}>
-                            {bookmark.bookmarkName}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="tag">
-                        {conversation.tags.map((tag: TagType) => (
-                          <span key={tag.tagId}>#{tag.tagName} </span>
-                        ))}
-                      </div>
+                    <div className="tag">
+                      {conversation.tags.map((tag: TagType) => (
+                        <span key={tag.tagId}>#{tag.tagName} </span>
+                      ))}
                     </div>
-                  </Content>
-                ))}
-              {!content.conversations.length && (
-                <EmptyContainer>
-                  저장된 내역이 없습니다. 새대화, 이전대화에 북마크를
-                  달아보세요!
-                </EmptyContainer>
-              )}
-            </ContentContainer>
-          </ContentWraper>
-        </FilteringContent>
-        {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
-      </Main>
-    )
+                  </div>
+                </Content>
+              ))}
+            {!content.conversations.length && (
+              <EmptyContainer>
+                저장된 내역이 없습니다. 새대화, 이전대화에 북마크를 달아보세요!
+              </EmptyContainer>
+            )}
+          </ContentContainer>
+        </ContentWraper>
+      </FilteringContent>
+      {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
+    </Main>
+  ) : (
+    <Loading />
   );
 };
 

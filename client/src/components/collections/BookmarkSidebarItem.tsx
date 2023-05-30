@@ -13,6 +13,7 @@ const Bookmark = styled.div`
   margin: 0 5px 5px 0;
   padding: 5px;
   width: 100%;
+  height: 2.2rem;
 
   span {
     padding: 0 5px;
