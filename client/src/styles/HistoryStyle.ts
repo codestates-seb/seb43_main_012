@@ -87,7 +87,6 @@ export const DeleteButton = styled.button`
   font-weight: 500;
   border: 1.5px solid var(--color-default-yellow-darker);
   background-color: var(--color-default-yellow-10);
-  // background-color: var(--color-default-yellow);
   color: var(--color-default-yellow-darker);
 
   &:hover {

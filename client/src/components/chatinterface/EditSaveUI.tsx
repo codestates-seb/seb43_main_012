@@ -134,6 +134,7 @@ const EditSaveUI = ({ editState, setEditState, setEditConfirm }: Props) => {
       <ModalCreateBookmark
         visible={isModalOpen}
         setVisible={handleModalOpenClick}
+        mode="addConversation"
       />
     </EditSaveUIBox>
   );

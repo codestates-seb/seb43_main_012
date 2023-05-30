@@ -25,7 +25,7 @@ export async function getSavedConversations() {
   }
 }
 
-export async function getCollections() {
+export async function getCollection() {
   try {
     const response = await requestAuth.get<any>(`/collections`);
     return response.data;
@@ -160,6 +160,17 @@ export async function deleteBookmark({
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export async function createBookmark({ bName }: { bName: string }) {
+  try {
+    await requestAuth.post('/bookmarks', {
+      bookmarkName: bName,
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 }
 
