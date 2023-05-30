@@ -226,6 +226,7 @@ const Collections = () => {
     useState<Conversation | null>(null);
 
   const content = useAppSelector(selectCollectionContent);
+  const [bookmarkNames, setBookmarkNames] = useState<string[]>([]);
   const selectedBookmark = useAppSelector(selectedCollectionBookmark);
   const selectedTag = useAppSelector(selectedCollectionTag);
   const currentConv = useAppSelector(selectConversation);
@@ -237,11 +238,20 @@ const Collections = () => {
   }, []);
 
   useEffect(() => {
-    // console.log('load again');
+    console.log('load again');
     (async function () {
       await loadCollection();
     })();
-  }, [currentConv, selectedBookmark]);
+  }, [currentConv]);
+
+  useEffect(() => {
+    if (!bookmarkNames.includes(selectedBookmark)) {
+      console.log('new bookmark');
+      (async function () {
+        await loadCollection();
+      })();
+    }
+  }, [selectedBookmark]);
 
   const loadCollection = async () => {
     setIsLoading(true);
@@ -250,6 +260,10 @@ const Collections = () => {
       setIsLoading(false);
       console.log('loaded collection');
       dispatch(setCollectionContent(collection));
+      const bookmarkNameList = collection.bookmarks.map(
+        (b: BookmarkType) => b.bookmarkName,
+      );
+      setBookmarkNames(bookmarkNameList);
     }
     return;
   };
