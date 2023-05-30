@@ -36,20 +36,20 @@
 | :---: |
 
 
-<h2 align='center'>  Core Features - 업데이트 예정</h2>
+<h2 align='center'>  Core Features - 업데이트 중</h2>
 
 |소개페이지|회원가입 / 로그인|
 |:---:|:---:|
 |<img max-width="500" alt="소개페이지" src="./files/gifs/소개페이지_5-30.gif">|<img max-width="500" alt="회원가입" src="./files/gifs/로그인화면_5-30.gif"/>|
 |AI와의 대화 |제목 수정|
 |<img max-width="500" alt="대화하기" src="url"/>|<img max-width="400" alt="제목수정" src="url"/>|
-|대화 북마킹|대화 태깅|
+|대화 북마킹, 태깅|대화 내용 및 태그 검색|
 |<img max-width="500" src="url"/>|<img max-width="500" src="url"/>|
-|대화 내용 및 태그 검색 |히스토리 정렬|
+|히스토리 정렬 |대화 고정, 삭제|
 |<img max-width="500" src="url"/>|<img max-width="500" src="url"/>|
-|대화 고정, 삭제 | 북마크 조회 & 생성|
+|북마크 조회 & 생성 | 선택 답변만 조회 |
 |<img max-width="500" src="url"/>|<img max-width="500" src="url"/>|
-|대화 계속하기 | 캐릭터, 아이디 변경 |
+| 대화 계속하기 | 캐릭터, 아이디 변경 |
 |<img max-width="500" src="url"/>|<img max-width="500" src="url"/>|
 
 
