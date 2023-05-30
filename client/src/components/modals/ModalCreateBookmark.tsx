@@ -15,10 +15,12 @@ import { useInput } from '../../utils/hooks/useInput';
 import Input from '../chatinterface/Input';
 
 //import redux
-import { useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   createBookmarkAsync,
   updateBookmarks,
+  initializeConversation,
+  selectCId,
 } from '../../features/main/conversationSlice';
 import {
   createEmptyBookmarkAsync,
@@ -89,6 +91,7 @@ type Props = {
 
 const ModalCreateBookmark = ({ visible, setVisible, mode }: Props) => {
   const [value, setValue] = useState<string>('');
+  const currentCId = useAppSelector(selectCId);
 
   const dispatch = useAppDispatch();
 
@@ -118,6 +121,7 @@ const ModalCreateBookmark = ({ visible, setVisible, mode }: Props) => {
         //   };
         //   dispatch(setCollectionBookmark(payload.bookmarkName));
         dispatch(setCollectionBookmark(value));
+        dispatch(initializeConversation(currentCId - 1));
         if (res.meta.requestStatus === 'fulfilled')
           alert('북마크가 성공적으로 생성되었습니다');
       }

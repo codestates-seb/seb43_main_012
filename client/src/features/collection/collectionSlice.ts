@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Conversation } from '../../data/d';
 import { createBookmark } from '../../api/ChatInterfaceApi';
+import conversationSlice from '../main/conversationSlice';
 
 export const createEmptyBookmarkAsync = createAsyncThunk(
   'collection/createBookmark',
