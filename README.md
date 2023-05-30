@@ -45,7 +45,7 @@
 |AI와의 기본 대화 |제목 수정|
 |<img max-width="500" alt="대화하기" src="./files/gifs/대화하기2_5-30.gif"/>|<img max-width="400" alt="제목수정" src="./files/gifs/제목수정_5-30.gif"/>|
 |대화 북마킹 & 태깅|대화 내용 및 태그 검색|
-|<img max-width="500" src=""/>|<img max-width="500" src="url"/>|
+|<img max-width="500" alt="북마킹태깅" src="./files/gifs/북마킹태깅.gif"/>|<img max-width="500" alt="검색" src="./files/gifs/내용태그검색_5-30.gif"/>|
 |히스토리 정렬 |원하는 대화 고정, 삭제|
 |<img max-width="500" alt="히스토리정렬" src="./files/gifs/히스토리정렬_5-30.gif"/>|<img max-width="500" alt="대화고정삭제" src="./files/gifs/대화고정삭제_5-30.gif"/>|
 |북마크 조회 & 생성 | 선택 답변만 조회 |
