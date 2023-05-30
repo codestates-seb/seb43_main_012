@@ -89,19 +89,13 @@
 <h2 align='center'>  Git Convention </h2>
 
 <h3 align='center'>Branch</h3>
-
 <p align='center'><code>dev</code> : 배포 가능한 상태 관리 브랜치 (<code>be-dev</code> + <code>fe-dev</code> ) </p>
-
 <p align='center'><code>be-dev</code> : BE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) </p>
-
 <p align='center'><code>fe-dev</code> : FE 개발 통합 브랜치 (기능 구현 완성할 할때마다 테스트 후 merge한다) </p>
-
 <p align='center'><code>be-feat/[feature-name]</code>  : BE 기능 개발 브랜치</p>
-
 <p align='center'><code>fe-feat/[feature-name]</code> : FE 기능 개발 브랜치</p>
-
 <p align='center'><code>hotfix</code> : 출시 버전에서 발생하는 버그 수정 브랜치 (긴급 수정용)</p>
-
+<br/>
 <h3 align='center'> Commit Convention </h3>
 
 <p align='center'>- <code>Feat</code> : 새로운 기능 추가 </p>
