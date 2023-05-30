@@ -22,6 +22,12 @@ type QnAListProps = {
   qnaItems: QnAType[];
 };
 
+const BottomMargin = styled.div`
+  display: flex;
+
+  padding: 20px 0;
+`;
+
 const QnAList = ({ isLoading, qnaItems }: QnAListProps) => {
   return (
     <>
@@ -29,6 +35,7 @@ const QnAList = ({ isLoading, qnaItems }: QnAListProps) => {
         {qnaItems.map((qna) => (
           <QnA key={qna.qnaId} qnaItem={qna} />
         ))}
+        <BottomMargin />
       </QnAListBox>
       {isLoading && (
         <LoadingWrap>
