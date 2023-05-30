@@ -57,7 +57,7 @@ const HistoryData = ({ binnedConv, handleClick, TagSearch }: HistoryProps) => {
     console.log('thumbnail click!');
     // setIsLoading(true);
     await loadConv(cId);
-    console.log('loaded conv');
+    // console.log('loaded conv');
     handleClick();
   };
 
