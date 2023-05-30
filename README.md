@@ -32,13 +32,13 @@
 <br/>
 <br/>
 
-<h2 align='center'>Live Demo -업데이트 예정 </h2>
+<h2 align='center'>Demo Peek</h2>
 
-| ![summary](url) |
+| ![업데이트예정](url) |
 | :---: |
 
 
-<h2 align='center'>  Core Features - 업데이트 중</h2>
+<h2 align='center'>  Core Features</h2>
 
 |소개페이지|회원가입 / 로그인|
 |:---:|:---:|
