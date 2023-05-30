@@ -6,11 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import styled, { StyledComponent } from 'styled-components';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
-import { ReactComponent as BookmarkSolid } from '../assets/icons/bookmark-solid.svg';
+
 import ModalContent from '../components/modals/ModalContent';
 import ModalHistoryItem from '../components/modals/ModalHistoryItem';
-
 import FixedBookmarks from '../components/collections/FixedBookmarks';
+import BookmarkSidebar from '../components/collections/BookmarkSidebar';
 import { truncateTitle } from '../utils/ContentFunctions';
 
 import {
@@ -27,8 +27,12 @@ import {
   getConversation,
   updatePinState,
   deleteConversation,
+  getCollection,
 } from '../api/ChatInterfaceApi';
-import { setConversation } from '../features/main/conversationSlice';
+import {
+  selectConversation,
+  setConversation,
+} from '../features/main/conversationSlice';
 import { useAppSelector } from '../app/hooks';
 
 const Main = styled.main`
@@ -162,58 +166,6 @@ export const Content = styled.div`
   }
 `;
 
-const BookmarkContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 10.5rem;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Bookmark = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f8f8f8;
-  border-radius: 20px;
-  margin: 0 5px 5px 0;
-  padding: 5px;
-  width: 100%;
-
-  span {
-    padding: 0 5px;
-  }
-
-  span.name {
-    width: 100%;
-    flex-basis: 3;
-    // width: 80%:
-  }
-
-  span.dots {
-    flex-basis: 1;
-    color: gray;
-  }
-
-  &:hover {
-    cursor: pointer;
-    background-color: #f0f0f0;
-  }
-`;
-
-const BookmarkAdd = styled.button`
-  display: flex;
-  justify-content: center;
-  // width: 100%;
-  margin: 5px;
-  padding: 5px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const TagContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -229,7 +181,7 @@ const Tag = styled.div`
   padding: 5px;
 `;
 
-const BookmarkTagContent = styled.div`
+const FilteringContent = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -243,14 +195,6 @@ const SvgButton = styled.button`
 `;
 
 const ConvContent = styled.div``;
-
-const BookmarkButton = () => {
-  return (
-    <SvgButton>
-      <BookmarkSolid />
-    </SvgButton>
-  );
-};
 
 type Content = {
   conversations: Conversation[];
@@ -279,6 +223,7 @@ function getFirstSentence(paragraph: string): string {
 const Collections = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
@@ -286,14 +231,29 @@ const Collections = () => {
   const content = useAppSelector(selectCollectionContent);
   const selectedBookmark = useAppSelector(selectedCollectionBookmark);
   const selectedTag = useAppSelector(selectedCollectionTag);
+  const currentConv = useAppSelector(selectConversation);
 
   useEffect(() => {
-    requestAuth.get(`/collections`).then((response) => {
-      console.log('loaded collections');
-      // setContent(response.data);
-      dispatch(setCollectionContent(response.data));
-    });
+    (async function () {
+      await loadCollection();
+    })();
   }, []);
+
+  useEffect(() => {
+    console.log('load again');
+    (async function () {
+      await loadCollection();
+    })();
+  }, [currentConv]);
+
+  const loadCollection = async () => {
+    const collection = await getCollection();
+    if (collection) {
+      console.log('loaded collection');
+      dispatch(setCollectionContent(collection));
+    }
+    return;
+  };
 
   const loadConv = async (cId: number) => {
     const conversation = await getConversation(cId);
@@ -321,13 +281,11 @@ const Collections = () => {
   };
 
   const handleTagClick = (tag: string) => {
-    // setSelectedTag(tag);
     dispatch(setCollectionTag(tag));
   };
 
   const handleContentUpdate = (newContent: any) => {
     dispatch(setCollectionContent(newContent));
-    // setContent(newContent);
   };
 
   const handleContentClick = (conversation: Conversation) => {
@@ -354,31 +312,13 @@ const Collections = () => {
           conversations={content.conversations}
           handleContentClick={handleThumbnailClick}
         />
-        <BookmarkTagContent>
-          <div>
-            <BookmarkContainer>
-              <Bookmark
-                key="All"
-                onClick={() =>
-                  handleBookmarkClick({ bookmarkId: 0, bookmarkName: 'All' })
-                }
-              >
-                <span className="name">All</span>
-                <span className="dots">···</span>
-              </Bookmark>
-              {content.bookmarks.map((bookmark: BookmarkType) => (
-                <Bookmark
-                  key={bookmark.bookmarkId}
-                  onClick={() => handleBookmarkClick(bookmark)}
-                >
-                  <span className="name">{bookmark.bookmarkName}</span>
-                  <span className="dots">···</span>
-                </Bookmark>
-              ))}
-            </BookmarkContainer>
-            <BookmarkAdd>+ New List</BookmarkAdd>
 
-            {/* <TagContainer>
+        <FilteringContent>
+          <BookmarkSidebar
+            handleClick={handleBookmarkClick}
+            bookmarks={content.bookmarks}
+          />
+          {/* <TagContainer>
               {content.tags.map((tag: TagType) => (
                 <Tag
                   key={tag.tagId}
@@ -388,7 +328,6 @@ const Collections = () => {
                 </Tag>
               ))}
             </TagContainer> */}
-          </div>
           <ContentWraper>
             <ContentContainer>
               {content.conversations
@@ -444,7 +383,7 @@ const Collections = () => {
               )}
             </ContentContainer>
           </ContentWraper>
-        </BookmarkTagContent>
+        </FilteringContent>
         {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
       </Main>
     )

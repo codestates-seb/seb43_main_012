@@ -25,7 +25,7 @@ export async function getSavedConversations() {
   }
 }
 
-export async function getCollections() {
+export async function getCollection() {
   try {
     const response = await requestAuth.get<any>(`/collections`);
     return response.data;
