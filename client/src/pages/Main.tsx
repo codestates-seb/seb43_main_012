@@ -186,7 +186,11 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
         )}
       </M.FixedTopBox>
       {Boolean(conversation.conversationId) ? (
-        <QnAList isLoading={isLoading} qnaItems={conversation?.qnaList} />
+        <QnAList
+          isLoading={isLoading}
+          qnaItems={conversation?.qnaList}
+          isMax={isMax}
+        />
       ) : (
         isLoading && (
           <M.LoadingBox>
