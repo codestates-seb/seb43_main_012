@@ -67,6 +67,7 @@ export const TitleBox = styled.title`
   padding: 50px 15px 30px 15px;
   letter-spacing: -0.03em;
   z-index: 990;
+  background-color: white;
 
   // &:first-child {
 
@@ -117,14 +118,14 @@ export const EditSaveUIBox = styled.div`
   }
 `;
 
-export const QnAListBox = styled.ul`
+export const QnAListBox = styled.ul<BackdropProps>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0 20px 0 -50px;
   height: 100%;
-  margin-top: 220px;
+  margin-top: ${(props) => (props.isMax ? '220px' : '250px')};
   max-height: 60vh;
   overflow-y: scroll;
 
