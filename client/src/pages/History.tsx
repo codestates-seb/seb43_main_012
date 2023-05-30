@@ -27,7 +27,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import { initializeMemberState } from '../features/member/loginInfoSlice';
-import { toggleModal } from '../features/collection/collectionSlice';
 
 export type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];

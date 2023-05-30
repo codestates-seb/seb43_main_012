@@ -126,7 +126,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   useEffect(() => {}, [isLoading]);
 
   useEffect(() => {
-    // console.log('updated qnum: ', qNum);
+    console.log('updated qnum: ', qNum);
     if (conversation.title && qNum !== conversation.qnaList.length) {
       (async function () {
         const newConversation = await getConversation(
