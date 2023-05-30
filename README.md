@@ -1,23 +1,22 @@
-<h1> 프로젝트 소개 </h1>
 </br>
- <h3 align="center"><img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
+ <h3 align="center">Team Bug Fetish Presents.. <br><br>
+<img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
+<p align="center">ChatGPT 대화 기록 검색, 북마킹 서비스</p>
+<p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
+<p align="center">
+ <a href="http://chatcrawl.live">Live Demo Link</a></p>
+ <p align="center"> <a href="http://chatcrawl.live](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)">Service Manual</a></p>
+ 
+ <br>
+<h2 align='center'>핵심 기능</h2>
 
-- **팀 명 :**  Bug Fetish
-- **프로젝트 명 :** ChatCrawl
-- **한줄 소개 :** ChatGPT 대화 기록 검색, 북마킹 서비스
-- **팀원 :** 장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영
-- **배포 링크 :** [Chatcrawl.live](http://chatcrawl.live)
-- **서비스 매뉴얼 :** [URL](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)
+<p align="center">- ChatGPT 처럼 대화세션을 생성하여 원하는 질문 할 수 있음</p>
+<p align="center">- 생성된 대화세션은 히스토리페이지에서 전부 조회할 수 있으며 최신순, 활동량순으로 정렬 가능</p>
+ <p align="center">→ 내가 어떤 부분에 관심을 많이 가지는지 통계적으로 확인 가능</p>
+<p align="center">- 대화세션을 저장하고 싶다면 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리</p>
+<p align="center">- 북마크 시 대화세션을 카테고리별로 구분 가능</p>
 
-
-## 주요 기능
-
-- ChatGPT 처럼 대화세션을 생성하여 원하는 질문 할 수 있음
-- 생성된 대화세션은 히스토리페이지에서 전부 조회할 수 있으며 최신순, 활동량순으로 정렬 가능
- <br>→ 내가 어떤 부분에 관심을 많이 가지는지 통계적으로 확인 가능
-- 대화세션을 저장하고 싶다면 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리
-- 북마크 시 대화세션을 카테고리별로 구분 가능
-
+<br>
 
 ## 👨‍👩‍👧‍👦 Team
 | 장성아<br>(FE, 팀장) | 맹승주<br>(FE) | 박지원<br>(FE) |
@@ -38,21 +37,23 @@
 
 
 ## ✨ Pages & Features - 업데이트 예정
-|메인 페이지|로그인 / 회원가입 페이지|
+|소개페이지|회원가입 / 로그인|
 |:---:|:---:|
-|<img width="500" alt="summary1" src="url"/>|<img width="500" alt="summary2" src="./image/sign.png"/>|
-|**페이지명**|**페이지명**|
-|<img width="500" alt="summary3" src="url"/>|<img width="500" src="url"/>|
-|마이 페이지|정보 변경 모달|
-|<img width="500" src="./image/member.png"/>|<img width="500" src="./image/edit.png"/>|
-|소개 페이지|**페이지명**|
-|<img width="500" src="./image/info1.gif"/>|<img width="500" src="url"/>|
-|**페이지명**|**페이지명**|
-|<img width="500" src="url"/>|<img width="500" src="url"/>|
+|<img width="400" alt="소개페이지" src="url"/>|<img width="400" alt="회원가입" src="url"/>|
+|AI와의 대화 |제목 수정|
+|<img width="400" alt="summary3" src="url"/>|<img width="400" src="url"/>|
+|대화 북마킹|대화 태깅|
+|<img width="400" src="url"/>|<img width="400" src="url"/>|
+|대화 내용 및 태그 검색 |히스토리 정렬|
+|<img width="400" src="url"/>|<img width="400" src="url"/>|
+|대화 고정, 삭제 | 북마크 조회 & 생성|
+|<img width="400" src="url"/>|<img width="400" src="url"/>|
+|대화 계속하기 | 캐릭터, 아이디 변경 |
+|<img width="400" src="url"/>|<img width="400" src="url"/>|
 ## ➡️ User flow & Figma
 | User flow |
 | :---: |
-| <img width="1000" src="./image/userflow.png"> |
+| <img width="1000" src="./files/userflow.png"> |
 
 | Figma |
 | :---: |
@@ -102,5 +103,3 @@
 - `Remove` : 불필요한 파일/폴더 삭제
 - `Rename` : 파일, 폴더명 수정
 - `Chore` : 빌드 업무 수정, 패키지 매니저 수정
-
-### Coding Convention
