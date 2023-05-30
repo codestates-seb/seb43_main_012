@@ -238,7 +238,7 @@ const Collections = () => {
   }, []);
 
   useEffect(() => {
-    console.log('load again');
+    // console.log('load again');
     (async function () {
       await loadCollection();
     })();
@@ -246,7 +246,7 @@ const Collections = () => {
 
   useEffect(() => {
     if (!bookmarkNames.includes(selectedBookmark)) {
-      console.log('new bookmark');
+      // console.log('new bookmark');
       (async function () {
         await loadCollection();
       })();
@@ -258,7 +258,7 @@ const Collections = () => {
     const collection = await getCollection();
     if (collection) {
       setIsLoading(false);
-      console.log('loaded collection');
+      // console.log('loaded collection');
       dispatch(setCollectionContent(collection));
       const bookmarkNameList = collection.bookmarks.map(
         (b: BookmarkType) => b.bookmarkName,
