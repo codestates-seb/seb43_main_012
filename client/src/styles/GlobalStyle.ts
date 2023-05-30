@@ -23,6 +23,8 @@ const GlobalStyle = createGlobalStyle`
     --color-default-green: #77AD69;
     --color-default-darkgreen: #4E973C;
     --color-default-green-opacity: rgba(119,173,105, 0.9);
+    --color-default-green-70: rgba(119,173,105, 0.7);
+    --color-default-green-10: rgba(119,173,105, 0.1);
     --color-default-yellow: #E7CC8F;
     --color-default-yellow-70: rgba(231, 204, 143, 0.7);
     --color-default-yellow-50: rgba(231, 204, 143, 0.5);

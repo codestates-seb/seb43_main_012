@@ -1,33 +1,67 @@
-import { createSlice } from '@reduxjs/toolkit';
-// import data from '../../data/data.json';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 import { Conversation } from '../../data/d';
+import { createBookmark } from '../../api/ChatInterfaceApi';
+
+export const createEmptyBookmarkAsync = createAsyncThunk(
+  'collection/createBookmark',
+  async ({ bName }: { bName: string }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+
+    if (state.collection.status === 'idle') {
+      thunkApi.dispatch(collectionSlice.actions.setStatus('loading'));
+      const res = await createBookmark({ bName });
+      thunkApi.dispatch(collectionSlice.actions.setStatus('idle'));
+      return res;
+    }
+  },
+);
 
 const collectionSlice = createSlice({
   name: 'collection',
   initialState: {
-    content: {} as any,
+    collectionContent: {} as any,
     selectedBookmark: 'All',
     selectedTag: '',
     isToggled: false,
+    status: 'idle',
   },
   reducers: {
-    setSelectedBookmark: (state, action) => {
+    setCollectionBookmark: (state, action) => {
+      // console.log('Collection Bookmark');
       state.selectedBookmark = action.payload;
     },
-    setSelectedTag: (state, action) => {
+    setCollectionTag: (state, action) => {
       state.selectedTag = action.payload;
     },
-    setContent: (state, action) => {
-      state.content = action.payload;
+    setCollectionContent: (state, action) => {
+      state.collectionContent = action.payload;
     },
     toggleModal: (state, action) => {
       state.isToggled = action.payload;
     },
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
   },
 });
 
-export const { setSelectedBookmark, setContent, setSelectedTag, toggleModal } =
-  collectionSlice.actions;
+export const {
+  setCollectionBookmark,
+  setCollectionContent,
+  setCollectionTag,
+  toggleModal,
+  setStatus,
+} = collectionSlice.actions;
+
+export const selectCollectionContent = (state: RootState) =>
+  state.collection.collectionContent;
+
+export const selectedCollectionBookmark = (state: RootState) =>
+  state.collection.selectedBookmark;
+
+export const selectedCollectionTag = (state: RootState) =>
+  state.collection.selectedTag;
 
 export const collectionReducer = collectionSlice.reducer;
 export default collectionReducer;
