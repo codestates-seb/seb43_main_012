@@ -20,6 +20,7 @@ const Loading = styled.div`
 type QnAListProps = {
   isLoading: boolean;
   qnaItems: QnAType[];
+  isMax?: boolean;
 };
 
 const BottomMargin = styled.div`
@@ -28,10 +29,10 @@ const BottomMargin = styled.div`
   padding: 20px 0;
 `;
 
-const QnAList = ({ isLoading, qnaItems }: QnAListProps) => {
+const QnAList = ({ isLoading, qnaItems, isMax }: QnAListProps) => {
   return (
     <>
-      <QnAListBox id="qnaList">
+      <QnAListBox id="qnaList" isMax={isMax}>
         {qnaItems.map((qna) => (
           <QnA key={qna.qnaId} qnaItem={qna} />
         ))}
