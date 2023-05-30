@@ -93,7 +93,7 @@ function extractSentences(text: string): string[] {
     /^(\d+\..*?|(?:\n-[\s\S]*)+)([\s\S]*?)($(?!\s*[-*\d]))/gm;
 
   while (remainingText.length > 0) {
-    console.log('there is remaining text,', remainingText);
+    // console.log('there is remaining text,', remainingText);
 
     const codeBlocks =
       ((remainingText.startsWith('```') &&
@@ -139,24 +139,25 @@ function extractSentences(text: string): string[] {
     }
 
     const paragraph = remainingText.split('\n\n')[0].trim() || '';
-    console.log('paragraphs:', paragraph);
+    // console.log('paragraphs:', paragraph);
 
     if (paragraph.length > 0) {
-      console.log('paragraph blocks:', paragraph);
+      // console.log('paragraph blocks:', paragraph);
 
       extractedPieces.push(paragraph);
-      remainingText = remainingText.replace(paragraph + '\n\n', '');
-      remainingText = remainingText.replace(paragraph + ' \n\n', '');
-      remainingText = remainingText.replace(paragraph, '');
+      remainingText = remainingText.replace(paragraph + '\n\n', '').trim();
+      remainingText = remainingText.replace(paragraph + ' \n', '').trim();
+      remainingText = remainingText.replace(paragraph, '').trim();
       // console.log('remainder: ', remainingText);
       continue;
     }
 
     extractedPieces.push(paragraph);
     remainingText = remainingText.replace(paragraph + '\n\n', '');
-    remainingText = remainingText.replace(paragraph + ' \n\n', '');
+    remainingText = remainingText.replace(paragraph + ' \n', '');
     remainingText = remainingText.replace(paragraph, ''); // extractedPieces.push(remainingText);
 
+    // if(remainingText)
     // break;
   }
   return extractedPieces;
