@@ -1,13 +1,14 @@
 <h1> 프로젝트 소개 </h1>
 </br>
-<h3 align="center">  <img alt="chatcrawl" src="https://github.com/mslock/TodoApps/assets/60218122/34295ef5-4df2-4f51-bcb4-aae4ca3ec7e9" width="400" > </h3>
+ <h3 align="center"><img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
 
 - **팀 명 :**  Bug Fetish
 - **프로젝트 명 :** ChatCrawl
 - **한줄 소개 :** ChatGPT 대화 기록 검색, 북마킹 서비스
 - **팀원 :** 장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영
-- **발표 문서 :** [URL](https://www.notion.so/codestates/Fetish-670116b8d21a405fabaa7fc41d077ce9)
-- **배포 링크 :** [URL](http://chatcrawl.live)
+- **배포 링크 :** [Chatcrawl.live](http://chatcrawl.live)
+- **서비스 매뉴얼 :** [URL](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)
+
 
 ## 주요 기능
 
