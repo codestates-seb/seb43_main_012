@@ -21,6 +21,17 @@
 <br>
 <br>
 
+<h3 align='center'>확장 가능성..</h3>
+ 
+<p align="center">- 대화 중 원하는 부분만 하이라이트, 선택 저장</p>
+<p align="center">- AI가 대화세션 내용 자동 요약</p>
+<p align="center">- 공식 ChatGPT와의 대화 데이터를 import해서 관리</p>
+<p align="center">- 공개게시판 기능 (본인 대화 공개 게시, 타인 게시 대화목록 조회, 채택 및 저장)</p>
+<p align="center">- 인공지능 성격 부여, 원하는 인공지능 캐릭터와 대화 (더 원하는 대답을 얻을 수 있도록 scaffolding)</p>
+<p align="center">- 여러 태그 검색, 북마크내 태그 검색 등</p>
+
+<br>
+<br>
 <h2 align='center'>Team Bug Fetish</h2>
 
 | 장성아<br>(FE 팀장) | 박지원<br>(FE) | 맹승주<br>(FE) | 순정원<br>(BE 팀장) | 김민수<br>(BE) | 한재영<br>(BE) |
