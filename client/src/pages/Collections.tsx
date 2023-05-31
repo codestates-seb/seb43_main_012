@@ -66,8 +66,11 @@ const SvgButton = styled.button`
   background-color: transparent;
   cursor: pointer;
 `;
+const BottomMargin = styled.div`
+  display: flex;
 
-const ConvContent = styled.div``;
+  padding: 20px 0;
+`;
 
 type Content = {
   conversations: Conversation[];
@@ -181,6 +184,8 @@ const Collections = () => {
               ))}
             </TagContainer> */}
       </FilteringContent>
+      <BottomMargin />
+
       {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
     </Main>
   ) : (

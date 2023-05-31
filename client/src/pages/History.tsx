@@ -1,4 +1,5 @@
 import { ReactElement, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
   HistoryBox,
   HistoryHeader,
@@ -31,6 +32,11 @@ import { initializeMemberState } from '../features/member/loginInfoSlice';
 export type BinnedConvType = {
   [key in DateFilter]: ConversationThumbType[];
 };
+
+const BottomMargin = styled.div`
+  display: flex;
+  padding: 30px 0;
+`;
 
 function scrollToLeft() {
   const bins = document.querySelectorAll('[id^="history-bin-"]');
@@ -175,6 +181,7 @@ function History(): ReactElement {
             )}
           </HistoryBody>
         }
+        <BottomMargin />
       </HistoryBox>
       {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
     </>
