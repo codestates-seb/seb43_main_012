@@ -68,7 +68,7 @@ const LoginForm = ({ closeModal }: Props) => {
     event.preventDefault();
     try {
       const res = await handleLogin({
-        userId: 'guest',
+        userId: 'guest@chatcrawl.live',
         password: 'Guest123!',
         setErrors,
       });
