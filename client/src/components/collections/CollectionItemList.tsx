@@ -15,7 +15,9 @@ const ContentWraper = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 20px;
 `;
 
 const EmptyContainer = styled.div`
@@ -36,8 +38,10 @@ const ContentContainer = styled.div`
   align-content: flex-start;
   padding: 5px;
   overflow: scroll;
-  height: 700px;
-  padding-bottom: 20px;
+  min-height: 400px;
+  max-height: 70vh;
+  // height: 100%;
+  padding-bottom: 40px;
   width: 100%;
 `;
 
