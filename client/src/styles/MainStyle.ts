@@ -131,6 +131,21 @@ export const QnAListBox = styled.ul<BackdropProps>`
 
   letter-spacing: -0.03em;
   line-height: 180%;
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 export const QnAItemBox = styled.li`

@@ -28,7 +28,21 @@ const BookmarkContainer = styled.div`
   max-height: 30vh;
   align-items: center;
   justify-content: flex-start;
-  overflow: scroll;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 const BookmarkAddBtn = styled(DeleteButton)`

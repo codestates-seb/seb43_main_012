@@ -40,6 +40,21 @@ const ContentContainer = styled.div`
 
   padding: 0 0 40px;
   margin-left: 20px;
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 const Title = styled.div`
