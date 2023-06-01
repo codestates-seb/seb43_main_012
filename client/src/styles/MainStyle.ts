@@ -31,7 +31,8 @@ export const MainBox = styled.main<MainProps>`
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: var(--size-minwidth-pc-main);
+  width: 100vw;
+  // min-width: var(--size-minwidth-pc-main);
   padding-top: 20px;
   margin: 0 auto;
   z-index: 998;

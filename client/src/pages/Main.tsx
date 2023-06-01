@@ -72,9 +72,13 @@ const StartBox = styled.div`
   font-size: 20px;
   color: var(--color-default-yellow);
   font-weight: 500;
-  // text-transform: uppercase;
+  width: 90vw;
   div:hover {
     color: var(--color-default-yellow-darker);
+  }
+
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 

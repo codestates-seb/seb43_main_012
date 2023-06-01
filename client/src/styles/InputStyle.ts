@@ -4,7 +4,7 @@ export const InputQBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 90vw;
   max-width: var(--size-maxwidth-pc-main);
   z-index: 995;
   position: relative;
@@ -20,6 +20,10 @@ export const InputQBox = styled.div`
     font-size: var(--text-font-size-qinput);
     ::placeholder {
       color: var(--color-default-disabled);
+    }
+
+    @media (max-width: 480px) {
+      font-size: var(--text-fontsize-qinput-mobile);
     }
   }
 

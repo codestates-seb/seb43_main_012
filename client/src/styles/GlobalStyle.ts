@@ -65,6 +65,7 @@ const GlobalStyle = createGlobalStyle`
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
     --text-fontsize-qinput: 18px;
+    --text-fontsize-qinput-mobile: 15px;
     --text-fontweight-regular: 400;
     --text-fontweight-medium: 500;
 
@@ -335,8 +336,6 @@ a:active { text-decoration: none; color: inherit;}
   font-weight: normal;
   font-style: normal;
 }
-
-
 
 `;
 

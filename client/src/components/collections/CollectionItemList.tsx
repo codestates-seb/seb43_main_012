@@ -30,7 +30,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-content: flex-start;
 
   max-width: 1050px;

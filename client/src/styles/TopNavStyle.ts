@@ -21,6 +21,9 @@ export const TopNavBox = styled.header`
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
   background: white;
+  @media (max-width: 480px) {
+    justify-content: center;
+  }
 `;
 export const LogoBox = styled.div`
   min-width: var(--size-minwidth-logo);
@@ -33,21 +36,26 @@ export const LogoBox = styled.div`
   a:hover {
     color: var(--color-default-yellow-title);
   }
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 export const NavIconsBox = styled.div`
   min-width: var(--size-minwiddth-topnavicons);
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 `;
-export const AvatarBox = styled.div`
+export const IconBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   position: relative;
-  min-width: var(--size-avatar);
-  min-height: var(--size-avatar);
+  min-width: var(--size-avatar-default);
+  min-height: var(--size-avatar-default);
   padding: 0 20px;
   & .navitem {
     padding: 0 var(--padding-left-topnavitems);
@@ -102,8 +110,10 @@ export const AvatarBox = styled.div`
   }
 `;
 
-export const MemberBox = styled(AvatarBox)`
-  min-width: var(--size-minwidth-logo);
+export const MemberBox = styled(IconBox)`
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 
 export const DialogBox = styled.div`

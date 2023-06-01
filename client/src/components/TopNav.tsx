@@ -38,18 +38,7 @@ const AvatarIcon = styled(Character)`
   box-shadow: none;
   max-width: var(--size-avatar-default);
   max-height: var(--size-avatar-default);
-  // :focus {
-  //   padding: 2rem;
-  //   transition: padding 0.2s ease-in-out;
-  // }
-
-  // img:focus {
-  //   max-width: 106px;
-  //   max-height: 106px;
-  //   padding-bottom: 20px;
-  //   transition: max-width 0.4s ease-in-out, max-height 0.4s ease-in-out,
-  //     padding-bottom 0.3 ease-in-out;
-  // }
+  margin: 0;
 `;
 
 const navTooltip = {
@@ -217,7 +206,7 @@ const TopNav = ({
         <Link to="/">Chatcrawl</Link>
       </TN.LogoBox>
       <TN.NavIconsBox>
-        <TN.AvatarBox className="navitem">
+        <TN.IconBox className="navitem">
           <Link to="/history">
             <CPopover
               className="popover_topnav"
@@ -233,8 +222,8 @@ const TopNav = ({
               </div>
             </CPopover>
           </Link>
-        </TN.AvatarBox>
-        <TN.AvatarBox className="navitem">
+        </TN.IconBox>
+        <TN.IconBox className="navitem">
           <Link to="/">
             <CPopover
               className="popover_topnav"
@@ -252,9 +241,9 @@ const TopNav = ({
               </div>
             </CPopover>
           </Link>
-        </TN.AvatarBox>
+        </TN.IconBox>
 
-        <TN.AvatarBox className="navitem">
+        <TN.IconBox className="navitem">
           <Link to="/collection">
             <CPopover
               className="popover_topnav"
@@ -270,7 +259,7 @@ const TopNav = ({
               </div>
             </CPopover>
           </Link>
-        </TN.AvatarBox>
+        </TN.IconBox>
       </TN.NavIconsBox>
       <TN.MemberBox>
         {isLoggedIn ? (
