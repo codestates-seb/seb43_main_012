@@ -38,7 +38,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   width: 90vw;
   max-height: 90vh;
   overflow: hidden;
