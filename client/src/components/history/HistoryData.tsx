@@ -36,11 +36,25 @@ const ContentContainer = styled.div`
   border: none;
   display: flex;
   flex-direction: row;
-  padding: 0 0 20px 0;
+  padding: 0 0 10px 0;
   overflow-x: scroll;
   height: 100%;
   width: 100%;
   min-width: 300px;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    height: 6px;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 type HistoryProps = {
