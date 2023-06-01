@@ -155,10 +155,10 @@ const GlobalStyle = createGlobalStyle`
 body {
     display: flex;
     justify-content: center;
-    // margin-top: 30px;
     font-family: 'Scandia', sans-serif;
     padding-top: var(--size-minheight-topnav);
     overflow: hidden;
+    height: auto;
 }
 
 a:link { text-decoration: none; color: inherit;}
