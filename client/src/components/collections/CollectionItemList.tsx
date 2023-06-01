@@ -10,16 +10,6 @@ import { getConversation } from '../../api/ChatInterfaceApi';
 import { setConversation } from '../../features/main/conversationSlice';
 import { toggleModal } from '../../features/collection/collectionSlice';
 
-const ContentWraper = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-bottom: 20px;
-`;
-
 const EmptyContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -29,20 +19,27 @@ const EmptyContainer = styled.div`
   margin-left: 50px;
 `;
 
+const ContentBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 20vh;
+`;
+
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-left: 20px;
   justify-content: flex-start;
   align-content: flex-start;
-  padding: 5px;
-  overflow: scroll;
-  min-height: 400px;
-  max-height: 70vh;
-  // height: 100%;
-  padding-bottom: 40px;
-  width: 100%;
+
+  max-width: 1050px;
+  width: fit-content;
+  overflow-y: scroll;
+  max-height: 60vh;
+
+  padding: 0 0 40px;
+  margin-left: 20px;
 `;
 
 const Title = styled.div`
@@ -59,11 +56,12 @@ const Title = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  flex-basis: 16rem;
+  flex-basis: 15.5rem;
   padding: 5px;
   border 1px solid #8dad84;
   border-radius: 10px;
-  margin: 0 1.2% 1.2% 0;
+  margin: 0 .6% 1.2%;
+  padding: 0 10px;
   height: 200px;
   min-width: 100px;
   overflow: hidden;
@@ -191,7 +189,7 @@ const CollectionItemList = ({
   };
 
   return (
-    <ContentWraper>
+    <ContentBox>
       <ContentContainer>
         {conversations
           .filter(
@@ -244,7 +242,7 @@ const CollectionItemList = ({
           </EmptyContainer>
         )}
       </ContentContainer>
-    </ContentWraper>
+    </ContentBox>
   );
 };
 
