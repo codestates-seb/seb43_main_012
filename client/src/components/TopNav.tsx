@@ -201,80 +201,82 @@ const TopNav = ({
   };
 
   return (
-    <TN.TopNavBox>
-      <TN.LogoBox>
-        <Link to="/">Chatcrawl</Link>
-      </TN.LogoBox>
-      <TN.NavIconsBox>
-        <TN.IconBox className="navitem">
-          <Link to="/history">
-            <CPopover
-              className="popover_topnav"
-              content="history"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <HistoryIcon
-                  className="svg"
-                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.IconBox>
-        <TN.IconBox className="navitem">
-          <Link to="/">
-            <CPopover
-              className="popover_topnav"
-              content="new chat"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <ChatIcon
-                  className="svg center"
-                  onClick={
-                    isLoggedIn ? handleChatBtnClick : handleAnonymousClick
-                  }
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.IconBox>
+    <TN.CenterNav>
+      <TN.TopNavBox>
+        <TN.LogoBox>
+          <Link to="/">Chatcrawl</Link>
+        </TN.LogoBox>
+        <TN.NavIconsBox>
+          <TN.IconBox className="navitem">
+            <Link to="/history">
+              <CPopover
+                className="popover_topnav"
+                content="history"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <HistoryIcon
+                    className="svg"
+                    onClick={isLoggedIn ? undefined : handleAnonymousClick}
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
+          <TN.IconBox className="navitem">
+            <Link to="/">
+              <CPopover
+                className="popover_topnav"
+                content="new chat"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <ChatIcon
+                    className="svg center"
+                    onClick={
+                      isLoggedIn ? handleChatBtnClick : handleAnonymousClick
+                    }
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
 
-        <TN.IconBox className="navitem">
-          <Link to="/collection">
-            <CPopover
-              className="popover_topnav"
-              content="collections"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <CollectionIcon
-                  className="svg"
-                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.IconBox>
-      </TN.NavIconsBox>
-      <TN.MemberBox>
-        {isLoggedIn ? (
-          <AvatarIcon onClick={handleUserBtnClick}>
-            {memberInfo.avatarLink === memberInfo.username ? (
-              memberInfo.username[0]?.toUpperCase()
-            ) : (
-              <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
-            )}
-          </AvatarIcon>
-        ) : (
-          <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
-        )}
-      </TN.MemberBox>
-    </TN.TopNavBox>
+          <TN.IconBox className="navitem">
+            <Link to="/collection">
+              <CPopover
+                className="popover_topnav"
+                content="collections"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <CollectionIcon
+                    className="svg"
+                    onClick={isLoggedIn ? undefined : handleAnonymousClick}
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
+        </TN.NavIconsBox>
+        <TN.MemberBox>
+          {isLoggedIn ? (
+            <AvatarIcon onClick={handleUserBtnClick}>
+              {memberInfo.avatarLink === memberInfo.username ? (
+                memberInfo.username[0]?.toUpperCase()
+              ) : (
+                <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
+              )}
+            </AvatarIcon>
+          ) : (
+            <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
+          )}
+        </TN.MemberBox>
+      </TN.TopNavBox>
+    </TN.CenterNav>
   );
 };
 export default TopNav;

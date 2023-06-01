@@ -18,25 +18,23 @@ export const MainBackdrop = styled.div<BackdropProps>`
   }
   // left: 0;
   display: flex;
-
-  width: 100vw;
   max-width: ${(props) =>
-    props.isMax ? 'var(--size-minwidth-pc-main)' : '100vw'};
+    props.isMax ? 'var(--size-minwidth-pc-main)' : '90vw'};
   height: ${(props) => (props.isMax ? '150px' : '220px')};
 
   background-color: rgba(255, 255, 255, 1);
   z-index: 990;
 `;
-export const MainBox = styled.main<MainProps>`
+export const MainBox = styled.main<BackdropProps>`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100vw;
   // min-width: var(--size-minwidth-pc-main);
   padding-top: 20px;
   margin: 0 auto;
   z-index: 998;
   height: 100%;
+  width: 100%;
   padding; 20px;
 `;
 
@@ -46,33 +44,24 @@ export const FixedTopBox = styled.div<BackdropProps>`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${(props) => (props.isMax ? '50px' : '80px')};
+  top: ${(props) => (props.isMax ? '0px' : '80px')};
   left: 0;
   z-index: 997;
   width: 100%;
   max-width: var(--size-minwidth-pc-main);
 `;
 
-export const FixedChatbox = styled(FixedTopBox)`
-  max-width: var(--size-minwidth-pc-main);
-  top: 50px;
-`;
-export const TitleBox = styled.title`
+export const TitleBox = styled.title<BackdropProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  min-width: var(--size-minwidth-pc-main);
   width: 100%;
   max-width: var(--size-maxwidth-pc-main);
-  padding: 50px 15px 30px 15px;
+  padding: ${(props) => (props.isMax ? '40px' : '50px')} 15px 30px;
   letter-spacing: -0.03em;
   z-index: 990;
   background-color: white;
-
-  // &:first-child {
-
-  // }
 
   h1 {
     font-size: var(--text-fontsize-title);
@@ -85,13 +74,20 @@ export const TitleBox = styled.title`
   & > :nth-child(2) {
     align-self: flex-start;
   }
+
+  @media (max-width: 480px) {
+    padding: 15px 5px 10px 15px;
+
+    h1 {
+      font-size: var(--text-fontsize-title-mobile);
+    }
+  }
 `;
 
 export const InputTitleBox = styled(InputQBox)`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  // margin-top: -5px;
   line-height: 32px;
   max-width: 700px;
   input {
@@ -126,7 +122,7 @@ export const QnAListBox = styled.ul<BackdropProps>`
   align-items: flex-start;
   padding: 0 20px 0 -50px;
   height: 100%;
-  margin-top: ${(props) => (props.isMax ? '220px' : '250px')};
+  margin-top: ${(props) => (props.isMax ? '150px' : '250px')};
   max-height: 60vh;
   overflow-y: scroll;
 
@@ -146,6 +142,10 @@ export const QnAListBox = styled.ul<BackdropProps>`
     &::-webkit-scrollbar-thumb {
       background-color: rgba(0, 0, 0, 0.1);
     }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 180px;
   }
 `;
 

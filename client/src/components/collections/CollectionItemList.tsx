@@ -21,17 +21,20 @@ const EmptyContainer = styled.div`
 
 const ContentBox = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   min-height: 20vh;
+  width: 100%;
+  max-width: 1080px;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: flex-start;
+  // width: 100%;
 
   max-width: 1050px;
   width: fit-content;
@@ -54,6 +57,10 @@ const ContentContainer = styled.div`
     &::-webkit-scrollbar-thumb {
       background-color: rgba(0, 0, 0, 0.1);
     }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
   }
 `;
 

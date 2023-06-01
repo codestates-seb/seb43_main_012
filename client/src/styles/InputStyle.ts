@@ -5,7 +5,7 @@ export const InputQBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 90vw;
-  max-width: var(--size-maxwidth-pc-main);
+  max-width: var(--size-minwidth-pc-main);
   z-index: 995;
   position: relative;
   input {

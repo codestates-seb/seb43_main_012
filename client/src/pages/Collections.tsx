@@ -166,17 +166,20 @@ const Collections = () => {
 
   return content?.conversations && !isLoading ? (
     <Main>
-      {selectedConversation && (
+      {/* {selectedConversation && (
         <ModalContent
           conversation={selectedConversation}
           onClose={handleCloseModal}
         />
+      )} */}
+      {content.conversations.some((conv: Conversation) => conv.pinned) ? (
+        <FixedBookmarks
+          conversations={content.conversations}
+          handleModalOpen={handleModalOpen}
+        />
+      ) : (
+        <BottomMargin />
       )}
-      <FixedBookmarks
-        conversations={content.conversations}
-        handleModalOpen={handleModalOpen}
-      />
-
       <FilteringContent>
         <BookmarkSidebar
           handleClick={handleBookmarkClick}

@@ -1,28 +1,41 @@
 import styled from 'styled-components';
 
-export const StyledSpan = styled.span`
-  padding-right: var(--padding-right-topnavitems);
-  color: var(--color-green);
-  text-decoration: none;
-  font-size: var(--text-fontsize-link);
+export const CenterNav = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 20px;
+  width: 100%;
+  // max-width: 1280px;
 `;
 
-export const TopNavBox = styled.header`
+export const TopNavBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
   height: var(--size-minheight-topnav);
   z-index: 998;
   min-height: var(--size-minheight-topnav);
+  max-width: 1280px;
+
   padding: var(--padding-top-topnavbox) var(--padding-left-topnavbox);
   font-size: var(--text-fontsize-link);
   background: white;
   @media (max-width: 480px) {
     justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    min-width: 768px;
+  }
+
+  @media (min-width: 1080px) {
+    min-width: 1080px;
   }
 `;
 export const LogoBox = styled.div`
@@ -35,6 +48,11 @@ export const LogoBox = styled.div`
   text-transform: uppercase;
   a:hover {
     color: var(--color-default-yellow-title);
+  }
+
+  @media (max-width: 820px) {
+    min-width: fit-content;
+    font-size: 23px;
   }
 
   @media (max-width: 480px) {
@@ -111,8 +129,13 @@ export const IconBox = styled.div`
 `;
 
 export const MemberBox = styled(IconBox)`
+  min-width: var(--size-minwidth-logo);
+  justify-content: flex-end;
   @media (max-width: 480px) {
     display: none;
+  }
+  @media (max-width: 820px) {
+    min-width: var(--size-avatar-default);
   }
 `;
 
