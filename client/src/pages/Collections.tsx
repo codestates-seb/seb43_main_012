@@ -35,8 +35,17 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 
 const Main = styled.main`
-  width: 1080px;
-  padding: 0 40px 0 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+`;
+
+const Footer = styled.footer`
+  padding: 15px 0;
 `;
 
 const TagContainer = styled.div`
@@ -56,7 +65,11 @@ const Tag = styled.div`
 
 const FilteringContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  height: 100%;
+  width: fit-content;
+  overflow: hidden;
+  margin-left: 10px;
 `;
 
 const SvgButton = styled.button`

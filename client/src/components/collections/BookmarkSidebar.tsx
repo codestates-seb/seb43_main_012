@@ -16,16 +16,23 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectedCollectionBookmark } from '../../features/collection/collectionSlice';
 import { setCollectionBookmark } from '../../features/collection/collectionSlice';
 
+const SidebarBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const BookmarkContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 12rem;
+  width: 11rem;
+  max-height: 30vh;
   align-items: center;
   justify-content: flex-start;
+  overflow: scroll;
 `;
 
 const BookmarkAddBtn = styled(DeleteButton)`
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 10px 25px;
   border: 1.5px solid var(--color-default-darkgreen);
   background-color: var(--color-default-green-10);
@@ -68,50 +75,45 @@ const BookmarkSidebar = ({ bookmarks, handleClick }: Props) => {
   };
 
   return (
-    <BookmarkContainer>
-      {selectedBookmark === 'All' ? (
-        <BookmarkSidebarItem
-          selected={true}
-          bookmark={{ bookmarkId: 0, bookmarkName: 'All' }}
-          setBookmark={setSelectedBookmark}
-          handleClick={handleClick}
-        />
-      ) : (
-        <BookmarkSidebarItem
-          selected={false}
-          bookmark={{ bookmarkId: 0, bookmarkName: 'All' }}
-          setBookmark={setSelectedBookmark}
-          handleClick={handleClick}
-        />
-      )}
-      {bookmarks.map((bookmark: BookmarkType) =>
-        bookmark.bookmarkName === selectedBookmark ? (
+    <SidebarBox>
+      <BookmarkContainer>
+        {selectedBookmark === 'All' ? (
           <BookmarkSidebarItem
-            key={bookmark.bookmarkId}
             selected={true}
-            bookmark={bookmark}
+            bookmark={{ bookmarkId: 0, bookmarkName: 'All' }}
             setBookmark={setSelectedBookmark}
             handleClick={handleClick}
           />
         ) : (
           <BookmarkSidebarItem
-            key={bookmark.bookmarkId}
             selected={false}
-            bookmark={bookmark}
+            bookmark={{ bookmarkId: 0, bookmarkName: 'All' }}
             setBookmark={setSelectedBookmark}
             handleClick={handleClick}
           />
-        ),
-      )}
+        )}
+        {bookmarks.map((bookmark: BookmarkType) =>
+          bookmark.bookmarkName === selectedBookmark ? (
+            <BookmarkSidebarItem
+              key={bookmark.bookmarkId}
+              selected={true}
+              bookmark={bookmark}
+              setBookmark={setSelectedBookmark}
+              handleClick={handleClick}
+            />
+          ) : (
+            <BookmarkSidebarItem
+              key={bookmark.bookmarkId}
+              selected={false}
+              bookmark={bookmark}
+              setBookmark={setSelectedBookmark}
+              handleClick={handleClick}
+            />
+          ),
+        )}
+      </BookmarkContainer>{' '}
       <BookmarkAddBtn onClick={handleCreateBtnClick}>+ New List</BookmarkAddBtn>
-      {isModalOpen && (
-        <ModalCreateBookmark
-          visible={isModalOpen}
-          setVisible={setIsModalOpen}
-          mode="addEmpty"
-        />
-      )}
-    </BookmarkContainer>
+    </SidebarBox>
   );
 };
 

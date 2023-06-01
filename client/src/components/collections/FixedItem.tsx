@@ -23,7 +23,7 @@ const Content = styled.div<StyledProps>`
   padding: 5px;
   border 1px solid #8dad84;
   border-radius: 10px;
-  margin: 0 1.2% 1.2% 0;
+  margin: 0 1.2% 0 0;
   height: 200px;
   min-width: 100px;
   overflow: hidden;

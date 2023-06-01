@@ -10,10 +10,15 @@ import { setConversation } from '../../features/main/conversationSlice';
 const FixedContentContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   background-color: #faf7f1;
+  min-width: 300px;
+  max-width: 1260px;
+  min-height: 170px;
   overflow-x: scroll;
   margin-top: 30px;
   margin-bottom: 30px;
+  padding: 10px 0;
 `;
 
 type Props = {
