@@ -19,6 +19,21 @@ const FixedContentContainer = styled.div`
   margin-top: 30px;
   margin-bottom: 30px;
   padding: 10px 0;
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    height: 6px;
+    border-radius: 6px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 `;
 
 type Props = {
