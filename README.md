@@ -5,7 +5,7 @@
 <p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
 <p align="center">
  <a href="http://chatcrawl.live">Live Demo Link</a> </br></br>
- <a href="https://www.youtube.com/embed/d-TpDrDzAEE">기술발표영상</a> </br></br>
+ <a href="https://youtu.be/d-TpDrDzAEE">기술발표영상</a> </br></br>
  <a href="http://chatcrawl.live](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)">Service Manual</a>
 </p>
  
