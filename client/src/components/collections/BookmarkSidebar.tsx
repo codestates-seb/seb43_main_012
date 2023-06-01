@@ -29,6 +29,7 @@ const BookmarkContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   overflow-y: scroll;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     background-color: transparent;
     width: 6px;
