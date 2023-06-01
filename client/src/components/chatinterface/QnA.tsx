@@ -43,6 +43,7 @@ const QnA = ({ qnaItem }: qnaProps) => {
   const handleShowAnswer = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // console.log('qnaitem:', qnaItem);
     setShowAnswer(!showAnswer);
   };
 
