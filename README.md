@@ -4,8 +4,10 @@
 <p align="center">ChatGPT 대화 기록 검색, 북마킹 서비스</p>
 <p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
 <p align="center">
- <a href="http://chatcrawl.live">Live Demo Link</a></p>
- <p align="center"> <a href="http://chatcrawl.live](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)">Service Manual</a></p>
+ <a href="http://chatcrawl.live">Live Demo Link</a> </br></br>
+ <a href="https://www.youtube.com/embed/d-TpDrDzAEE">기술발표영상</a> </br></br>
+ <a href="http://chatcrawl.live](https://www.notion.so/codestates/ChatCrawl-Service-Manual-cffba157c8cb4883b1f23b80d7ec771a)">Service Manual</a>
+</p>
  
  <br>
 <h2 align='center'>핵심 기능</h2>
