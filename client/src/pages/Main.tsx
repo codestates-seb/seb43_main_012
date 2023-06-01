@@ -32,13 +32,13 @@ type MainProps = {
 };
 
 type BoxProps = {
-  isOpen?: boolean;
+  isMax?: boolean;
 };
 
 //to fix current width, would have to measure the box width!
 const MainBox = styled(M.MainBox)<BoxProps>`
   max-width: ${(props) =>
-    props.isOpen
+    props.isMax
       ? 'var(--size-minwidth-pc-main)'
       : 'var(--size-minwidth-pc-main)'}; //change this when you adjust the max-width;
 `;
@@ -72,9 +72,13 @@ const StartBox = styled.div`
   font-size: 20px;
   color: var(--color-default-yellow);
   font-weight: 500;
-  // text-transform: uppercase;
+  width: 90vw;
   div:hover {
     color: var(--color-default-yellow-darker);
+  }
+
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 
@@ -142,7 +146,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
   }, [qNum]);
 
   return (
-    <MainBox isOpen={isOpen}>
+    <MainBox isMax={isMax}>
       <M.MainBackdrop isMax={isMax} />
       <M.FixedTopBox isMax={isMax}>
         <ChatInput
@@ -171,7 +175,7 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
           </StartBox>
         )}
         {Boolean(conversation.title) && (
-          <M.TitleBox>
+          <M.TitleBox isMax={isMax}>
             <EditableTitle
               editState={editTitleState}
               setEditState={setEditTitleState}

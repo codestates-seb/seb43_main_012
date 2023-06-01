@@ -154,12 +154,8 @@ export const Character = styled.div`
   }
 
   :hover {
-    // max-width: 10px;
-    // height: 10px;
     padding: 2rem;
     transition: padding 0.2s ease-in-out;
-    // border: 2px solid var(--color-default-green);
-    // transition: border 0.6s ease-in-out;
   }
 `;
 

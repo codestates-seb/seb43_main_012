@@ -19,6 +19,10 @@ import { setCollectionBookmark } from '../../features/collection/collectionSlice
 const SidebarBox = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const BookmarkContainer = styled.div`

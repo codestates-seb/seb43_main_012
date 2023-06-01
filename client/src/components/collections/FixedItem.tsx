@@ -19,6 +19,8 @@ type StyledProps = {
 const Content = styled.div<StyledProps>`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex-basis: 16rem;
   padding: 5px;
   border 1px solid #8dad84;

@@ -54,17 +54,20 @@ const GlobalStyle = createGlobalStyle`
     --size-avatar-hover: 54px;
     --size-avatar-center-hover: 70px;
     --size-icon-default: 32px;
-    --size-minwidth-pc-main: 700px;
-    --size-maxwidth-chatbox: 800px;
+    --size-icon-mobile: 29px;
+    --size-minwidth-pc-main: 768px;
+    --size-maxwidth-chatbox: 1080px;
     --size-maxwidth-pc-main: 1080px;
 
     --text-fontsize-link: 20px;
     --text-fontsize-title: 24px;
+    --text-fontsize-title-mobile: 22px;
     --text-fontsize-info: 14px;
     --text-fontsize-logo: 25px;
     --text-fontweight-logo: 500;
     --text-letterspacing-logo: 0.07em;
     --text-fontsize-qinput: 18px;
+    --text-fontsize-qinput-mobile: 15px;
     --text-fontweight-regular: 400;
     --text-fontweight-medium: 500;
 
@@ -156,7 +159,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: 'Scandia', sans-serif;
-    padding-top: var(--size-minheight-topnav);
+    // padding-top: var(--size-minheight-topnav);
     overflow: hidden;
     height: auto;
 }
@@ -335,8 +338,6 @@ a:active { text-decoration: none; color: inherit;}
   font-weight: normal;
   font-style: normal;
 }
-
-
 
 `;
 

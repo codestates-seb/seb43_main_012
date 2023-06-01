@@ -38,18 +38,7 @@ const AvatarIcon = styled(Character)`
   box-shadow: none;
   max-width: var(--size-avatar-default);
   max-height: var(--size-avatar-default);
-  // :focus {
-  //   padding: 2rem;
-  //   transition: padding 0.2s ease-in-out;
-  // }
-
-  // img:focus {
-  //   max-width: 106px;
-  //   max-height: 106px;
-  //   padding-bottom: 20px;
-  //   transition: max-width 0.4s ease-in-out, max-height 0.4s ease-in-out,
-  //     padding-bottom 0.3 ease-in-out;
-  // }
+  margin: 0;
 `;
 
 const navTooltip = {
@@ -212,80 +201,82 @@ const TopNav = ({
   };
 
   return (
-    <TN.TopNavBox>
-      <TN.LogoBox>
-        <Link to="/">Chatcrawl</Link>
-      </TN.LogoBox>
-      <TN.NavIconsBox>
-        <TN.AvatarBox className="navitem">
-          <Link to="/history">
-            <CPopover
-              className="popover_topnav"
-              content="history"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <HistoryIcon
-                  className="svg"
-                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.AvatarBox>
-        <TN.AvatarBox className="navitem">
-          <Link to="/">
-            <CPopover
-              className="popover_topnav"
-              content="new chat"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <ChatIcon
-                  className="svg center"
-                  onClick={
-                    isLoggedIn ? handleChatBtnClick : handleAnonymousClick
-                  }
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.AvatarBox>
+    <TN.CenterNav>
+      <TN.TopNavBox>
+        <TN.LogoBox>
+          <Link to="/">Chatcrawl</Link>
+        </TN.LogoBox>
+        <TN.NavIconsBox>
+          <TN.IconBox className="navitem">
+            <Link to="/history">
+              <CPopover
+                className="popover_topnav"
+                content="history"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <HistoryIcon
+                    className="svg"
+                    onClick={isLoggedIn ? undefined : handleAnonymousClick}
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
+          <TN.IconBox className="navitem">
+            <Link to="/">
+              <CPopover
+                className="popover_topnav"
+                content="new chat"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <ChatIcon
+                    className="svg center"
+                    onClick={
+                      isLoggedIn ? handleChatBtnClick : handleAnonymousClick
+                    }
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
 
-        <TN.AvatarBox className="navitem">
-          <Link to="/collection">
-            <CPopover
-              className="popover_topnav"
-              content="collections"
-              placement="bottom"
-              trigger="hover"
-            >
-              <div>
-                <CollectionIcon
-                  className="svg"
-                  onClick={isLoggedIn ? undefined : handleAnonymousClick}
-                />
-              </div>
-            </CPopover>
-          </Link>
-        </TN.AvatarBox>
-      </TN.NavIconsBox>
-      <TN.MemberBox>
-        {isLoggedIn ? (
-          <AvatarIcon onClick={handleUserBtnClick}>
-            {memberInfo.avatarLink === memberInfo.username ? (
-              memberInfo.username[0]?.toUpperCase()
-            ) : (
-              <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
-            )}
-          </AvatarIcon>
-        ) : (
-          <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
-        )}
-      </TN.MemberBox>
-    </TN.TopNavBox>
+          <TN.IconBox className="navitem">
+            <Link to="/collection">
+              <CPopover
+                className="popover_topnav"
+                content="collections"
+                placement="bottom"
+                trigger="hover"
+              >
+                <div>
+                  <CollectionIcon
+                    className="svg"
+                    onClick={isLoggedIn ? undefined : handleAnonymousClick}
+                  />
+                </div>
+              </CPopover>
+            </Link>
+          </TN.IconBox>
+        </TN.NavIconsBox>
+        <TN.MemberBox>
+          {isLoggedIn ? (
+            <AvatarIcon onClick={handleUserBtnClick}>
+              {memberInfo.avatarLink === memberInfo.username ? (
+                memberInfo.username[0]?.toUpperCase()
+              ) : (
+                <img src={memberInfo.avatarLink} alt="AvatarIcon A" />
+              )}
+            </AvatarIcon>
+          ) : (
+            <AnonymousIcon className="svg" onClick={handleUserBtnClick} />
+          )}
+        </TN.MemberBox>
+      </TN.TopNavBox>
+    </TN.CenterNav>
   );
 };
 export default TopNav;

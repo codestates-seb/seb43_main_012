@@ -34,7 +34,9 @@ const ModalHistoryItem = ({ visible, setVisible }: Props) => {
         dispatch(initializeConversation(-1));
         dispatch(toggleModal(false));
       }}
+      keyboard={true}
     >
+      <CModalHeader></CModalHeader>
       <CModalBody className="modal_bookmark2">
         <Main isMax={true} />
       </CModalBody>

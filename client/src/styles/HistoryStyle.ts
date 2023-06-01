@@ -27,7 +27,7 @@ export const HistoryHeader = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
 
   padding: 50px 20px 30px 20px;
   position: absolute;
@@ -35,11 +35,19 @@ export const HistoryHeader = styled.div`
   left: 0;
   z-index: 997;
   background-color: white;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    padding-top: 20px;
+  }
 `;
 
 // 필터링
 export const FilterBox = styled.div`
   padding: 5px 20px;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 
 //히스토리페이지의 아래부분(대화모음부분)
@@ -94,6 +102,10 @@ export const DeleteButton = styled.button`
     color: white;
     background-color: var(--color-default-yellow);
   }
+
+  @media (max-width: 480px) {
+    margin-top: 20px;
+  }
 `;
 
 export const ReloadBox = styled.div`
@@ -108,6 +120,9 @@ export const ReloadBox = styled.div`
   }
 
   margin-right: 10px;
+  @media (max-width: 480px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const NoResultsBox = styled.div`

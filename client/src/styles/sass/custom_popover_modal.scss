@@ -358,18 +358,26 @@
   align-items: center;
   font-size: var(--text-fontsize-title);
   // font-weight: 300 !important;
-  // justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
-  padding: var(--#{$prefix}modal-header-padding);
+  justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+  // padding: var(--#{$prefix}modal-header-padding);
   border: none;
   // border-bottom: var(--#{$prefix}modal-header-border-width) solid var(--#{$prefix}modal-header-border-color);
   @include border-top-radius(var(--#{$prefix}modal-inner-border-radius));
 
   .btn-close {
-      // color: black;
-      // background: black;
-      display: none;
-    padding: calc(var(--#{$prefix}modal-header-padding-y) * .5) calc(var(--#{$prefix}modal-header-padding-x) * .5);
+      // background-color: white;
+    background: transparent var(--cui-btn-close-bg,url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='rgba(44, 56, 74, 0.95)' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E")) center/1em auto no-repeat;
+    border: none;
+      // display: none;
+      padding: 40px 40px 0 0;
+
+      // width: 60px;
+      // height: 60px;
+    // padding: calc(var(--#{$prefix}modal-header-padding-y) * .5) calc(var(--#{$prefix}modal-header-padding-x) * .5);
     @include ltr-rtl-value-only("margin", calc(-.5 * var(--#{$prefix}modal-header-padding-y)) calc(-.5 * var(--#{$prefix}modal-header-padding-x)) calc(-.5 * var(--#{$prefix}modal-header-padding-y)) auto, calc(-.5 * var(--#{$prefix}modal-header-padding-y)) auto calc(-.5 * var(--#{$prefix}modal-header-padding-y)) calc(-.5 * var(--#{$prefix}modal-header-padding-x)));
+  }
+  .btn-close:hover {
+    cursor: pointer;
   }
 }
 
@@ -486,8 +494,9 @@
 
     .modal-dialog {
 
-
+      width: 95vw;
       max-width: var(--size-maxwidth-chatbox);
+      max-height: 80vh;
       // min-height: 1000px;
     }
 
