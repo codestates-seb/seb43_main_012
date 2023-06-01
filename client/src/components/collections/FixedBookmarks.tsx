@@ -7,14 +7,23 @@ import { getConversation } from '../../api/ChatInterfaceApi';
 import { useAppDispatch } from '../../app/hooks';
 import { setConversation } from '../../features/main/conversationSlice';
 
-const FixedContentContainer = styled.div`
+const FixedBox = styled.div`
   display: flex;
+  max-width: 90vw;
   justify-content: flex-start;
   align-items: center;
+  // align-self: flex-start;
+  overflow: auto;
+`;
+const FixedItems = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
   background-color: #faf7f1;
   min-width: 300px;
   max-width: 1260px;
   min-height: 170px;
+  width: 100%;
   overflow-x: scroll;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -63,17 +72,19 @@ const FixedBookmarks = ({ conversations, handleModalOpen }: Props) => {
   };
 
   return (
-    <FixedContentContainer>
-      {conversations
-        .filter((item: any) => item.pinned)
-        .map((conversation: Conversation) => (
-          <FixedItem
-            key={conversation.conversationId}
-            conversation={conversation}
-            handleContentClick={handleContentClick}
-          />
-        ))}
-    </FixedContentContainer>
+    <FixedBox>
+      <FixedItems>
+        {conversations
+          .filter((item: any) => item.pinned)
+          .map((conversation: Conversation) => (
+            <FixedItem
+              key={conversation.conversationId}
+              conversation={conversation}
+              handleContentClick={handleContentClick}
+            />
+          ))}
+      </FixedItems>
+    </FixedBox>
   );
 };
 

@@ -8,8 +8,9 @@ import Input from '../chatinterface/Input';
 import { useInput } from '../../utils/hooks/useInput';
 
 const SearchBox = styled(InputQBox)<ButtonProps>`
-  min-width: 50vw;
+  width: 70vw;
   input {
+    width: 100%;
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1);
   }
 

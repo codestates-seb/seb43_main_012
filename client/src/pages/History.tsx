@@ -153,38 +153,36 @@ function History(): ReactElement {
   };
 
   return (
-    <>
-      <HistoryBox>
-        <HistoryHeader>
-          <ReloadBox onClick={handleReloadClick}>
-            <ReloadBtn />
-          </ReloadBox>
-          <HistorySearch
-            handleSearch={handleTextSearch}
-            handleReload={handleReloadClick}
-          />
-          <FilterBox>
-            <HistoryFilter queries={queries} setQueries={setQueries} />
-          </FilterBox>
-          <DeleteButton>Clear History</DeleteButton>
-        </HistoryHeader>
-        {
-          <HistoryBody>
-            {!isNone ? (
-              <HistoryData
-                handleClick={handleClick}
-                binnedConv={binnedConv}
-                TagSearch={TagSearch}
-              />
-            ) : (
-              <NoResultsBox>검색 결과가 없습니다.</NoResultsBox>
-            )}
-          </HistoryBody>
-        }
-        <BottomMargin />
-      </HistoryBox>
+    <HistoryBox>
+      <HistoryHeader>
+        <ReloadBox onClick={handleReloadClick}>
+          <ReloadBtn />
+        </ReloadBox>
+        <HistorySearch
+          handleSearch={handleTextSearch}
+          handleReload={handleReloadClick}
+        />
+        <FilterBox>
+          <HistoryFilter queries={queries} setQueries={setQueries} />
+        </FilterBox>
+        <DeleteButton>Clear History</DeleteButton>
+      </HistoryHeader>
+      {
+        <HistoryBody>
+          {!isNone ? (
+            <HistoryData
+              handleClick={handleClick}
+              binnedConv={binnedConv}
+              TagSearch={TagSearch}
+            />
+          ) : (
+            <NoResultsBox>검색 결과가 없습니다.</NoResultsBox>
+          )}
+        </HistoryBody>
+      }
+      <BottomMargin />
       {isOpen && <ModalHistoryItem visible={isOpen} setVisible={setIsOpen} />}
-    </>
+    </HistoryBox>
   );
 }
 

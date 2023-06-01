@@ -35,11 +35,12 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { BookmarkType, Conversation, QnAType, TagType } from '../data/d';
 
 const Main = styled.main`
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 90vw;
+  width: 100vw;
   max-height: 90vh;
   overflow: hidden;
 `;
@@ -67,7 +68,7 @@ const FilteringContent = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-  width: fit-content;
+  width: 90vw;
   overflow: hidden;
   margin-left: 10px;
 `;
@@ -165,17 +166,20 @@ const Collections = () => {
 
   return content?.conversations && !isLoading ? (
     <Main>
-      {selectedConversation && (
+      {/* {selectedConversation && (
         <ModalContent
           conversation={selectedConversation}
           onClose={handleCloseModal}
         />
+      )} */}
+      {content.conversations.some((conv: Conversation) => conv.pinned) ? (
+        <FixedBookmarks
+          conversations={content.conversations}
+          handleModalOpen={handleModalOpen}
+        />
+      ) : (
+        <BottomMargin />
       )}
-      <FixedBookmarks
-        conversations={content.conversations}
-        handleModalOpen={handleModalOpen}
-      />
-
       <FilteringContent>
         <BookmarkSidebar
           handleClick={handleBookmarkClick}
