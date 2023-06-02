@@ -222,7 +222,7 @@ const CollectionItemList = ({
                 .includes(selectedBookmark),
           )
           .map((conversation: Conversation) => (
-            <Content>
+            <Content key={conversation.conversationId}>
               <div className="header">
                 <Title
                   className="title"
