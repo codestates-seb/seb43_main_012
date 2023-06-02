@@ -132,6 +132,13 @@ const BookmarkSidebar = ({ bookmarks, handleClick }: Props) => {
         )}
       </BookmarkContainer>{' '}
       <BookmarkAddBtn onClick={handleCreateBtnClick}>+ New List</BookmarkAddBtn>
+      {isModalOpen && (
+        <ModalCreateBookmark
+          visible={isModalOpen}
+          setVisible={setIsModalOpen}
+          mode="addEmpty"
+        />
+      )}
     </SidebarBox>
   );
 };
