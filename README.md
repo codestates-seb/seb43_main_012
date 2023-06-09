@@ -1,7 +1,7 @@
 </br>
  <h3 align="center">Team Bug Fetish Presents.. <br><br>
 <img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
-<p align="center">ChatGPT 대화 기록 검색, 북마킹 및 태깅 서비스</p>
+<p align="center">ChatGPT 대화 검색, 북마킹 및 태깅 서비스</p>
 <p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
 <p align="center">
  <a href="http://chatcrawl.live">Live Demo Link</a> </br></br>
@@ -13,23 +13,23 @@
 
 <p align="center">- ChatGPT 처럼 대화세션을 생성하여 질문을 이어서 할 수 있음</p>
 <p align="center">- 생성된 대화세션은 히스토리페이지에서 최신활동순, 활동량순, 오래된순으로 전부 조회 가능</p>
- <p align="center">→ 원하는 대화만 페이지 상단에 고정, 즉시 조회</p>
+ <p align="center">→ 원하는 대화만 페이지 상단에 고정 및 즉시 조회</p>
  <p align="center">→ 질문답변 내용, 태그 검색으로 빠르게 필요한 대화 찾기</p>
 <p align="center">- 원하는 대화만 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리</p>
-<p align="center">→ 보고 싶은 답변만 선택해서 조회 </p>
-<p align="center">→ 저장된 대화, 전답변들 감춰진 상태로 대화 계속 이어서 하기 </p>
+<p align="center">→ 보고 싶은 답변만 선택 조회 </p>
+<p align="center">→ 전답변들 감춰진 상태로 대화 계속 이어서 하기 </p>
 
 <br>
 <br>
 
-<h3 align='center'>확장 가능성..</h3>
+<h3 align='center'>확장 가능성</h3>
  
 <p align="center">- 대화 중 원하는 부분만 하이라이트, 선택 저장</p>
-<p align="center">- AI가 대화세션 내용 자동 요약</p>
-<p align="center">- 공식 ChatGPT와의 대화 데이터를 import해서 관리</p>
+<p align="center">- AI를 통한 대화세션 내용 자동 요약</p>
+<p align="center">- 공식 ChatGPT 대화 데이터를 import해서 관리 및 대화 지속 </p>
 <p align="center">- 공개게시판 기능 (본인 대화 공개 게시, 타인 게시 대화목록 조회, 채택 및 저장)</p>
 <p align="center">- 인공지능 성격 부여, 원하는 인공지능 캐릭터와 대화 (더 원하는 대답을 얻을 수 있도록 scaffolding)</p>
-<p align="center">- 여러 태그 검색, 북마크내 태그 검색 등</p>
+<p align="center">- 여러 태그 (AND/OR) 검색, 해당 북마크 내 태그 검색 등</p>
 
 <br>
 <br>
