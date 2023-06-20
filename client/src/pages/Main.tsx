@@ -169,7 +169,8 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
                 로그인을 해야만 모든 서비스 이용 가능합니다.
                 <br />
                 <br />
-                업데이트 중입니다. 데모데이에 또 들려주세요~
+                게속 업데이트 중이며 서비스 이용에 문제가 있으면{' '}
+                <a href="mailto: sunga.jlh@gmail.com">연락</a>주세요.
               </StartText>
             )}
           </StartBox>
