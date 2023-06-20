@@ -169,7 +169,8 @@ const Main = ({ isOpen, setIsOpen, isMax, newCId }: MainProps) => {
                 로그인을 해야만 모든 서비스 이용 가능합니다.
                 <br />
                 <br />
-                업데이트 중입니다. 데모데이에 또 들려주세요~
+                현재 서비스 보안 업데이트 중이라 이용이 불가합니다. 6/26일에
+                다시 들려주세요.
               </StartText>
             )}
           </StartBox>
